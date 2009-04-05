@@ -1,0 +1,76 @@
+#summary Manual smoke tests to QA the site.
+
+= Introduction =
+
+These are a basic suite of manual tests to QA the site before live deployment.
+
+= Not logged in =
+
+== Homepage ==
+
+Homepage should show expected content. 
+
+Menus should be as expected.
+
+Site email should be shown.
+
+== Online Shop ==
+
+Basket should be shown
+
+Top level categories should be shown (if present)
+
+Hovering on top level categories should show second level categories (if present)
+
+== Basket ==
+
+'Your basket is empty' should be shown.
+
+== Category ==
+
+Click on category. Products and sub categories should be shown.
+
+= Log in as administrator =
+
+http://<hostname>/shop/Login
+
+Enter admin username: admin@sutekishop.co.uk password: admin
+
+== Add a category ==
+
+Click 'categories'
+
+Click 'new category'
+    Name: category1, Parent category: - Root, Active: checked
+
+Click 'Submit Query'
+
+category1 should appear both in the left hand category area and in the main category admin page that should now be shown.
+
+Create a second cagtegory as above but named category2.
+
+== Move a category ==
+
+Click the green 'up arrow' next to category2. category2 should now come before category1 on both the left hand category menu and in the main category page.
+
+Move category1 down again by clicking the down arrow.
+
+== Edit a category ==
+
+On the main category page, click 'Edit' next to category1.
+
+Change the name category1 to category1x.
+
+Click 'Submit Query'
+
+Note changed name in both menu and main page.
+
+== de-activate a category ==
+
+Click 'Edit' next to category1 on the main category page.
+
+Uncheck 'Active'.
+
+Click 'Submit Query'.
+
+Note red cross next to category1.
