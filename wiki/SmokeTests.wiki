@@ -65,7 +65,7 @@ Click 'Submit Query'
 
 Note changed name in both menu and main page.
 
-== de-activate a category ==
+== De-activate a category ==
 
 Click 'Edit' next to category1 on the main category page.
 
@@ -74,3 +74,46 @@ Uncheck 'Active'.
 Click 'Submit Query'.
 
 Note red cross next to category1.
+
+== Create a sub-category
+
+Click 'New Category' on main category page.
+
+Enter:
+    Name: category1 sub1, Parent Category: category1x, Active: checked
+
+Click 'Submit Query'
+
+Note new sub category on both left category menu and on main page.
+
+== Create a Product ==
+
+Click category1 -> category1 sub1 on left category menu. Category page appears.
+
+Click 'New Product'. Product form appears.
+
+Enter:
+    Name: soap
+    Category: <unchanged>
+    Weight: 10
+    Price: 12.34
+    Active: checked
+    Description: A bar of soapy soap.
+    Sizes: <one in each box> S M L
+    Photos: click the first browse button, find a suitable jpg file to upload.
+
+Click 'Save Changes'
+
+The category page should appear with the new 'soap' product. Click on the soap product and confirm details.
+
+== Edit a Product ==
+
+Click 'Edit' on the soap product page. The product edit page appears.
+
+Change the price to 14.40
+Enter a new size: XL
+Browse to another photo.
+
+Click 'Save Changes'
+
+Click on 'soap' and confirm changes.
