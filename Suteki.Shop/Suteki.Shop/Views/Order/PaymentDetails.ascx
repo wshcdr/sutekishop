@@ -1,4 +1,5 @@
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<ShopViewData>" %>
+<h3>Payment Details</h3>
 <div class="columnContainer">
     <div class="contentLeftColumn">
 

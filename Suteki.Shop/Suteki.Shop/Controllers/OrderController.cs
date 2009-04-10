@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Web.Mvc;
+using MvcContrib.Filters;
 using Suteki.Common.Extensions;
+using Suteki.Common.Filters;
 using Suteki.Common.Repositories;
 using Suteki.Common.Services;
 using Suteki.Common.Validation;
@@ -11,7 +13,7 @@ using Suteki.Shop.Repositories;
 using Suteki.Shop.Services;
 using System.Security.Permissions;
 using Suteki.Common.Binders;
-
+using MvcContrib;
 namespace Suteki.Shop.Controllers
 {
     public class OrderController : ControllerBase
@@ -56,7 +58,7 @@ namespace Suteki.Shop.Controllers
                 .WithOrders(orders)
                 .WithOrderSearchCriteria(orderSearchCriteria));
         }
-
+		[ModelStateToTempData]
         public ActionResult Item(int id)
         {
             return ItemView(id);
@@ -119,6 +121,16 @@ namespace Suteki.Shop.Controllers
                 return View("Item", CheckoutViewData(order).WithErrorMessage(exception.Message));
             }
         }
+
+		[AcceptVerbs(HttpVerbs.Post), AdministratorsOnly, UnitOfWork, ModelStateToTempData]
+		public ActionResult UpdateNote([DataBind] Order order)
+		{
+			if(ModelState.IsValid)
+			{
+				Message = "Note successfully updated.";
+			}
+			return this.RedirectToAction(c => c.Item(order.OrderId));
+		}
 
         private ShopViewData CheckoutViewData(Order order)
         {
