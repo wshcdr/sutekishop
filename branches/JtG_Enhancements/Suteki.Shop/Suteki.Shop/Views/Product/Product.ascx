@@ -10,5 +10,6 @@
         <br />
         <%= Html.UpArrowLink<ProductController>(c => c.MoveUp(ViewData.Model.Category.CategoryId, Model.Position)) %>
         <%= Html.DownArrowLink<ProductController>(c => c.MoveDown(ViewData.Model.Category.CategoryId, Model.Position)) %>
+        <%= Html.Tick(Model.IsActive) %>
     <% } %>
 </div>

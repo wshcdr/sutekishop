@@ -5,4 +5,9 @@
     <% if(Model.HasMainImage) { %>
         <%= Html.Image("~/ProductPhotos/" + Model.MainImage.ThumbFileName) %>
     <% } %>
+    
+    <% if (Context.User.IsAdministrator()) { %>
+		<br />
+		<%= Html.Tick(Model.IsActive) %>
+    <% } %>
 </div>
