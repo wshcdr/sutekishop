@@ -184,7 +184,7 @@ h2 a
 	margin: 0 0 20px 0;
 	padding: 20px 0 0 0;
 	overflow: visible;
-	border-top: solid 2px #CBC9CE;
+	/*border-top: solid 2px #CBC9CE;*/ /* better to use an HR instead */
 }
 
 .columnContainer label

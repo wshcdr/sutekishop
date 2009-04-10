@@ -1,19 +1,26 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Shop.Master"  Inherits="System.Web.Mvc.ViewPage<ShopViewData>" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
-
 <h1>Order Confirmation</h1>
-<% Html.RenderPartial("OrderDetails"); %>
 
-<h3>Customer Details</h3>
+<%= Html.ValidationSummary() %>
+<%= Html.MessageBox(Model) %>
+
+<% Html.RenderPartial("OrderDetails"); %>
+<hr />
+
+<% if(User.IsAdministrator()) { %>
+	<% Html.RenderPartial("Note"); %>
+	<hr />
+<% } %>
+
 <% Html.RenderPartial("CustomerDetails"); %>
 
 <div class="clear"></div>         
+<hr />
 
-<h3>Payment Details</h3>     
 <% Html.RenderPartial("PaymentDetails"); %>
 
 <% if (User.IsAdministrator()) { %>
-
     <script type="text/javascript">
     
         init();

@@ -1,6 +1,5 @@
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<ShopViewData>" %>
 <%@ Import Namespace="Suteki.Common.Models"%>
-
         
 <div class="columnContainer">
     <div class="contentLeftColumn">

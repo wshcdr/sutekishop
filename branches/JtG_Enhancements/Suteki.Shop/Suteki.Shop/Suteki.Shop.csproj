@@ -343,6 +343,7 @@
     <Content Include="Views\Menu\UpDown.ascx" />
     <Content Include="Views\Invoice\Show.aspx" />
     <Content Include="Views\Order\CustomerDetails.ascx" />
+    <Content Include="Views\Order\Note.ascx" />
     <Content Include="Views\Order\OrderDetails.ascx" />
     <Content Include="Views\Order\OrderSearchForm.ascx" />
     <Content Include="Views\Order\PaymentDetails.ascx" />
