@@ -8,6 +8,6 @@
     
     <% if (Context.User.IsAdministrator()) { %>
 		<br />
-		<%= Html.Tick(Model.IsActive) %>
+		Active: <%= Html.Tick(Model.IsActive) %>
     <% } %>
 </div>
