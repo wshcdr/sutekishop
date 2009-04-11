@@ -2,6 +2,7 @@
   <Daemon.SolutionSettings>
     <SkipFilesAndFolders>
       <Item>F63A91D4-3A6C-4729-BE83-D6CB45A53EF3/d:Controllers/f:CategoryController.cs</Item>
+      <Item>F63A91D4-3A6C-4729-BE83-D6CB45A53EF3/f:Shop.designer.cs</Item>
     </SkipFilesAndFolders>
   </Daemon.SolutionSettings>
   <CodeStyleSettings>
@@ -67,7 +68,7 @@
     <Naming2>
       <ExceptionName IsNull="False">
       </ExceptionName>
-      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="MethodPropertyEvent" />
+      <PredefinedRule Inspect="False" Prefix="" Suffix="" Style="AaBb" ElementKind="MethodPropertyEvent" />
       <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="TypesAndNamespaces" />
       <PredefinedRule Inspect="True" Prefix="I" Suffix="" Style="AaBb" ElementKind="Interfaces" />
       <PredefinedRule Inspect="True" Prefix="T" Suffix="" Style="AaBb" ElementKind="TypeParameters" />
