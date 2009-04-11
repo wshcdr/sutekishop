@@ -8,6 +8,20 @@ namespace Suteki.Shop.Tests.Repositories
 {
     public static class MockRepositoryBuilder
     {
+		public static IRepository<Content> CreateContentRepository()
+		{
+			var repository = MockRepository.GenerateStub<IRepository<Content>>();
+
+			var content = new[]
+			{
+				new Content() { Name = "Page 1"},
+				new Content() { Name = "Page 2"}
+			};
+
+			repository.Expect(x => x.GetAll()).Return(content.AsQueryable());
+			return repository;
+		}
+
         public static IRepository<User> CreateUserRepository()
         {
             var userRepositoryMock = MockRepository.GenerateStub<IRepository<User>>();
