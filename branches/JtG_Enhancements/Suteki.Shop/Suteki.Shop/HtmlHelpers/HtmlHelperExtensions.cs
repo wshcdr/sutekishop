@@ -86,5 +86,10 @@ namespace Suteki.Shop.HtmlHelpers
 		{
 			return principal.IsInRole("Administrator");
 		}
+
+		public static void InitialiseRichTextEditor(this HtmlHelper helper)
+		{
+			helper.RenderPartial("TinyMce");
+		}
     }
 }

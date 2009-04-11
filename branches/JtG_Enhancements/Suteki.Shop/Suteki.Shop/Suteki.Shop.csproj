@@ -610,6 +610,7 @@
     <Content Include="Views\Menu\List.aspx" />
     <Content Include="Views\Shared\Cms.master" />
     <Content Include="Views\Shared\Shop.Master" />
+    <Content Include="Views\Shared\TinyMce.ascx" />
     <Content Include="Views\SiteMap\Index.aspx" />
     <Content Include="wlwmanifest.xml" />
   </ItemGroup>
