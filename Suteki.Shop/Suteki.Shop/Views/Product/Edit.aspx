@@ -66,4 +66,7 @@
         
         <input type="submit" value="Save Changes" />
     <% } %>
+    
+    <% Html.InitialiseRichTextEditor(); %>
+    
 </asp:Content>

@@ -74,7 +74,7 @@ namespace Suteki.Shop.Controllers
 			return View("Edit", EditViewData.WithProduct(defaultProduct));
 		}
 
-		[AdministratorsOnly, AcceptVerbs(HttpVerbs.Post), UnitOfWork]
+		[AdministratorsOnly, AcceptVerbs(HttpVerbs.Post), UnitOfWork, ValidateInput(false)]
 		public ActionResult New([BindProduct(Fetch = false)] Product product)
 		{
 			if (ModelState.IsValid)
@@ -95,7 +95,7 @@ namespace Suteki.Shop.Controllers
 			return RenderEditView(id);
 		}
 
-		[AcceptVerbs(HttpVerbs.Post), UnitOfWork, AdministratorsOnly]
+		[AcceptVerbs(HttpVerbs.Post), UnitOfWork, AdministratorsOnly, ValidateInput(false)]
 		public ActionResult Edit([BindProduct] Product product)
 		{
 			if (ModelState.IsValid)
