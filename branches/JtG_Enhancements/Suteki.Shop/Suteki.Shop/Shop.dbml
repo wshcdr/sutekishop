@@ -127,6 +127,7 @@
       <Column Name="OrderStatusId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="UserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Note" Storage="_Comment" Type="System.String" CanBeNull="true" />
+      <Column Member="ContactMe" Type="System.Boolean" CanBeNull="false" />
       <Association Name="Card_Order" Member="Card" ThisKey="CardId" OtherKey="CardId" Type="Card" IsForeignKey="true" />
       <Association Name="Contact_Order" Member="Contact" ThisKey="CardContactId" OtherKey="ContactId" Type="Contact" IsForeignKey="true" />
       <Association Name="Contact_Order1" Member="Contact1" ThisKey="DeliveryContactId" OtherKey="ContactId" Type="Contact" IsForeignKey="true" />
@@ -175,7 +176,7 @@
       <Column Name="ParentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Position" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Member="ImageId" Type="System.Int32" CanBeNull="true" />
+      <Column Name="ImageId" Type="System.Int32" CanBeNull="true" />
       <Association Name="Category_Category" Member="Categories" ThisKey="CategoryId" OtherKey="ParentId" Type="Category" />
       <Association Name="Category_Product" Member="Products" ThisKey="CategoryId" OtherKey="CategoryId" Type="Product" />
       <Association Name="Category_Category" Member="Category1" ThisKey="ParentId" OtherKey="CategoryId" Type="Category" IsForeignKey="true" />

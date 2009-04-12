@@ -18,7 +18,7 @@
                 </tr>
                 <tr>
                     <td class="label"><label for="card.number">Card Number</label></td>
-                    <td colspan="2" class="field"><%= Html.TextBox("card.number")%></td>
+                    <td colspan="2" class="field"><%= Html.TextBox("card.number", "", new{ autocomplete="off" })%></td>
                 </tr>
                 <tr>
                     <td class="label"><label for="card.expirymonth">Expire Date</label></td>
@@ -55,4 +55,8 @@
     </div>
 </div> 
 <div class="clear" />       
-    <%= Html.SubmitButton("submitButton", "Place Order")%>
+
+<label style="display:inline" for="order_contactme">Would you like to be emailed with our newsletter and product information? We will not share your contact information with 3rd parties.</label>
+<%= Html.CheckBox("order.contactme", ViewData.Model.Order.ContactMe)%>
+
+<%= Html.SubmitButton("submitButton", "Place Order")%>
