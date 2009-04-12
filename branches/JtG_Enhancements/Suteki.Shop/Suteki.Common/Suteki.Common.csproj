@@ -136,6 +136,7 @@
     <Compile Include="Extensions\UrlExtensionsHelper.cs" />
     <Compile Include="Filters\FilterUsingAttribute.cs" />
     <Compile Include="Filters\UnitOfWorkAttribute.cs" />
+    <Compile Include="FirstRequestInitialization.cs" />
     <Compile Include="HtmlHelpers\ColumnInfo.cs" />
     <Compile Include="HtmlHelpers\ColumnSortingExtensions.cs" />
     <Compile Include="HtmlHelpers\EntityRendererHtmlHelper.cs" />
