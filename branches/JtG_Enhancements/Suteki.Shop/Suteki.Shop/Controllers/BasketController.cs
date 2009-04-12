@@ -6,6 +6,7 @@ using Suteki.Common.Filters;
 using Suteki.Common.Repositories;
 using Suteki.Common.Validation;
 using Suteki.Shop.Binders;
+using Suteki.Shop.Filters;
 using Suteki.Shop.ViewData;
 using Suteki.Shop.Services;
 using MvcContrib;
@@ -28,6 +29,7 @@ namespace Suteki.Shop.Controllers
             this.countryRepository = countryRepository;
         }
 
+		[FilterUsing(typeof(EnsureSsl))]
         public ActionResult Index()
         {
             var user = userService.CurrentUser;
@@ -46,7 +48,6 @@ namespace Suteki.Shop.Controllers
             }
 
             basket.BasketItems.Add(basketItem);
-
 			return this.RedirectToAction(c => c.Index());
         }
 
