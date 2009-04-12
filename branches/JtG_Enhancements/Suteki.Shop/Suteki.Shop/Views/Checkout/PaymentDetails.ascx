@@ -5,7 +5,8 @@
     <div class="contentLeftColumn">
         
         <div id="cardDetails">
-        
+			<%= Html.Image("~/content/images/creditcards.gif", "Credit Cards") %>
+			
             <table>
                 <tr>
                     <td class="label"><label for="card.cardtypeid">Card Type</label></td>
