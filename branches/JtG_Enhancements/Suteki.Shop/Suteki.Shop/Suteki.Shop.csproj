@@ -572,7 +572,6 @@
     <Content Include="Content\Images\basket.png" />
     <Content Include="Content\Images\basket_hover.png" />
     <Content Include="Content\Script\jquery-1.2.6.min.js" />
-    <Content Include="tinyMceTest.html" />
     <Content Include="favicon.ico" />
     <Content Include="log4net.config" />
     <None Include="Shop.dbml.layout">
@@ -646,7 +645,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49839</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/Suteki.Shop</IISUrl>
+          <IISUrl>http://localhost/SutekiShop</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
