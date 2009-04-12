@@ -53,7 +53,7 @@
         </tr>
 
         <tr>
-            <td>(for <%= Model.Basket.Country.Name %>)</td>
+            <td>(for <%= Model.Basket.Country.Name %> - <%= Html.ActionLink<BasketController>(c=>c.ChangeCountry(), "change") %>)</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
