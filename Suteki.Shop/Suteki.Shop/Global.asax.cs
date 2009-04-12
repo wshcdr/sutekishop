@@ -25,17 +25,8 @@ namespace Suteki.Shop
         protected void Application_Start(object sender, EventArgs e)
         {
             RouteManager.RegisterRoutes(RouteTable.Routes);
-            //InitializeWindsor();
+            InitializeWindsor();
         }
-
-		//NOTE: Windsor initialization must occur in BeginRequest on IIS7 
-		//as HttpContext.Request is not available in Application_Start under IIS7, and this is required by UrlBasedComponentSelector.
-		//FirstRequestInitialization will ensure that initialization only happens once. 
-		void Application_BeginRequest(object sender, EventArgs e) 
-		{
-			var app = (HttpApplication)sender;
-			FirstRequestInitialization.Initialize(app.Context, InitializeWindsor);
-		}
 
         protected void Application_End(object sender, EventArgs e)
         {
