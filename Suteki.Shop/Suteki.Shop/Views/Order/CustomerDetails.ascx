@@ -17,6 +17,7 @@
             <dt>Country</dt><dd><%= Model.Order.Contact.Country.Name %>&nbsp;</dd>
             <dt>Telephone</dt><dd><%= Model.Order.Contact.Telephone %>&nbsp;</dd>
             <dt>Email</dt><dd><%= Html.Mailto(ViewData.Model.Order.Email, ViewData.Model.Order.Email) %>&nbsp;</dd>
+            <dt>Newsletter</dt><dd><%= Model.Order.ContactMe.ToYesNo() %></dd>
         </dl>
         
     </div>

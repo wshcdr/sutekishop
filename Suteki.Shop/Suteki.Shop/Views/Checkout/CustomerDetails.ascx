@@ -58,10 +58,9 @@
             </tr>
             <tr>
                 <td class="label"><label for="emailconfirm">Confirm Email</label></td>
-                <td class="field"><%= Html.TextBox("emailconfirm", ViewData.Model.Order.Email)%></td>
+                <td class="field"><%= Html.TextBox("emailconfirm")%></td>
             </tr>
         </table>
-        
     </div>
     <div class="contentRightColumn">
  

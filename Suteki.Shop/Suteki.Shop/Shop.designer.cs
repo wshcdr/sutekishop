@@ -2512,6 +2512,8 @@ namespace Suteki.Shop
 		
 		private string _Comment;
 		
+		private bool _ContactMe;
+		
 		private EntityRef<Card> _Card;
 		
 		private EntityRef<Contact> _Contact;
@@ -2556,6 +2558,8 @@ namespace Suteki.Shop
     partial void OnUserIdChanged();
     partial void OnNoteChanging(string value);
     partial void OnNoteChanged();
+    partial void OnContactMeChanging(bool value);
+    partial void OnContactMeChanged();
     #endregion
 		
 		public Order()
@@ -2869,6 +2873,26 @@ namespace Suteki.Shop
 					this._Comment = value;
 					this.SendPropertyChanged("Note");
 					this.OnNoteChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_ContactMe")]
+		public bool ContactMe
+		{
+			get
+			{
+				return this._ContactMe;
+			}
+			set
+			{
+				if ((this._ContactMe != value))
+				{
+					this.OnContactMeChanging(value);
+					this.SendPropertyChanging();
+					this._ContactMe = value;
+					this.SendPropertyChanged("ContactMe");
+					this.OnContactMeChanged();
 				}
 			}
 		}
