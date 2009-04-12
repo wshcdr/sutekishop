@@ -3791,11 +3791,15 @@ namespace Suteki.Shop
 		
 		private bool _IsActive;
 		
+		private System.Nullable<int> _ImageId;
+		
 		private EntitySet<Category> _Categories;
 		
 		private EntitySet<Product> _Products;
 		
 		private EntityRef<Category> _Category1;
+		
+		private EntityRef<Image> _Image;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -3811,6 +3815,8 @@ namespace Suteki.Shop
     partial void OnPositionChanged();
     partial void OnIsActiveChanging(bool value);
     partial void OnIsActiveChanged();
+    partial void OnImageIdChanging(System.Nullable<int> value);
+    partial void OnImageIdChanged();
     #endregion
 		
 		public Category()
@@ -3818,6 +3824,7 @@ namespace Suteki.Shop
 			this._Categories = new EntitySet<Category>(new Action<Category>(this.attach_Categories), new Action<Category>(this.detach_Categories));
 			this._Products = new EntitySet<Product>(new Action<Product>(this.attach_Products), new Action<Product>(this.detach_Products));
 			this._Category1 = default(EntityRef<Category>);
+			this._Image = default(EntityRef<Image>);
 			OnCreated();
 		}
 		
@@ -3925,6 +3932,30 @@ namespace Suteki.Shop
 			}
 		}
 		
+		[Column(Storage="_ImageId")]
+		public System.Nullable<int> ImageId
+		{
+			get
+			{
+				return this._ImageId;
+			}
+			set
+			{
+				if ((this._ImageId != value))
+				{
+					if (this._Image.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnImageIdChanging(value);
+					this.SendPropertyChanging();
+					this._ImageId = value;
+					this.SendPropertyChanged("ImageId");
+					this.OnImageIdChanged();
+				}
+			}
+		}
+		
 		[Association(Name="Category_Category", Storage="_Categories", ThisKey="CategoryId", OtherKey="ParentId")]
 		public EntitySet<Category> Categories
 		{
@@ -3981,6 +4012,24 @@ namespace Suteki.Shop
 						this._ParentId = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("Category1");
+				}
+			}
+		}
+		
+		[Association(Name="Image_Category", Storage="_Image", ThisKey="ImageId", OtherKey="ImageId", IsForeignKey=true)]
+		public Image Image
+		{
+			get
+			{
+				return this._Image.Entity;
+			}
+			set
+			{
+				if ((this._Image.Entity != value))
+				{
+					this.SendPropertyChanging();
+					this._Image.Entity = value;
+					this.SendPropertyChanged("Image");
 				}
 			}
 		}
