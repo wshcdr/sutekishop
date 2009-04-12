@@ -74,7 +74,7 @@
 
     <p>The default postage & package charge displayed is for UK postal deliveries. If you select a delivery address outside the UK please check this price again.</p>
 
-    <%= Html.ActionLink<CheckoutController>(c => c.Index(Model.Basket.BasketId), "Checkout", new { _class = "linkButton" }).ToSslLink() %>
+    <%= Html.ActionLink<CheckoutController>(c => c.Index(Model.Basket.BasketId), "Checkout", new { @class = "linkButton" }).ToSslLink() %>
 
 <% } %>
 

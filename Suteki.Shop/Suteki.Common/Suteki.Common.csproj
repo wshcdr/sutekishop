@@ -165,6 +165,7 @@
     <Compile Include="Services\DebugWritingService.cs" />
     <Compile Include="Services\DefaultEntityTypeResolver.cs" />
     <Compile Include="Services\EmailBuilder.cs" />
+    <Compile Include="Services\IAppSettings.cs" />
     <Compile Include="Services\IEmailBuilder.cs" />
     <Compile Include="Services\IEntityTypeResolver.cs" />
     <Compile Include="Services\NHibernateEntityTypeResolver.cs" />

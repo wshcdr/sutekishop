@@ -141,6 +141,7 @@
     <Compile Include="Extensions\ObjectExtensionsTests.cs" />
     <Compile Include="Filters\AuthenticateFilterTester.cs" />
     <Compile Include="Filters\CopyMessageFromTempDataToViewDataTester.cs" />
+    <Compile Include="Filters\EnsureSslFilterTester.cs" />
     <Compile Include="Filters\LoadOptionsTester.cs" />
     <Compile Include="IoCTests.cs" />
     <Compile Include="Models\BasketTests.cs" />
