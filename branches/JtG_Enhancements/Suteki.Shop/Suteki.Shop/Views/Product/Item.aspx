@@ -2,7 +2,7 @@
 <%@ Import Namespace="Suteki.Common.Extensions"%>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
 
-<script language="javascript">
+<script type="text/javascript">
 
 function onThumbnailClick(img)
 {
@@ -15,7 +15,7 @@ function onThumbnailClick(img)
 
 <div class="error"><%= TempData["message"] %></div>
 
-<h1><%= ViewData.Model.Product.Name %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= ViewData.Model.Product.Price.ToString("£0.00") %><%= ViewData.Model.Product.IsActiveAsString %></h1>
+<h1><%= Html.Encode(ViewData.Model.Product.Name) %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= ViewData.Model.Product.Price.ToString("£0.00") %><%= ViewData.Model.Product.IsActiveAsString %></h1>
 
 <% if(User.IsAdministrator()) { %>
     <p><%= Html.ActionLink<ProductController>(c => c.Edit(ViewData.Model.Product.ProductId), "Edit") %></p>
