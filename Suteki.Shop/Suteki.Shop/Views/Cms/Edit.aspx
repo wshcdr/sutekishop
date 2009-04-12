@@ -9,7 +9,6 @@
 <%= Html.ValidationSummary() %>
 
 <% using (Html.BeginForm()) { %>
-	<% var content = Model.Content as TextContent; %>
 	<%= this.Hidden(x => x.Content.ContentTypeId) %>
 	<%= this.Hidden(x => x.Content.ContentId) %>
 	<%= this.Hidden(x => x.Content.Position) %>
@@ -20,5 +19,7 @@
 	
 	<input type="submit" value="Save Changes" />
 <% } %>
+
+<% Html.InitialiseRichTextEditor(); %>
 
 </asp:Content>
