@@ -4,7 +4,7 @@
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <meta http-equiv="Page-Exit" content="blendTrans(Duration=0.01)" />
-    <title><%= ViewData["Title"] %></title>
+    <title><%= Html.Encode(ViewData["Title"]) %></title>
     <link href=<%= SiteCss %> rel="stylesheet" type="text/css" />
     <link rel="EditURI" type="application/rsd+xml" title="RSD" href=<%= RsdUrl %> />
     <link rel="wlwmanifest" type="application/wlwmanifest+xml" href=<%= WlwManifestUrl %> />
