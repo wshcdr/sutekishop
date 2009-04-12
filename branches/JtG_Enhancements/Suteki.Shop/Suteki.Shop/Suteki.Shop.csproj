@@ -581,6 +581,7 @@
     </None>
     <None Include="MetaWebLogAPI.svc.explicitXmlRpcHost.Factory" />
     <Content Include="MetaWebLogAPI.svc" />
+    <Content Include="Views\Basket\ChangeCountry.aspx" />
     <Content Include="Views\Checkout\CustomerDetails.ascx" />
     <Content Include="Views\Checkout\OrderDetails.ascx" />
     <Content Include="Views\Checkout\PaymentDetails.ascx" />

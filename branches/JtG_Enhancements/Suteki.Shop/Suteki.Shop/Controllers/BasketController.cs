@@ -7,6 +7,7 @@ using Suteki.Common.Repositories;
 using Suteki.Common.Validation;
 using Suteki.Shop.Binders;
 using Suteki.Shop.Filters;
+using Suteki.Shop.Repositories;
 using Suteki.Shop.ViewData;
 using Suteki.Shop.Services;
 using MvcContrib;
@@ -84,5 +85,19 @@ namespace Suteki.Shop.Controllers
 
 			return this.RedirectToAction(c => c.Index());
         }
+
+		public ActionResult ChangeCountry()
+		{
+			var countries = countryRepository.GetAll().Active().InOrder();
+			var basket = userService.CurrentUser.CurrentBasket;
+			return View(ShopView.Data.WithBasket(basket)
+				.WithCountries(countries));
+		}
+
+    	[AcceptVerbs(HttpVerbs.Post), UnitOfWork]
+		public ActionResult ChangeCountry([DataBind] Basket basket)
+		{
+			return this.RedirectToAction(c => c.Index());
+		}
     }
 }
