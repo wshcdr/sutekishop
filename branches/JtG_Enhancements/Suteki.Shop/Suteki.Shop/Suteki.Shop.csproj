@@ -218,6 +218,7 @@
     <Compile Include="Routes\RouteManager.cs" />
     <Compile Include="Services\BaseControllerService.cs" />
     <Compile Include="Services\CheckoutService.cs" />
+    <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\EncryptionService.cs" />
     <Compile Include="Services\HttpFileService.cs" />
     <Compile Include="Services\IBaseControllerService.cs" />
@@ -581,6 +582,7 @@
       <DependentUpon>Shop.dbml</DependentUpon>
     </None>
     <None Include="MetaWebLogAPI.svc.explicitXmlRpcHost.Factory" />
+    <None Include="Views\EmailTemplates\OrderConfirmation.vm" />
     <Content Include="MetaWebLogAPI.svc" />
     <Content Include="Views\Basket\ChangeCountry.aspx" />
     <Content Include="Views\Checkout\CustomerDetails.ascx" />
@@ -647,7 +649,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>49839</DevelopmentServerPort>
+          <DevelopmentServerPort>50398</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost/SutekiShop</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

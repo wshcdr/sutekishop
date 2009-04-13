@@ -28,6 +28,7 @@ namespace Suteki.Shop.Tests.Controllers
 		IEmailSender emailSender;
 		IValidatingBinder validatingBinder;
 		IUnitOfWorkManager unitOfWorkManager;
+		IEmailService emailService;
 
 		[SetUp]
 		public void Setup()
@@ -42,16 +43,18 @@ namespace Suteki.Shop.Tests.Controllers
 			orderRepository = MockRepository.GenerateStub<IRepository<Order>>();
 			emailSender = MockRepository.GenerateStub<IEmailSender>();
 			validatingBinder = MockRepository.GenerateStub<IValidatingBinder>();
+			emailService = MockRepository.GenerateStub<IEmailService>();
+
 			var mocks = new MockRepository(); //TODO: No need to partial mock once email sending is fixed
-			controller = mocks.PartialMock<CheckoutController>(//new CheckoutController(
+			controller = new CheckoutController(
 				basketRepository,
 				userService,
 				postageService,
 				countryRepository,
 				cardTypeRepository,
 				orderRepository,
-				emailSender,
-				unitOfWorkManager
+				unitOfWorkManager,
+				emailService
 			);
 			mocks.ReplayAll();
 			userService.Expect(us => us.CurrentUser).Return(new User { UserId = 4, RoleId = Role.AdministratorId });
@@ -99,7 +102,7 @@ namespace Suteki.Shop.Tests.Controllers
 		public void IndexWithPost_ShouldCreateANewOrder() {
 			var order = new Order() { OrderId = 4 };
 
-			controller.Expect(x => x.EmailOrder(order));
+			//controller.Expect(x => x.EmailOrder(order));
 
 			controller.Index(order)
 				.ReturnsRedirectToRouteResult()
@@ -107,7 +110,7 @@ namespace Suteki.Shop.Tests.Controllers
 				.ToAction("Item")
 				.WithRouteValue("id", "4");
 
-			controller.AssertWasCalled(x => x.EmailOrder(order));
+			emailService.AssertWasCalled(x => x.SendOrderConfirmation(order));
 			orderRepository.AssertWasCalled(x => x.InsertOnSubmit(order));
 			unitOfWorkManager.AssertWasCalled(x => x.Commit());
 		}
