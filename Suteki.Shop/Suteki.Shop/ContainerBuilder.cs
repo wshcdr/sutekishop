@@ -49,7 +49,8 @@ namespace Suteki.Shop
 				Component.For<OrderBinder>().LifeStyle.Transient,
 				Component.For<IOrderSearchService>().ImplementedBy<OrderSearchService>().LifeStyle.Transient,
 				Component.For<IEmailBuilder>().ImplementedBy<EmailBuilder>().LifeStyle.Singleton,
-				Component.For<IAppSettings>().ImplementedBy<AppSettings>().LifeStyle.Singleton
+				Component.For<IAppSettings>().ImplementedBy<AppSettings>().LifeStyle.Singleton,
+				Component.For<IEmailService>().ImplementedBy<EmailService>().LifeStyle.Transient
 			);
 
 			return container;

@@ -5,7 +5,7 @@
 <%= Html.ValidationSummary() %>
 <%= Html.MessageBox(Model) %>
 
-<% Html.RenderPartial("OrderDetails"); %>
+<% Html.RenderPartial("~/Views/Order/OrderDetails.ascx"); %>
 <hr />
 
 <% if(User.IsAdministrator()) { %>
@@ -13,12 +13,12 @@
 	<hr />
 <% } %>
 
-<% Html.RenderPartial("CustomerDetails"); %>
+<% Html.RenderPartial("~/Views/Order/CustomerDetails.ascx"); %>
 
 <div class="clear"></div>         
 <hr />
 
-<% Html.RenderPartial("PaymentDetails"); %>
+<% Html.RenderPartial("~/Views/Order/PaymentDetails.ascx"); %>
 
 <% if (User.IsAdministrator()) { %>
     <script type="text/javascript">

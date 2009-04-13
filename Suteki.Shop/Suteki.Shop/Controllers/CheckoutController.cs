@@ -23,8 +23,8 @@ namespace Suteki.Shop.Controllers
 		readonly IRepository<Country> countryRepository;
 		readonly IRepository<CardType> cardTypeRepository;
 		readonly IRepository<Order> orderRepository;
-		readonly IEmailSender emailSender;
 		readonly IUnitOfWorkManager unitOfWork;
+		readonly IEmailService emailService;
 
 		public CheckoutController(
 			IRepository<Basket> basketRepository, 
@@ -33,12 +33,11 @@ namespace Suteki.Shop.Controllers
 			IRepository<Country> countryRepository, 
 			IRepository<CardType> cardTypeRepository, 
 			IRepository<Order> orderRepository, 
-			IEmailSender emailSender, 
-			IUnitOfWorkManager unitOfWork)
+			IUnitOfWorkManager unitOfWork, IEmailService emailService)
 		{
 			this.basketRepository = basketRepository;
+			this.emailService = emailService;
 			this.unitOfWork = unitOfWork;
-			this.emailSender = emailSender;
 			this.orderRepository = orderRepository;
 			this.cardTypeRepository = cardTypeRepository;
 			this.countryRepository = countryRepository;
@@ -88,6 +87,7 @@ namespace Suteki.Shop.Controllers
 				//we need an explicit Commit in order to obtain the db-generated Order Id
 				unitOfWork.Commit();
 
+
 				EmailOrder(order);
 				
 				
@@ -100,19 +100,11 @@ namespace Suteki.Shop.Controllers
 			return View(CheckoutViewData(order));
 		}
 
-		[NonAction]
-		public virtual void EmailOrder(Order order)
+		private void EmailOrder(Order order)
 		{
-			//TODO: This needs cleaning up. 
-			PopulateOrderForView(order, order.Basket);
-			var result = View("~/Views/Order/Item.aspx", "Print", CheckoutViewData(order));
-
-			var subject = "{0}: your order".With(BaseControllerService.ShopName);
-			var message = this.CaptureActionHtml(c => result);
-			var toAddresses = new[] { order.Email, BaseControllerService.EmailAddress };
-
-			// send the message
-			emailSender.Send(toAddresses, subject, message);
+			userService.CurrentUser.EnsureCanViewOrder(order);
+			postageService.CalculatePostageFor(order);
+			emailService.SendOrderConfirmation(order);
 		}
 
 		[UnitOfWork]
