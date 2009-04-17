@@ -11,6 +11,7 @@ namespace Suteki.Shop.Services
 		readonly IEmailSender sender;
 		readonly IBaseControllerService baseService;
 		const string OrderConfirmationTemplate = "OrderConfirmation";
+		const string OrderDispatchTemplate = "OrderDispatch";
 
 		public EmailService(IEmailBuilder builder, IEmailSender sender, IBaseControllerService service)
 		{
@@ -30,10 +31,24 @@ namespace Suteki.Shop.Services
 			var subject = "{0}: your order".With(baseService.ShopName);
 			sender.Send(new[] { order.Email, baseService.EmailAddress }, subject, email, true);
 		}
+
+		public void SendDispatchNotification(Order order)
+		{
+			var viewdata = new Dictionary<string, object>
+			{
+				{ "order", order },
+				{ "shopName", baseService.ShopName }
+			};
+
+			var email = builder.GetEmailContent(OrderDispatchTemplate, viewdata);
+			var subject = "{0}: Your Order has Shipped".With(baseService.ShopName);
+			sender.Send(order.Email, subject, email, true);
+		}
 	}
 
 	public interface IEmailService
 	{
 		void SendOrderConfirmation(Order order);
+		void SendDispatchNotification(Order order);
 	}
 }
