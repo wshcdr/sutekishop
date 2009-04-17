@@ -16,12 +16,12 @@
 <div class="orderAction">
 <% if(ViewContext.HttpContext.User.IsAdministrator()) { %>
     <% if(ViewData.Model.Order.IsCreated) { %>
-        <%= Html.ActionLink<OrderStatusController>(c => c.Dispatch(ViewData.Model.Order.OrderId), "Dispatch", new { _class = "linkButton" })%>
-        <%= Html.ActionLink<OrderStatusController>(c => c.Reject(ViewData.Model.Order.OrderId), "Reject", new { _class = "linkButton" })%>
+        <%= Html.ActionLink<OrderStatusController>(c => c.Dispatch(ViewData.Model.Order.OrderId), "Dispatch (and send dispatch notification)", new { @class = "linkButton" })%>
+        <%= Html.ActionLink<OrderStatusController>(c => c.Reject(ViewData.Model.Order.OrderId), "Reject", new { @class = "linkButton" })%>
     <% } else { %>
-        <%= Html.ActionLink<OrderStatusController>(c => c.UndoStatus(ViewData.Model.Order.OrderId), "Reset Status", new { _class = "linkButton" })%>
+        <%= Html.ActionLink<OrderStatusController>(c => c.UndoStatus(ViewData.Model.Order.OrderId), "Reset Status", new { @class = "linkButton" })%>
     <% } %>
-    <%= Html.ActionLink<InvoiceController>(c => c.Show(ViewData.Model.Order.OrderId), "Print Invoice", new { _class = "linkButton" }) %>
+    <%= Html.ActionLink<InvoiceController>(c => c.Show(ViewData.Model.Order.OrderId), "Print Invoice", new { @class = "linkButton" }) %>
 <% } %>
 </div>    
 

@@ -31,7 +31,7 @@ namespace Suteki.Shop.Tests.Services
 		public void SendOrderConfirmation_sends_email()
 		{
 			const string content = "Email Content";
-			var order = new Order() { Email = "jeremy@jeremyskinner.co.uk" };
+			var order = new Order() { Email = "test@email.address.com" };
 			builder.Expect(x => x.GetEmailContent(Arg<string>.Is.Equal("OrderConfirmation"), Arg<IDictionary<string, object>>.Is.Anything)).Return(content);
 			service.SendOrderConfirmation(order);
 			
@@ -49,5 +49,31 @@ namespace Suteki.Shop.Tests.Services
 			
 			viewData["order"].ShouldBeTheSameAs(order);
 		}
+
+		[Test]
+		public void SendDispatchNotification_sends_email()
+		{
+			const string content = "Email Content";
+			var order = new Order() { Email = "test@email.address.com" };
+			builder.Expect(x => x.GetEmailContent(Arg<string>.Is.Equal("OrderDispatch"), Arg<IDictionary<string, object>>.Is.Anything)).Return(content);
+			service.SendDispatchNotification(order);
+
+			sender.AssertWasCalled(x => x.Send(order.Email, "Suteki Shop: Your Order has Shipped", content, true));
+			
+		}
+
+		[Test]
+		public void SendDispatchNotification_builds_viewdata()
+		{
+			IDictionary<string, object> viewData = null;
+			var order = new Order();
+
+			builder.Expect(x => x.GetEmailContent(null, null)).IgnoreArguments().Do(new Func<string, IDictionary<string, object>, string>((template, vd) => { viewData = vd; return ""; }));
+			service.SendDispatchNotification(order);
+
+			viewData["order"].ShouldBeTheSameAs(order);
+			viewData["shopName"].ShouldEqual("Suteki Shop");
+		}
 	}
+
 }
