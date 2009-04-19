@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Web.Mvc;
 using MvcContrib.Filters;
 using Suteki.Common.Extensions;
@@ -25,6 +27,7 @@ namespace Suteki.Shop.Controllers
     	readonly IPostageService postageService;
     	readonly IUserService userService;
 		readonly IOrderSearchService searchService;
+		readonly IRepository<OrderStatus> statusRepository;
 
         public OrderController(
 			IRepository<Order> orderRepository, 
@@ -32,9 +35,10 @@ namespace Suteki.Shop.Controllers
 			IRepository<CardType> cardTypeRepository, 
 			IEncryptionService encryptionService, 
 			IPostageService postageService, 
-			IUserService userService, IOrderSearchService searchService)
+			IUserService userService, IOrderSearchService searchService, IRepository<OrderStatus> statusRepository)
         {
             this.orderRepository = orderRepository;
+        	this.statusRepository = statusRepository;
         	this.searchService = searchService;
         	this.userService = userService;
         	this.countryRepository = countryRepository;
@@ -43,23 +47,26 @@ namespace Suteki.Shop.Controllers
         	this.postageService = postageService;
         }
 
-        [AcceptVerbs(HttpVerbs.Get), AdministratorsOnly]
-        public ActionResult Index()
+		[AdministratorsOnly]
+        public ActionResult Index(OrderSearchCriteria orderSearchCriteria)
         {
-            return Index(new OrderSearchCriteria());
-        }
-
-		[AdministratorsOnly, AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Index([DataBind(Fetch = false)] OrderSearchCriteria orderSearchCriteria)
-        {
+			orderSearchCriteria = orderSearchCriteria ?? new OrderSearchCriteria();
 			var orders = searchService.PerformSearch(orderSearchCriteria);
 
             return View("Index", ShopView.Data
                 .WithOrders(orders)
+				.WithOrderStatuses(OrderStatuses())
                 .WithOrderSearchCriteria(orderSearchCriteria));
         }
 		[ModelStateToTempData]
-        public ActionResult Item(int id)
+    	IEnumerable<OrderStatus> OrderStatuses()
+    	{
+			var list = statusRepository.GetAll().ToList();
+			list.Insert(0, new OrderStatus() { Name = "Any", OrderStatusId = 0 });
+			return list;
+    	}
+
+    	public ActionResult Item(int id)
         {
             return ItemView(id);
         }
