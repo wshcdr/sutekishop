@@ -203,7 +203,6 @@
     <Compile Include="Models\TextContent.cs" />
     <Compile Include="Models\TopContent.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserPrincipal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ActivatableExtensions.cs" />
     <Compile Include="Repositories\CategoryRepositoryExtensions.cs" />
