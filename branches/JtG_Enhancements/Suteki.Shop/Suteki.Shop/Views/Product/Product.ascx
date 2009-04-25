@@ -1,16 +1,15 @@
-<%@ Control Language="C#" Inherits="Suteki.Shop.ViewUserControl<Product>" %>
-<div onclick="location.href='<%= Url.Action<ProductController>(c=>c.Item(Model.UrlName)) %>'" class="product">
-    <div><%= Html.Encode(Model.Name) %></div>
+<%@ Control Language="C#" Inherits="Suteki.Shop.ViewUserControl<ShopViewData>" %>
+<div onclick="location.href='<%= Url.Action<ProductController>(c=>c.Item(Model.Product.UrlName)) %>'" class="product">
+    <div><%= Html.Encode(Model.Product.Name) %></div>
 
-    <% if(Model.HasMainImage) { %>
-        <%= Html.Image("~/ProductPhotos/" + Model.MainImage.ThumbFileName) %>
+    <% if(Model.Product.HasMainImage) { %>
+        <%= Html.Image("~/ProductPhotos/" + Model.Product.MainImage.ThumbFileName) %>
     <% } %>
     
     <% if(Context.User.IsAdministrator()) { %>
         <br />
-        <%= Html.UpArrowLink<ProductController>(c => c.MoveUp(ViewData.Model.Category.CategoryId, Model.Position)) %>
-        <%= Html.DownArrowLink<ProductController>(c => c.MoveDown(ViewData.Model.Category.CategoryId, Model.Position)) %>
-		<br />
-		Active: <%= Html.Tick(Model.IsActive) %>
+        <%= Html.UpArrowLink<ProductController>(c => c.MoveUp(Model.Category.CategoryId, Model.Product.Position)) %>
+        <%= Html.DownArrowLink<ProductController>(c => c.MoveDown(Model.Category.CategoryId, Model.Product.Position)) %>
+        <%= Html.Tick(Model.Product.IsActive) %>
     <% } %>
 </div>

@@ -127,7 +127,7 @@
       <Column Name="OrderStatusId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="UserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Note" Storage="_Comment" Type="System.String" CanBeNull="true" />
-      <Column Member="ContactMe" Type="System.Boolean" CanBeNull="false" />
+      <Column Name="ContactMe" Type="System.Boolean" CanBeNull="false" />
       <Association Name="Card_Order" Member="Card" ThisKey="CardId" OtherKey="CardId" Type="Card" IsForeignKey="true" />
       <Association Name="Contact_Order" Member="Contact" ThisKey="CardContactId" OtherKey="ContactId" Type="Contact" IsForeignKey="true" />
       <Association Name="Contact_Order1" Member="Contact1" ThisKey="DeliveryContactId" OtherKey="ContactId" Type="Contact" IsForeignKey="true" />
@@ -178,7 +178,7 @@
       <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="ImageId" Type="System.Int32" CanBeNull="true" />
       <Association Name="Category_Category" Member="Categories" ThisKey="CategoryId" OtherKey="ParentId" Type="Category" />
-      <Association Name="Category_Product" Member="Products" ThisKey="CategoryId" OtherKey="CategoryId" Type="Product" />
+      <Association Name="Category_ProductCategory" Member="ProductCategories" ThisKey="CategoryId" OtherKey="CategoryId" Type="ProductCategory" />
       <Association Name="Category_Category" Member="Category1" ThisKey="ParentId" OtherKey="CategoryId" Type="Category" IsForeignKey="true" />
       <Association Name="Image_Category" Member="Image" ThisKey="ImageId" OtherKey="ImageId" Type="Image" IsForeignKey="true" />
     </Type>
@@ -218,7 +218,6 @@
   <Table Name="dbo.Product" Member="Products">
     <Type Name="Product">
       <Column Name="ProductId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="CategoryId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
       <Column Name="Description" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
       <Column Name="Price" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
@@ -228,7 +227,7 @@
       <Column Name="UrlName" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
       <Association Name="Product_ProductImage" Member="ProductImages" ThisKey="ProductId" OtherKey="ProductId" Type="ProductImage" />
       <Association Name="Product_Size" Member="Sizes" ThisKey="ProductId" OtherKey="ProductId" Type="Size" />
-      <Association Name="Category_Product" Member="Category" ThisKey="CategoryId" OtherKey="CategoryId" Type="Category" IsForeignKey="true" />
+      <Association Name="Product_ProductCategory" Member="ProductCategories" ThisKey="ProductId" OtherKey="ProductId" Type="ProductCategory" />
     </Type>
   </Table>
   <Table Name="dbo.Basket" Member="Baskets">
@@ -241,6 +240,15 @@
       <Association Name="Basket_Order" Member="Orders" ThisKey="BasketId" OtherKey="BasketId" Type="Order" />
       <Association Name="Country_Basket" Member="Country" ThisKey="CountryId" OtherKey="CountryId" Type="Country" IsForeignKey="true" />
       <Association Name="User_Basket" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ProductCategory" Member="ProductCategories">
+    <Type Name="ProductCategory">
+      <Column Name="Id" AutoSync="Never" Type="System.Int32" DbType="int NOT NULL Identity" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ProductId" Type="System.Int32" CanBeNull="false" />
+      <Column Name="CategoryId" Type="System.Int32" CanBeNull="false" />
+      <Association Name="Category_ProductCategory" Member="Category" ThisKey="CategoryId" OtherKey="CategoryId" Type="Category" IsForeignKey="true" />
+      <Association Name="Product_ProductCategory" DeleteOnNull="true" Member="Product" ThisKey="ProductId" OtherKey="ProductId" Type="Product" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>
