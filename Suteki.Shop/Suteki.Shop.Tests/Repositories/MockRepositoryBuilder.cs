@@ -121,12 +121,12 @@ namespace Suteki.Shop.Tests.Repositories
 
             var products = new List<Product>
             {
-                new Product { ProductId = 1, CategoryId = 2, Name = "Product 1", Description = "Description 1" },
-                new Product { ProductId = 2, CategoryId = 2, Name = "Product 2", Description = "Description 2" },
-                new Product { ProductId = 3, CategoryId = 4, Name = "Product 3", Description = "Description 3" },
-                new Product { ProductId = 4, CategoryId = 4, Name = "Product 4", Description = "Description 4" },
-                new Product { ProductId = 5, CategoryId = 6, Name = "Product 5", Description = "Description 5" },
-                new Product { ProductId = 6, CategoryId = 6, Name = "Product 6", Description = "Description 6" },
+                new Product { ProductId = 1, Name = "Product 1", Description = "Description 1", ProductCategories = { new ProductCategory() { CategoryId = 2 } }},
+                new Product { ProductId = 2, Name = "Product 2", Description = "Description 2", ProductCategories = { new ProductCategory() { CategoryId = 2 } } },
+                new Product { ProductId = 3, Name = "Product 3", Description = "Description 3", ProductCategories = { new ProductCategory() { CategoryId = 4 } }},
+                new Product { ProductId = 4, Name = "Product 4", Description = "Description 4", ProductCategories = { new ProductCategory() { CategoryId = 4 } }},
+                new Product { ProductId = 5, Name = "Product 5", Description = "Description 5", ProductCategories = { new ProductCategory() { CategoryId = 6 } } },
+                new Product { ProductId = 6,  Name = "Product 6", Description = "Description 6", ProductCategories = { new ProductCategory() { CategoryId = 6 } } },
             };
 
             productRepositoryMock.Expect(pr => pr.GetAll()).Return(products.AsQueryable());

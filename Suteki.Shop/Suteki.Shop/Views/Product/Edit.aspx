@@ -1,6 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Shop.Master" Inherits="Suteki.Shop.ViewPage<ShopViewData>" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
-
     <h1>Product</h1>
     
 	<%= Html.ValidationSummary() %>
@@ -14,19 +13,11 @@
 		<%= this.Hidden(x => x.Product.ProductId) %>
 		<%= this.Hidden(x => x.Product.Position) %>
 
-        <div class="columnContainer">
-            <div class="contentLeftColumn">
-				<%= this.TextBox(x => x.Product.Name).Label("Name") %>
-                <%= this.Select(x => x.Product.CategoryId).Options(Model.Categories, x => x.CategoryId, x => x.Name).Label("Category") %>
-                <%= this.TextBox(x => x.Product.Weight).Label("Weight") %>
-                <%= this.TextBox(x => x.Product.Price).Format("{0:0.00}").Label("Price £") %>
-                <%= this.CheckBox(x => x.Product.IsActive).Label("Active") %>
-            </div>
-            
-            <div class="contentRightColumn">
-                <br /><br /><br /><br /><br /><br /><br /><br /><br />
-            </div>
-        </div>
+		<%= this.TextBox(x => x.Product.Name).Label("Name") %>
+		<%= this.MultiSelect(x => x.Product.ProductCategories.Select(y => y.CategoryId)).Name("categories").Options(Model.Categories, x => x.CategoryId, x => x.Name).Label("Categories (ctrl+click to select more than one)") %>
+        <%= this.TextBox(x => x.Product.Weight).Label("Weight") %>
+        <%= this.TextBox(x => x.Product.Price).Format("{0:0.00}").Label("Price £") %>
+        <%= this.CheckBox(x => x.Product.IsActive).Label("Active") %>
         
         <%= this.TextArea(x => x.Product.Description).Label("Description") %>
         

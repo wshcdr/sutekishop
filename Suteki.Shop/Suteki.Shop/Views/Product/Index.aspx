@@ -13,7 +13,7 @@
 <% } %>
 
 <% foreach (var product in ViewData.Model.Products) { %>
-	<% Html.RenderPartial("Product", product); %>
+	<% Html.RenderPartial("Product", ShopView.Data.WithProduct(product).WithCategory(Model.Category)); %>
 <% } %>
 
 </asp:Content>
