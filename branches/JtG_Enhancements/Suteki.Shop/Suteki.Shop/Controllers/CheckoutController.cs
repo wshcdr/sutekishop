@@ -84,6 +84,7 @@ namespace Suteki.Shop.Controllers
 				//we need an explicit Commit in order to obtain the db-generated Order Id
 				unitOfWork.Commit();
 
+				
 
 //				EmailOrder(order);
 				

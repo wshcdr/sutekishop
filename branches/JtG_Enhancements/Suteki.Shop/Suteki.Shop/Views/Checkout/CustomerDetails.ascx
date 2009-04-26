@@ -45,7 +45,7 @@
                 <td class="field"><%= Html.TextBox("cardcontact.postcode", ViewData.Model.Order.Contact.Postcode)%></td>
             </tr>
             <tr>
-                <td class="label"><label for="cardcontact.countryid">Country</label></td>
+                <td class="label"><label for="cardcontact.countryid">Country*</label></td>
                 <td class="field"><%= Html.DropDownList("cardcontact.countryid", new SelectList(ViewData.Model.Countries, "CountryId", "Name", ViewData.Model.Order.CardContactCountryId))%></td>
             </tr>
             <tr>
@@ -134,3 +134,4 @@
         
     </div>      
 </div>        
+* Selecting a different country may result in a different postage charge. You will be able to review this on the next page.
