@@ -58,5 +58,3 @@
 
 <label style="display:inline" for="order_contactme">Would you like to be emailed with our newsletter and product information? We will not share your contact information with 3rd parties.</label>
 <%= Html.CheckBox("order.contactme", ViewData.Model.Order.ContactMe)%>
-
-<%= Html.SubmitButton("submitButton", "Place Order")%>

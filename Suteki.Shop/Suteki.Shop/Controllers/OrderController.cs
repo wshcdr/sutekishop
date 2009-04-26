@@ -58,10 +58,10 @@ namespace Suteki.Shop.Controllers
 				.WithOrderStatuses(OrderStatuses())
                 .WithOrderSearchCriteria(orderSearchCriteria));
         }
-		[ModelStateToTempData]
+
     	IEnumerable<OrderStatus> OrderStatuses()
     	{
-			var list = statusRepository.GetAll().ToList();
+			var list = statusRepository.GetAll().Where(x => x.OrderStatusId > 0).ToList();
 			list.Insert(0, new OrderStatus() { Name = "Any", OrderStatusId = 0 });
 			return list;
     	}

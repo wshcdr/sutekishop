@@ -25,7 +25,7 @@ namespace Suteki.Shop.Binders
 
 			var order = new Order
 			{
-				OrderStatusId = OrderStatus.CreatedId,
+				//OrderStatusId = OrderStatus.CreatedId,
 				CreatedDate = DateTime.Now,
 				DispatchedDate = DateTime.Now
 			};

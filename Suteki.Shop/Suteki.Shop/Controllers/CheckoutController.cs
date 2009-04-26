@@ -79,16 +79,17 @@ namespace Suteki.Shop.Controllers
 			if (ModelState.IsValid)
 			{
 				orderRepository.InsertOnSubmit(order);
-				userService.CurrentUser.CreateNewBasket();
+//				userService.CurrentUser.CreateNewBasket();
 
 				//we need an explicit Commit in order to obtain the db-generated Order Id
 				unitOfWork.Commit();
 
 
-				EmailOrder(order);
+//				EmailOrder(order);
 				
-				
-				return this.RedirectToAction<OrderController>(c => c.Item(order.OrderId));
+			
+				return this.RedirectToAction(c => c.Confirm(order.OrderId));
+//				return this.RedirectToAction<OrderController>(c => c.Item(order.OrderId));
 			}
 
 			var basket = basketRepository.GetById(order.BasketId);
@@ -104,6 +105,24 @@ namespace Suteki.Shop.Controllers
 			emailService.SendOrderConfirmation(order);
 		}
 
+		public ActionResult Confirm(int id)
+		{
+			var order = orderRepository.GetById(id);
+			userService.CurrentUser.EnsureCanViewOrder(order);
+			postageService.CalculatePostageFor(order);
+			return View(ShopView.Data.WithOrder(order));
+		}
+
+		[AcceptVerbs(HttpVerbs.Post), UnitOfWork]
+		public ActionResult Confirm([DataBind] Order order)
+		{
+			order.OrderStatusId = OrderStatus.CreatedId;
+			EmailOrder(order);
+			userService.CurrentUser.CreateNewBasket();
+			return this.RedirectToAction<OrderController>(c => c.Item(order.OrderId));
+		}
+
+/*
 		[UnitOfWork]
 		public ActionResult UpdateCountry(int id, int countryId, [BindUsing(typeof(OrderBinder))] Order order)
 		{
@@ -115,6 +134,7 @@ namespace Suteki.Shop.Controllers
 			CurrentOrder = order;
 			return this.RedirectToAction(c => c.Index(id));
 		}
+*/
 
 		private Order CurrentOrder
 		{
