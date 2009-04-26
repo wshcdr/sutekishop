@@ -585,6 +585,7 @@
     <None Include="Views\EmailTemplates\_orderDetails.vm" />
     <Content Include="MetaWebLogAPI.svc" />
     <Content Include="Views\Basket\ChangeCountry.aspx" />
+    <Content Include="Views\Checkout\Confirm.aspx" />
     <Content Include="Views\Checkout\CustomerDetails.ascx" />
     <Content Include="Views\Checkout\OrderDetails.ascx" />
     <Content Include="Views\Checkout\PaymentDetails.ascx" />
@@ -594,6 +595,7 @@
     <Content Include="Views\Menu\UpDown.ascx" />
     <Content Include="Views\Invoice\Show.aspx" />
     <Content Include="Views\Order\CustomerDetails.ascx" />
+    <Content Include="Views\Order\Status.ascx" />
     <Content Include="Views\Shared\Note.ascx" />
     <Content Include="Views\Order\OrderDetails.ascx" />
     <Content Include="Views\Order\OrderSearchForm.ascx" />

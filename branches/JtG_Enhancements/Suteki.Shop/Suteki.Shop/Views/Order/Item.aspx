@@ -5,6 +5,8 @@
 <%= Html.ValidationSummary() %>
 <%= Html.MessageBox(Model) %>
 
+<h3>Order Details</h3>
+<% Html.RenderPartial("~/Views/Order/Status.ascx"); %>
 <% Html.RenderPartial("~/Views/Order/OrderDetails.ascx"); %>
 <hr />
 

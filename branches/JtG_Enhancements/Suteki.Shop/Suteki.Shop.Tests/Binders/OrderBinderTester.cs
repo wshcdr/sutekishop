@@ -49,7 +49,6 @@ namespace Suteki.Shop.Tests.Binders
 			Assert.IsFalse(order.UseCardHolderContact, "UseCardHolderContact is incorrect");
 			Assert.IsFalse(order.PayByTelephone, "PayByTelephone is incorrect");
 
-			Assert.AreEqual(1, order.OrderStatusId, "OrderStatusId is incorrect");
 			Assert.AreEqual(DateTime.Now.ToShortDateString(), order.CreatedDate.ToShortDateString(), "CreatedDate is incorrect");
 
 			// Card Contact
