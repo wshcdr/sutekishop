@@ -248,7 +248,16 @@
       <Column Name="ProductId" Type="System.Int32" CanBeNull="false" />
       <Column Name="CategoryId" Type="System.Int32" CanBeNull="false" />
       <Association Name="Category_ProductCategory" Member="Category" ThisKey="CategoryId" OtherKey="CategoryId" Type="Category" IsForeignKey="true" />
-      <Association Name="Product_ProductCategory" DeleteOnNull="true" Member="Product" ThisKey="ProductId" OtherKey="ProductId" Type="Product" IsForeignKey="true" />
+      <Association Name="Product_ProductCategory" Member="Product" ThisKey="ProductId" OtherKey="ProductId" Type="Product" IsForeignKey="true" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="" Member="Reviews">
+    <Type Name="Review">
+      <Column Name="Id" AutoSync="Never" Type="int" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ProductId" Type="int" CanBeNull="false" />
+      <Column Name="Approved" Type="System.Boolean" CanBeNull="false" />
+      <Column Name="Text" Type="System.String" CanBeNull="false" />
+      <Column Name="Rating" Type="int" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

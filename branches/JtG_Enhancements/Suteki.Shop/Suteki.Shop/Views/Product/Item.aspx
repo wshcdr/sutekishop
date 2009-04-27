@@ -30,4 +30,6 @@ function onThumbnailClick(img)
 </a>
  so that we can let you know when it will be available.</p>
 
+<% Html.RenderAction<ReviewsController>(c => c.Show(Model.Product.ProductId)); %>
+
 </asp:Content>
