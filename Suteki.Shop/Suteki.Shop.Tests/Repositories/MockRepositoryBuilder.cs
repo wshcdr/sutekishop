@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Rhino.Mocks;
 using Suteki.Common.Repositories;
@@ -133,5 +134,21 @@ namespace Suteki.Shop.Tests.Repositories
 
             return productRepositoryMock;
         }
+
+    	public static IRepository<Review> CreateReviewRepository()
+    	{
+			var reviews = new List<Review> 
+			{
+				new Review() { Id = 1, ProductId = 1, Approved = true, Rating = 5, Text = "foo"},
+				new Review() { Id = 2, ProductId = 1, Approved = true, Rating = 4, Text = "bar"},
+				new Review() { Id = 2, ProductId = 1, Approved = false, Rating = 3, Text = "bar"},
+				new Review() { Id = 3, ProductId = 2, Approved = true, Rating = 4, Text = "baz"},
+				new Review() { Id = 4, ProductId = 3, Approved = false, Rating = 2, Text = "blah"},
+			};
+
+			var repository = MockRepository.GenerateStub<IRepository<Review>>();
+			repository.Expect(x => x.GetAll()).Return(reviews.AsQueryable());
+			return repository;
+    	}
     }
 }

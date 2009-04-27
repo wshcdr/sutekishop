@@ -148,6 +148,7 @@
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ProductImageController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\ReviewsController.cs" />
     <Compile Include="Controllers\RichEditorController.cs" />
     <Compile Include="Controllers\RsdController.cs" />
     <Compile Include="Controllers\ShopScaffoldController.cs" />
@@ -211,6 +212,7 @@
     <Compile Include="Repositories\CountryRepositoryExtensions.cs" />
     <Compile Include="Repositories\OrderRepositoryExtensions.cs" />
     <Compile Include="Repositories\PostZoneRepositoryExtensions.cs" />
+    <Compile Include="Repositories\ReviewRepositoryExtensions.cs" />
     <Compile Include="Repositories\UrlNamedExtensions.cs" />
     <Compile Include="Repositories\UserRepositoryExtensions.cs" />
     <Compile Include="Routes\RouteManager.cs" />
@@ -240,6 +242,7 @@
       <DependentUpon>Shop.dbml</DependentUpon>
     </Compile>
     <Compile Include="ViewData\CmsViewData.cs" />
+    <Compile Include="ViewData\ReviewViewData.cs" />
     <Compile Include="ViewData\RsdViewData.cs" />
     <Compile Include="ViewData\ShopViewData.cs" />
     <Compile Include="Views\Rsd\Index.aspx.cs">
@@ -325,6 +328,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Images\creditcards.gif" />
+    <Content Include="Content\Images\star.gif" />
     <Content Include="Content\tiny_mce\langs\en.js" />
     <Content Include="Content\tiny_mce\license.txt" />
     <Content Include="Content\tiny_mce\plugins\advhr\css\advhr.css" />
@@ -595,6 +599,9 @@
     <Content Include="Views\Invoice\Show.aspx" />
     <Content Include="Views\Order\CustomerDetails.ascx" />
     <Content Include="Views\Order\Status.ascx" />
+    <Content Include="Views\Reviews\New.aspx" />
+    <Content Include="Views\Reviews\Show.ascx" />
+    <Content Include="Views\Reviews\Submitted.aspx" />
     <Content Include="Views\Shared\Note.ascx" />
     <Content Include="Views\Order\OrderDetails.ascx" />
     <Content Include="Views\Order\OrderSearchForm.ascx" />
