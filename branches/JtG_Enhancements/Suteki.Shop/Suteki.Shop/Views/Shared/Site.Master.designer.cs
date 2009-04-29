@@ -14,6 +14,24 @@ namespace Suteki.Shop.Views.Shared {
     public partial class Site {
         
         /// <summary>
+        /// HeaderContent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder HeaderContent;
+        
+        /// <summary>
+        /// LeftContentPlaceHolder control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder LeftContentPlaceHolder;
+        
+        /// <summary>
         /// MainContentPlaceHolder control.
         /// </summary>
         /// <remarks>
@@ -21,5 +39,14 @@ namespace Suteki.Shop.Views.Shared {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContentPlaceHolder;
+        
+        /// <summary>
+        /// Scripts control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder Scripts;
     }
 }

@@ -1,8 +1,12 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Cms.master" Inherits="Suteki.Shop.ViewPage<CmsViewData>" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
-    <%= ViewData.Model.TextContent.Text%>
-
+    <h2 id="cms-header"><%= Model.Content.Name%></h2>
     <% if(User.IsAdministrator()) { %>
-        <p><%= Html.ActionLink<CmsController>(c => c.Edit(ViewData.Model.Content.ContentId), "Edit")%></p>
+        <ul id="admin-submenu">
+			<li><%= Html.ActionLink<CmsController>(c => c.Edit(Model.Content.ContentId), "Edit")%></li>
+        </ul>
     <% } %>
+    <div id="cms-content">
+		<%= Model.TextContent.Text%>
+    </div>
 </asp:Content>

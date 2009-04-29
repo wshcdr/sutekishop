@@ -1,0 +1,365 @@
+/*
+colors
+
+Main:		#514E5C
+Highlight:	#CBC9CE (most text)
+Menu:		#A5A0B0
+Menuborder:	#C0C0C0
+MenuLight:	#B5B0C0
+
+*/
+h3{
+	font-size:1.4em;
+	font-weight:bold;
+}
+.error{
+	color: Red;
+	font-weight: bold;	
+}
+.message{
+	color: Green;
+	font-weight: bold;
+}
+.clear{
+	clear: both;	
+}
+.clearRight{
+	clear: right;
+}
+
+/* --------------------------- admin menu ------------------------ */
+hr{
+	clear:both;
+	margin:0 20px 0 0;
+}
+#adminMenu{
+	float: left;
+	list-style: none;
+	margin: 0;
+	padding: 0 0 20px 0;
+	width: 100%;
+}
+
+#adminMenu li
+{
+	float: left;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+li.editMenuLink a
+{
+	color: Red;	
+}
+
+#adminMenu a
+{
+	display: block;
+	float: left;
+	margin: 0;
+	padding: 5px 12px 5px 30px;
+	text-decoration: none;
+	color: #444444;
+	font-weight: bold;
+	width: 100px;
+}
+
+#adminMenu a:hover 
+{
+	background: #EEEEEE;
+}
+
+#admin-submenu{
+	margin:10px 20px 0 0;
+}
+#admin-submenu li{
+	margin:0 0 5px 0;
+}
+
+/* ------------------------- order ------------------------------ */
+
+.orderAction
+{
+	margin: 10px 0;
+}
+
+tr.Created
+{
+	color: #CBC9CE;	
+}
+tr.Dispatched
+{
+	color: #00FF00;
+}
+tr.Rejected
+{
+	color: #FF0000;
+}
+
+/* ------------------------- form ------------------------------ */
+div.admin-form{
+	margin:20px 20px 0 0;
+}
+div.admin-form h2{
+	font-weight:bold;
+	margin:0 0 20px 0;
+}
+div.admin-form td{
+	color:#444444;
+}
+form p{
+	line-height:2em;
+	padding:5px 0;
+}
+label{
+	display: block;
+	font-weight: bold;
+	margin: 1px 0;
+	float:left;
+	width:150px;
+}
+input{
+	width: 300px;
+}
+input.inline
+{
+	display:inline;
+	width: 50px;	
+}
+
+input[type=submit]
+{
+	display: block;
+	width: 150px;
+	margin: 10px 10px 10px 0px;
+	color: #514E5C;
+	background: #CBC9CE;
+}
+
+input[type=checkbox]
+{
+	display: inline;
+	width: auto;
+}
+
+input[type=radio]
+{
+	display: inline;
+	width: auto;
+}
+
+input[type=button]
+{
+	display: inline;
+	width: 75px;
+}
+
+.linkButton
+{
+	text-decoration: none;
+	display: inline;
+	padding: 2px 5px 2px 5px;
+	width: auto;
+	color: #514E5C;
+	background: #CBC9CE;
+	border: outset 2px #A5A0B0;
+}
+.lineButton:hover
+{
+	color: #514E5C;
+}
+
+select
+{
+	margin: 10px 0px 0px 0px;
+}
+
+.small select
+{
+	width: 70px;
+}
+
+textarea
+{
+	margin: 10px 10px 0px 0px;
+	width: 450px;
+	overflow: visible;
+	font-family: arial;
+	font-size: 10pt;
+}
+
+.sizeInput
+{
+	
+}
+/*----------------------------------- arrows -------------------------------------*/
+div.arrows{
+	display:block;
+	float:left;
+	margin:0 10px 0 0;
+}
+/*----------------------------------- end arrows -------------------------------------*/
+/*----------------------------------- cross and tick -------------------------------------*/
+
+.cross
+{
+	display: inline;
+	background-image: url(Images/cross.png);
+	background-repeat: no-repeat;
+	width: 10pt;
+	margin: 5px 0px 0px 10px;
+}
+
+.tick
+{
+	display: inline;
+	background-image: url(Images/tick.png);
+	background-repeat: no-repeat;
+	width: 10pt;
+	margin: 5px 0px 0px 10px;
+}
+
+/*-------------------------------------- paging ------------------------------------------*/
+div.pagination{
+	margin:20px 0 0 0;
+}
+/*-------------------------------------- end paging ------------------------------------------*/
+/*-------------------------------------- table -------------------------------------------*/
+
+table
+{
+	width:100%;
+}
+
+tr.total
+{
+	font-weight: bold;
+}
+
+th
+{
+	font-weight: bold;
+	margin: 0 20px 0 0;
+	padding:0 0 10px 0;
+}
+
+th.wide
+{
+	width: 200px;
+}
+
+th.thin
+{
+	width: 80px;
+}
+
+th.number
+{
+	text-align: right;
+}
+
+td
+{
+	margin: 0px 20px 0px 0px;
+	vertical-align: top;
+}
+
+td.number
+{
+	text-align: right;
+}
+
+th.arrow{
+	width:10px;
+}
+
+/*-------------------------------------- pager -------------------------------------------*/
+
+.pager
+{
+	width: 100%;
+	margin: 10px 0;
+}
+
+/*-------------------------------------- category -------------------------------------------*/
+ul.categoryList{
+	width:400px;
+	margin:0 0 40px 0;
+}
+ul.categoryList li{
+	padding:5px 0;
+}
+/*-------------------------------------- end category -------------------------------------------*/
+/*-------------------------------------- country -------------------------------------------*/
+p#addCountry{
+	margin:40px 0 0 0;
+}
+/*-------------------------------------- end country -------------------------------------------*/
+/*-------------------------------------- stock -------------------------------------------*/
+
+span.sizeName{
+	display:block;
+	float:left;
+	width:20px;
+	text-align:right;
+	padding:0 5px 0 0;
+}
+
+.stockItem
+{
+	display: block;
+	clear: left;
+}
+
+.stockItem input[type=checkbox]
+{
+	display: inline;
+	margin: 0;
+}
+
+.stockCheckbox
+{
+	display: block;
+	float: left;
+	width: 50px; /* width here controls the spacing of the checkboxes */
+}
+
+.stockProduct
+{
+	display: block;
+	float: left;
+	width: 300px;
+}
+
+/*----------------------------------- ModelState -------------------------------------*/
+
+/* flash */
+ul.validation-summary-errors
+{
+	border: 2px solid #ff0000;
+	margin: 5px 0 7px 0;
+	padding: 5px;
+	background-color: #f9d5d6;
+	font-weight: bold;
+	color: Black;
+}
+.input-validation-error 
+{
+	border: 2px solid #ff0000;
+	background-color: #f9d5d6;
+}
+.field-validation-error 
+{
+	color: red;
+	font-weight: bold;
+}
+ul.validation-summary-errors 
+{
+	list-style-type: none;
+}
+ul.validation-summary-errors li 
+{
+	padding: 0;
+	margin: 0;
+}
