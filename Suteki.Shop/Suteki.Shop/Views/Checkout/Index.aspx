@@ -57,7 +57,8 @@ function toggleVisibilityWithCheckbox(checkbox, div) {
 	} else {
 		div.css("display","block");
 	}
-	$('#submitButton').focus();
+	//Why?
+	//$('#submitButton').focus();
 }
 
 </script>
