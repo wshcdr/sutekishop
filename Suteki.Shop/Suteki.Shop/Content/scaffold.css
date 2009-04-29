@@ -434,3 +434,21 @@ p.top{
 	font-size:0.8em;
 }
 /*End FAQ*/
+
+/*----------------------------------- cross and tick -------------------------------------*/
+
+.cross {
+	display: inline;
+	background-image: url(Images/cross.png);
+	background-repeat: no-repeat;
+	width: 10pt;
+	margin: 5px 0px 0px 10px;
+}
+
+.tick {
+	display: inline;
+	background-image: url(Images/tick.png);
+	background-repeat: no-repeat;
+	width: 10pt;
+	margin: 5px 0px 0px 10px;
+}
