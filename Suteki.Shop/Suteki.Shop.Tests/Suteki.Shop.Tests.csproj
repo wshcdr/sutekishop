@@ -137,6 +137,7 @@
     <Compile Include="Controllers\SiteMapControllerTests.cs" />
     <Compile Include="Controllers\StockControllerTests.cs" />
     <Compile Include="Controllers\UserControllerTests.cs" />
+    <Compile Include="LinqToSqlMappingTests.cs" />
     <Compile Include="Extensions\CategoryWriterTests.cs" />
     <Compile Include="Extensions\EnumerableExtensionsTests.cs" />
     <Compile Include="Extensions\ObjectExtensionsTests.cs" />
