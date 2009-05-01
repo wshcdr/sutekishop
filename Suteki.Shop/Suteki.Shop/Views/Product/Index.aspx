@@ -1,14 +1,14 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Shop.Master"  Inherits="Suteki.Shop.ViewPage<ShopViewData>" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
 
-<h1><%= Model.Category.Name %></h1>
-
 <% if(User.IsAdministrator()) { %>
 	<ul id="admin-submenu">
 		<li><%= Html.ActionLink<CategoryController>(c => c.New(Model.Category.CategoryId), "New Category")%></li>
 		<li><%= Html.ActionLink<ProductController>(c => c.New(Model.Category.CategoryId), "New Product") %></li>
     </ul>
 <% } %>
+
+<h1><%= Model.Category.Name %></h1>
 
 <% var subCategories = Model.Category.Categories.ActiveFor((User)User).ToList(); %>
 

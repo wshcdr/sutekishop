@@ -34,7 +34,7 @@
         <%= Html.TextBox("card.securitycode", "", new { maxlength = "4" })%>
     </p>
     <p>
-        <p>The last three digits printed on the signature strip of your credit/debit card. Or for Amex. the four digits printed on the front of the card above the embossed card number.</p>
+        The last three digits printed on the signature strip of your credit/debit card. Or for Amex. the four digits printed on the front of the card above the embossed card number.
     </p>
 	<p id="dontPayOnline">
 	<label for="order.paybytelephone"><strong>I prefer to pay by cheque or telephone</strong></label>
@@ -45,6 +45,6 @@
 	<div id="terms">
 		<p>All credit card details are collected using an SSL secure server which means that any sensitive information is securely encrypted and cannot be read by any unauthorised party. We do not store any of your credit card details once payment has been taken. We will not take payment until your goods are ready for dispatch.</p>
 	</div>
-	<label style="display:inline" for="order_contactme">Would you like to be emailed with our newsletter and product information? We will not share your contact information with 3rd parties.</label>
+	<label id="contact-me" for="order_contactme">Would you like to be emailed with our newsletter and product information? We will not share your contact information with 3rd parties.</label>
 	<%= Html.CheckBox("order.contactme", ViewData.Model.Order.ContactMe)%>
 </div>

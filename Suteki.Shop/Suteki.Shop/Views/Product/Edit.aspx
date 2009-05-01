@@ -54,7 +54,7 @@
             <p><input type="file" id="image_<%= i.ToString() %>" name="image_<%= i.ToString() %>" /></p>
         <% } %>
         
-        <input type="submit" value="Save Changes" />
+        <p><input type="submit" value="Save Changes" /></p>
     <% } %>
     
     <% Html.InitialiseRichTextEditor(); %>

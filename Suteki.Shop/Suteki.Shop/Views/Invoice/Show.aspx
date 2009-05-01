@@ -65,12 +65,10 @@
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td class="number"><%= Model.Order.Basket.PostageTotal%></td>
-        <td>&nbsp;</td>
     </tr>
 
     <tr>
         <td>(for <%= Model.Order.Basket.Country.Name %>)</td>
-        <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
@@ -83,7 +81,6 @@
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td class="number"><%= Model.Order.Basket.TotalWithPostage%></td>
-        <td>&nbsp;</td>
     </tr>
     
 </table>
