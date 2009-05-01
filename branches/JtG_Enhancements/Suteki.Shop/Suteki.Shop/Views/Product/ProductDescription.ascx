@@ -14,5 +14,5 @@
 	<% } %>
 	</div>
 
-	<p><%= Model.Description %></p>
+	<%= Model.Description %>
 </div>

@@ -7,7 +7,7 @@
 		<p><%= this.TextBox(x => x.OrderSearchCriteria.Lastname).Label("Last Name") %></p>
 		<p><%= this.TextBox(x => x.OrderSearchCriteria.Postcode).Label("Postcode") %></p>  
         <p><%= this.Select(x => x.OrderSearchCriteria.OrderStatusId).Label("Status").Options(Model.OrderStatuses, x => x.OrderStatusId, x => x.Name) %></p>
-        <input type="submit" value="Search" />
+        <p><input type="submit" value="Search" /></p>
     </div>
 
 <% } %>

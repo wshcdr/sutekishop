@@ -12,7 +12,9 @@
 	<div class="clear"></div>
 		
 	<% using (Html.BeginForm()) { %>
-		<%= this.Hidden(x => x.Order.OrderId) %>
-		<input type="submit" value="Place Order" />
+		<p>
+			<%= this.Hidden(x => x.Order.OrderId) %>
+			<input type="submit" id="confirmation" value="Place Order" />
+		</p>
 	<% } %>
 </asp:Content>

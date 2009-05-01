@@ -3,15 +3,10 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
 <div class="admin-form">
 	<h1>Orders</h1>
-
-<div class="columnContainer">
 	<% Html.RenderPartial("OrderSearchForm"); %>
-</div>
-
-	<div class="columnContainer">
-		<div class="pager">
-			<%= Html.Pager("Order", "Index", Model.Orders)%>
-		</div>
+	<div class="pager">
+		<%= Html.Pager("Order", "Index", Model.Orders)%>
+	</div>
 
 	<%= Html.Grid(Model.Orders).Columns(column => {
 			column.For(x => Html.ActionLink<OrderController>(c => c.Item(x.OrderId), x.OrderId.ToString()))
@@ -23,7 +18,6 @@
 			column.For(x => x.UserAsString).Named("Updated by").HeaderAttributes(@class => "thin").DoNotEncode();
 	}).RowAttributes(row => new Hash(@class => row.Item.OrderStatus.Name)) %>
 
-		<p>Total orders: <%= Model.Orders.TotalCount %></p>
-	</div>
+	<p>Total orders: <%= Model.Orders.TotalCount %></p>
 </div>
 </asp:Content>

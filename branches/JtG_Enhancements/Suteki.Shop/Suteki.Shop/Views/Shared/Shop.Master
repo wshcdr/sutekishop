@@ -1,9 +1,12 @@
 ﻿<%@ Master Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewMasterPage" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="LeftContentPlaceHolder" runat="server">
-<% Html.RenderAction<MenuController>(c => c.LeftMenu()); %>     
-</asp:Content>
 <asp:Content runat="server" ContentPlaceHolderID="MainContentPlaceHolder">
-	<asp:ContentPlaceHolder ID="MainContentPlaceHolder" runat="server"></asp:ContentPlaceHolder>
+		<div id="main-nav">
+			<% Html.RenderAction<MenuController>(c => c.LeftMenu()); %>
+			<asp:ContentPlaceHolder ID="LeftContentPlaceHolder" runat="server"></asp:ContentPlaceHolder>
+		</div>
+		<div id="content">
+			<asp:ContentPlaceHolder ID="MainContentPlaceHolder" runat="server"></asp:ContentPlaceHolder>
+		</div>
 </asp:Content>
 <asp:Content ID="Content2" runat="server" ContentPlaceHolderID="Scripts">
 	<asp:ContentPlaceHolder ID="Scripts" runat="server"></asp:ContentPlaceHolder>

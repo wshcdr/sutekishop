@@ -3,13 +3,13 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
 <div class="error"><%= TempData["message"] %></div>
 
-<h1><%= Html.Encode(ViewData.Model.Product.Name) %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= ViewData.Model.Product.Price.ToString("£0.00") %><%= ViewData.Model.Product.IsActiveAsString %></h1>
-
 <% if(User.IsAdministrator()) { %>
     <ul id="admin-submenu">
-		<li><%= Html.ActionLink<ProductController>(c => c.Edit(Model.Product.ProductId), "Edit") %></p></li>
+		<li><%= Html.ActionLink<ProductController>(c => c.Edit(Model.Product.ProductId), "Edit") %></li>
 	</ul>
 <% } %>
+
+<h1><%= Html.Encode(ViewData.Model.Product.Name) %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= ViewData.Model.Product.Price.ToString("£0.00") %><%= ViewData.Model.Product.IsActiveAsString %></h1>
 
 <% Html.RenderPartial("ProductDescription", Model.Product); %>
 <% Html.RenderPartial("BasketOptions", Model.Product); %>

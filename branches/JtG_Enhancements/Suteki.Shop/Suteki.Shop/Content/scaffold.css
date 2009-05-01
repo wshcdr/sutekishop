@@ -152,7 +152,6 @@ font-family:Georgia,Times,Times New Roman,serif;
 font-weight:normal;
 }
 div#header{
-	background:Transparent url(/content/images/scaffold/bg-header.png) no-repeat scroll 0 0;
 	height:123px;
 	position:relative;
 }
@@ -170,7 +169,7 @@ div#header div#logo h2{
 }
 div#header div#logo a{
 	display:block;
-	margin:44px 0 10px 36px;
+	margin:44px 0 10px 0;
 }
 div#header div#login{
 	float:right;
@@ -228,7 +227,7 @@ div#main div#content{
 }
 div#main div#main-nav ul{
 	width:160px;
-	margin:105px 0 0 40px;
+	margin:105px 0 0 0;
 }
 div#main div#main-nav ul li{
 	margin:0 0 10px 0;
@@ -372,6 +371,20 @@ div#checkout p{
 div#checkout div{
 	margin:0 0 20px 0;
 }
+div#customer-details p,
+div#customer-details h1,
+div#customer-details h2,
+div#customer-details h3,
+div#customer-details h4,
+div#customer-details h5,
+div#customer-details h6{
+	float:left;
+	clear:left;
+}
+input#confirmation{
+	float:left;
+	clear:both;
+}
 p#dontPayOnline{
 	margin:20px 0 0 0;
 }
@@ -396,14 +409,10 @@ input#submitButton{
 	margin:20px 0 0 0;
 }
 /*End Checkout*/
-/*Contact us*/
-#map{
-	margin:20px 0 0 0;
-	width:600px;
-	height:400px;
-}
-/*End Contact us*/
 /*CMS Pages*/
+div#cmsContent{
+	width:100%;
+}
 h2#cms-header{
 	width:auto;
 	float:left;
@@ -416,7 +425,10 @@ div#cms-content p{
 }
 /*End CMS Pages*/
 /*Order details*/
-div#customer-details p span, div#order-details p span{
+div#payment-details{
+	clear:both;
+}
+div#customer-details p span, div#order-details p span, div#payment-details p span{
 	display:block;
 	float:left;
 	width:150px;

@@ -41,12 +41,7 @@
 				<%} %>--%>
 			</div>
 		</div>
-		<div id="main-nav">
-			<asp:ContentPlaceHolder ID="LeftContentPlaceHolder" runat="server"></asp:ContentPlaceHolder>
-		</div>
-		<div id="content">
-			<asp:ContentPlaceHolder ID="MainContentPlaceHolder" runat="server"></asp:ContentPlaceHolder>
-        </div>
+		<asp:ContentPlaceHolder ID="MainContentPlaceHolder" runat="server"></asp:ContentPlaceHolder>
 		<div id="push"></div>
 		<br class="clear" />
 	</div>
