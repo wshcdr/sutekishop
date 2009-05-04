@@ -13,5 +13,10 @@ namespace Suteki.Shop.Repositories
 		{
 			return reviews.Where(x => x.Approved);
 		}
+
+		public static IQueryable<Review> Unapproved(this IQueryable<Review> reviews)
+		{
+			return reviews.Where(x => x.Approved == false);
+		}
 	}
 }
