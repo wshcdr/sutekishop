@@ -4,14 +4,24 @@
 
 <% if (Model.Reviews.Count() > 0) { %>
 
-<a href="javascript:void(0)">Show Reviews</a>
+<a id="show-reviews" href="javascript:void(0)">Show Reviews</a>
 
 <div id="reviews" style="display: none">
+	<% foreach (var review in Model.Reviews) { %>
+		<p>
+			<strong>Rating:</strong> <%= Html.Stars(review.Rating) %>
+		</p>
+		<p>
+			<%= Html.Encode(review.Text) %>
+		</p>
+	<% } %>
 </div>
 
 <script type="text/javascript">
 	$(function() {
-		$('#reviews').toggle();
+		$('#show-reviews').click(function() {
+			$('#reviews').toggle('slide');
+		});
 	});
 </script>
 

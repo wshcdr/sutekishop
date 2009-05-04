@@ -228,6 +228,7 @@
       <Association Name="Product_ProductImage" Member="ProductImages" ThisKey="ProductId" OtherKey="ProductId" Type="ProductImage" />
       <Association Name="Product_Size" Member="Sizes" ThisKey="ProductId" OtherKey="ProductId" Type="Size" />
       <Association Name="Product_ProductCategory" Member="ProductCategories" ThisKey="ProductId" OtherKey="ProductId" Type="ProductCategory" />
+      <Association Name="Product_Review" Member="Reviews" ThisKey="ProductId" OtherKey="ProductId" Type="Review" />
     </Type>
   </Table>
   <Table Name="dbo.Basket" Member="Baskets">
@@ -254,10 +255,11 @@
   <Table Name="" Member="Reviews">
     <Type Name="Review">
       <Column Name="Id" AutoSync="Never" Type="int" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="ProductId" Type="int" CanBeNull="false" />
+      <Column Name="ProductId" Type="System.Int32" CanBeNull="false" />
       <Column Name="Approved" Type="System.Boolean" CanBeNull="false" />
       <Column Name="Text" Type="System.String" CanBeNull="false" />
       <Column Name="Rating" Type="int" CanBeNull="false" />
+      <Association Name="Product_Review" Member="Product" ThisKey="ProductId" OtherKey="ProductId" Type="Product" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

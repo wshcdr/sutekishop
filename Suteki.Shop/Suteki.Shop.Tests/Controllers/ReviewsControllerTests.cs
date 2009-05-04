@@ -71,5 +71,40 @@ namespace Suteki.Shop.Tests.Controllers
 				.WithModel<ReviewViewData>()
 				.AssertAreSame(product, x => x.Product);
 		}
+
+		[Test]
+		public void Index_displays_unapproved_reviews()
+		{
+			controller.Index()
+				.ReturnsViewResult()
+				.WithModel<ReviewViewData>()
+				.AssertAreEqual(2, x => x.Reviews.Count());
+		}
+
+		[Test]
+		public void Approve_approves_review()
+		{
+			var review = new Review();
+			repository.Expect(x => x.GetById(5)).Return(review);
+
+			controller.Approve(5)
+				.ReturnsRedirectToRouteResult()
+				.ToAction("Index");
+
+			review.Approved.ShouldBeTrue();
+		}
+
+		[Test]
+		public void Delete_deletes_review()
+		{
+			var review = new Review();
+			repository.Expect(x => x.GetById(5)).Return(review);
+
+			controller.Delete(5)
+				.ReturnsRedirectToRouteResult()
+				.ToAction("Index");
+
+			repository.AssertWasCalled(x => x.DeleteOnSubmit(review));
+		}
 	}
 }

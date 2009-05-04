@@ -14,6 +14,7 @@
 		<li><%= Html.ActionLink<PostageController>(c => c.Index(1), "Postage Bands") %></li>
 		<li><%= Html.ActionLink<PostZoneController>(c => c.Index(1), "Postage Zones") %></li>
 		<li><%= Html.ActionLink<ReportController>(c => c.Index(), "Reports") %></li>
+		<li><%= Html.ActionLink<ReviewsController>(c => c.Index(), "Reviews") %></li>
 	</ul>
 	<hr />	
 	<% } %>
