@@ -5,7 +5,10 @@
     <% foreach(var review in Model.Reviews) { %>
     <div>
 		<p>
-			<strong>Product:</strong> <%= Html.Encode(Model.Product.Name) %>
+			<strong>Product:</strong> <%= Html.Encode(review.Product.Name) %>
+		</p>
+		<p>
+			<strong>Reviewer:</strong> <%= Html.Encode(review.Reviewer) %>
 		</p>
 		<p>
 			<strong>Rating:</strong> <%= Html.Stars(review.Rating) %>

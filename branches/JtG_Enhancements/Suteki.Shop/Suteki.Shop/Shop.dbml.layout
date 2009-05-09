@@ -331,13 +331,13 @@
         <classShapeMoniker Id="4ef391ee-5ec0-4180-b954-0e206b0d6180" />
       </nodes>
     </associationConnector>
-    <classShape Id="4216272e-ce30-4005-80a3-668096fcc623" absoluteBounds="1.125, 8, 2, 1.7708968098958344">
+    <classShape Id="4216272e-ce30-4005-80a3-668096fcc623" absoluteBounds="1.125, 8, 2, 1.9631982421875005">
       <DataClassMoniker Name="/ShopDataContext/Review" />
       <nestedChildShapes>
-        <elementListCompartment Id="54313ebd-825a-4c45-aec2-eb5c83d6b6bf" absoluteBounds="1.14, 8.46, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="54313ebd-825a-4c45-aec2-eb5c83d6b6bf" absoluteBounds="1.14, 8.46, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(3.875 : 8.88544840494792); (3.125 : 8.88544840494792)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(3.875 : 8.98159912109375); (3.125 : 8.98159912109375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/ShopDataContext/Product/Product_Review" />
       <nodes>
         <classShapeMoniker Id="81cd2a1a-067e-48bd-af63-4e6557598216" />

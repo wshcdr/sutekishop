@@ -4,6 +4,7 @@ CREATE TABLE dbo.Review (
 	ProductId int NOT NULL,
 	Approved bit NOT NULL,
 	[Text] nvarchar(MAX) NULL,
+	Reviewer nvarchar(250),
 	Rating int
 )  ON [PRIMARY]
 TEXTIMAGE_ON [PRIMARY]
