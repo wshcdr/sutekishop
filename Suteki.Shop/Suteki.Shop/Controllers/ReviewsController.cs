@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using Suteki.Common.Binders;
 using Suteki.Common.Filters;
 using Suteki.Common.Repositories;
 using Suteki.Shop.Filters;
@@ -50,11 +51,20 @@ namespace Suteki.Shop.Controllers
 		}
 
 		[AcceptVerbs(HttpVerbs.Post), UnitOfWork]
-		public ActionResult New(int id, Review review)
+		public ActionResult New(int id, [DataBind(Fetch=false)] Review review)
 		{
-			review.ProductId = id;
-			reviewRepository.InsertOnSubmit(review);
-			return this.RedirectToAction(x => x.Submitted(id));
+			if(ModelState.IsValid)
+			{
+				review.ProductId = id;
+				reviewRepository.InsertOnSubmit(review);
+				return this.RedirectToAction(x => x.Submitted(id));
+			}
+
+			return View(new ReviewViewData 
+			{
+				ProductId = id,
+				Review = review
+			});
 		}
 
 		public ActionResult Submitted(int id)

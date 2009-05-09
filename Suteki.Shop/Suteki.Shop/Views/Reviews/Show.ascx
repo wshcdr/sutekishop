@@ -9,7 +9,7 @@
 <div id="reviews" style="display: none">
 	<% foreach (var review in Model.Reviews) { %>
 		<p>
-			<strong>Rating:</strong> <%= Html.Stars(review.Rating) %>
+			<%= Html.Stars(review.Rating) %> <%= Html.Encode(review.Reviewer) %>
 		</p>
 		<p>
 			<%= Html.Encode(review.Text) %>

@@ -60,6 +60,18 @@ namespace Suteki.Shop.Tests.Controllers
 		}
 
 		[Test]
+		public void NewWithPost_renders_view_on_error()
+		{
+			controller.ModelState.AddModelError("foo", "bar");
+			var review = new Review();
+			controller.New(5, review)
+				.ReturnsViewResult()
+				.WithModel<ReviewViewData>()
+				.AssertAreSame(review, x => x.Review)
+				.AssertAreEqual(5, x => x.ProductId);
+		}
+
+		[Test]
 		public void Submitted_renders_view()
 		{
 			var product = new Product();
