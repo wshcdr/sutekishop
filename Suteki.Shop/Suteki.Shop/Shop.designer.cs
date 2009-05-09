@@ -5538,6 +5538,8 @@ namespace Suteki.Shop
 		
 		private int _Rating;
 		
+		private string _Reviewer;
+		
 		private EntityRef<Product> _Product;
 		
     #region Extensibility Method Definitions
@@ -5554,6 +5556,8 @@ namespace Suteki.Shop
     partial void OnTextChanged();
     partial void OnRatingChanging(int value);
     partial void OnRatingChanged();
+    partial void OnReviewerChanging(string value);
+    partial void OnReviewerChanged();
     #endregion
 		
 		public Review()
@@ -5662,6 +5666,26 @@ namespace Suteki.Shop
 					this._Rating = value;
 					this.SendPropertyChanged("Rating");
 					this.OnRatingChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_Reviewer", DbType="nvarchar(250)", CanBeNull=false)]
+		public string Reviewer
+		{
+			get
+			{
+				return this._Reviewer;
+			}
+			set
+			{
+				if ((this._Reviewer != value))
+				{
+					this.OnReviewerChanging(value);
+					this.SendPropertyChanging();
+					this._Reviewer = value;
+					this.SendPropertyChanged("Reviewer");
+					this.OnReviewerChanged();
 				}
 			}
 		}

@@ -4,7 +4,10 @@
     <h2>Add a Review</h2>
 	
 	<% using (Html.BeginForm()) { %>
-		<p><%= this.TextArea(x => x.Review.Text).Rows(10).Columns(40) %></p>
+		<p>
+			<%= this.TextBox(x => x.Review.Reviewer).MaxLength(250).Label("Your Name:") %>
+		</p>
+		<p><%= this.TextArea(x => x.Review.Text).Rows(10).Columns(40).Label("Review:") %></p>
 		<%= this.Hidden(x => x.ProductId).Name("id") %>
 		<p>Rating:</p>
 		<p><input name="<%= this.NameFor(x => x.Review.Rating) %>" type="radio" value="5" /> <%= Html.Stars(5) %></p>

@@ -259,6 +259,7 @@
       <Column Name="Approved" Type="System.Boolean" CanBeNull="false" />
       <Column Name="Text" Type="System.String" CanBeNull="false" />
       <Column Name="Rating" Type="int" CanBeNull="false" />
+      <Column Name="Reviewer" Type="System.String" DbType="nvarchar(250)" CanBeNull="false" />
       <Association Name="Product_Review" Member="Product" ThisKey="ProductId" OtherKey="ProductId" Type="Product" IsForeignKey="true" />
     </Type>
   </Table>
