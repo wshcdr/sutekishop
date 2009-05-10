@@ -4,7 +4,7 @@
 	<% if(Model.HasMainImage) { %>
 		<%= Html.Image("~/ProductPhotos/" + Model.MainImage.MainFileName, Model.Name, new { id = "mainImage" })%>
 	<% } else {%>
-		<%= Html.Image("~/content/images/scaffold/nopic-large.jpg",Model.Name)%>
+		<%= Html.Image("~/content/images/nopic-large.jpg",Model.Name)%>
 	<%} %>
 	</div>
 

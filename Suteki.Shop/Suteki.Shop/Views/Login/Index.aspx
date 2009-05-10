@@ -7,4 +7,9 @@
 		<p><%= Html.SubmitButton("btnLogin", "login")%></p>
 	<% } %>
 	<p><strong><%= Html.ErrorBox(Model)%></strong></p>
+	<script type="text/javascript">
+		$(function() {
+			$('#email').focus();
+		});
+	</script>
 </asp:Content>

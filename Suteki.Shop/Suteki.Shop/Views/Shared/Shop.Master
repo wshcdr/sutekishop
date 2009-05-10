@@ -1,6 +1,29 @@
 ﻿<%@ Master Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewMasterPage" %>
 <asp:Content runat="server" ContentPlaceHolderID="MainContentPlaceHolder">
+
+<% if (Context.User.IsAdministrator()){ %>
+	<ul id="adminMenu">
+		<li><%= Html.ActionLink<OrderController>(c => c.Index(null), "Orders") %></li>
+		<li><%= Html.ActionLink<StockController>(c => c.Index(), "Stock") %></li>
+		<li><%= Html.ActionLink<UserController>(c => c.Index(), "Users") %></li>
+		<li><%= Html.ActionLink<CategoryController>(c => c.Index(), "Categories") %></li>
+		<li><%= Html.ActionLink<CountryController>(c => c.Index(1), "Countries") %></li>
+		<li><%= Html.ActionLink<PostageController>(c => c.Index(1), "Postage Bands") %></li>
+		<li><%= Html.ActionLink<PostZoneController>(c => c.Index(1), "Postage Zones") %></li>
+		<li><%= Html.ActionLink<ReportController>(c => c.Index(), "Reports") %></li>
+		<li><%= Html.ActionLink<ReviewsController>(c => c.Index(), "Reviews") %></li>
+	</ul>
+	<hr />	
+	<% } %>
+
 		<div id="main-nav">
+			<div class="category">
+                <ul>                    
+                    <li class="basket">
+                        <%= Html.ActionLink<BasketController>(c => c.Index(), "Basket") %>
+                    </li>
+                </ul>
+            </div>
 			<% Html.RenderAction<MenuController>(c => c.LeftMenu()); %>
 			<asp:ContentPlaceHolder ID="LeftContentPlaceHolder" runat="server"></asp:ContentPlaceHolder>
 		</div>
