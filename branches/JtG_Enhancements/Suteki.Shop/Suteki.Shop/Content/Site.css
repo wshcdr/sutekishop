@@ -761,7 +761,7 @@ select
 	margin: 10px 0px 0px 0px;
 }
 
-.small select
+.small
 {
 	width: 70px;
 }
