@@ -130,7 +130,6 @@
     <Compile Include="Binders\OrderBinder.cs" />
     <Compile Include="Binders\ProductBinder.cs" />
     <Compile Include="ContainerBuilder.cs" />
-    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\CmsController.cs" />
@@ -282,7 +281,7 @@
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\Site_Old.css" />
     <Content Include="Views\Home\Index.aspx" />
     <Content Include="Views\Shared\Site.Master" />
     <Content Include="Views\Web.config" />
@@ -291,7 +290,6 @@
     <Content Include="Configuration\Windsor.config" />
     <Content Include="Content\Images\cross.png" />
     <Content Include="Content\Images\down.png" />
-    <Content Include="Content\Images\Logo_background.png" />
     <Content Include="Content\Images\menu_item.png" />
     <Content Include="Content\Images\menu_item_hover.png" />
     <Content Include="Content\Images\tick.png" />
@@ -329,12 +327,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\admin.css" />
     <Content Include="Content\ie6.css" />
     <Content Include="Content\Images\creditcards.gif" />
+    <Content Include="Content\Images\Logo_background.png" />
     <Content Include="Content\Images\scaffold\logo.png" />
-    <Content Include="Content\Images\scaffold\Nopic-large.jpg" />
+    <Content Include="Content\Images\Nopic-large.jpg" />
     <Content Include="Content\Images\star.gif" />
+    <Content Include="Content\Site.css" />
     <Content Include="Content\scaffold.css" />
     <Content Include="Content\tiny_mce\langs\en.js" />
     <Content Include="Content\tiny_mce\license.txt" />
@@ -593,7 +592,6 @@
     <None Include="Views\EmailTemplates\OrderConfirmation.vm" />
     <None Include="Views\EmailTemplates\OrderDispatch.vm" />
     <None Include="Views\EmailTemplates\_orderDetails.vm" />
-    <Content Include="Views\Admin\Index.aspx" />
     <Content Include="Views\Reviews\Index.aspx" />
     <Content Include="Views\Shared\Admin.Master" />
     <Content Include="MetaWebLogAPI.svc" />

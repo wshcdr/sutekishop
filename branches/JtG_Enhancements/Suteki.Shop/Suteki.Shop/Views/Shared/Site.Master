@@ -20,10 +20,14 @@
     <div id="main">
 		<div id="header">
 			<div id="logo">
+				<div id="contact">
+					 <%= Html.Mailto(Email, Email) %><br /><%= PhoneNumber %>
+				</div>
 				<h2><%= ShopName %></h2>
-				<a href="/"><img src="/content/images/scaffold/logo.png" alt="<%= ShopName %> Logo" /></a>
+				<%--<a href="/"><img src="/content/images/scaffold/logo.png" alt="<%= ShopName %> Logo" /></a>--%>
 			</div>
 			<% Html.RenderAction<MenuController>(c => c.MainMenu()); %>
+			<%--
 			<div id="search">
 				<div id="login">
 					<%= Html.ActionLink<BasketController>(c => c.Index(),"Basket") %> |
@@ -32,24 +36,32 @@
 					 <a href="/admin/">Admin</a> |
 					<%} %>
 					<%= Html.LoginLink() %>
-				</div>
+				</div>--%>
 				<%--<%using(Html.BeginForm<ProductController>(c=>c.Search(null))){ %>
 				<p>
 					<input type="text" id="query" name="query" value="search products" />
 					<input type="submit" value="search" />
 				</p>
-				<%} %>--%>
+				<%} %>
 			</div>
+			--%>
 		</div>
 		<asp:ContentPlaceHolder ID="MainContentPlaceHolder" runat="server"></asp:ContentPlaceHolder>
 		<div id="push"></div>
 		<br class="clear" />
-	</div>
-	<div id="footer">
-		<ul id="footer-links">
-			<li><%= Copyright %></li>
-            <li><%= Html.ActionLink<SiteMapController>(c => c.Index(), "Site Map") %></li>
-		</ul>
+		<div id="footer">
+			<div id="login">
+                <p>
+                    <%= Html.LoginLink() %> |
+                    <%= Html.LoginStatus() %>
+                </p>                
+            </div>
+                
+            <p>
+                <%= Copyright %> |
+                <%= Html.ActionLink<SiteMapController>(c => c.Index(), "Site Map") %>
+            </p>
+		</div>
 	</div>
 	<asp:ContentPlaceHolder ID="Scripts" runat="server"></asp:ContentPlaceHolder>
 	<!-- Google analytics tracking -->    
