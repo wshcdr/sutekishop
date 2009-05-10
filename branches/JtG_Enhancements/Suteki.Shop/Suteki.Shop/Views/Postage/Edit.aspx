@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Admin.Master"   Inherits="Suteki.Shop.ViewPage<ScaffoldViewData<Suteki.Shop.Postage>>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Shop.master"   Inherits="Suteki.Shop.ViewPage<ScaffoldViewData<Suteki.Shop.Postage>>" %>
 <%@ Import Namespace="Suteki.Common.ViewData"%>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
 <div class="admin-form">

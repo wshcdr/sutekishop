@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Admin.Master"  Inherits="Suteki.Shop.ViewPage<ScaffoldViewData<Postage>>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Shop.master"  Inherits="Suteki.Shop.ViewPage<ScaffoldViewData<Postage>>" %>
 <%@ Import Namespace="MvcContrib.Pagination"%>
 <%@ Import Namespace="Suteki.Common.ViewData"%>
 <%@ Import Namespace="MvcContrib.UI.Pager" %>

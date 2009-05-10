@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Admin.Master" Inherits="System.Web.Mvc.ViewPage<ReviewViewData>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Shop.master" Inherits="System.Web.Mvc.ViewPage<ReviewViewData>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
     <h2>Unapproved Reviews</h2>
