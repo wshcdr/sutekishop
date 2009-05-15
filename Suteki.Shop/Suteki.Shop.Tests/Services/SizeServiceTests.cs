@@ -39,10 +39,11 @@ namespace Suteki.Shop.Tests.Services
 
             sizeService.WithValues(form).Update(product);
 
-            Assert.AreEqual(3, product.Sizes.Count, "incorrect number of sizes on product");
-            Assert.AreEqual("S", product.Sizes[0].Name);
-            Assert.AreEqual("M", product.Sizes[1].Name);
-            Assert.AreEqual("L", product.Sizes[2].Name);
+            Assert.AreEqual(4, product.Sizes.Count, "incorrect number of sizes on product");
+            Assert.That(product.Sizes[0].IsActive, Is.False); // default size
+            Assert.AreEqual("S", product.Sizes[1].Name);
+            Assert.AreEqual("M", product.Sizes[2].Name);
+            Assert.AreEqual("L", product.Sizes[3].Name);
         }
 
         [Test]
@@ -54,15 +55,7 @@ namespace Suteki.Shop.Tests.Services
                 {"size_2", "New 2"}
             };
 
-            var product = new Product
-            {
-                Sizes =
-                {
-                    new Size { Name = "Old 1", IsActive = true },
-                    new Size { Name = "Old 2", IsActive = true },
-                    new Size { Name = "Old 3", IsActive = true }
-                }
-            };
+            var product = CreateProductWithSizes();
 
             sizeService.WithValues(form).Update(product);
 
@@ -120,6 +113,22 @@ namespace Suteki.Shop.Tests.Services
             sizeService.Clear(product);
 
             Assert.AreEqual(0, product.Sizes.Where(size => size.IsActive).Count());
+        }
+
+        [Test]
+        public void Update_Should_add_a_default_size_to_a_product_with_no_sizes()
+        {
+            var form = new NameValueCollection();
+            var product = new Product();
+
+            sizeService.WithValues(form).Update(product);
+
+            Assert.That(product.Sizes.Count, Is.EqualTo(1));
+            var defaultSize = product.Sizes[0];
+
+            Assert.That(defaultSize.IsActive, Is.False);
+            Assert.That(defaultSize.Name, Is.EqualTo("-"));
+            Assert.That(defaultSize.IsInStock, Is.True);
         }
     }
 }

@@ -25,12 +25,19 @@ namespace Suteki.Shop.Services
         public void Update(Product product)
         {
             if (form == null) throw new ApplicationException("form must be set with 'WithValues' before calling Update");
+
+            if (product.DefaultSizeMissing)
+            {
+                AddDefaultSize(product);
+            }
+
             var keys = form.AllKeys.Where(key => key.StartsWith("size_") && form[key].Length > 0);
-//            if (keys.Count() > 0)
-//            {
-//                Clear(product);
-//            }
             keys.ForEach(key => new Size { Name = form[key], Product = product, IsActive = true, IsInStock = true } );
+        }
+
+        private void AddDefaultSize(Product product)
+        {
+            product.Sizes.Add(new Size { IsActive = false, Name = "-", IsInStock = true });
         }
 
         public void Clear(Product product)
