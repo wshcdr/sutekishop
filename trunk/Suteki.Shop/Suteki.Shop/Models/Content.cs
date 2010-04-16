@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.Web.Mvc;
 using Suteki.Common;
+using Suteki.Common.Extensions;
 using Suteki.Common.Models;
 using System.Web.Mvc;
 using Suteki.Shop.Controllers;
@@ -95,7 +96,7 @@ namespace Suteki.Shop
         {
             get
             {
-                var thisMenu = this as Menu;
+                var thisMenu = this.CastAs<Menu>();
                 if (thisMenu != null)
                 {
                     if (thisMenu.IsMainMenu) return null;
@@ -114,7 +115,7 @@ namespace Suteki.Shop
                /* var menu = Content1 as Menu;
                 if (menu == null)
                     throw new NoMenuException("Parent Content Should Always be a Menu");*/
-				return ParentContent as Menu;
+                return ParentContent.CastAs<Menu>();
             }
         }
 

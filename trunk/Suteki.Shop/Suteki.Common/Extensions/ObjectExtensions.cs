@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using NHibernate;
+using NHibernate.Proxy;
 
 namespace Suteki.Common.Extensions
 {
@@ -53,5 +55,20 @@ namespace Suteki.Common.Extensions
 		{
 			return source.ToString().Replace(bool.TrueString, "Yes").Replace(bool.FalseString, "No");
 		}
+
+        public static T CastAs<T>(this object source) where T : class
+        {
+            if (source is INHibernateProxy)
+            {
+                var type = NHibernateUtil.GetClass(source);
+                if (type != typeof(T))
+                {
+                    throw new ApplicationException(string.Format("Cannot cast {0} to {1}", type.Name, typeof(T).Name));
+                }
+
+                return ((INHibernateProxy)source).HibernateLazyInitializer.GetImplementation() as T;
+            }
+            return source as T;
+        }
     }
 }
