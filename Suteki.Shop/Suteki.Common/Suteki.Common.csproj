@@ -39,6 +39,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.1.0.39271, Culture=neutral, PublicKeyToken=3a9cab8f8d22bfb7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Antlr3.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Castle.Core.dll</HintPath>
@@ -47,6 +51,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Castle.Facilities.AutomaticTransactionManagement.dll</HintPath>
     </Reference>
+    <Reference Include="Castle.Facilities.NHibernateIntegration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Castle.Facilities.NHibernateIntegration.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.MicroKernel, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Castle.MicroKernel.dll</HintPath>
@@ -54,6 +62,14 @@
     <Reference Include="Castle.Windsor, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentNHibernate, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -71,9 +87,21 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\MvcContrib.Castle.dll</HintPath>
     </Reference>
+    <Reference Include="NHibernate, Version=3.0.0.1001, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.ByteCode.Castle, Version=3.0.0.1001, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\NHibernate.ByteCode.Castle.dll</HintPath>
+    </Reference>
     <Reference Include="NVelocity, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\NVelocity.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Data.Linq, Version=1.13.41.2, Culture=neutral, PublicKeyToken=cab60358ab4081ea, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Remotion.Data.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -106,7 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Binders\BindUsingAttribute.cs" />
-    <Compile Include="Binders\DataBinder.cs" />
+    <Compile Include="Binders\EntityModelBinder.cs" />
     <Compile Include="Binders\IAcceptsAttribute.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\OrderableScaffoldController.cs" />
@@ -126,14 +154,17 @@
     <Compile Include="HtmlHelpers\HtmlHelperExtensions.cs" />
     <Compile Include="HtmlHelpers\Pager.cs" />
     <Compile Include="HtmlHelpers\RequestExtensions.cs" />
+    <Compile Include="Models\IEntity.cs" />
     <Compile Include="Models\NullableEntityAttribute.cs" />
     <Compile Include="Models\StringValueExtensions.cs" />
     <Compile Include="Repositories\ConnectionStringProvider.cs" />
     <Compile Include="Repositories\DataContextProvider.cs" />
+    <Compile Include="Repositories\FakeRepository.cs" />
     <Compile Include="Repositories\IConnectionStringProvider.cs" />
     <Compile Include="Repositories\IDataContextProvider.cs" />
     <Compile Include="Repositories\IUnitOfWorkManager.cs" />
     <Compile Include="Repositories\LinqToSqlUnitOfWorkManager.cs" />
+    <Compile Include="Repositories\NHibernateRepository.cs" />
     <Compile Include="Services\DebugWritingService.cs" />
     <Compile Include="Services\EmailBuilder.cs" />
     <Compile Include="Services\IAppSettings.cs" />
@@ -157,14 +188,7 @@
     <Compile Include="Services\NullEmailSender.cs" />
     <Compile Include="Services\OrderableService.cs" />
     <Compile Include="TestHelpers\ActionResultExtensions.cs" />
-    <Compile Include="Validation\BindingContext.cs" />
-    <Compile Include="Validation\BooleanPropertyBinder.cs" />
-    <Compile Include="Validation\IBindProperties.cs" />
-    <Compile Include="Validation\IValidatingBinder.cs" />
-    <Compile Include="Validation\SimplePropertyBinder.cs" />
-    <Compile Include="Validation\ValidatingBinder.cs" />
     <Compile Include="Validation\ValidationException.cs" />
-    <Compile Include="Validation\ValidationExtensions.cs" />
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="ViewData\IErrorViewData.cs" />
     <Compile Include="ViewData\IMessageViewData.cs" />

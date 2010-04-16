@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace Suteki.Shop.Repositories
 {
@@ -27,7 +26,7 @@ namespace Suteki.Shop.Repositories
 
         public static IQueryable<User> Editable(this IQueryable<User> users)
         {
-            return users.Where(user => !(user.RoleId == Role.CustomerId));
+            return users.Where(user => !(user.Role.Id == Role.CustomerId));
         }
     }
 }

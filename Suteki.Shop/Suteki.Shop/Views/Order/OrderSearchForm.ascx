@@ -11,7 +11,7 @@
 
     <div class="contentRightColumn">
 		<%= this.TextBox(x => x.OrderSearchCriteria.Postcode).Label("Postcode") %>
-		<%= this.Select(x => x.OrderSearchCriteria.OrderStatusId).Label("Status").Options(Model.OrderStatuses, x => x.OrderStatusId, x => x.Name) %>
+		<%= this.Select(x => x.OrderSearchCriteria.OrderStatusId).Label("Status").Options(Model.OrderStatuses, x => x.Id, x => x.Name) %>
         <br /><br /><br /><br />
     </div>
 

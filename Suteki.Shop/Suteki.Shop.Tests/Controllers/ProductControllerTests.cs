@@ -3,16 +3,12 @@ using Rhino.Mocks;
 using Suteki.Common.Repositories;
 using Suteki.Common.Services;
 using Suteki.Common.TestHelpers;
-using Suteki.Common.Validation;
 using Suteki.Shop.Controllers;
 using Suteki.Shop.ViewData;
-using System.Collections.Generic;
 using Suteki.Shop.Tests.Repositories;
-using System.Collections.Specialized;
 using System.Threading;
 using System.Security.Principal;
 using Suteki.Shop.Services;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Suteki.Shop.Tests.Controllers
@@ -50,7 +46,7 @@ namespace Suteki.Shop.Tests.Controllers
 
 			productController = new ProductController(productRepository, categoryRepository, sizeService, productOrderableService, userService, MockRepository.GenerateStub<IUnitOfWorkManager>());
 
-        	userService.Expect(c => c.CurrentUser).Return(new User { RoleId = Role.AdministratorId });
+        	userService.Expect(c => c.CurrentUser).Return(new User { Role = Role.Administrator });
         }
 
         [Test]
@@ -59,14 +55,11 @@ namespace Suteki.Shop.Tests.Controllers
             const int categoryId = 4;
 
             var category = new Category
-                                    {
-                                        CategoryId = categoryId,
-										ProductCategories =
-											{
-												new ProductCategory() { Product = new Product() },
-												new ProductCategory() { Product = new Product()}
-											}
-                                    };
+            {
+                Id = categoryId,
+            };
+            category.AddProduct(new Product());
+            category.AddProduct(new Product());
 
             categoryRepository.Stub(r => r.GetById(categoryId)).Return(category);
 
@@ -76,7 +69,7 @@ namespace Suteki.Shop.Tests.Controllers
                 .WithModel<ShopViewData>()
                 .AssertNotNull(vd => vd.Products)
                 .AssertNotNull(vd => vd.Category)
-                .AssertAreEqual(categoryId, vd => vd.Category.CategoryId);
+                .AssertAreEqual(categoryId, vd => vd.Category.Id);
 
             ProductRepositoryExtensionsTests.AssertProductsReturnedBy_WhereCategoryIdIs4_AreCorrect(
                 viewData.Products);
@@ -141,7 +134,7 @@ namespace Suteki.Shop.Tests.Controllers
     	[Test]
     	public void EditWithPost_ShouldRedirectOnSucessfulBinding()
     	{
-			var product = new Product() { ProductId = 5};
+			var product = new Product { Id = 5};
 			productController.Edit(product)
 				.ReturnsRedirectToRouteResult()
 				.ToAction("Edit")
@@ -152,7 +145,7 @@ namespace Suteki.Shop.Tests.Controllers
     	public void EditWithPost_ShouldRenderViewWhenBindingFails()
     	{
 			productController.ModelState.AddModelError("foo", "bar");
-			var product = new Product() { ProductId = 5 };
+			var product = new Product { Id = 5 };
 
 			productController.Edit(product)
 				.ReturnsViewResult()
@@ -164,14 +157,14 @@ namespace Suteki.Shop.Tests.Controllers
     	[Test]
     	public void NewWithPost_ShouldInsertNewProduct()
     	{
-			var product = new Product() { ProductId = 5};
+			var product = new Product { Id = 5};
 			productController.New(product)
 				.ReturnsRedirectToRouteResult()
 				.ToAction("Edit")
 				.WithRouteValue("id", "5");
 
 			productController.Message.ShouldNotBeNull();
-			productRepository.AssertWasCalled(x => x.InsertOnSubmit(product));
+			productRepository.AssertWasCalled(x => x.SaveOrUpdate(product));
     	}
 
     	[Test]

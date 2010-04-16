@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Rhino.Mocks;
@@ -17,13 +16,19 @@ namespace Suteki.Shop.Tests.Controllers
 		ReviewsController controller;
 		IRepository<Review> repository;
 		IRepository<Product> productRepository;
+	    Product product;
 
 		[SetUp]
 		public void Setup()
 		{
+            product = new Product();
 			repository = MockRepositoryBuilder.CreateReviewRepository();
-			productRepository = MockRepositoryBuilder.CreateProductRepository();
-			controller = new ReviewsController(repository, productRepository);
+            productRepository = new FakeRepository<Product>(id => 
+            { 
+                product.Id = id;
+                return product; 
+            });
+            controller = new ReviewsController(repository, productRepository);
 		}
 
 		[Test]
@@ -39,9 +44,6 @@ namespace Suteki.Shop.Tests.Controllers
 		[Test]
 		public void New_renders_view()
 		{
-			var product = new Product();
-			productRepository.Expect(x => x.GetById(5)).Return(product);
-
 			controller.New(5)
 				.ReturnsViewResult()
 				.WithModel<ReviewViewData>()
@@ -57,9 +59,9 @@ namespace Suteki.Shop.Tests.Controllers
 				.ReturnsRedirectToRouteResult()
 				.ToAction("Submitted");
 
-			review.ProductId.ShouldEqual(5);
+			review.Product.Id.ShouldEqual(5);
 
-			repository.AssertWasCalled(x => x.InsertOnSubmit(review));
+			repository.AssertWasCalled(x => x.SaveOrUpdate(review));
 		}
 
 		[Test]
@@ -67,9 +69,6 @@ namespace Suteki.Shop.Tests.Controllers
 		{
 			controller.ModelState.AddModelError("foo", "bar");
 			var review = new Review();
-			var product = new Product();
-
-			productRepository.Expect(x => x.GetById(5)).Return(product);
 
 			controller.New(5, review)
 				.ReturnsViewResult()
@@ -81,10 +80,6 @@ namespace Suteki.Shop.Tests.Controllers
 		[Test]
 		public void Submitted_renders_view()
 		{
-			var product = new Product();
-
-			productRepository.Expect(x => x.GetById(1)).Return(product);
-
 			controller.Submitted(1)
 				.ReturnsViewResult()
 				.WithModel<ReviewViewData>()

@@ -9,6 +9,5 @@ namespace Suteki.Common.Services
         HttpRequestBase Request { get; }
         HttpResponseBase Response { get; }
         NameValueCollection FormOrQuerystring { get; }
-        void BindToForm(object target);
     }
 }

@@ -49,9 +49,9 @@ namespace Suteki.Shop.Controllers
         {
             foreach (var size in sizes)
             {
-                if (form["stockitem_{0}".With(size.SizeId)] != null)
+                if (form["stockitem_{0}".With(size.Id)] != null)
                 {
-                    size.IsInStock = form["stockitem_{0}".With(size.SizeId)].Contains("true");
+                    size.IsInStock = form["stockitem_{0}".With(size.Id)].Contains("true");
                 }
             }
         }

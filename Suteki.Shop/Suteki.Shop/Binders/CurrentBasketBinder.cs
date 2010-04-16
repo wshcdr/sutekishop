@@ -1,4 +1,3 @@
-using System;
 using System.Web.Mvc;
 using Suteki.Common.Binders;
 using Suteki.Shop.Services;
@@ -14,14 +13,16 @@ namespace Suteki.Shop.Binders
 
 	public class CurrentBasketBinder : IModelBinder
 	{
-		private IUserService userService;
+		readonly IUserService userService;
+	    readonly IBasketService basketService;
 
-		public CurrentBasketBinder(IUserService userService)
+		public CurrentBasketBinder(IUserService userService, IBasketService basketService)
 		{
-			this.userService = userService;
+		    this.userService = userService;
+		    this.basketService = basketService;
 		}
 
-		public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+	    public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
 		{
 			var user = userService.CurrentUser;
 
@@ -30,7 +31,7 @@ namespace Suteki.Shop.Binders
 				user = PromoteGuestToCustomer();
 			}
 
-			return user.CurrentBasket;
+	        return basketService.GetCurrentBasketFor(user);
 		}
 
 		private User PromoteGuestToCustomer()
@@ -41,9 +42,9 @@ namespace Suteki.Shop.Binders
 			return user;
 		}
 
-		private bool UserIsGuest(User user)
+		private static bool UserIsGuest(User user)
 		{
-			return user.RoleId == Role.GuestId;
+			return user.Role.Id == Role.GuestId;
 		}
 	}
 }

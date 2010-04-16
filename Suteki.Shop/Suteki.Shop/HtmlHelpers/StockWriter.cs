@@ -78,7 +78,7 @@ namespace Suteki.Shop.HtmlHelpers
             writer.AddAttribute(HtmlTextWriterAttribute.Class, "stockCheckbox");
             writer.RenderBeginTag(HtmlTextWriterTag.Div);
             writer.Write(size.Name);
-            writer.Write(htmlHelper.CheckBox("stockitem_{0}".With(size.SizeId), size.IsInStock));
+            writer.Write(htmlHelper.CheckBox("stockitem_{0}".With(size.Id), size.IsInStock));
             writer.RenderEndTag();
         }
     }

@@ -50,8 +50,8 @@ namespace Suteki.Shop.Tests.Services
             var order = OrderTests.Create350GramOrder();
 
             // remove the contacts
-            order.Contact = null;
-            order.Contact1 = null;
+            order.CardContact = null;
+            order.DeliveryContact = null;
 
             postageService.CalculatePostageFor(order);
 
@@ -97,7 +97,7 @@ namespace Suteki.Shop.Tests.Services
             var order = OrderTests.Create450GramOrder();
 
             // replace the order contact (AskIfMaxWeight is true, FlatRate is 123.45)
-            order.Contact = new Contact
+            order.CardContact = new Contact
             {
                 Country = new Country
                 {

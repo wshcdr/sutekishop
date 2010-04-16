@@ -1,9 +1,20 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using Suteki.Common.Models;
 
 namespace Suteki.Shop
 {
-    public partial class Role
+    public class Role : IEntity
     {
+        public virtual int Id { get; set; }
+        public virtual string Name { get; set; }
+
+        IList<User> users = new List<User>();
+        public virtual IList<User> Users
+        {
+            get { return users; }
+            set { users = value; }
+        }
+
         public override string ToString()
         {
             return Name;
@@ -15,14 +26,15 @@ namespace Suteki.Shop
         public const int GuestId = 4;
 
         // allowed roles. These must match the data in table Role
-        public static Role Administrator { get { return new Role() { RoleId = AdministratorId, Name = "Administrator" }; } }
-        public static Role OrderProcessor { get { return new Role() { RoleId = OrderProcessorId, Name = "Order Processor" }; } }
-        public static Role Customer { get { return new Role() { RoleId = CustomerId, Name = "Customer" }; } }
-        public static Role Guest { get { return new Role() { RoleId = GuestId, Name = "Guest" }; } }
+        // TODO: will this work with NH?
+        public static Role Administrator { get { return new Role { Id = AdministratorId, Name = "Administrator" }; } }
+        public static Role OrderProcessor { get { return new Role { Id = OrderProcessorId, Name = "Order Processor" }; } }
+        public static Role Customer { get { return new Role { Id = CustomerId, Name = "Customer" }; } }
+        public static Role Guest { get { return new Role { Id = GuestId, Name = "Guest" }; } }
 
-        public bool IsAdministrator { get { return Name == Administrator.Name; } }
-        public bool IsOrderProcessor { get { return Name == OrderProcessor.Name; } }
-        public bool IsCustomer { get { return Name == Customer.Name; } }
-        public bool IsGuest { get { return Name == Guest.Name; } }
+        public virtual bool IsAdministrator { get { return Name == Administrator.Name; } }
+        public virtual bool IsOrderProcessor { get { return Name == OrderProcessor.Name; } }
+        public virtual bool IsCustomer { get { return Name == Customer.Name; } }
+        public virtual bool IsGuest { get { return Name == Guest.Name; } }
     }
 }

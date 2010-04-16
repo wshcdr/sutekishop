@@ -45,7 +45,7 @@ namespace Suteki.Shop.Tests.Controllers
 		{
 			const int parentContentId = 1;
 
-			var mainMenu = new Menu { ContentId = parentContentId };
+			var mainMenu = new Menu { Id = parentContentId };
 			menuRepository.Expect(mr => mr.GetById(parentContentId)).Return(mainMenu);
 
 			var menus = new List<Menu>().AsQueryable();
@@ -55,22 +55,22 @@ namespace Suteki.Shop.Tests.Controllers
 				.ForView("Edit")
 				.WithModel<CmsViewData>()
 				.AssertNotNull<CmsViewData, Content>(vd => vd.Menu)
-				.AssertAreEqual(parentContentId, vd => vd.Menu.ParentContentId.Value);
+				.AssertAreEqual(parentContentId, vd => vd.Menu.ParentContent.Id);
 
 		}
 
 		[Test]
 		public void NewWithPost_should_save()
 		{
-			var menu = new Menu() { ParentContentId = 5 };
+		    var menu = new Menu {ParentContent = new Content {Id = 5}};
 
 			controller.New(menu)
 				.ReturnsRedirectToRouteResult()
 				.ToController("Menu")
-				.ToAction("List").WithRouteValue("id", menu.ParentContentId.ToString());
+				.ToAction("List").WithRouteValue("id", menu.ParentContent.Id.ToString());
 
 
-			menuRepository.AssertWasCalled(x => x.InsertOnSubmit(menu));
+			menuRepository.AssertWasCalled(x => x.SaveOrUpdate(menu));
 
 		}
 
@@ -79,7 +79,7 @@ namespace Suteki.Shop.Tests.Controllers
 		{
 			controller.ModelState.AddModelError("foo", "bar");
 			menuRepository.Expect(x => x.GetAll()).Return(new List<Menu>().AsQueryable());
-			var menu = new Menu() { ParentContentId = 5 };
+            var menu = new Menu { ParentContent = new Content { Id = 5 } };
 			controller.New(menu)
 				.ReturnsViewResult()
 				.ForView("Edit")

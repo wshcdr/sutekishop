@@ -11,7 +11,7 @@
 
 <%= Html.Grid(Model.Items)
 	.Columns(column => {
-		column.For(x => Html.ActionLink<PostageController>(c => c.Edit(x.PostageId), x.Name)).DoNotEncode().HeaderAttributes(@class => "thin");
+		column.For(x => Html.ActionLink<PostageController>(c => c.Edit(x.Id), x.Name)).DoNotEncode().HeaderAttributes(@class => "thin");
 		column.For(x => x.MaxWeight).Attributes(@class => "number").HeaderAttributes(@class => "thin number");
 		column.For(x => x.Price).Format("{0:C}").Attributes(@class => "number").HeaderAttributes(@class => "thin number");
 		column.For(x => Html.Tick(x.IsActive)).DoNotEncode().HeaderAttributes(@class => "thin").Named("Active");

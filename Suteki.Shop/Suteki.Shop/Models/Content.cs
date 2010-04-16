@@ -1,28 +1,50 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.Web.Mvc;
 using Suteki.Common;
-using Suteki.Common.Validation;
+using Suteki.Common.Models;
 using System.Web.Mvc;
 using Suteki.Shop.Controllers;
-using Suteki.Shop.Models.Exceptions;
 using Suteki.Shop.Models.ModelHelpers;
-using Suteki.Common.HtmlHelpers;
 using Suteki.Shop.HtmlHelpers;
+
 namespace Suteki.Shop
 {
-    public partial class Content : IOrderable, IActivatable, IUrlNamed
+    public class Content : IOrderable, IActivatable, IUrlNamed, IEntity
     {
-        partial void  OnNameChanged()
+        public virtual int Id { get; set; }
+
+        string name;
+        [Required(ErrorMessage = "Name is required")]
+        public virtual string Name
         {
-            UrlName = Name.ToUrlFriendly();
+            get { return name; }
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException("Content.Name cannot be set to a null or empty value");
+                }
+                name = value;
+                UrlName = Name.ToUrlFriendly();
+            }
         }
 
-        partial void OnNameChanging(string value)
+        public virtual string UrlName { get; set; }
+        public virtual int Position { get; set; }
+        public virtual bool IsActive { get; set; }
+        public virtual Content ParentContent { get; set; } 
+        public virtual ContentType ContentType { get; set; }
+
+        IList<Content> contents = new List<Content>();
+        public virtual IList<Content> Contents
         {
-            value.Label("Name").IsRequired();
+            get { return contents; }
+            set { contents = value; }
         }
 
-        public bool IsTextContent
+        public virtual bool IsTextContent
         {
             get
             {
@@ -30,7 +52,7 @@ namespace Suteki.Shop
             }
         }
 
-        public bool IsMenu
+        public virtual bool IsMenu
         {
             get
             {
@@ -38,7 +60,7 @@ namespace Suteki.Shop
             }
         }
 
-        public bool IsActionContent
+        public virtual bool IsActionContent
         {
             get
             {
@@ -46,7 +68,7 @@ namespace Suteki.Shop
             }
         }
 
-        public string Type
+        public virtual string Type
         {
             get
             {
@@ -57,48 +79,48 @@ namespace Suteki.Shop
             }
         }
 
-        public bool HasSubMenu
+        public virtual bool HasSubMenu
         {
             get
             {
-                if (ParentContentId.HasValue)
+                if (ParentContent != null)
                 {
-                    return ParentContentId != Menu.MainMenuId;
+                    return ParentContent.Id != Menu.MainMenuId;
                 }
                 return false;
             }
         }
 
-        public Menu SubMenu
+        public virtual Menu SubMenu
         {
             get
             {
-                Menu thisMenu = this as Menu;
+                var thisMenu = this as Menu;
                 if (thisMenu != null)
                 {
                     if (thisMenu.IsMainMenu) return null;
-                    if (thisMenu.Menu != null && this.Menu.IsMainMenu) return thisMenu;
+                    if (thisMenu.Menu != null && Menu.IsMainMenu) return thisMenu;
                 }
 
-				return this.Menu == null ? null : Menu.SubMenu;
+				return Menu == null ? null : Menu.SubMenu;
             }
         }
 
-        public Menu Menu
+        public virtual Menu Menu
         {
             get
             {
-                if (ContentId == Suteki.Shop.Menu.MainMenuId) return null;
+                if (Id == Menu.MainMenuId) return null;
                /* var menu = Content1 as Menu;
                 if (menu == null)
                     throw new NoMenuException("Parent Content Should Always be a Menu");*/
-				return Content1 as Menu;
+				return ParentContent as Menu;
             }
         }
 
         public virtual MvcHtmlString Link(HtmlHelper htmlHelper)
         {
-            if (ContentId == 0) return MvcHtmlString.Empty;
+            if (Id == 0) return MvcHtmlString.Empty;
             return htmlHelper.ActionLink<CmsController>(c => c.Index(UrlName), Name);
         }
 
@@ -112,9 +134,9 @@ namespace Suteki.Shop
             return MvcHtmlString.Create("&nbsp;");
         }
 
-        public bool CanEdit(User user)
+        public virtual bool CanEdit(User user)
         {
-            if (ContentId == 0) return false;
+            if (Id == 0) return false;
             return user.IsAdministrator;
         }
     }

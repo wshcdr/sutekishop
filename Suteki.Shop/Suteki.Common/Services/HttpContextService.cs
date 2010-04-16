@@ -1,6 +1,5 @@
 using System.Collections.Specialized;
 using System.Web;
-using Suteki.Common.Validation;
 
 namespace Suteki.Common.Services
 {
@@ -9,13 +8,6 @@ namespace Suteki.Common.Services
     /// </summary>
     public class HttpContextService : IHttpContextService
     {
-        private readonly IValidatingBinder validatingBinder;
-
-        public HttpContextService(IValidatingBinder validatingBinder)
-        {
-            this.validatingBinder = validatingBinder;
-        }
-
         public HttpContextBase Context
         {
             get
@@ -50,11 +42,6 @@ namespace Suteki.Common.Services
                 }
                 return Request.QueryString;
             }
-        }
-
-        public void BindToForm(object target)
-        {
-            validatingBinder.UpdateFrom(target, FormOrQuerystring);
         }
     }
 }

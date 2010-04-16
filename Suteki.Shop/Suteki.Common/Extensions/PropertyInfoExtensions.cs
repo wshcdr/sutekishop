@@ -29,11 +29,14 @@ namespace Suteki.Common.Extensions
             return (TAttribute)attributes[0];
         }
 
+        /// <summary>
+        /// Convention based primary key finder
+        /// </summary>
+        /// <param name="propertyInfo"></param>
+        /// <returns></returns>
         public static bool IsPrimaryKey(this PropertyInfo propertyInfo)
         {
-            var columnAttribute = propertyInfo.GetAttributeOf<ColumnAttribute>();
-            if (columnAttribute == null) return false;
-            return columnAttribute.IsPrimaryKey;
+            return propertyInfo.Name == "Id" || propertyInfo.Name == propertyInfo.DeclaringType.Name + "Id";
         }
 
         public static bool IsForeignKey(this PropertyInfo propertyInfo)

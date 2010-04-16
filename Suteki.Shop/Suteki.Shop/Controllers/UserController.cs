@@ -2,7 +2,6 @@
 using Suteki.Common.Binders;
 using Suteki.Common.Filters;
 using Suteki.Common.Repositories;
-using Suteki.Common.Validation;
 using Suteki.Shop.Filters;
 using Suteki.Shop.Services;
 using Suteki.Shop.ViewData;
@@ -35,25 +34,25 @@ namespace Suteki.Shop.Controllers
             return View("Edit", EditViewData.WithUser(Shop.User.DefaultUser));
         }
 
-		[AcceptVerbs(HttpVerbs.Post), UnitOfWork]
+		[HttpPost, UnitOfWork]
 		public ActionResult New(User user, string password)
 		{
-			if(! string.IsNullOrEmpty(password))
+            if(!ModelState.IsValid)
+            {
+                return View("Edit", EditViewData.WithUser(user));
+            }
+
+			if(!string.IsNullOrEmpty(password))
 			{
 				user.Password = userService.HashPassword(password);
 			}
-
-			try
+			else
 			{
-				user.Validate();
-			}
-			catch(ValidationException ex)
-			{
-				ex.CopyToModelState(ModelState, "user");
-				return View("Edit", EditViewData.WithUser(user));
+			    ModelState.AddModelError("password", "Password is required");
+                return View("Edit", EditViewData.WithUser(user));
 			}
 
-			userRepository.InsertOnSubmit(user);
+			userRepository.SaveOrUpdate(user);
 			Message = "User has been added.";
 
 			return this.RedirectToAction(c => c.Index());
@@ -61,26 +60,21 @@ namespace Suteki.Shop.Controllers
 
         public ActionResult Edit(int id)
         {
-            User user = userRepository.GetById(id);
+            var user = userRepository.GetById(id);
             return View("Edit", EditViewData.WithUser(user));
         }
 
-		[AcceptVerbs(HttpVerbs.Post), UnitOfWork]
-		public ActionResult Edit([DataBind] User user, string password)
+        [HttpPost, UnitOfWork]
+		public ActionResult Edit(User user, string password)
 		{
-			if(! string.IsNullOrEmpty(password))
+            if (!ModelState.IsValid)
+            {
+                return View("Edit", EditViewData.WithUser(user));
+            }
+
+            if (!string.IsNullOrEmpty(password))
 			{
 				user.Password = userService.HashPassword(password);
-			}
-
-			try
-			{
-				user.Validate();
-			}
-			catch (ValidationException validationException) 
-			{
-				validationException.CopyToModelState(ModelState, "user");
-				return View("Edit", EditViewData.WithUser(user));
 			}
 
 			return View("Edit", EditViewData.WithUser(user).WithMessage("Changes have been saved")); 

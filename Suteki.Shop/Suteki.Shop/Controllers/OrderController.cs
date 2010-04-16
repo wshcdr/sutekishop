@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using MvcContrib.Filters;
-using Suteki.Common.Extensions;
 using Suteki.Common.Filters;
 using Suteki.Common.Repositories;
-using Suteki.Common.Services;
 using Suteki.Common.Validation;
 using Suteki.Shop.Filters;
 using Suteki.Shop.ViewData;
 using Suteki.Shop.Repositories;
 using Suteki.Shop.Services;
-using System.Security.Permissions;
 using Suteki.Common.Binders;
 using MvcContrib;
 namespace Suteki.Shop.Controllers
@@ -61,8 +56,8 @@ namespace Suteki.Shop.Controllers
 
     	IEnumerable<OrderStatus> OrderStatuses()
     	{
-			var list = statusRepository.GetAll().Where(x => x.OrderStatusId > 0).ToList();
-			list.Insert(0, new OrderStatus() { Name = "Any", OrderStatusId = 0 });
+			var list = statusRepository.GetAll().Where(x => x.Id > 0).ToList();
+			list.Insert(0, new OrderStatus() { Name = "Any", Id = 0 });
 			return list;
     	}
 
@@ -131,13 +126,13 @@ namespace Suteki.Shop.Controllers
         }
 
 		[AcceptVerbs(HttpVerbs.Post), AdministratorsOnly, UnitOfWork, ModelStateToTempData]
-		public ActionResult UpdateNote([DataBind] Order order)
+		public ActionResult UpdateNote(Order order)
 		{
 			if(ModelState.IsValid)
 			{
 				Message = "Note successfully updated.";
 			}
-			return this.RedirectToAction(c => c.Item(order.OrderId));
+			return this.RedirectToAction(c => c.Item(order.Id));
 		}
 
         private ShopViewData CheckoutViewData(Order order)

@@ -67,10 +67,10 @@ namespace Suteki.Shop.Tests.Controllers
 
             var user = new User
             {
-                UserId = userId,
+                Id = userId,
                 Email = "mike@mike.com",
                 Password = "password",
-                RoleId = 2
+                Role = new Role { Id = 2 }
             };
 
             userRepository.Stub(ur => ur.GetById(userId)).Return(user);
@@ -107,9 +107,9 @@ namespace Suteki.Shop.Tests.Controllers
 			const string password = "bl0gs";
 			var user = new User 
 			{
-				UserId = 0,
+				Id = 0,
 				Email = "blogs@blogs.com",
-				RoleId = 3,
+                Role = new Role { Id = 3 },
 				IsEnabled = false
 			};
 
@@ -126,9 +126,9 @@ namespace Suteki.Shop.Tests.Controllers
     	{
 			var user = new User 
 			{
-				UserId = 0,
+				Id = 0,
 				Email = "blogs@blogs.com",
-				RoleId = 3,
+                Role = new Role { Id = 3 },
 				IsEnabled = false
 			};
 
@@ -139,8 +139,6 @@ namespace Suteki.Shop.Tests.Controllers
 				.AssertAreSame(user, x => x.User);
 
 			userController.ModelState.IsValid.ShouldBeFalse();
-
-
     	}
 
         [Test]
@@ -155,10 +153,10 @@ namespace Suteki.Shop.Tests.Controllers
             // setup expectations on the userRepository
             var user = new User
             {
-                UserId = userId,
+                Id = userId,
                 Email = email,
                 Password = "oldpassword",
-                RoleId = roleId,
+                Role = new Role { Id = roleId },
                 IsEnabled = isEnabled
             };
 
@@ -169,7 +167,7 @@ namespace Suteki.Shop.Tests.Controllers
             Assert.IsNotNull(user, "user is null");
             Assert.AreEqual(email, user.Email);
             Assert.AreEqual(password + "HASHED", user.Password);
-            Assert.AreEqual(roleId, user.RoleId);
+            Assert.AreEqual(roleId, user.Role.Id);
             Assert.AreEqual(isEnabled, user.IsEnabled);
             
             AssertUserEditViewDataIsCorrect(result);
@@ -183,24 +181,16 @@ namespace Suteki.Shop.Tests.Controllers
 
     		var user = new User 
 			{
-				UserId = 34,
+				Id = 34,
 				Email = "old@old.com",
 				Password = oldpassword,
-				RoleId = 1,
+                Role = new Role { Id = 1 },
 				IsEnabled = true
 			};
 
 			userController.Edit(user, null);
 			user.Password.ShouldEqual(oldpassword);
 
-    	}
-
-    	[Test]
-    	public void EditWithPost_should_add_error_to_modelstate()
-    	{
-			var user = new User();
-			userController.Edit(user, null);
-			userController.ModelState.IsValid.ShouldBeFalse();
     	}
     }
 }

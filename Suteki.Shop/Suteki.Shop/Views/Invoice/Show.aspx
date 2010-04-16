@@ -17,9 +17,9 @@
             info@jumpthegun.co.uk<br />
         </td>
         <td>  
-            <span class="invoiceNumber">Invoice No. <%= ViewData.Model.Order.OrderId.ToString() %></span> <br /><br />
+            <span class="invoiceNumber">Invoice No. <%= ViewData.Model.Order.Id.ToString() %></span> <br /><br />
             <%= DateTime.Now.ToLongDateString() %><br /><br />
-            <% foreach(var line in ViewData.Model.Order.Contact.GetAddressLines()) { %>
+            <% foreach(var line in ViewData.Model.Order.CardContact.GetAddressLines()) { %>
                 <%= line %><br />
             <% } %>
         </td>

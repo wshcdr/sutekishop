@@ -7,6 +7,8 @@ using Suteki.Common.Filters;
 using Suteki.Common.Repositories;
 using Suteki.Shop.Models;
 
+// TODO: Change for NH usage
+
 namespace Suteki.Shop.Filters
 {
 	//Note: The LoadUsingFilter MUST execute before all other filters otherwise you will get runtime errors.

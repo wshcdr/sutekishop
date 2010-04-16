@@ -22,7 +22,7 @@ namespace Suteki.Shop.Tests.Controllers
 			emailService = MockRepository.GenerateStub<IEmailService>();
 			controller = new OrderStatusController(repository, userService, emailService);
 
-			userService.Expect(x => x.CurrentUser).Return(new User() { UserId = 4 });
+			userService.Expect(x => x.CurrentUser).Return(new User { Id = 4 });
 		}
 
 
@@ -32,8 +32,8 @@ namespace Suteki.Shop.Tests.Controllers
 			const int orderId = 44;
 			var order = new Order
 			{
-				OrderId = orderId,
-				OrderStatusId = OrderStatus.CreatedId,
+				Id = orderId,
+				OrderStatus = OrderStatus.Created,
 				Basket = new Basket()
 			};
 
@@ -43,14 +43,14 @@ namespace Suteki.Shop.Tests.Controllers
 
 			order.IsDispatched.ShouldBeTrue();
 			order.DispatchedDateAsString.ShouldEqual(DateTime.Now.ToShortDateString());
-			order.UserId.ShouldEqual(4);
+			order.User.Id.ShouldEqual(4);
 		}
 
 		[Test]
 		public void Dispatch_SendsDispatchEmail()
 		{
 			const int orderId = 44;
-			var order = new Order() { OrderStatusId = OrderStatus.CreatedId};
+			var order = new Order { OrderStatus = OrderStatus.Created };
 
 			repository.Expect(x => x.GetById(orderId)).Return(order);
 			controller.Dispatch(orderId);
@@ -64,8 +64,8 @@ namespace Suteki.Shop.Tests.Controllers
 			const int orderId = 44;
 			var order = new Order
 			{
-				OrderId = orderId,
-				OrderStatusId = OrderStatus.DispatchedId,
+				Id = orderId,
+				OrderStatus = OrderStatus.Dispatched,
 				DispatchedDate = DateTime.Now,
 				Basket = new Basket()
 			};

@@ -7,11 +7,11 @@
     <%= Html.MessageBox(ViewData.Model) %>
 
     <% using(Html.BeginForm()) { %>
-		<%= this.Hidden(x => x.User.UserId) %>
+		<%= this.Hidden(x => x.User.Id) %>
 		<%= this.TextBox(x => x.User.Email).Label("Email") %>
-		<%-- NOTE: We lose modelstate support for password as we're overriding the name --%>
+        <%--NOTE: We lose modelstate support for password as we're overriding the name--%>
 		<%= this.Password(x=> x.User.Password).Name("password").Value("").Label("Password (leave blank if you don't want to change)") %>
-		<%= this.Select(x => x.User.RoleId).Options(Model.Roles, x => x.RoleId, x => x.Name).Label("Role") %>
+		<%= this.Select(x => x.User.Role.Id).Options(Model.Roles, x => x.Id, x => x.Name).Label("Role") %>
         <%= this.CheckBox(x => x.User.IsEnabled).Label("User can log on") %>
 
 		<input type="submit" value="Save" />

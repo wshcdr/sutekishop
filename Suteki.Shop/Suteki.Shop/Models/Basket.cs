@@ -1,13 +1,35 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Suteki.Common.Models;
 
 namespace Suteki.Shop
 {
-    public partial class Basket
+    public class Basket : IEntity
     {
+        public virtual int Id { get; set; }
+        public virtual DateTime OrderDate { get; set; }
+        public virtual Country Country { get; set; }
+        public virtual User User { get; set; }
+
+        IList<BasketItem> basketItems = new List<BasketItem>();
+        public virtual IList<BasketItem> BasketItems
+        {
+            get { return basketItems; }
+            set { basketItems = value; }
+        }
+
+        IList<Order> orders = new List<Order>();
+        public virtual IList<Order> Orders
+        {
+            get { return orders; }
+            set { orders = value; }
+        }
+
+        
         private PostageResult postageTotal;
 
-        public bool IsEmpty
+        public virtual bool IsEmpty
         {
             get
             {
@@ -15,7 +37,7 @@ namespace Suteki.Shop
             }
         }
 
-        public decimal Total
+        public virtual decimal Total
         {
             get
             {
@@ -23,7 +45,7 @@ namespace Suteki.Shop
             }
         }
 
-        public string PostageTotal
+        public virtual string PostageTotal
         {
             get
             {
@@ -33,7 +55,7 @@ namespace Suteki.Shop
             }
         }
 
-        public string TotalWithPostage
+        public virtual string TotalWithPostage
         {
             get
             {
@@ -43,29 +65,41 @@ namespace Suteki.Shop
             }
         }
 
-        public PostageResult CalculatePostage(System.Linq.IQueryable<Postage> postages)
+        public virtual PostageResult CalculatePostage(IQueryable<Postage> postages)
         {
             if (postages == null)
             {
                 throw new ArgumentNullException("postages");
             }
 
-            PostZone postZone = Country.PostZone;
+            var postZone = Country.PostZone;
 
-            int totalWeight = (int)BasketItems
+            var totalWeight = (int)BasketItems
                 .Sum(bi => bi.TotalWeight);
 
-            Postage postageToApply = postages
+            var postageToApply = postages
                 .Where(p => totalWeight <= p.MaxWeight && p.IsActive)
                 .OrderBy(p => p.MaxWeight)
                 .FirstOrDefault();
 
             if (postageToApply == null) return postageTotal = PostageResult.WithDefault(postZone);
 
-            decimal multiplier = postZone.Multiplier;
-            decimal total = Math.Round(postageToApply.Price * multiplier, 2, MidpointRounding.AwayFromZero);
+            var multiplier = postZone.Multiplier;
+            var total = Math.Round(postageToApply.Price * multiplier, 2, MidpointRounding.AwayFromZero);
 
             return postageTotal = PostageResult.WithPrice(total);
+        }
+
+        public virtual void AddBasketItem(BasketItem basketItem)
+        {
+            basketItem.Basket = this;
+            basketItems.Add(basketItem);
+        }
+
+        public virtual void RemoveBasketItem(BasketItem basketItem)
+        {
+            basketItem.Basket = null;
+            basketItems.Remove(basketItem);
         }
     }
 }

@@ -23,9 +23,10 @@ namespace Suteki.Shop.Controllers
 		[AdministratorsOnly, UnitOfWork]
 		public ActionResult MoveImageUp(int id, int position)
 		{
+            // TODO: can ContrainedBy work with the id of a property NH?
 			productImageOrderableService
 				.MoveItemAtPosition(position)
-				.ConstrainedBy(productImage => productImage.ProductId == id)
+				.ConstrainedBy(productImage => productImage.Product.Id == id)
 				.UpOne();
 
 			return this.RedirectToAction<ProductController>(c => c.Edit(id));
@@ -36,7 +37,7 @@ namespace Suteki.Shop.Controllers
 		{
 			productImageOrderableService
 				.MoveItemAtPosition(position)
-				.ConstrainedBy(productImage => productImage.ProductId == id)
+                .ConstrainedBy(productImage => productImage.Product.Id == id)
 				.DownOne();
 
 			return this.RedirectToAction<ProductController>(c => c.Edit(id));
@@ -46,9 +47,9 @@ namespace Suteki.Shop.Controllers
 		public ActionResult DeleteImage(int id, int productImageId)
 		{
 			var productImage = productImageRepository.GetById(productImageId);
-			productImageRepository.DeleteOnSubmit(productImage);
+		    var product = productImage.Product;
+		    product.ProductImages.Remove(productImage);
 			Message = "Image deleted.";
-
 			return this.RedirectToAction<ProductController>(c => c.Edit(id));
 		}
 	}

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Suteki.Shop.Services
+﻿namespace Suteki.Shop.Services
 {
     public interface ISizeService
     {

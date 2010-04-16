@@ -1,6 +1,6 @@
 ﻿<h3>Order Details</h3>
 <dl>
-	<dt>Order Number</dt><dd>$order.OrderId.ToString() &nbsp;</dd>
+	<dt>Order Number</dt><dd>$order.Id.ToString() &nbsp;</dd>
 	<dt>Date</dt><dd>$order.CreatedDate.ToShortDateString()</dd>
 </dl>
 <table>

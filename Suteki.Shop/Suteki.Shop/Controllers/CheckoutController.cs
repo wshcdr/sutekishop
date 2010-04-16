@@ -1,10 +1,9 @@
+using System;
 using MvcContrib;
 using System.Web.Mvc;
 using Suteki.Common.Binders;
-using Suteki.Common.Extensions;
 using Suteki.Common.Filters;
 using Suteki.Common.Repositories;
-using Suteki.Common.Services;
 using Suteki.Shop.Binders;
 using Suteki.Shop.Repositories;
 using Suteki.Shop.Services;
@@ -16,6 +15,7 @@ namespace Suteki.Shop.Controllers
 	{
 		readonly IRepository<Basket> basketRepository;
 		readonly IUserService userService;
+	    readonly IBasketService basketService;
 		readonly IPostageService postageService;
 		readonly IRepository<Country> countryRepository;
 		readonly IRepository<CardType> cardTypeRepository;
@@ -24,10 +24,21 @@ namespace Suteki.Shop.Controllers
 		readonly IEmailService emailService;
 		readonly IRepository<MailingListSubscription> mailingListRepository;
 
-		public CheckoutController(IRepository<Basket> basketRepository, IUserService userService, IPostageService postageService, IRepository<Country> countryRepository, IRepository<CardType> cardTypeRepository, IRepository<Order> orderRepository, IUnitOfWorkManager unitOfWork, IEmailService emailService, IRepository<MailingListSubscription> mailingListRepository)
+		public CheckoutController(
+            IRepository<Basket> basketRepository, 
+            IUserService userService, 
+            IPostageService postageService, 
+            IRepository<Country> countryRepository, 
+            IRepository<CardType> cardTypeRepository, 
+            IRepository<Order> orderRepository, 
+            IUnitOfWorkManager unitOfWork, 
+            IEmailService emailService, 
+            IRepository<MailingListSubscription> mailingListRepository, 
+            IBasketService basketService)
 		{
 			this.basketRepository = basketRepository;
-			this.emailService = emailService;
+		    this.basketService = basketService;
+		    this.emailService = emailService;
 			this.mailingListRepository = mailingListRepository;
 			this.unitOfWork = unitOfWork;
 			this.orderRepository = orderRepository;
@@ -42,18 +53,18 @@ namespace Suteki.Shop.Controllers
 			// create a default order
 			var order = CurrentOrder ?? new Order {UseCardHolderContact = true};
 
-			var basket = basketRepository.GetById(id);
-			PopulateOrderForView(order, basket);
+			PopulateOrderForView(order, id);
 
 			return View(CheckoutViewData(order));
 		}
 
-		static void PopulateOrderForView(Order order, Basket basket)
+		void PopulateOrderForView(Order order, int basketId)
 		{
-			if (order.Basket == null) order.Basket = basket;
-			if (order.Contact == null) order.Contact = new Contact();
-			if (order.Contact1 == null) order.Contact1 = new Contact();
-			if (order.Card == null) order.Card = new Card();
+            var basket = basketRepository.GetById(basketId);
+            order.Basket = basket;
+			if (order.CardContact == null) order.CardContact = new Contact();
+			if (order.DeliveryContact == null) order.DeliveryContact = new Contact();
+			if (order.Card == null) order.Card = new Card { CardType = new CardType { Id = CardType.VisaDeltaElectronId }};
 		}
 
 		ShopViewData CheckoutViewData(Order order)
@@ -70,18 +81,15 @@ namespace Suteki.Shop.Controllers
 		[AcceptVerbs(HttpVerbs.Post)]
 		public ActionResult Index([BindUsing(typeof(OrderBinder))] Order order)
 		{
-
 			if (ModelState.IsValid)
 			{
-				orderRepository.InsertOnSubmit(order);
+				orderRepository.SaveOrUpdate(order);
 				//we need an explicit Commit in order to obtain the db-generated Order Id
 				unitOfWork.Commit();
-				return this.RedirectToAction(c => c.Confirm(order.OrderId));
+				return this.RedirectToAction(c => c.Confirm(order.Id));
 			}
 
-			var basket = basketRepository.GetById(order.BasketId);
-			PopulateOrderForView(order, basket);
-
+            PopulateOrderForView(order, order.Basket.Id);
 			return View(CheckoutViewData(order));
 		}
 
@@ -101,24 +109,26 @@ namespace Suteki.Shop.Controllers
 		}
 
 		[AcceptVerbs(HttpVerbs.Post), UnitOfWork]
-		public ActionResult Confirm([DataBind] Order order)
+		public ActionResult Confirm(Order order)
 		{
-			order.OrderStatusId = OrderStatus.CreatedId;
+			order.OrderStatus = OrderStatus.Created;
 
 			if(order.ContactMe)
 			{
 				var mailingListSubscription = new MailingListSubscription
 				{
-					Contact = order.Contact1 ?? order.Contact,
-					Email = order.Email
+					Contact = order.PostalContact,
+					Email = order.Email,
+                    DateSubscribed = DateTime.Now
 				};
 
-				mailingListRepository.InsertOnSubmit(mailingListSubscription);
+				mailingListRepository.SaveOrUpdate(mailingListSubscription);
 			}
 
 			EmailOrder(order);
-			userService.CurrentUser.CreateNewBasket();
-			return this.RedirectToAction<OrderController>(c => c.Item(order.OrderId));
+		    basketService.CreateNewBasketFor(userService.CurrentUser);
+            
+			return this.RedirectToAction<OrderController>(c => c.Item(order.Id));
 		}
 
 		[UnitOfWork]
@@ -128,7 +138,8 @@ namespace Suteki.Shop.Controllers
 			ModelState.Clear(); 
 
 			var basket = basketRepository.GetById(id);
-			basket.CountryId = countryId;
+		    var country = countryRepository.GetById(countryId);
+			basket.Country = country;
 			CurrentOrder = order;
 			return this.RedirectToAction(c => c.Index(id));
 		}

@@ -1,8 +1,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Security.Principal;
-using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using Castle.MicroKernel.Lifestyle;
@@ -13,7 +11,7 @@ using Suteki.Common.Repositories;
 using Suteki.Common.Windsor;
 using Suteki.Shop.Controllers;
 using Suteki.Shop.IoC;
-using Suteki.Shop.Models;
+using Suteki.Shop.Repositories;
 using Suteki.Shop.Services;
 using ControllerBase=Suteki.Shop.Controllers.ControllerBase;
 
@@ -29,9 +27,11 @@ namespace Suteki.Shop.Tests
 		{
 			//Hackery in order to get the PerWebRequest lifecycle working in a test environment
 			//Surely there must be a better way to do this?
-			HttpContext.Current = new HttpContext(new HttpRequest("foo", "http://localhost", ""), new HttpResponse(new StringWriter()));
-			HttpContext.Current.ApplicationInstance = new HttpApplication();
-			var module = new PerWebRequestLifestyleModule();
+			HttpContext.Current = new HttpContext(new HttpRequest("foo", "http://localhost", ""), new HttpResponse(new StringWriter()))
+			{
+			    ApplicationInstance = new HttpApplication()
+			};
+		    var module = new PerWebRequestLifestyleModule();
 			module.Init(HttpContext.Current.ApplicationInstance);
 
 			container = ContainerBuilder.Build("Windsor.config");
@@ -89,43 +89,9 @@ namespace Suteki.Shop.Tests
 		}
 
 		[Test]
-		public void Should_resolve_special_repositories()
-		{
-			container.Resolve<IRepository<Menu>>().ShouldBe<MenuRepository>();
-		}
-
-		[Test]
 		public void Resolves_ImageService()
 		{
 			container.Resolve<IImageService>().ShouldBe<ImageService>();
-		}
-
-		private class FakePrincipal : IPrincipal, IIdentity
-		{
-			public bool IsInRole(string role)
-			{
-				return true;
-			}
-
-			public IIdentity Identity
-			{
-				get { return this; }
-			}
-
-			public string Name
-			{
-				get { return "foo"; }
-			}
-
-			public string AuthenticationType
-			{
-				get { return "foo"; }
-			}
-
-			public bool IsAuthenticated
-			{
-				get { return true; }
-			}
 		}
 	}
 }

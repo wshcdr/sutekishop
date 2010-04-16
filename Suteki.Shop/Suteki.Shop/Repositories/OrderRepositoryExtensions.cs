@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace Suteki.Shop.Repositories
 {
@@ -13,11 +12,11 @@ namespace Suteki.Shop.Repositories
         public static IQueryable<Order> ThatMatch(this IQueryable<Order> orders, OrderSearchCriteria criteria)
         {
 
-			orders = orders.Where(x => x.OrderStatusId > 0); //Exclude 'Pending'
+			orders = orders.Where(x => x.OrderStatus.Id > 0); //Exclude 'Pending'
 
             if (criteria.OrderId != 0)
             {
-                orders = orders.Where(o => o.OrderId == criteria.OrderId);
+                orders = orders.Where(o => o.Id == criteria.OrderId);
             }
             if (!string.IsNullOrEmpty(criteria.Email))
             {
@@ -27,18 +26,18 @@ namespace Suteki.Shop.Repositories
             {
                 orders = orders
                     .Where(o => 
-                        o.Contact.Postcode == criteria.Postcode || 
-                        o.Contact1.Postcode == criteria.Postcode);
+                        o.CardContact.Postcode == criteria.Postcode || 
+                        o.DeliveryContact.Postcode == criteria.Postcode);
             }
             if (!string.IsNullOrEmpty(criteria.Lastname))
             {
                 orders = orders.Where(o =>
-                    o.Contact.Lastname == criteria.Lastname ||
-                    o.Contact1.Lastname == criteria.Lastname);
+                    o.CardContact.Lastname == criteria.Lastname ||
+                    o.DeliveryContact.Lastname == criteria.Lastname);
             }
             if (criteria.OrderStatusId != 0)
             {
-                orders = orders.Where(o => o.OrderStatusId == criteria.OrderStatusId);
+                orders = orders.Where(o => o.OrderStatus.Id == criteria.OrderStatusId);
             }
             return orders;
         }

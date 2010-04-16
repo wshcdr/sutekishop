@@ -5,7 +5,6 @@ using NUnit.Framework;
 using Rhino.Mocks;
 using Suteki.Common.Extensions;
 using Suteki.Common.Repositories;
-using Suteki.Common.Services;
 using Suteki.Common.TestHelpers;
 using Suteki.Shop.Controllers;
 using Suteki.Shop.ViewData;
@@ -65,9 +64,9 @@ namespace Suteki.Shop.Tests.Controllers
 
             postageService.Expect(ps => ps.CalculatePostageFor(Arg<Order>.Is.Anything));
 
-            userService.Expect(us => us.CurrentUser).Return(new User { UserId = 4, RoleId = Role.AdministratorId });
+            userService.Expect(us => us.CurrentUser).Return(new User { Id = 4, Role = Role.Administrator });
 
-            testContext.TestContext.Context.User = new User { UserId = 4 };
+            testContext.TestContext.Context.User = new User { Id = 4 };
             testContext.TestContext.Request.RequestType = "GET";
             testContext.TestContext.Request.Stub(r => r.QueryString).Return(new NameValueCollection());
             testContext.TestContext.Request.Stub(r => r.Form).Return(new NameValueCollection());
@@ -120,7 +119,7 @@ namespace Suteki.Shop.Tests.Controllers
             {
                 Card = new Card
                 {
-                    CardTypeId = 1,
+                    CardType = new CardType{ Id = 1 },
                     Holder = "Jon Anderson",
                     IssueNumber = "",
                     StartMonth = 1,
@@ -148,7 +147,7 @@ namespace Suteki.Shop.Tests.Controllers
     	[Test]
     	public void UpdateNote_should_redirect_back_to_item()
     	{
-			orderController.UpdateNote(new Order() { OrderId = 5 })
+			orderController.UpdateNote(new Order { Id = 5 })
 				.ReturnsRedirectToRouteResult()
 				.ToAction("Item")
 				.WithRouteValue("id", "5");

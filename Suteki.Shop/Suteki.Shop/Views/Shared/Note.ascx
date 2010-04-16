@@ -8,7 +8,7 @@
    { %>
     <% using (Html.BeginForm<OrderController>(c => c.UpdateNote(null)))
        { %>
-	    <%= this.Hidden(x => x.Order.OrderId)%>
+	    <%= this.Hidden(x => x.Order.Id)%>
 	    <%= this.TextArea(x => x.Order.Note).Rows(2).Columns(40)%>
 	    <input type="submit" value="Update Note" />
     <% } %>

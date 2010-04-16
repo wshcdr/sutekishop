@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics;
 using System.ServiceModel;
 using Castle.Facilities.WcfIntegration;
@@ -46,13 +45,13 @@ namespace Suteki.Shop.Tests.XmlRpc
                 contentOrderableService,
                 imageFileService);
 
-            var url = "http://localhost:27198/MetaWeblogTest.svc";
+            const string url = "http://localhost:27198/MetaWeblogTest.svc";
 
             baseControllerService.Stub(s => s.SiteUrl).Return(theSiteUrl);
             userService.Stub(s => s.Authenticate(Arg<string>.Is.Anything, Arg<string>.Is.Anything)).Return(true);
             var user = new User
             {
-                RoleId = Role.AdministratorId
+                Role = Role.Administrator
             };
             userService.Stub(s => s.CurrentUser).Return(user);
 
@@ -72,7 +71,7 @@ namespace Suteki.Shop.Tests.XmlRpc
                     );
 
             //var targetUrl = url;
-            var targetUrl = "http://ipv4.fiddler:27198/MetaWeblogTest.svc";
+            const string targetUrl = "http://ipv4.fiddler:27198/MetaWeblogTest.svc";
             var factory = new XmlRpcChannelFactory<IMetaWeblog>(new XmlRpcHttpBinding(), new EndpointAddress(targetUrl));
             client = factory.CreateChannel();
 
@@ -108,7 +107,7 @@ namespace Suteki.Shop.Tests.XmlRpc
         {
             Content content = null;
 
-            contentRepository.Expect(r => r.InsertOnSubmit(null)).Callback((Content arg1) =>
+            contentRepository.Expect(r => r.SaveOrUpdate(null)).Callback((Content arg1) =>
             {
                 content = arg1;
                 return true;

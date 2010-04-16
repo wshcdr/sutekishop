@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 using Castle.Windsor;
 using Microsoft.Practices.ServiceLocation;
@@ -22,9 +23,11 @@ namespace Suteki.Shop
 
         protected void Application_Start(object sender, EventArgs e)
         {
+            HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
             RouteManager.RegisterRoutes(RouteTable.Routes);
             InitializeWindsor();
             DbConnectionCheck();
+            ModelBinders.Binders.DefaultBinder = ServiceLocator.Current.GetInstance<IModelBinder>();
         }
 
         protected void Application_End(object sender, EventArgs e)
@@ -47,7 +50,7 @@ namespace Suteki.Shop
 
 				ServiceLocator.SetLocatorProvider(() => container.Resolve<IServiceLocator>());
                 // set the controller factory to the Windsor controller factory (in MVC Contrib)
-                System.Web.Mvc.ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
+                ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
             }
         }
 

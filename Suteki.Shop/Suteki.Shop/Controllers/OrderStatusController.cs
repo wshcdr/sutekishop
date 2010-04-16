@@ -29,14 +29,14 @@ namespace Suteki.Shop.Controllers
 
 			if (order.IsCreated)
 			{
-				order.OrderStatusId = OrderStatus.DispatchedId;
+				order.OrderStatus = OrderStatus.Dispatched;
 				order.DispatchedDate = DateTime.Now;
-				order.UserId = userService.CurrentUser.UserId;
+				order.User = userService.CurrentUser;
 
 				emailService.SendDispatchNotification(order);
 			}
 
-			return this.RedirectToAction<OrderController>(c => c.Item(order.OrderId));
+			return this.RedirectToAction<OrderController>(c => c.Item(order.Id));
 		}
 
 		[UnitOfWork]
@@ -46,11 +46,11 @@ namespace Suteki.Shop.Controllers
 
 			if (order.IsCreated)
 			{
-				order.OrderStatusId = OrderStatus.RejectedId;
-				order.UserId = userService.CurrentUser.UserId;
+				order.OrderStatus = OrderStatus.Rejected;
+				order.User = userService.CurrentUser;
 			}
 
-			return this.RedirectToAction<OrderController>(c => c.Item(order.OrderId));
+			return this.RedirectToAction<OrderController>(c => c.Item(order.Id));
 		}
 
 		[UnitOfWork]
@@ -60,11 +60,11 @@ namespace Suteki.Shop.Controllers
 
 			if (order.IsDispatched || order.IsRejected)
 			{
-				order.OrderStatusId = OrderStatus.CreatedId;
-				order.UserId = null;
+				order.OrderStatus = OrderStatus.Created;
+				order.User = null;
 			}
 
-			return this.RedirectToAction<OrderController>(c => c.Item(order.OrderId));
+			return this.RedirectToAction<OrderController>(c => c.Item(order.Id));
 		}
 	}
 }

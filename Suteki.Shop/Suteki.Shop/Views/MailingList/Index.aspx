@@ -45,8 +45,8 @@
                 <td class="field"><%= this.TextBox(x => x.MailingListSubscription.Contact.Postcode) %></td>
             </tr>
             <tr>
-                <td class="label"><label for="<%= this.IdFor(x => x.MailingListSubscription.Contact.CountryId) %>">Country</label></td>
-                <td class="field"><%= this.Select(x => x.MailingListSubscription.Contact.CountryId).Options(Model.Countries, x => x.CountryId, x => x.Name) %></td>
+                <td class="label"><label for="<%= this.IdFor(x => x.MailingListSubscription.Contact.Country.Id) %>">Country</label></td>
+                <td class="field"><%= this.Select(x => x.MailingListSubscription.Contact.Country.Id).Options(Model.Countries, x => x.Id, x => x.Name) %></td>
             </tr>
             <tr>
                 <td class="label"><label for="<%= this.IdFor(x => x.MailingListSubscription.Contact.Telephone) %>">Telephone</label></td>

@@ -4,10 +4,10 @@
 <h1><%= Model.Category.Name %></h1>
 
 <% if(User.IsAdministrator()) { %>
-    <p><%= Html.ActionLink<CategoryController>(c => c.New(ViewData.Model.Category.CategoryId), "New Category")%></p>
-    <p><%= Html.ActionLink<ProductController>(c => c.New(ViewData.Model.Category.CategoryId), "New Product") %></p>
+    <p><%= Html.ActionLink<CategoryController>(c => c.New(ViewData.Model.Category.Id), "New Category")%></p>
+    <p><%= Html.ActionLink<ProductController>(c => c.New(ViewData.Model.Category.Id), "New Product") %></p>
 <% } %>
-<% if(Model.Category.ImageId != null) { %>
+<% if(Model.Category.Image != null) { %>
     <div class="categoryImage">
 	 <%= Html.Image("~/ProductPhotos/" + Model.Category.Image.CategoryFileName, "Category Image") %>
 	 </div>

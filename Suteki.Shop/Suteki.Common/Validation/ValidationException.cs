@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
 
 namespace Suteki.Common.Validation
 {
-    [global::System.Serializable]
+    [Serializable]
     public class ValidationException : ApplicationException
     {
         //
@@ -29,12 +28,6 @@ namespace Suteki.Common.Validation
             System.Runtime.Serialization.StreamingContext context)
             : base(info, context) { }
 
-		[Obsolete("This constructor is only here for backwards compatibility")]
-		public ValidationException(string error, IEnumerable<ValidationException> errors) : base(error)
-		{
-			this.errors = errors.ToArray();
-		}
-
     	public ValidationException(IEnumerable<ValidationException> errors)
     	{
 			this.errors = errors.ToArray();
@@ -42,20 +35,5 @@ namespace Suteki.Common.Validation
 
     	private readonly ValidationException[] errors = new ValidationException[0];
     	private readonly string propertyKey;
-
-    	public ValidationException[] Errors
-    	{
-			get { return errors;  }
-    	}
-
-    	public void CopyToModelState(ModelStateDictionary dictionary, string prefix)
-    	{
-    		foreach(var error in errors)
-    		{
-				string key = string.IsNullOrEmpty(prefix) ? error.propertyKey : prefix + "." + error.propertyKey;
-
-				dictionary.AddModelError(key, error.Message);
-    		}
-    	}
     }
 }

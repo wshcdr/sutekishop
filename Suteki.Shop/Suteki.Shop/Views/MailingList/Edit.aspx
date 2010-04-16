@@ -16,7 +16,7 @@
         <%= this.TextBox(x => x.MailingListSubscription.Contact.Town).Label("Town / City") %>
         <%= this.TextBox(x => x.MailingListSubscription.Contact.County).Label("County") %>
         <%= this.TextBox(x => x.MailingListSubscription.Contact.Postcode).Label("Postcode") %>
-        <%= this.Select(x => x.MailingListSubscription.Contact.CountryId).Options(Model.Countries, x => x.CountryId, x => x.Name).Label("Country") %>
+        <%= this.Select(x => x.MailingListSubscription.Contact.Country.Id).Options(Model.Countries, x => x.Id, x => x.Name).Label("Country") %>
         <%= this.TextBox(x => x.MailingListSubscription.Contact.Telephone).Label("Telephone") %>
 		
 		<%= this.TextBox(x => x.MailingListSubscription.Email).Label("Email") %>

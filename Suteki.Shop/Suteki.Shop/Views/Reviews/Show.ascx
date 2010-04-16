@@ -1,6 +1,6 @@
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<ReviewViewData>" %>
 
-<%= Html.ActionLink<ReviewsController>(c => c.New(Model.Product.ProductId), "Leave a Review") %>&nbsp;&nbsp;
+<%= Html.ActionLink<ReviewsController>(c => c.New(Model.Product.Id), "Leave a Review") %>&nbsp;&nbsp;
 
 <% if (Model.Reviews.Count() > 0) { %>
 

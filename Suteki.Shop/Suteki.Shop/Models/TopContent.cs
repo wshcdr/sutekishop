@@ -4,11 +4,13 @@ using Suteki.Shop.Controllers;
 
 namespace Suteki.Shop
 {
-    public partial class TopContent : ITextContent
+    public class TopContent : Content, ITextContent
     {
+        public virtual string Text { get; set; }
+
         public override MvcHtmlString EditLink(HtmlHelper htmlHelper)
         {
-            return htmlHelper.ActionLink<CmsController>(c => c.Edit(ContentId), "Edit");
+            return htmlHelper.ActionLink<CmsController>(c => c.Edit(Id), "Edit");
         }
     }
 }

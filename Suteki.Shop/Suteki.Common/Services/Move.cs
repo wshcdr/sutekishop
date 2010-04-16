@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Data.Linq;
-using Suteki.Common;
 using Suteki.Common.Extensions;
 using Suteki.Common.Repositories;
 
@@ -10,12 +7,12 @@ namespace Suteki.Common.Services
 {
     public class Move<T> : IMoveItems<T>, IMoveDirection where T : IOrderable
     {
-        private IQueryable<T> items;
+        private IEnumerable<T> items;
         readonly private int position;
 
         public static IMoveItems<T> ItemAt(int position)
         {
-            Move<T> move = new Move<T>(position);
+            var move = new Move<T>(position);
             return move;
         }
 
@@ -24,9 +21,9 @@ namespace Suteki.Common.Services
             this.position = position;
         }
 
-        IMoveDirection IMoveItems<T>.In(IQueryable<T> items)
+        IMoveDirection IMoveItems<T>.In(IEnumerable<T> items)
         {
-            Move<T> move = new Move<T>(this.position) { items = items };
+            var move = new Move<T>(position) { items = items };
             return move;
         }
 
@@ -57,7 +54,7 @@ namespace Suteki.Common.Services
 
     public interface IMoveItems<T>
     {
-        IMoveDirection In(IQueryable<T> items);
+        IMoveDirection In(IEnumerable<T> items);
     }
 
     public interface IMoveDirection

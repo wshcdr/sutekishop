@@ -48,7 +48,7 @@ namespace Suteki.Common.Repositories
             return dataContext.GetTable<T>();
         }
 
-        public virtual void InsertOnSubmit(T entity)
+        public virtual void SaveOrUpdate(T entity)
         {
             GetTable().InsertOnSubmit(entity);
         }
@@ -73,9 +73,9 @@ namespace Suteki.Common.Repositories
             return GetAll();
         }
 
-        void IRepository.InsertOnSubmit(object entity)
+        void IRepository.SaveOrUpdate(object entity)
         {
-            InsertOnSubmit((T)entity);
+            SaveOrUpdate((T)entity);
         }
 
         void IRepository.DeleteOnSubmit(object entity)

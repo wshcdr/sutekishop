@@ -18,14 +18,15 @@ namespace Suteki.Shop.Services
 
     	public User CreateNewCustomer()
         {
+            // TODO: Will Role.Customer get saved correctly by NH?
             var user = new User
             {
                 Email = Guid.NewGuid().ToString(),
                 Password = "",
-                RoleId = Role.CustomerId
+                Role = Role.Customer
             };
 
-            userRepository.InsertOnSubmit(user);
+            userRepository.SaveOrUpdate(user);
             return user;
         }
 

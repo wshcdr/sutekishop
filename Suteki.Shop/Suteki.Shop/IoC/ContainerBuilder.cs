@@ -12,7 +12,6 @@ using Suteki.Common.Services;
 using Suteki.Common.Windsor;
 using Suteki.Shop.Binders;
 using Suteki.Shop.Filters;
-using Suteki.Shop.Models;
 using Suteki.Shop.Services;
 
 namespace Suteki.Shop.IoC
@@ -47,8 +46,7 @@ namespace Suteki.Shop.IoC
 
             container.Register(
                 Component.For<IDataContextProvider>().ImplementedBy<DataContextProvider>().LifeStyle.PerWebRequest,
-                Component.For(typeof(IRepository<>)).ImplementedBy(typeof(Repository<>)).LifeStyle.Transient,
-                Component.For(typeof(IRepository<Menu>)).ImplementedBy<MenuRepository>().LifeStyle.Transient,
+                Component.For(typeof(IRepository<>)).ImplementedBy(typeof(NHibernateRepository<>)).LifeStyle.Transient,
                 Component.For<IImageService>().ImplementedBy<ImageService>().Named("image.service").LifeStyle.Transient,
                 Component.For<IEncryptionService>().ImplementedBy<EncryptionService>().Named("encryption.service").LifeStyle.Transient,
                 Component.For<IHttpFileService>().ImplementedBy<HttpFileService>().LifeStyle.Transient,
@@ -63,7 +61,6 @@ namespace Suteki.Shop.IoC
                 Component.For<IServiceLocator>().Instance(new WindsorServiceLocator(container)),
                 Component.For<AuthenticateFilter>().LifeStyle.Transient,
                 Component.For<UnitOfWorkFilter>().LifeStyle.Transient,
-                Component.For<DataBinder>().LifeStyle.Transient,
                 Component.For<LoadUsingFilter>().LifeStyle.Transient,
                 Component.For<CurrentBasketBinder>().LifeStyle.Transient,
                 Component.For<ProductBinder>().LifeStyle.Transient,
@@ -74,7 +71,9 @@ namespace Suteki.Shop.IoC
                 Component.For<IEmailBuilder>().ImplementedBy<EmailBuilder>().LifeStyle.Singleton,
                 Component.For<IAppSettings>().ImplementedBy<AppSettings>().LifeStyle.Singleton,
                 Component.For<IEmailService>().ImplementedBy<EmailService>().LifeStyle.Transient,
-                Component.For<IDbConnectionChecker>().ImplementedBy<DbConnectionChecker>().LifeStyle.Transient
+                Component.For<IDbConnectionChecker>().ImplementedBy<DbConnectionChecker>().LifeStyle.Transient,
+                Component.For<IModelBinder, EntityModelBinder>().ImplementedBy<EntityModelBinder>().LifeStyle.Transient,
+                Component.For<IBasketService>().ImplementedBy<BasketService>().LifeStyle.Transient
                 );
 
             return container;

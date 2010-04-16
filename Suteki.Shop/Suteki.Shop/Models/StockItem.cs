@@ -1,5 +1,4 @@
-﻿using System;
-using Suteki.Common.Extensions;
+﻿using Suteki.Common.Extensions;
 
 namespace Suteki.Shop
 {
@@ -9,7 +8,7 @@ namespace Suteki.Shop
 
         public StockItem(Size size)
         {
-            SizeId = size.SizeId;
+            SizeId = size.Id;
             Name = "{0} - {1}".With(size.Product.Name, size.Name);
             IsInStock = size.IsInStock;
         }

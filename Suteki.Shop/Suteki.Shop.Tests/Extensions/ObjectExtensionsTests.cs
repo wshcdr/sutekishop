@@ -17,15 +17,5 @@ namespace Suteki.Shop.Tests.Extensions
             Assert.AreEqual("Number", item.GetProperties().ElementAt(1).Name);
             Assert.AreEqual(4, item.GetProperties().ElementAt(1).Value);
         }
-
-        [Test]
-        public void GetPrimaryKeyShouldReturnThePrimaryKeyOfUser()
-        {
-            const int userId = 10;
-            var user = new User { UserId = userId };
-
-            Assert.AreEqual("UserId", user.GetPrimaryKey().Name);
-            Assert.AreEqual(10, user.GetPrimaryKey().Value);
-        }
     }
 }

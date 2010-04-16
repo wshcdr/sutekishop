@@ -1,0 +1,19 @@
+using FluentNHibernate.Mapping;
+
+namespace Suteki.Shop.Maps
+{
+    public class ReviewMap : ClassMap<Review>
+    {
+        public ReviewMap()
+        {
+            Id(x => x.Id);
+
+            Map(x => x.Approved);
+            Map(x => x.Text);
+            Map(x => x.Rating);
+            Map(x => x.Reviewer);
+
+            References(x => x.Product);
+        }
+    }
+}

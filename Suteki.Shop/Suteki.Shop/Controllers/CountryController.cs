@@ -1,5 +1,4 @@
-﻿using System.Security.Permissions;
-using Suteki.Common.Filters;
+﻿using Suteki.Common.Filters;
 using Suteki.Shop.Filters;
 
 namespace Suteki.Shop.Controllers

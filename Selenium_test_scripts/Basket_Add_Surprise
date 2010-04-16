@@ -43,7 +43,7 @@
 </tr>
 <tr>
 	<td>select</td>
-	<td>basketItem_SizeId</td>
+	<td>basketItem_size_Id</td>
 	<td>label=30cm</td>
 </tr>
 <tr>

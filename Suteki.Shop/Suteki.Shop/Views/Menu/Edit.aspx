@@ -5,15 +5,16 @@
 
 <%= Html.ValidationSummary() %>
 
-<% if (Model.Content.ContentId > 0) { %>
+<% if (Model.Content.Id > 0) { %>
 	<p><%= ViewData.Model.Content.Link(Html)%></p>
 <% } %>
 
 <% using(Html.BeginForm()) { %>
-	<%= this.Hidden(x => x.Content.ContentId) %>
-	<%= this.Hidden(x => x.Content.ContentTypeId) %>
+	<%= this.Hidden(x => x.Content.Id) %>
+	<%= this.Hidden(x => x.Content.ContentType.Id) %>
+	<%= this.Hidden(x => x.Content.Position) %>
 	<%= this.TextBox(x => x.Content.Name).Label("Name") %>
-	<%= this.Select(x => x.Content.ParentContentId).Options(ViewData.Model.Menus, x => x.ContentId, x => x.Name).Label("Parent Menu") %>
+	<%= this.Select(x => x.Content.ParentContent.Id).Options(ViewData.Model.Menus, x => x.Id, x => x.Name).Label("Parent Menu") %>
 	<%= this.CheckBox(x => x.Content.IsActive).Label("Active") %>
 	
 	<input type="submit" value="Save Changes" />

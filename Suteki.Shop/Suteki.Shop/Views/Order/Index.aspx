@@ -16,9 +16,9 @@
     </div>
 
 	<%= Html.Grid(Model.Orders).Columns(column => {
-			column.For(x => Html.ActionLink<OrderController>(c => c.Item(x.OrderId), x.OrderId.ToString()))
+			column.For(x => Html.ActionLink<OrderController>(c => c.Item(x.Id), x.Id.ToString()))
 				.DoNotEncode().Named("Number").HeaderAttributes(@class => "thin");
-			column.For(x => x.Contact.Fullname).Named("Customer").HeaderAttributes(@class => "wide");
+			column.For(x => x.CardContact.Fullname).Named("Customer").HeaderAttributes(@class => "wide");
 			column.For(x => x.CreatedDate.ToShortDateString()).Named("Created").HeaderAttributes(@class => "thin");
 			column.For(x => x.DispatchedDateAsString).Named("Dispatched").HeaderAttributes(@class => "thin").DoNotEncode();
 			column.For(x => x.OrderStatus.Name).Named("Status").HeaderAttributes(@class => "thin");

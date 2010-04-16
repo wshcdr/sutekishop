@@ -12,7 +12,7 @@ namespace Suteki.Shop.Tests.Models
             {
                 Basket = BasketTests.Create350GramBasket(),
                 UseCardHolderContact = true,
-                Contact = new Contact { Country = new Country
+                CardContact = new Contact { Country = new Country
                     {
                        PostZone = new PostZone { Multiplier = 2.5M, FlatRate = 10.00M, AskIfMaxWeight = false }
                     } },

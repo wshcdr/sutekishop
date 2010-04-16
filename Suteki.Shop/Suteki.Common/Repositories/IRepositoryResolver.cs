@@ -6,5 +6,6 @@ namespace Suteki.Common.Repositories
     {
         IRepository<T> GetRepository<T>() where T : class;
         IRepository GetRepository(Type type);
+        void Release(object instance);
     }
 }

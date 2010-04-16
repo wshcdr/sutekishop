@@ -9,8 +9,8 @@ namespace Suteki.Shop.Repositories
     {
         public static T WithUrlName<T>(this IQueryable<T> items, string urlName) where T : IUrlNamed
         {
-            T item = items
-                .SingleOrDefault(i => i.UrlName.ToLower() == urlName.ToLower());
+            var item = items
+                .SingleOrDefault(i => i.UrlName == urlName);
 
             if (item == null) throw new UrlNameNotFoundException("Unknown UrlName '{0}' for type {1}"
                 .With(urlName, typeof(T).FullName));

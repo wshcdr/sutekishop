@@ -1,13 +1,10 @@
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
-using System.Web.Mvc;
 using NUnit.Framework;
 using Rhino.Mocks;
 using Suteki.Common.Repositories;
 using Suteki.Common.Services;
 using Suteki.Shop.Services;
-using Suteki.Shop.ViewData;
 
 namespace Suteki.Shop.Tests.Services
 {
@@ -30,8 +27,8 @@ namespace Suteki.Shop.Tests.Services
 
 		[Test]
 		public void ShouldBuildCriteriaAndExecuteSearch() {
-			orders.Add(new Order { OrderId = 2, OrderStatusId = 1});
-			orders.Add(new Order { OrderId = 3, OrderStatusId = 2 });
+			orders.Add(new Order { Id = 2, OrderStatus = OrderStatus.Created });
+			orders.Add(new Order { Id = 3, OrderStatus = OrderStatus.Dispatched });
 
 			var results = service.PerformSearch(new OrderSearchCriteria() { OrderId = 3 });
 			
@@ -41,9 +38,9 @@ namespace Suteki.Shop.Tests.Services
 		[Test]
 		public void ShouldExcludePending()
 		{
-			orders.Add(new Order() { OrderStatusId = 0 });
-			orders.Add(new Order() { OrderStatusId = 1 });
-			orders.Add(new Order() { OrderStatusId = 1 });
+			orders.Add(new Order() { OrderStatus = new OrderStatus { Id = OrderStatus.PendingId } });
+			orders.Add(new Order() { OrderStatus = OrderStatus.Created });
+            orders.Add(new Order() { OrderStatus = OrderStatus.Created });
 
 			var results = service.PerformSearch(new OrderSearchCriteria());
 			results.Count.ShouldEqual(2);

@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Specialized;
 using System.Reflection;
 using System.Web.Mvc;
-using MvcContrib;
 using MvcContrib.Pagination;
 using Suteki.Common.Binders;
 using Suteki.Common.Extensions;
 using Suteki.Common.Repositories;
 using Suteki.Common.Services;
-using Suteki.Common.Validation;
 using Suteki.Common.ViewData;
 
 namespace Suteki.Common.Controllers
@@ -16,9 +12,8 @@ namespace Suteki.Common.Controllers
     public class ScaffoldController<T> : Controller where T : class, new()
     {
         public IRepository<T> Repository { get; set; }
-        public IRepositoryResolver repositoryResolver { get; set; }
-        public IValidatingBinder ValidatingBinder { get; set; }
-        public IHttpContextService httpContextService { get; set; }
+        public IRepositoryResolver RepositoryResolver { get; set; }
+        public IHttpContextService HttpContextService { get; set; }
 
         public virtual ActionResult Index(int? page)
         {
@@ -39,11 +34,11 @@ namespace Suteki.Common.Controllers
 
 		
 		[AcceptVerbs(HttpVerbs.Post)]
-		public ActionResult New([DataBind(Fetch = false)] T item)
+		public ActionResult New([EntityBind(Fetch = false)] T item)
 		{
 			if(ModelState.IsValid)
 			{
-				Repository.InsertOnSubmit(item);
+				Repository.SaveOrUpdate(item);
 				TempData["message"] = "Item successfully added."; //Make use of the CopyMessageFromTempDataToViewData filter to show this in the view.
 				return RedirectToAction("Index"); //can't use strongly typed redirect here or the wrong controller name will be picked up	
 			}
@@ -66,7 +61,7 @@ namespace Suteki.Common.Controllers
         }
 
 		[AcceptVerbs(HttpVerbs.Post)]
-		public virtual ActionResult Edit([DataBind] T item)
+		public virtual ActionResult Edit(T item)
 		{
 			if(ModelState.IsValid)
 			{
@@ -94,9 +89,9 @@ namespace Suteki.Common.Controllers
         public virtual void AppendLookupLists(ScaffoldViewData<T> viewData)
         {
             // find any properties that are attributed as a linq entity
-            foreach (var property in typeof(T).GetProperties())
+            foreach (var property in typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public))
             {
-                if (property.PropertyType.IsLinqEntity())
+                if (property.PropertyType.IsEntity())
                 {
                     AppendLookupList(viewData, property);
                 }
@@ -105,7 +100,7 @@ namespace Suteki.Common.Controllers
 
         private void AppendLookupList(ScaffoldViewData<T> viewData, PropertyInfo property)
         {
-            var repository = repositoryResolver.GetRepository(property.PropertyType);
+            var repository = RepositoryResolver.GetRepository(property.PropertyType);
 
             // get the items
             object items = repository.GetAll();

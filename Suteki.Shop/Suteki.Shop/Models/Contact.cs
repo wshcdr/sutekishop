@@ -1,58 +1,72 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Suteki.Common.Extensions;
-using Suteki.Common.Validation;
+using Suteki.Common.Models;
 
 namespace Suteki.Shop
 {
-    public partial class Contact
+    public class Contact : IEntity
     {
-        partial void OnFirstnameChanging(string value)
+        public Contact()
         {
-            value.Label("First Name").IsRequired().WithMaxLength(50);
+            // initialise non-required properties to empty strings
+            Address2 = "";
+            Address3 = "";
+            Town = "";
+            County = "";
+            Postcode = "";
+            Telephone = "";
         }
 
-        partial void OnLastnameChanging(string value)
+        public virtual int Id { get; set; }
+
+        [Required(ErrorMessage = "First Name is required")]
+        [StringLength(50, ErrorMessage = "First Name must not be longer than 50 characters")]
+        public virtual string Firstname { get; set; }
+
+        [Required(ErrorMessage = "Last Name is required")]
+        [StringLength(50, ErrorMessage = "Last Name must not be longer than 50 characters")]
+        public virtual string Lastname { get; set; }
+
+        [Required(ErrorMessage = "Address Line 1 is required")]
+        [StringLength(100, ErrorMessage = "Address Line 1 must not be longer than 100 characters")]
+        public virtual string Address1 { get; set; }
+
+        [StringLength(100, ErrorMessage = "Address Line 2 must not be longer than 100 characters")]
+        public virtual string Address2 { get; set; }
+
+        [StringLength(100, ErrorMessage = "Address Line 3 must not be longer than 100 characters")]
+        public virtual string Address3 { get; set; }
+
+        [StringLength(50, ErrorMessage = "Town must not be longer than 50 characters")]
+        public virtual string Town { get; set; }
+
+        [StringLength(50, ErrorMessage = "County must not be longer than 50 characters")]
+        public virtual string County { get; set; }
+
+        [StringLength(50, ErrorMessage = "Postcode must not be longer than 50 characters")]
+        public virtual string Postcode { get; set; }
+
+        [StringLength(50, ErrorMessage = "Telephone must not be longer than 50 characters")]
+        public virtual string Telephone { get; set; }
+
+        public virtual Country Country { get; set; }
+
+        IList<Order> orders = new List<Order>();
+        public virtual IList<Order> Orders
         {
-            value.Label("Last Name").IsRequired().WithMaxLength(50);
+            get { return orders; }
+            set { orders = value; }
         }
 
-        partial void OnAddress1Changing(string value)
+        IList<Order> orders1 = new List<Order>();
+        public virtual IList<Order> Orders1
         {
-            value.Label("Address Line 1").IsRequired().WithMaxLength(100);
+            get { return orders1; }
+            set { orders1 = value; }
         }
 
-        partial void OnAddress2Changing(string value)
-        {
-            value.Label("Address Line 2").WithMaxLength(100); // optional
-        }
-
-        partial void OnAddress3Changing(string value)
-        {
-            value.Label("Address Line 3").WithMaxLength(100); // optional
-        }
-
-        partial void OnTownChanging(string value)
-        {
-            value.Label("Town").WithMaxLength(50);
-        }
-
-        partial void OnCountyChanging(string value)
-        {
-            value.Label("County").WithMaxLength(50);
-        }
-
-        partial void OnPostcodeChanging(string value)
-        {
-            value.Label("Postcode").WithMaxLength(50);
-        }
-
-        partial void OnTelephoneChanging(string value)
-        {
-            value.Label("Telephone").WithMaxLength(50);
-        }
-
-        public string Fullname
+        public virtual string Fullname
         {
             get
             {
@@ -71,7 +85,7 @@ namespace Suteki.Shop
         /// }
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<string> GetAddressLines()
+        public virtual IEnumerable<string> GetAddressLines()
         {
             yield return Fullname;
             yield return Address1;

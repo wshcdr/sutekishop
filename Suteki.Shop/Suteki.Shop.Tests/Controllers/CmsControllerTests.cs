@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using NUnit.Framework;
 using Suteki.Common.Repositories;
 using Suteki.Common.Services;
 using Suteki.Common.TestHelpers;
-using Suteki.Common.Validation;
 using Suteki.Shop.Controllers;
 using Suteki.Shop.ViewData;
-using System.Collections.Specialized;
 using System.Threading;
 using System.Security.Principal;
 using System.Web.Mvc;
@@ -24,22 +20,19 @@ namespace Suteki.Shop.Tests.Controllers
 
         private IRepository<Content> contentRepository;
         private IOrderableService<Content> contentOrderableService;
-        private IValidatingBinder validatingBinder;
 
         [SetUp]
         public void SetUp()
         {
             // you have to be an administrator to access the CMS controller
-            Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("admin"), new string[] { "Administrator" });
+            Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("admin"), new[] { "Administrator" });
 
             contentRepository = MockRepository.GenerateStub<IRepository<Content>>();
             contentOrderableService = MockRepository.GenerateStub<IOrderableService<Content>>();
-            validatingBinder = new ValidatingBinder(new SimplePropertyBinder());
 
             cmsController = new CmsController(
                 contentRepository, 
-                contentOrderableService,
-                validatingBinder);
+                contentOrderableService);
         }
 
         [Test]
@@ -49,7 +42,7 @@ namespace Suteki.Shop.Tests.Controllers
 
             var contents = new List<Content>
             {
-                new TextContent { UrlName = "Home" },
+                new TextContent { UrlName = "home" },
                 new ActionContent { Name = "Help Pages" }
             }.AsQueryable();
 
@@ -90,7 +83,7 @@ namespace Suteki.Shop.Tests.Controllers
         {
             const int menuId = 1;
 
-            var menu = new Menu {ContentId = menuId};
+            var menu = new Menu {Id = menuId};
             contentRepository.Expect(cr => cr.GetById(menuId)).Return(menu);
 
             var menus = new List<Content>().AsQueryable();
@@ -101,20 +94,24 @@ namespace Suteki.Shop.Tests.Controllers
                 .ForView("Edit")
                 .WithModel<CmsViewData>()
                 .AssertNotNull(vd => vd.TextContent)
-                .AssertAreEqual(menuId, vd => vd.Content.ParentContentId.Value);
+                .AssertAreEqual(menuId, vd => vd.Content.ParentContent.Id);
         }
 
 		[Test]
 		public void AddWithPost_ShouldAddNewContent()
 		{
-			var content = new TextContent() { ParentContentId = 4 };
+			var content = new TextContent
+			{
+                ParentContent = new Content { Id = 4 }
+			};
+
 			cmsController.Add(content)
 				.ReturnsRedirectToRouteResult()
 				.ToController("Menu")
 				.ToAction("List")
 				.WithRouteValue("id", "4");
 
-			contentRepository.AssertWasCalled(x => x.InsertOnSubmit(content));
+			contentRepository.AssertWasCalled(x => x.SaveOrUpdate(content));
 		}
 
 
@@ -137,7 +134,7 @@ namespace Suteki.Shop.Tests.Controllers
         {
             const int contentId = 22;
 
-            var content = new TextContent { ContentId = contentId };
+            var content = new TextContent { Id = contentId };
             contentRepository.Stub(cr => cr.GetById(contentId)).Return(content);
 
             var menus = new List<Content>().AsQueryable();
@@ -147,7 +144,7 @@ namespace Suteki.Shop.Tests.Controllers
                 .ReturnsViewResult()
                 .ForView("Edit")
                 .WithModel<CmsViewData>()
-                .AssertAreEqual(contentId, vd => vd.Content.ContentId)
+                .AssertAreEqual(contentId, vd => vd.Content.Id)
                 .AssertNotNull(vd => vd.Menus);
         }
 
@@ -167,7 +164,10 @@ namespace Suteki.Shop.Tests.Controllers
     	[Test]
     	public void EditWithPost_ShouldRedirectOnSuccessfulBinding()
     	{
-    		var content = new TextContent {ParentContentId = 4};
+    		var content = new TextContent
+    		{
+                ParentContent = new Content { Id = 4 }
+    		};
 
 			cmsController.Add(content)
 				.ReturnsRedirectToRouteResult()
@@ -179,7 +179,10 @@ namespace Suteki.Shop.Tests.Controllers
     	[Test]
     	public void EditWithPost_should_work_for_TopContent()
     	{
-			cmsController.Edit(new TopContent() { ParentContentId = 4});
+			cmsController.Edit(new TopContent
+			{
+                ParentContent = new Content { Id = 4 }
+			});
     	}
 
         [Test]

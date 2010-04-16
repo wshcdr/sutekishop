@@ -36,7 +36,7 @@ namespace Suteki.Shop.Controllers
 		{
 			if(ModelState.IsValid)
 			{
-				subscriptionRepository.InsertOnSubmit(mailingListSubscription);
+				subscriptionRepository.SaveOrUpdate(mailingListSubscription);
 				if(addAnother.GetValueOrDefault())
 				{
 					return this.RedirectToAction(c => c.Index());

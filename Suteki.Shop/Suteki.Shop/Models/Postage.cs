@@ -1,14 +1,19 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations;
 using Suteki.Common;
-using Suteki.Common.Validation;
+using Suteki.Common.Models;
 
 namespace Suteki.Shop
 {
-    public partial class Postage : IOrderable, IActivatable
+    public class Postage : IOrderable, IActivatable, IEntity
     {
-        partial void OnNameChanging(string value)
-        {
-            value.Label("Name").IsRequired();
-        }
+        public virtual int Id { get; set; }
+
+        [Required(ErrorMessage = "Name is required")]
+        public virtual string Name { get; set; }
+
+        public virtual int MaxWeight { get; set; }
+        public virtual decimal Price { get; set; }
+        public virtual int Position { get; set; }
+        public virtual bool IsActive { get; set; }
     }
 }

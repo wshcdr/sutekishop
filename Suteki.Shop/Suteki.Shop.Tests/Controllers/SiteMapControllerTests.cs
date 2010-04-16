@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
+using System.Threading;
 using NUnit.Framework;
 using Suteki.Common.Repositories;
 using Suteki.Common.TestHelpers;
@@ -27,8 +28,7 @@ namespace Suteki.Shop.Tests.Controllers
 
             siteMapController = new SiteMapController(productRepository, contentRepository, userService);
 
-            userService.Expect(c => c.CurrentUser).Return(new User());
-
+            userService.Expect(c => c.CurrentUser).Return(new User{ Role = Role.Guest });
         }
 
         [Test]
