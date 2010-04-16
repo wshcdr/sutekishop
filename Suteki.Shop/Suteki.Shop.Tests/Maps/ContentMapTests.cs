@@ -1,6 +1,10 @@
+using System;
 using System.Linq;
+using NHibernate;
 using NHibernate.Linq;
+using NHibernate.Proxy;
 using NUnit.Framework;
+using Suteki.Common.Extensions;
 using Suteki.Shop.Repositories;
 
 namespace Suteki.Shop.Tests.Maps
@@ -8,7 +12,9 @@ namespace Suteki.Shop.Tests.Maps
     [TestFixture]
     public class ContentMapTests : MapTestBase
     {
-        [SetUp]
+        int menu1Id = 0;
+
+        [TestFixtureSetUp]
         public void SetUp()
         {
             var menu1 = new Menu
@@ -49,6 +55,8 @@ namespace Suteki.Shop.Tests.Maps
                 session.Save(action);
                 session.Save(menu2);
             });
+
+            menu1Id = menu1.Id;
         }
 
         [Test]
@@ -58,6 +66,54 @@ namespace Suteki.Shop.Tests.Maps
             {
                 var menus = session.Query<Content>().Menus().AsEnumerable();
                 menus.Count().ShouldEqual(2);
+            });
+        }
+
+        [Test]
+        public void Get_returns_a_proxy_of_the_correct_type()
+        {
+            InSession(session =>
+            {
+                var content = session.Get<Content>(menu1Id);
+                var menu = content as Menu;
+                menu.ShouldNotBeNull("menu is null");
+            });
+        }
+
+        [Test]
+        public void Load_does_not_get_return_a_proxy_of_the_correct_type()
+        {
+            InSession(session =>
+            {
+                var content = session.Load<Content>(menu1Id);
+                Console.WriteLine(content.GetType().Name);
+                var menu = content as Menu;
+                menu.ShouldBeNull();
+            });
+        }
+
+        [Test]
+        public void Type_is_not_correct_after_the_entity_loaded()
+        {
+            InSession(session =>
+            {
+                var content = session.Load<Content>(menu1Id);
+                Console.WriteLine(content.Name);
+                var menu = content as Menu;
+                menu.ShouldBeNull();
+            });
+        }
+
+        [Test]
+        public void Use_CastAs_to_cast_lazy_loaded_entities()
+        {
+            InSession(session =>
+            {
+                var content = session.Load<Content>(menu1Id);
+                Console.WriteLine(content.GetType().Name);
+                var menu = content.CastAs<Menu>();
+                menu.ShouldNotBeNull();
+                menu.Name.ShouldEqual("menu1");
             });
         }
     }
