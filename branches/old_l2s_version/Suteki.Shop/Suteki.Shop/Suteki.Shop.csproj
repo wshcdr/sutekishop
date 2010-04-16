@@ -1,0 +1,717 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F63A91D4-3A6C-4729-BE83-D6CB45A53EF3}</ProjectGuid>
+    <ProjectTypeGuids>{f85e285d-a4e0-4152-9332-ab1d724d3325};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Suteki.Shop</RootNamespace>
+    <AssemblyName>Suteki.Shop</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.DynamicProxy2, Version=2.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Castle.DynamicProxy2.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Facilities.Logging, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Castle.Facilities.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Facilities.WcfIntegration, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Castle.Facilities.WcfIntegration.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.MicroKernel, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Castle.MicroKernel.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Services.Logging.Log4netIntegration, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Castle.Services.Logging.Log4netIntegration.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="CookComputing.XmlRpcV2, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\CookComputing.XmlRpcV2.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah, Version=1.1.11517.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ServiceModel.Samples.XmlRpc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=565b4392ea21ace0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Microsoft.ServiceModel.Samples.XmlRpc.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Mvc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Microsoft.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcContrib, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\MvcContrib.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcContrib.Castle, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\MvcContrib.Castle.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcContrib.FluentHtml, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\MvcContrib.FluentHtml.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\System.Web.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Mobile" />
+    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Routing, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\System.Web.Routing.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionResults\RedirectToReferrerResult.cs" />
+    <Compile Include="Binders\CurrentBasketBinder.cs" />
+    <Compile Include="Binders\MailingListSubscriptionBinder.cs" />
+    <Compile Include="Binders\OrderBinder.cs" />
+    <Compile Include="Binders\ProductBinder.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\CheckoutController.cs" />
+    <Compile Include="Controllers\CmsController.cs" />
+    <Compile Include="Controllers\ControllerBase.cs" />
+    <Compile Include="Controllers\CountryController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InvoiceController.cs" />
+    <Compile Include="Controllers\IProvidesBaseService.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\BasketController.cs" />
+    <Compile Include="Controllers\MailingListController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\OrderStatusController.cs" />
+    <Compile Include="Controllers\PostageController.cs" />
+    <Compile Include="Controllers\PostZoneController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ProductImageController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\ReviewsController.cs" />
+    <Compile Include="Controllers\RichEditorController.cs" />
+    <Compile Include="Controllers\RsdController.cs" />
+    <Compile Include="Controllers\ShopScaffoldController.cs" />
+    <Compile Include="Controllers\SiteMapController.cs" />
+    <Compile Include="Controllers\StockController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Filters\AdministratorsOnlyAttribute.cs" />
+    <Compile Include="Filters\AuthenticateFilter.cs" />
+    <Compile Include="Filters\CopyMessageFromTempDataToViewData.cs" />
+    <Compile Include="Filters\EnsureSsl.cs" />
+    <Compile Include="Filters\LoadUsingAttribute.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="HtmlHelpers\CategoryWriter.cs" />
+    <Compile Include="HtmlHelpers\HtmlHelperExtensions.cs" />
+    <Compile Include="HtmlHelpers\LowercaseFirstCharacterOfNameBehaviour.cs" />
+    <Compile Include="HtmlHelpers\MenuWriter.cs" />
+    <Compile Include="HtmlHelpers\StockWriter.cs" />
+    <Compile Include="HtmlHelpers\UrlHelperExtensions.cs" />
+    <Compile Include="IoC\ContainerBuilder.cs" />
+    <Compile Include="IoC\UrlBasedComponentSelector.cs" />
+    <Compile Include="Models\ActionContent.cs" />
+    <Compile Include="Models\Card.cs" />
+    <Compile Include="Models\CardType.cs" />
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Contact.cs" />
+    <Compile Include="Models\Content.cs" />
+    <Compile Include="Models\ContentType.cs" />
+    <Compile Include="Models\Country.cs" />
+    <Compile Include="Models\Exceptions\NoMenuException.cs" />
+    <Compile Include="Models\IActivatable.cs" />
+    <Compile Include="Models\Image.cs" />
+    <Compile Include="Models\Basket.cs" />
+    <Compile Include="Models\BasketItem.cs" />
+    <Compile Include="Models\ITextContent.cs" />
+    <Compile Include="Models\IUrlNamed.cs" />
+    <Compile Include="Models\LoadOptions.cs" />
+    <Compile Include="Models\MailingListSubscription.cs" />
+    <Compile Include="Models\Menu.cs" />
+    <Compile Include="Models\MenuRepository.cs" />
+    <Compile Include="Models\ModelHelpers\UrlNameHelperExtensions.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderSearchCriteria.cs" />
+    <Compile Include="Models\OrderStatus.cs" />
+    <Compile Include="Models\Postage.cs" />
+    <Compile Include="Models\PostageResult.cs" />
+    <Compile Include="Models\PostZone.cs" />
+    <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ProductImage.cs" />
+    <Compile Include="Models\Review.cs" />
+    <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\Size.cs" />
+    <Compile Include="Models\StockItem.cs" />
+    <Compile Include="Models\TextContent.cs" />
+    <Compile Include="Models\TopContent.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ActivatableExtensions.cs" />
+    <Compile Include="Repositories\CategoryRepositoryExtensions.cs" />
+    <Compile Include="Repositories\ContentRepositoryExtensions.cs" />
+    <Compile Include="Repositories\BasketRepositoryExtensions.cs" />
+    <Compile Include="Repositories\CountryRepositoryExtensions.cs" />
+    <Compile Include="Repositories\MailingListRepositoryExtensions.cs" />
+    <Compile Include="Repositories\OrderRepositoryExtensions.cs" />
+    <Compile Include="Repositories\PostZoneRepositoryExtensions.cs" />
+    <Compile Include="Repositories\ReviewRepositoryExtensions.cs" />
+    <Compile Include="Repositories\UrlNamedExtensions.cs" />
+    <Compile Include="Repositories\UserRepositoryExtensions.cs" />
+    <Compile Include="Routes\RouteManager.cs" />
+    <Compile Include="Services\BaseControllerService.cs" />
+    <Compile Include="Services\CheckoutService.cs" />
+    <Compile Include="Services\DbConnectionChecker.cs" />
+    <Compile Include="Services\EmailService.cs" />
+    <Compile Include="Services\EncryptionService.cs" />
+    <Compile Include="Services\HttpFileService.cs" />
+    <Compile Include="Services\IBaseControllerService.cs" />
+    <Compile Include="Services\IDbConnectionChecker.cs" />
+    <Compile Include="Services\IEncryptionService.cs" />
+    <Compile Include="Services\IFormsAuthentication.cs" />
+    <Compile Include="Services\IHttpFileService.cs" />
+    <Compile Include="Services\IImageFileService.cs" />
+    <Compile Include="Services\IImageService.cs" />
+    <Compile Include="Services\ImageFileService.cs" />
+    <Compile Include="Services\ImageService.cs" />
+    <Compile Include="Services\IPostageService.cs" />
+    <Compile Include="Services\ISizeService.cs" />
+    <Compile Include="Services\IUserService.cs" />
+    <Compile Include="Services\OrderSearchService.cs" />
+    <Compile Include="Services\PostageService.cs" />
+    <Compile Include="Services\SizeService.cs" />
+    <Compile Include="Services\UserService.cs" />
+    <Compile Include="Shop.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Shop.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewData\CategoryViewData.cs" />
+    <Compile Include="ViewData\CategoryViewDataExtensions.cs" />
+    <Compile Include="ViewData\CmsViewData.cs" />
+    <Compile Include="ViewData\ReviewViewData.cs" />
+    <Compile Include="ViewData\RsdViewData.cs" />
+    <Compile Include="ViewData\ShopViewData.cs" />
+    <Compile Include="Views\Rsd\Index.aspx.cs">
+      <DependentUpon>Index.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Rsd\Index.aspx.designer.cs">
+      <DependentUpon>Index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Shared\Rescues\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Shared\Rescues\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Shared\Site.Master.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Shared\Site.Master.designer.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ViewPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="XmlRpc\MetaWeblog.cs" />
+    <Compile Include="XmlRpc\MetaWeblogAPI.cs" />
+    <Compile Include="XmlRpc\MetaWeblogWcf.cs" />
+    <Compile Include="XmlRpc\Service\XmlRpcServiceHostBuilder.cs" />
+    <Compile Include="XmlRpc\Service\XmlRpcServiceModel.cs" />
+    <Compile Include="XmlRpc\WcfConfiguration.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Default.aspx" />
+    <Content Include="Global.asax" />
+    <Content Include="Web.config" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Views\Home\Index.aspx" />
+    <Content Include="Views\Shared\Site.Master" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Scripts\jquery-1.4.1.js" />
+    <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.4.1.min.js" />
+    <Content Include="Scripts\jquery-1.4.1.min-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.min-vsdoc.js" />
+    <Content Include="Scripts\MicrosoftAjax.js" />
+    <Content Include="Scripts\MicrosoftAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Configuration\Windsor.config" />
+    <Content Include="Content\Images\cross.png" />
+    <Content Include="Content\Images\down.png" />
+    <Content Include="Content\Images\Logo_background.png" />
+    <Content Include="Content\Images\menu_item.png" />
+    <Content Include="Content\Images\menu_item_hover.png" />
+    <Content Include="Content\Images\tick.png" />
+    <Content Include="Content\Images\up.png" />
+    <Content Include="Content\Images\wallpaper.jpg" />
+    <Content Include="Views\Category\Edit.aspx" />
+    <Content Include="Views\Category\Index.aspx" />
+    <Content Include="Views\Country\Edit.aspx" />
+    <Content Include="Views\Country\Index.aspx" />
+    <Content Include="Views\Login\Index.aspx" />
+    <Content Include="Views\Basket\Index.aspx" />
+    <Content Include="Views\Checkout\Index.aspx" />
+    <Content Include="Views\Order\Index.aspx" />
+    <Content Include="Views\Order\Item.aspx" />
+    <Content Include="Views\Postage\Edit.aspx" />
+    <Content Include="Views\Postage\Index.aspx" />
+    <Content Include="Views\PostZone\Edit.aspx" />
+    <Content Include="Views\PostZone\Index.aspx" />
+    <Content Include="Views\Product\Edit.aspx" />
+    <Content Include="Views\Product\Index.aspx" />
+    <Content Include="Views\Product\Item.aspx" />
+    <Content Include="Views\Shared\Rescues\Default.aspx" />
+    <Content Include="Views\Stock\Index.aspx" />
+    <Content Include="Views\User\Edit.aspx" />
+    <Content Include="Views\User\Index.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shop.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>Shop.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Images\creditcards.gif" />
+    <Content Include="Content\Images\SSL_Secured.png" />
+    <Content Include="Content\Images\star.gif" />
+    <Content Include="Content\tiny_mce\langs\en.js" />
+    <Content Include="Content\tiny_mce\license.txt" />
+    <Content Include="Content\tiny_mce\plugins\advhr\css\advhr.css" />
+    <Content Include="Content\tiny_mce\plugins\advhr\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\advhr\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\advhr\js\rule.js" />
+    <Content Include="Content\tiny_mce\plugins\advhr\langs\en_dlg.js" />
+    <Content Include="Content\tiny_mce\plugins\advhr\rule.htm" />
+    <Content Include="Content\tiny_mce\plugins\advimage\css\advimage.css" />
+    <Content Include="Content\tiny_mce\plugins\advimage\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\advimage\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\advimage\image.htm" />
+    <Content Include="Content\tiny_mce\plugins\advimage\img\sample.gif" />
+    <Content Include="Content\tiny_mce\plugins\advimage\js\image.js" />
+    <Content Include="Content\tiny_mce\plugins\advimage\langs\en_dlg.js" />
+    <Content Include="Content\tiny_mce\plugins\advlink\css\advlink.css" />
+    <Content Include="Content\tiny_mce\plugins\advlink\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\advlink\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\advlink\js\advlink.js" />
+    <Content Include="Content\tiny_mce\plugins\advlink\langs\en_dlg.js" />
+    <Content Include="Content\tiny_mce\plugins\advlink\link.htm" />
+    <Content Include="Content\tiny_mce\plugins\autosave\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\autosave\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\bbcode\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\bbcode\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\compat2x\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\compat2x\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\contextmenu\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\contextmenu\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\directionality\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\directionality\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\emotions\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\emotions\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\emotions\emotions.htm" />
+    <Content Include="Content\tiny_mce\plugins\emotions\img\smiley-cool.gif" />
+    <Content Include="Content\tiny_mce\plugins\emotions\img\smiley-cry.gif" />
+    <Content Include="Content\tiny_mce\plugins\emotions\img\smiley-embarassed.gif" />
+    <Content Include="Content\tiny_mce\plugins\emotions\img\smiley-foot-in-mouth.gif" />
+    <Content Include="Content\tiny_mce\plugins\emotions\img\smiley-frown.gif" />
+    <Content Include="Content\tiny_mce\plugins\emotions\img\smiley-innocent.gif" />
+    <Content Include="Content\tiny_mce\plugins\emotions\img\smiley-kiss.gif" />
+    <Content Include="Content\tiny_mce\plugins\emotions\img\smiley-laughing.gif" />
+    <Content Include="Content\tiny_mce\plugins\emotions\img\smiley-money-mouth.gif" />
+    <Content Include="Content\tiny_mce\plugins\emotions\img\smiley-sealed.gif" />
+    <Content Include="Content\tiny_mce\plugins\emotions\img\smiley-smile.gif" />
+    <Content Include="Content\tiny_mce\plugins\emotions\img\smiley-surprised.gif" />
+    <Content Include="Content\tiny_mce\plugins\emotions\img\smiley-tongue-out.gif" />
+    <Content Include="Content\tiny_mce\plugins\emotions\img\smiley-undecided.gif" />
+    <Content Include="Content\tiny_mce\plugins\emotions\img\smiley-wink.gif" />
+    <Content Include="Content\tiny_mce\plugins\emotions\img\smiley-yell.gif" />
+    <Content Include="Content\tiny_mce\plugins\emotions\js\emotions.js" />
+    <Content Include="Content\tiny_mce\plugins\emotions\langs\en_dlg.js" />
+    <Content Include="Content\tiny_mce\plugins\example\dialog.htm" />
+    <Content Include="Content\tiny_mce\plugins\example\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\example\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\example\img\example.gif" />
+    <Content Include="Content\tiny_mce\plugins\example\js\dialog.js" />
+    <Content Include="Content\tiny_mce\plugins\example\langs\en.js" />
+    <Content Include="Content\tiny_mce\plugins\example\langs\en_dlg.js" />
+    <Content Include="Content\tiny_mce\plugins\fullpage\css\fullpage.css" />
+    <Content Include="Content\tiny_mce\plugins\fullpage\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\fullpage\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\fullpage\fullpage.htm" />
+    <Content Include="Content\tiny_mce\plugins\fullpage\js\fullpage.js" />
+    <Content Include="Content\tiny_mce\plugins\fullpage\langs\en_dlg.js" />
+    <Content Include="Content\tiny_mce\plugins\fullscreen\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\fullscreen\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\fullscreen\fullscreen.htm" />
+    <Content Include="Content\tiny_mce\plugins\iespell\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\iespell\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\inlinepopups\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\inlinepopups\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\inlinepopups\skins\clearlooks2\img\alert.gif" />
+    <Content Include="Content\tiny_mce\plugins\inlinepopups\skins\clearlooks2\img\button.gif" />
+    <Content Include="Content\tiny_mce\plugins\inlinepopups\skins\clearlooks2\img\buttons.gif" />
+    <Content Include="Content\tiny_mce\plugins\inlinepopups\skins\clearlooks2\img\confirm.gif" />
+    <Content Include="Content\tiny_mce\plugins\inlinepopups\skins\clearlooks2\img\corners.gif" />
+    <Content Include="Content\tiny_mce\plugins\inlinepopups\skins\clearlooks2\img\horizontal.gif" />
+    <Content Include="Content\tiny_mce\plugins\inlinepopups\skins\clearlooks2\img\vertical.gif" />
+    <Content Include="Content\tiny_mce\plugins\inlinepopups\skins\clearlooks2\window.css" />
+    <Content Include="Content\tiny_mce\plugins\inlinepopups\template.htm" />
+    <Content Include="Content\tiny_mce\plugins\insertdatetime\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\insertdatetime\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\layer\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\layer\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\media\css\content.css" />
+    <Content Include="Content\tiny_mce\plugins\media\css\media.css" />
+    <Content Include="Content\tiny_mce\plugins\media\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\media\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\media\img\flash.gif" />
+    <Content Include="Content\tiny_mce\plugins\media\img\flv_player.swf" />
+    <Content Include="Content\tiny_mce\plugins\media\img\quicktime.gif" />
+    <Content Include="Content\tiny_mce\plugins\media\img\realmedia.gif" />
+    <Content Include="Content\tiny_mce\plugins\media\img\shockwave.gif" />
+    <Content Include="Content\tiny_mce\plugins\media\img\trans.gif" />
+    <Content Include="Content\tiny_mce\plugins\media\img\windowsmedia.gif" />
+    <Content Include="Content\tiny_mce\plugins\media\js\embed.js" />
+    <Content Include="Content\tiny_mce\plugins\media\js\media.js" />
+    <Content Include="Content\tiny_mce\plugins\media\langs\en_dlg.js" />
+    <Content Include="Content\tiny_mce\plugins\media\media.htm" />
+    <Content Include="Content\tiny_mce\plugins\nonbreaking\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\nonbreaking\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\noneditable\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\noneditable\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\pagebreak\css\content.css" />
+    <Content Include="Content\tiny_mce\plugins\pagebreak\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\pagebreak\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\pagebreak\img\pagebreak.gif" />
+    <Content Include="Content\tiny_mce\plugins\pagebreak\img\trans.gif" />
+    <Content Include="Content\tiny_mce\plugins\paste\blank.htm" />
+    <Content Include="Content\tiny_mce\plugins\paste\css\blank.css" />
+    <Content Include="Content\tiny_mce\plugins\paste\css\pasteword.css" />
+    <Content Include="Content\tiny_mce\plugins\paste\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\paste\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\paste\js\pastetext.js" />
+    <Content Include="Content\tiny_mce\plugins\paste\js\pasteword.js" />
+    <Content Include="Content\tiny_mce\plugins\paste\langs\en_dlg.js" />
+    <Content Include="Content\tiny_mce\plugins\paste\pastetext.htm" />
+    <Content Include="Content\tiny_mce\plugins\paste\pasteword.htm" />
+    <Content Include="Content\tiny_mce\plugins\preview\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\preview\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\preview\example.html" />
+    <Content Include="Content\tiny_mce\plugins\preview\jscripts\embed.js" />
+    <Content Include="Content\tiny_mce\plugins\preview\preview.html" />
+    <Content Include="Content\tiny_mce\plugins\print\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\print\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\safari\blank.htm" />
+    <Content Include="Content\tiny_mce\plugins\safari\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\safari\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\save\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\save\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\searchreplace\css\searchreplace.css" />
+    <Content Include="Content\tiny_mce\plugins\searchreplace\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\searchreplace\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\searchreplace\js\searchreplace.js" />
+    <Content Include="Content\tiny_mce\plugins\searchreplace\langs\en_dlg.js" />
+    <Content Include="Content\tiny_mce\plugins\searchreplace\searchreplace.htm" />
+    <Content Include="Content\tiny_mce\plugins\spellchecker\css\content.css" />
+    <Content Include="Content\tiny_mce\plugins\spellchecker\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\spellchecker\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\spellchecker\img\wline.gif" />
+    <Content Include="Content\tiny_mce\plugins\style\css\props.css" />
+    <Content Include="Content\tiny_mce\plugins\style\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\style\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\style\js\props.js" />
+    <Content Include="Content\tiny_mce\plugins\style\langs\en_dlg.js" />
+    <Content Include="Content\tiny_mce\plugins\style\props.htm" />
+    <Content Include="Content\tiny_mce\plugins\tabfocus\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\tabfocus\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\table\cell.htm" />
+    <Content Include="Content\tiny_mce\plugins\table\css\cell.css" />
+    <Content Include="Content\tiny_mce\plugins\table\css\row.css" />
+    <Content Include="Content\tiny_mce\plugins\table\css\table.css" />
+    <Content Include="Content\tiny_mce\plugins\table\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\table\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\table\js\cell.js" />
+    <Content Include="Content\tiny_mce\plugins\table\js\merge_cells.js" />
+    <Content Include="Content\tiny_mce\plugins\table\js\row.js" />
+    <Content Include="Content\tiny_mce\plugins\table\js\table.js" />
+    <Content Include="Content\tiny_mce\plugins\table\langs\en_dlg.js" />
+    <Content Include="Content\tiny_mce\plugins\table\merge_cells.htm" />
+    <Content Include="Content\tiny_mce\plugins\table\row.htm" />
+    <Content Include="Content\tiny_mce\plugins\table\table.htm" />
+    <Content Include="Content\tiny_mce\plugins\template\blank.htm" />
+    <Content Include="Content\tiny_mce\plugins\template\css\template.css" />
+    <Content Include="Content\tiny_mce\plugins\template\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\template\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\template\js\template.js" />
+    <Content Include="Content\tiny_mce\plugins\template\langs\en_dlg.js" />
+    <Content Include="Content\tiny_mce\plugins\template\template.htm" />
+    <Content Include="Content\tiny_mce\plugins\visualchars\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\visualchars\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\xhtmlxtras\abbr.htm" />
+    <Content Include="Content\tiny_mce\plugins\xhtmlxtras\acronym.htm" />
+    <Content Include="Content\tiny_mce\plugins\xhtmlxtras\attributes.htm" />
+    <Content Include="Content\tiny_mce\plugins\xhtmlxtras\cite.htm" />
+    <Content Include="Content\tiny_mce\plugins\xhtmlxtras\css\attributes.css" />
+    <Content Include="Content\tiny_mce\plugins\xhtmlxtras\css\popup.css" />
+    <Content Include="Content\tiny_mce\plugins\xhtmlxtras\del.htm" />
+    <Content Include="Content\tiny_mce\plugins\xhtmlxtras\editor_plugin.js" />
+    <Content Include="Content\tiny_mce\plugins\xhtmlxtras\editor_plugin_src.js" />
+    <Content Include="Content\tiny_mce\plugins\xhtmlxtras\ins.htm" />
+    <Content Include="Content\tiny_mce\plugins\xhtmlxtras\js\abbr.js" />
+    <Content Include="Content\tiny_mce\plugins\xhtmlxtras\js\acronym.js" />
+    <Content Include="Content\tiny_mce\plugins\xhtmlxtras\js\attributes.js" />
+    <Content Include="Content\tiny_mce\plugins\xhtmlxtras\js\cite.js" />
+    <Content Include="Content\tiny_mce\plugins\xhtmlxtras\js\del.js" />
+    <Content Include="Content\tiny_mce\plugins\xhtmlxtras\js\element_common.js" />
+    <Content Include="Content\tiny_mce\plugins\xhtmlxtras\js\ins.js" />
+    <Content Include="Content\tiny_mce\plugins\xhtmlxtras\langs\en_dlg.js" />
+    <Content Include="Content\tiny_mce\themes\advanced\about.htm" />
+    <Content Include="Content\tiny_mce\themes\advanced\anchor.htm" />
+    <Content Include="Content\tiny_mce\themes\advanced\charmap.htm" />
+    <Content Include="Content\tiny_mce\themes\advanced\color_picker.htm" />
+    <Content Include="Content\tiny_mce\themes\advanced\editor_template.js" />
+    <Content Include="Content\tiny_mce\themes\advanced\editor_template_src.js" />
+    <Content Include="Content\tiny_mce\themes\advanced\image.htm" />
+    <Content Include="Content\tiny_mce\themes\advanced\img\colorpicker.jpg" />
+    <Content Include="Content\tiny_mce\themes\advanced\img\icons.gif" />
+    <Content Include="Content\tiny_mce\themes\advanced\js\about.js" />
+    <Content Include="Content\tiny_mce\themes\advanced\js\anchor.js" />
+    <Content Include="Content\tiny_mce\themes\advanced\js\charmap.js" />
+    <Content Include="Content\tiny_mce\themes\advanced\js\color_picker.js" />
+    <Content Include="Content\tiny_mce\themes\advanced\js\image.js" />
+    <Content Include="Content\tiny_mce\themes\advanced\js\link.js" />
+    <Content Include="Content\tiny_mce\themes\advanced\js\source_editor.js" />
+    <Content Include="Content\tiny_mce\themes\advanced\js\sutekishop_link.js" />
+    <Content Include="Content\tiny_mce\themes\advanced\langs\en.js" />
+    <Content Include="Content\tiny_mce\themes\advanced\langs\en_dlg.js" />
+    <Content Include="Content\tiny_mce\themes\advanced\link.htm" />
+    <Content Include="Content\tiny_mce\themes\advanced\skins\default\content.css" />
+    <Content Include="Content\tiny_mce\themes\advanced\skins\default\dialog.css" />
+    <Content Include="Content\tiny_mce\themes\advanced\skins\default\img\buttons.png" />
+    <Content Include="Content\tiny_mce\themes\advanced\skins\default\img\items.gif" />
+    <Content Include="Content\tiny_mce\themes\advanced\skins\default\img\menu_arrow.gif" />
+    <Content Include="Content\tiny_mce\themes\advanced\skins\default\img\menu_check.gif" />
+    <Content Include="Content\tiny_mce\themes\advanced\skins\default\img\progress.gif" />
+    <Content Include="Content\tiny_mce\themes\advanced\skins\default\img\tabs.gif" />
+    <Content Include="Content\tiny_mce\themes\advanced\skins\default\ui.css" />
+    <Content Include="Content\tiny_mce\themes\advanced\skins\o2k7\content.css" />
+    <Content Include="Content\tiny_mce\themes\advanced\skins\o2k7\dialog.css" />
+    <Content Include="Content\tiny_mce\themes\advanced\skins\o2k7\img\button_bg.png" />
+    <Content Include="Content\tiny_mce\themes\advanced\skins\o2k7\img\button_bg_black.png" />
+    <Content Include="Content\tiny_mce\themes\advanced\skins\o2k7\img\button_bg_silver.png" />
+    <Content Include="Content\tiny_mce\themes\advanced\skins\o2k7\ui.css" />
+    <Content Include="Content\tiny_mce\themes\advanced\skins\o2k7\ui_black.css" />
+    <Content Include="Content\tiny_mce\themes\advanced\skins\o2k7\ui_silver.css" />
+    <Content Include="Content\tiny_mce\themes\advanced\source_editor.htm" />
+    <Content Include="Content\tiny_mce\themes\simple\editor_template.js" />
+    <Content Include="Content\tiny_mce\themes\simple\editor_template_src.js" />
+    <Content Include="Content\tiny_mce\themes\simple\img\icons.gif" />
+    <Content Include="Content\tiny_mce\themes\simple\langs\en.js" />
+    <Content Include="Content\tiny_mce\themes\simple\skins\default\content.css" />
+    <Content Include="Content\tiny_mce\themes\simple\skins\default\ui.css" />
+    <Content Include="Content\tiny_mce\themes\simple\skins\o2k7\content.css" />
+    <Content Include="Content\tiny_mce\themes\simple\skins\o2k7\img\button_bg.png" />
+    <Content Include="Content\tiny_mce\themes\simple\skins\o2k7\ui.css" />
+    <Content Include="Content\tiny_mce\tiny_mce.js" />
+    <Content Include="Content\tiny_mce\tiny_mce_popup.js" />
+    <Content Include="Content\tiny_mce\tiny_mce_src.js" />
+    <Content Include="Content\tiny_mce\utils\editable_selects.js" />
+    <Content Include="Content\tiny_mce\utils\form_utils.js" />
+    <Content Include="Content\tiny_mce\utils\mctabs.js" />
+    <Content Include="Content\tiny_mce\utils\validate.js" />
+    <Content Include="Content\Zanywear.css" />
+    <Content Include="Content\Images\basket.png" />
+    <Content Include="Content\Images\basket_hover.png" />
+    <Content Include="Content\Script\jquery-1.2.6.min.js" />
+    <Content Include="favicon.ico" />
+    <Content Include="FileNotFound.htm" />
+    <Content Include="GenericErrorPage.htm" />
+    <Content Include="log4net.config" />
+    <None Include="Shop.dbml.layout">
+      <DependentUpon>Shop.dbml</DependentUpon>
+    </None>
+    <None Include="MetaWebLogAPI.svc.explicitXmlRpcHost.Factory" />
+    <None Include="Views\EmailTemplates\OrderConfirmation.vm" />
+    <None Include="Views\EmailTemplates\OrderDispatch.vm" />
+    <None Include="Views\EmailTemplates\_orderDetails.vm" />
+    <Content Include="MetaWebLogAPI.svc" />
+    <Content Include="NoAccess.htm" />
+    <Content Include="Views\Checkout\Confirm.aspx" />
+    <Content Include="Views\Checkout\CustomerDetails.ascx" />
+    <Content Include="Views\Checkout\OrderDetails.ascx" />
+    <Content Include="Views\Checkout\PaymentDetails.ascx" />
+    <Content Include="Views\Cms\NotFound.aspx" />
+    <Content Include="Views\MailingList\Confirm.aspx" />
+    <Content Include="Views\MailingList\Edit.aspx" />
+    <Content Include="Views\MailingList\Index.aspx" />
+    <Content Include="Views\MailingList\List.aspx" />
+    <Content Include="Views\Menu\Edit.aspx" />
+    <Content Include="Views\Menu\LeftMenu.ascx" />
+    <Content Include="Views\Menu\MainMenu.ascx" />
+    <Content Include="Views\Menu\UpDown.ascx" />
+    <Content Include="Views\Invoice\Show.aspx" />
+    <Content Include="Views\Order\CustomerDetails.ascx" />
+    <Content Include="Views\Order\Status.ascx" />
+    <Content Include="Views\Product\NotFound.aspx" />
+    <Content Include="Views\Reviews\Index.aspx" />
+    <Content Include="Views\Reviews\New.aspx" />
+    <Content Include="Views\Reviews\Show.ascx" />
+    <Content Include="Views\Reviews\Submitted.aspx" />
+    <Content Include="Views\Shared\Note.ascx" />
+    <Content Include="Views\Order\OrderDetails.ascx" />
+    <Content Include="Views\Order\OrderSearchForm.ascx" />
+    <Content Include="Views\Order\PaymentDetails.ascx" />
+    <Content Include="Views\Product\BasketOptions.ascx" />
+    <Content Include="Views\Product\Product.ascx" />
+    <Content Include="Views\Product\ProductDescription.ascx" />
+    <Content Include="Views\Product\SubCategory.ascx" />
+    <Content Include="Views\Report\Index.aspx" />
+    <Content Include="Views\RichEditor\Links.aspx" />
+    <Content Include="Views\Shared\Print.Master" />
+    <Content Include="Content\Print.css" />
+    <Content Include="Views\Cms\SubPage.aspx" />
+    <Content Include="Views\Cms\TopPage.aspx" />
+    <Content Include="Views\Rsd\Index.aspx" />
+    <Content Include="Views\Shared\CmsSubMenu.master" />
+    <Content Include="metablogapi.aspx" />
+    <Content Include="Views\Cms\Edit.aspx" />
+    <Content Include="Views\Menu\List.aspx" />
+    <Content Include="Views\Shared\Cms.master" />
+    <Content Include="Views\Shared\Shop.Master" />
+    <Content Include="Views\Shared\TinyMce.ascx" />
+    <Content Include="Views\SiteMap\Index.aspx" />
+    <Content Include="wlwmanifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Suteki.Common\Suteki.Common.csproj">
+      <Project>{5A734DD0-928C-4A1E-8D12-7DDD607D89C6}</Project>
+      <Name>Suteki.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="ProductPhotos\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  -->
+  <Target Name="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <!--<AspNetCompiler VirtualPath="/" PhysicalPath="$(ProjectDir)" />-->
+    <CallTarget Targets="CompileViews" />
+  </Target>
+  <Target Name="CompileViews">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(ProjectDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>50398</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost/SutekiShop</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
