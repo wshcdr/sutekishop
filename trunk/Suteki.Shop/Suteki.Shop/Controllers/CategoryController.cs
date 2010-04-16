@@ -37,26 +37,29 @@ namespace Suteki.Shop.Controllers
 
         public ActionResult New(int id)
         {
-			var defaultCategory = Category.DefaultCategory(id, orderableService.NextPosition);
+            var parentCategory = categoryRepository.GetById(id);
+            var defaultCategory = Category.DefaultCategory(parentCategory, orderableService.NextPosition);
             return View("Edit", EditViewData.WithCategory(defaultCategory)); 
         }
 
 		[AcceptVerbs(HttpVerbs.Post), UnitOfWork]
-		public ActionResult New([DataBind(Fetch = false)] Category category)
+		public ActionResult New([EntityBind(Fetch = false)] Category category)
 		{
-			if(! ModelState.IsValid)
-			{
-				return View("Edit", EditViewData.WithCategory(category));
-			}
+		    Image image = null;
+            Validator.Validate(ModelState, () =>
+			    image = httpFileService.GetUploadedImages(Request, ImageDefinition.CategoryImage).SingleOrDefault());
 
-			var image = httpFileService.GetUploadedImages(Request, ImageDefinition.CategoryImage).SingleOrDefault();
+            if (!ModelState.IsValid)
+            {
+                return View("Edit", EditViewData.WithCategory(category));
+            }
 
-			if(image != null)
+            if (image != null)
 			{
 				category.Image = image;
 			}
 
-			categoryRepository.InsertOnSubmit(category);
+			categoryRepository.SaveOrUpdate(category);
 			Message = "New category has been added.";
 
 			return this.RedirectToAction(c => c.Index());
@@ -69,14 +72,16 @@ namespace Suteki.Shop.Controllers
         }
 
 		[AcceptVerbs(HttpVerbs.Post), UnitOfWork]
-		public ActionResult Edit([DataBind] Category category)
+		public ActionResult Edit(Category category)
 		{
 			var viewData = EditViewData.WithCategory(category);
 
+            Image image = null;
+            Validator.Validate(ModelState, () =>
+                image = httpFileService.GetUploadedImages(Request, ImageDefinition.CategoryImage).SingleOrDefault());
+
 			if(ModelState.IsValid)
 			{
-				var image = httpFileService.GetUploadedImages(Request, ImageDefinition.CategoryImage).SingleOrDefault();
-
 				if (image != null) {
 					category.Image = image;
 				}
@@ -117,7 +122,7 @@ namespace Suteki.Shop.Controllers
 		{
 			var category = categoryRepository.GetById(id);
 			var productImage = imageRepository.GetById(imageId);
-			category.ImageId = null;
+			category.Image = null;
 			imageRepository.DeleteOnSubmit(productImage);
 
 			Message = "Image deleted.";
@@ -130,7 +135,7 @@ namespace Suteki.Shop.Controllers
             var category = categoryRepository.GetById(id);
             return orderableService
                 .MoveItemAtPosition(category.Position)
-                .ConstrainedBy(c => c.ParentId == category.ParentId);
+                .ConstrainedBy(c => c.Parent.Id == category.Parent.Id);
         }
     }
 }

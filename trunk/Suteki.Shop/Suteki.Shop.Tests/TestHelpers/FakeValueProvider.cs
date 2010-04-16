@@ -109,7 +109,8 @@ namespace Suteki.Shop.Tests
 
 	    public bool ContainsPrefix(string prefix)
 	    {
-	        throw new NotImplementedException();
+	        Console.WriteLine("ContainsPrefix: {0}", prefix);
+	        return false;
 	    }
 
 	    public ValueProviderResult GetValue(string key)

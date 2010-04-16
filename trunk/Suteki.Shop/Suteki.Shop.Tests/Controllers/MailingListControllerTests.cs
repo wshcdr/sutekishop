@@ -46,7 +46,7 @@ namespace Suteki.Shop.Tests.Controllers
 				.ReturnsRedirectToRouteResult()
 				.ToAction("Confirm");
 
-				mailingListRepository.AssertWasCalled(x => x.InsertOnSubmit(subscription));
+				mailingListRepository.AssertWasCalled(x => x.SaveOrUpdate(subscription));
 			
 		}
 

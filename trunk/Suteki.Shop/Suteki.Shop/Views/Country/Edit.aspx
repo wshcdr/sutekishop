@@ -7,11 +7,11 @@
     <%= Html.MessageBox(ViewData.Model)%>
 
     <% using (Html.BeginForm()) { %>
-		<%= this.Hidden(x => x.Item.CountryId) %>
+		<%= this.Hidden(x => x.Item.Id) %>
 		<%= this.Hidden(x => x.Item.Position) %>
 		<%= this.TextBox(x => x.Item.Name).Label("Name") %>
 		<%= this.CheckBox(x => x.Item.IsActive).Label("Active") %>
-		<%= this.Select(x => x.Item.PostZoneId).Options(Model.GetLookupList<PostZone>(), x => x.PostZoneId, x => x.Name).Label("Post Zone")%>
+		<%= this.Select(x => x.Item.PostZone.Id).Options(Model.GetLookupList<PostZone>(), x => x.Id, x => x.Name).Label("Post Zone")%>
 		<input type="submit" value="Save" />
     <% } %>
 </asp:Content>

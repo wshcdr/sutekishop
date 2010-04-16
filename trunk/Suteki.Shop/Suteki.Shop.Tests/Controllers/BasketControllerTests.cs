@@ -1,10 +1,8 @@
 ﻿using System.Linq;
-using System.Web.Mvc;
 using NUnit.Framework;
 using Rhino.Mocks;
 using Suteki.Common.Repositories;
 using Suteki.Common.TestHelpers;
-using Suteki.Common.Validation;
 using Suteki.Shop.Controllers;
 using Suteki.Shop.Services;
 using Suteki.Shop.ViewData;
@@ -20,22 +18,20 @@ namespace Suteki.Shop.Tests.Controllers
         [SetUp]
         public void SetUp()
         {
-            basketItemRepository = MockRepository.GenerateStub<IRepository<BasketItem>>();
-            sizeRepository = MockRepository.GenerateStub<IRepository<Size>>();
-
             userService = MockRepository.GenerateStub<IUserService>();
             postageService = MockRepository.GenerateStub<IPostageService>();
             countryRepository = MockRepository.GenerateStub<IRepository<Country>>();
+            basketService = new BasketService(countryRepository);
 
-            basketController = new BasketController(basketItemRepository,
-                sizeRepository,
+            basketController = new BasketController(
                 userService,
                 postageService,
-                countryRepository);
+                countryRepository,
+                basketService);
 
             testContext = new ControllerTestContext(basketController);
 
-			user = new User { Baskets = { new Basket() { BasketId = 4 } } };
+			user = new User { Baskets = { new Basket { Id = 4, Country = new Country() } } };
 			userService.Expect(x => x.CurrentUser).Return(user);
         }
 
@@ -46,16 +42,25 @@ namespace Suteki.Shop.Tests.Controllers
         private BasketController basketController;
         private ControllerTestContext testContext;
 
-        private IRepository<BasketItem> basketItemRepository;
-        private IRepository<Size> sizeRepository;
-
         private IUserService userService;
+        IBasketService basketService;
         private IPostageService postageService;
         private IRepository<Country> countryRepository;
 
         private static BasketItem CreateBasketItem()
         {
-			return new BasketItem { SizeId = 5, Quantity = 2 };
+            var product = new Product { Name = "Denim Jacket", UrlName = "denim_jacket", Weight = 10 };
+            var size = new Size
+            {
+                Id = 5,
+                Name = "S",
+                IsInStock = true,
+                IsActive = true,
+                Product = product
+            };
+            product.Sizes.Add(size);
+
+			return new BasketItem { Size = size, Quantity = 2 };
         }
 
         [Test]
@@ -76,31 +81,34 @@ namespace Suteki.Shop.Tests.Controllers
     	[Test]
     	public void GoToCheckout_UpdatesCountry()
     	{
-			basketController.GoToCheckout(5);
-			userService.CurrentUser.CurrentBasket.CountryId.ShouldEqual(5);
+    	    var country = new Country{ Id = 5 };
+
+            basketController.GoToCheckout(country);
+            basketService.GetCurrentBasketFor(userService.CurrentUser).Country.ShouldBeTheSameAs(country);
     	}
 
     	[Test]
     	public void GoToCheckout_RedirectsToCheckout()
     	{
-			basketController.GoToCheckout(5)
+            basketController.GoToCheckout(new Country { Id = 5 })
 				.ReturnsRedirectToRouteResult()
 				.ToController("Checkout")
 				.ToAction("Index")
-				.WithRouteValue("id", user.CurrentBasket.BasketId.ToString());
+                .WithRouteValue("id", basketService.GetCurrentBasketFor(user).Id.ToString());
     	}
 
     	[Test]
     	public void UpdateCountry_UpdatesCountry()
     	{
-			basketController.UpdateCountry(5);
-			userService.CurrentUser.CurrentBasket.CountryId.ShouldEqual(5);
+            var country = new Country { Id = 5 };
+            basketController.UpdateCountry(country);
+            basketService.GetCurrentBasketFor(userService.CurrentUser).Country.ShouldBeTheSameAs(country);
     	}
 
     	[Test]
     	public void UpdateCountry_RedirectsToIndex()
     	{
-			basketController.UpdateCountry(5).ReturnsRedirectToRouteResult().ToAction("Index");
+            basketController.UpdateCountry(new Country { Id = 5 }).ReturnsRedirectToRouteResult().ToAction("Index");
     	}
 
     	[Test]
@@ -110,7 +118,7 @@ namespace Suteki.Shop.Tests.Controllers
 
             var basketItem = new BasketItem
             {
-                BasketItemId = basketItemIdToRemove,
+                Id = basketItemIdToRemove,
                 Quantity = 1,
                 Size = new Size
                 {
@@ -124,52 +132,35 @@ namespace Suteki.Shop.Tests.Controllers
 				.ReturnsRedirectToRouteResult()
 				.ToAction("Index");
 
-            basketItemRepository.AssertWasCalled(ir => ir.DeleteOnSubmit(basketItem));
+    	    user.Baskets[0].BasketItems.Count.ShouldEqual(0);
         }
 
         [Test]
         public void Update_ShouldAddBasketLineToCurrentBasket()
         {
             var basketItem = CreateBasketItem();
+            var basket = new Basket();
 
-            var size = new Size
-            {
-                IsInStock = true,
-                Product = new Product
-                {
-                    Weight = 10
-                }
-            };
-            sizeRepository.Stub(sr => sr.GetById(5)).Return(size);
+            basketController.Update(basket, basketItem);
 
-            basketController.Update(user.CurrentBasket, basketItem);
-
-            Assert.AreEqual(1, user.Baskets[0].BasketItems.Count, "expected BasketItem is missing");
-            Assert.AreEqual(5, user.Baskets[0].BasketItems[0].SizeId);
-            Assert.AreEqual(2, user.Baskets[0].BasketItems[0].Quantity);
+            Assert.AreEqual(1, basket.BasketItems.Count, "expected BasketItem is missing");
+            Assert.AreEqual(5, basket.BasketItems[0].Size.Id);
+            Assert.AreEqual(2, basket.BasketItems[0].Quantity);
         }
 
         [Test]
         public void Update_ShouldShowErrorMessageIfItemIsOutOfStock()
         {
             var basketItem = CreateBasketItem();
-
-            var size = new Size
-            {
-                Name = "S",
-                IsInStock = false,
-                IsActive = true,
-                Product = new Product {Name = "Denim Jacket", UrlName = "denim_jacket"}
-            };
-            sizeRepository.Stub(sr => sr.GetById(5)).Return(size);
+            basketItem.Size.IsInStock = false;
 
             const string expectedMessage = "Sorry, Denim Jacket, Size S is out of stock.";
 
-			basketController.Update(user.CurrentBasket, basketItem)
+            basketController.Update(basketService.GetCurrentBasketFor(user), basketItem)
 				.ReturnsRedirectToRouteResult()
 				.ToController("Product")
 				.ToAction("Item")
-				.WithRouteValue("urlName", size.Product.UrlName);
+                .WithRouteValue("urlName", basketItem.Size.Product.UrlName);
 
 			basketController.Message.ShouldEqual(expectedMessage);
 

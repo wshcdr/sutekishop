@@ -1,27 +1,55 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 using System.Security.Principal;
-using Suteki.Common.Validation;
-using Suteki.Shop.Repositories;
-using System.Web.Security;
+using Suteki.Common.Models;
 
 namespace Suteki.Shop
 {
-    public partial class User : IPrincipal
+    public class User : IPrincipal, IEntity
     {
+        public virtual int Id { get; set; }
+
+        [Required(ErrorMessage = "Email is required")]
+        public virtual string Email { get; set; }
+        public virtual string Password { get; set; }
+        public virtual bool IsEnabled { get; set; }
+        public virtual Role Role { get; set; }
+
+        IList<Order> orders = new List<Order>();
+        public virtual IList<Order> Orders
+        {
+            get { return orders; }
+            set { orders = value; }
+        }
+
+        IList<Basket> baskets = new List<Basket>();
+        public virtual IList<Basket> Baskets
+        {
+            get { return baskets; }
+            set { baskets = value; }
+        }
+
+        public virtual void AddBasket(Basket basket)
+        {
+            basket.User = this;
+            baskets.Add(basket);
+        }
+        
         public static User Guest
         {
             get
             {
-                return new User() { Email = "Guest@guest.com", Role = Role.Guest };
+                return new User { Email = "Guest@guest.com", Role = Role.Guest };
             }
         }
 
     	public static User DefaultUser
     	{
-			get { return new User { Email = "", Password = "", RoleId = 1, IsEnabled = true }; }
+			get { return new User { Email = "", Password = "", Role = Role.Administrator, IsEnabled = true }; }
     	}
 
-        public string PublicIdentity
+        public virtual string PublicIdentity
         {
             get
             {
@@ -30,65 +58,55 @@ namespace Suteki.Shop
             }
         }
 
-        public bool CanLogin { get { return IsAdministrator || IsOrderProcessor; } }
+        public virtual bool CanLogin { get { return IsAdministrator || IsOrderProcessor; } }
 
-        public Basket CurrentBasket
-        {
-            get
-            {
-                if (Baskets.Count == 0)
-                {
-                    return CreateNewBasket();
-                }
-                return Baskets.CurrentBasket();
-            }
-        }
-
-        public Basket CreateNewBasket()
-        {
+//        public virtual Basket CurrentBasket
+//        {
+//            get
+//            {
+//                if (Baskets.Count == 0)
+//                {
+//                    return CreateNewBasket();
+//                }
+//                return Baskets.CurrentBasket();
+//            }
+//        }
+//
+//        public virtual Basket CreateNewBasket()
+//        {
             // HACK, we're relying on the static data for the default country to be 1 (UK)
-            return new Basket
-                       {
-                           User = this,
-                           OrderDate = DateTime.Now,
-                           CountryId = 1
-                       };
-        }
+//            return new Basket
+//                       {
+//                           User = this,
+//                           OrderDate = DateTime.Now,
+//                           Country = Country.UK
+//                       };
+//        }
 
-        public IIdentity Identity
+        public virtual IIdentity Identity
         {
             get
             {
-                bool isAuthenticated = !(Role.Name == Role.Guest.Name);
-                return new Identity(isAuthenticated, this.Email);
+                var isAuthenticated = Role.Name != Role.Guest.Name;
+                return new Identity(isAuthenticated, Email);
             }
         }
 
-        public bool IsInRole(string role)
+        public virtual bool IsInRole(string role)
         {
-            return this.Role.Name == role;
+            return Role.Name == role;
         }
 
-        public void Validate()
-        {
-            Validator validator = new Validator
-            {
-                () => Email.Label("Email").IsRequired(),
-                () => Password.Label("Password").IsRequired(),
-            };
+        public virtual bool IsAdministrator { get { return Role.Id == Role.AdministratorId; } }
+        public virtual bool IsOrderProcessor { get { return Role.Id == Role.OrderProcessorId; } }
+        public virtual bool IsCustomer { get { return Role.Id == Role.CustomerId; } }
 
-            validator.Validate();
-        }
-
-        public bool IsAdministrator { get { return RoleId == Role.AdministratorId; } }
-        public bool IsOrderProcessor { get { return RoleId == Role.OrderProcessorId; } }
-        public bool IsCustomer { get { return RoleId == Role.CustomerId; } }
-
-		public void EnsureCanViewOrder(Order order)
+        public virtual void EnsureCanViewOrder(Order order)
 		{
 			if (!IsAdministrator) 
 			{
-				if (order.Basket.UserId != UserId) 
+                // TODO: would object equality be better here?
+                if (order.Basket.User.Id != Id) 
 				{
 					throw new ApplicationException("You are attempting to view an order that was not created by you");
 				}
@@ -101,8 +119,8 @@ namespace Suteki.Shop
     /// </summary>
     public class Identity : IIdentity
     {
-        bool isAuthenticated;
-        string name;
+        readonly bool isAuthenticated;
+        readonly string name;
 
         public Identity(bool isAuthenticated, string name)
         {

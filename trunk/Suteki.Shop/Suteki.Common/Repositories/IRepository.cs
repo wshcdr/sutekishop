@@ -8,7 +8,7 @@ namespace Suteki.Common.Repositories
     {
         T GetById(int id);
         IQueryable<T> GetAll();
-        void InsertOnSubmit(T entity);
+        void SaveOrUpdate(T entity);
         void DeleteOnSubmit(T entity);
 		[Obsolete("Units of Work should be managed externally to the Repository.")]
         void SubmitChanges();
@@ -18,7 +18,7 @@ namespace Suteki.Common.Repositories
     {
         object GetById(int id);
         IQueryable GetAll();
-        void InsertOnSubmit(object entity);
+        void SaveOrUpdate(object entity);
         void DeleteOnSubmit(object entity);
 		[Obsolete("Units of Work should be managed externally to the Repository.")]
         void SubmitChanges();

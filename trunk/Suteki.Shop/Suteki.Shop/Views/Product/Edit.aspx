@@ -5,16 +5,16 @@
 	<%= Html.ValidationSummary() %>
     <%= Html.MessageBox(ViewData.Model) %>
     
-    <% if(ViewData.Model.Product.ProductId > 0) { %>
+    <% if(ViewData.Model.Product.Id > 0) { %>
         <%= Html.ActionLink<ProductController>(c => c.Item(ViewData.Model.Product.UrlName), "Preview") %>
     <% } %>
 
     <% using (Html.MultipartForm()) { %>
-		<%= this.Hidden(x => x.Product.ProductId) %>
+		<%= this.Hidden(x => x.Product.Id) %>
 		<%= this.Hidden(x => x.Product.Position) %>
 
 		<%= this.TextBox(x => x.Product.Name).Label("Name") %>
-		<%= this.MultiSelect(x => x.Product.ProductCategories.Select(y => y.CategoryId)).Name("categories").Options(Model.Categories, x => x.CategoryId, x => x.Name).Label("Categories (ctrl+click to select more than one)") %>
+		<%= this.MultiSelect(x => x.Product.ProductCategories.Select(y => y.Category.Id)).Name("categories").Options(Model.Categories, x => x.Id, x => x.Name).Label("Categories (ctrl+click to select more than one)") %>
         <%= this.TextBox(x => x.Product.Weight).Label("Weight") %>
         <%= this.TextBox(x => x.Product.Price).Format("{0:0.00}").Label("Price £") %>
         <%= this.CheckBox(x => x.Product.IsActive).Label("Active") %>
@@ -28,7 +28,7 @@
             <%= size.Name %>&nbsp;
         <% } %>
         
-        <%= Html.ActionLink<ProductController>(c => c.ClearSizes(ViewData.Model.Product.ProductId), "Clear all sizes")%>
+        <%= Html.ActionLink<ProductController>(c => c.ClearSizes(ViewData.Model.Product.Id), "Clear all sizes")%>
         </p>
         <div class="sizeInput">
         <% for(int i=0; i<10; i++) { %>
@@ -42,9 +42,9 @@
         <% foreach(var productImage in ViewData.Model.Product.ProductImages.InOrder()) { %>
             <div class="imageEdit">
             <%= Html.Image("~/ProductPhotos/" + productImage.Image.ThumbFileName) %><br />
-            <%= Html.UpArrowLink<ProductImageController>(c => c.MoveImageUp(ViewData.Model.Product.ProductId, productImage.Position)) %>
-            <%= Html.DownArrowLink<ProductImageController>(c => c.MoveImageDown(ViewData.Model.Product.ProductId, productImage.Position)) %> &nbsp;&nbsp;
-            <%= Html.CrossLink<ProductImageController>(c => c.DeleteImage(ViewData.Model.Product.ProductId, productImage.ProductImageId)) %>
+            <%= Html.UpArrowLink<ProductImageController>(c => c.MoveImageUp(ViewData.Model.Product.Id, productImage.Position)) %>
+            <%= Html.DownArrowLink<ProductImageController>(c => c.MoveImageDown(ViewData.Model.Product.Id, productImage.Position)) %> &nbsp;&nbsp;
+            <%= Html.CrossLink<ProductImageController>(c => c.DeleteImage(ViewData.Model.Product.Id, productImage.Id)) %>
             </div>
         <% } %>
         </div>

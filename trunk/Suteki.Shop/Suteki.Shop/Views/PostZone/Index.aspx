@@ -12,7 +12,7 @@
 <p><%= Html.ActionLink<PostZoneController>(c => c.New(), "New Postage Zone") %></p>
 
 <%= Html.Grid(Model.Items).Columns(column => {
-		column.For(x => Html.ActionLink<PostZoneController>(c => c.Edit(x.PostZoneId), x.Name)).Named("Name").DoNotEncode().HeaderAttributes(@class => "thin");
+		column.For(x => Html.ActionLink<PostZoneController>(c => c.Edit(x.Id), x.Name)).Named("Name").DoNotEncode().HeaderAttributes(@class => "thin");
 		column.For(x => x.Multiplier).Format("{0:0.00}").Attributes(@class => "number").HeaderAttributes(@class => "thin number");
 		column.For(x => Html.Tick(x.AskIfMaxWeight)).DoNotEncode().Named("Ask If Max Weight").HeaderAttributes(@class => "wide");
 		column.For(x => x.FlatRate).Format("{0:C}").HeaderAttributes(@class => "thin number").Attributes(@class => "number");

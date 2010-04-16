@@ -1,13 +1,10 @@
-﻿using System;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
 using MvcContrib;
 using Suteki.Common.Binders;
-using Suteki.Common.Extensions;
 using Suteki.Common.Filters;
 using Suteki.Common.Repositories;
 using Suteki.Common.Services;
-using Suteki.Common.Validation;
 using Suteki.Shop.Filters;
 using Suteki.Shop.Repositories;
 using Suteki.Shop.ViewData;
@@ -17,18 +14,14 @@ namespace Suteki.Shop.Controllers
 	[ValidateInput(false)] //Html must be allowed in the Save actions. 
 	public class CmsController : ControllerBase
 	{
-		public readonly IRepository<Content> contentRepository;
-		public readonly IOrderableService<Content> contentOrderableService;
-		public readonly IValidatingBinder validatingBinder;
+		private readonly IRepository<Content> contentRepository;
+        private readonly IOrderableService<Content> contentOrderableService;
 
-		public CmsController(
-			IRepository<Content> contentRepository,
-			IOrderableService<Content> contentOrderableService,
-			IValidatingBinder validatingBinder)
+	    public CmsController(
+            IRepository<Content> contentRepository, IOrderableService<Content> contentOrderableService)
 		{
 			this.contentRepository = contentRepository;
 			this.contentOrderableService = contentOrderableService;
-			this.validatingBinder = validatingBinder;
 		}
 
 		public override string GetControllerName()
@@ -39,7 +32,7 @@ namespace Suteki.Shop.Controllers
 		//TODO: Possibly look at slimming down this action.
 		public ActionResult Index(string urlName)
 		{
-		    Content content = null;
+		    Content content;
 
 		    try
 		    {
@@ -78,47 +71,49 @@ namespace Suteki.Shop.Controllers
 		[AdministratorsOnly]
 		public ActionResult Add(int id)
 		{
+		    var viewData = GetEditViewData(0);
 			var parentContent = contentRepository.GetById(id);
 			var textContent = TextContent.DefaultTextContent(parentContent, contentOrderableService.NextPosition);
-			return View("Edit", GetEditViewData(0).WithContent(textContent));
+			return View("Edit", viewData.WithContent(textContent));
 		}
 
-		[AdministratorsOnly, AcceptVerbs(HttpVerbs.Post), UnitOfWork]
-		public ActionResult Add([DataBind(Fetch = false)] TextContent content)
+		[AdministratorsOnly, HttpPost, UnitOfWork]
+		public ActionResult Add([EntityBind(Fetch = false)] TextContent content)
 		{
 			if(ModelState.IsValid)
 			{
-				contentRepository.InsertOnSubmit(content);
+				contentRepository.SaveOrUpdate(content);
 				Message = "Changes have been saved.";
-				return this.RedirectToAction<MenuController>(c => c.List(content.ParentContentId.Value));
+				return this.RedirectToAction<MenuController>(c => c.List(content.ParentContent.Id));
 			}
 
-			return View("Edit", GetEditViewData(content.ContentId).WithContent(content));
+			return View("Edit", GetEditViewData(content.Id).WithContent(content));
 		}
 
 		[AdministratorsOnly]
 		public ActionResult Edit(int id)
 		{
+		    var viewData = GetEditViewData(id);
 			var content = contentRepository.GetById(id);
-			return View("Edit", GetEditViewData(id).WithContent(content));
+			return View("Edit", viewData.WithContent(content));
 		}
 
 		[AdministratorsOnly, UnitOfWork, AcceptVerbs(HttpVerbs.Post)]
-		public ActionResult Edit([DataBind] Content content)
+		public ActionResult Edit(Content content)
 		{
 			if (ModelState.IsValid)
 			{
 				Message = "Changes have been saved.";
-				return this.RedirectToAction<MenuController>(c => c.List(content.ParentContentId.Value));
+                return this.RedirectToAction<MenuController>(c => c.List(content.ParentContent.Id));
 			}
 
 			//Error
-			return View(GetEditViewData(content.ContentId).WithContent(content));
+			return View(GetEditViewData(content.Id).WithContent(content));
 		}
 
 		CmsViewData GetEditViewData(int contentId)
 		{
-			var menus = contentRepository.GetAll().NotIncluding(contentId).Menus();
+			var menus = contentRepository.GetAll().NotIncluding(contentId).Menus().ToList();
 			return CmsView.Data.WithMenus(menus);
 		}
 
@@ -129,10 +124,10 @@ namespace Suteki.Shop.Controllers
 
 			contentOrderableService
 				.MoveItemAtPosition(content.Position)
-				.ConstrainedBy(c => c.ParentContentId == content.ParentContentId)
+                .ConstrainedBy(c => c.ParentContent.Id == content.ParentContent.Id)
 				.UpOne();
 
-			return this.RedirectToAction<MenuController>(c => c.List(content.ParentContentId.Value));
+            return this.RedirectToAction<MenuController>(c => c.List(content.ParentContent.Id));
 		}
 
 		[AdministratorsOnly, UnitOfWork]
@@ -142,10 +137,10 @@ namespace Suteki.Shop.Controllers
 
 			contentOrderableService
 				.MoveItemAtPosition(content.Position)
-				.ConstrainedBy(c => c.ParentContentId == content.ParentContentId)
+                .ConstrainedBy(c => c.ParentContent.Id == content.ParentContent.Id)
 				.DownOne();
 
-			return this.RedirectToAction<MenuController>(c => c.List(content.ParentContentId.Value));
+            return this.RedirectToAction<MenuController>(c => c.List(content.ParentContent.Id));
 		}
 	}
 }

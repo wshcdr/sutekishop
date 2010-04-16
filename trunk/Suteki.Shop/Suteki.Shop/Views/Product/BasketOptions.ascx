@@ -2,10 +2,10 @@
 <div class="productOptions">
 <% using (Html.BeginForm<BasketController>(c=>c.Update(null, null))) { %>
     <% if(Model.HasSize) { %>
-        <label for="basketItem_SizeId">Size</label>
-        <%= Html.DropDownList("basketItem.SizeId", new SelectList(Model.Sizes.Active(), "SizeId", "NameAndStock" ))%>
+        <label for="basketItem_size_Id">Size</label>
+        <%= Html.DropDownList("basketItem.size.Id", new SelectList(Model.Sizes.Active(), "Id", "NameAndStock" ))%>
     <% } else { %>
-        <%= Html.Hidden("basketItem.SizeId", Model.DefaultSize.SizeId.ToString()) %>
+        <%= Html.Hidden("basketItem.size.Id", Model.DefaultSize.Id.ToString()) %>
         <label><%= Model.DefaultSize.NameAndStock %></label>
     <% } %>
 

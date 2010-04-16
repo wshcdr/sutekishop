@@ -1,4 +1,3 @@
-
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<ShopViewData>" %>
 <%@ Import Namespace="Suteki.Common.Models"%>
         
@@ -10,8 +9,8 @@
 			
             <table>
                 <tr>
-                    <td class="label"><label for="card.cardtypeid">Card Type</label></td>
-                    <td colspan="2" class="field"><%= Html.DropDownList("card.cardtypeid", new SelectList(ViewData.Model.CardTypes, "CardTypeId", "Name", ViewData.Model.Order.Card.CardTypeId))%></td>
+                    <td class="label"><label for="card.cardtype.cardtype.cardtypeid">Card Type</label></td>
+                    <td colspan="2" class="field"><%= Html.DropDownList("card.cardtype.id", new SelectList(ViewData.Model.CardTypes, "Id", "Name", ViewData.Model.Order.Card.CardType.Id))%></td>
                 </tr>
                 <tr>
                     <td class="label"><label for="card.holder">Card Holder</label></td>

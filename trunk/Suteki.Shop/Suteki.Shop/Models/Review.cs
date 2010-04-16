@@ -1,17 +1,21 @@
-using Suteki.Common.Validation;
+using System.ComponentModel.DataAnnotations;
+using Suteki.Common.Models;
 
 namespace Suteki.Shop
 {
-	public partial class Review
+    public class Review : IEntity
 	{
-		partial void OnReviewerChanging(string value)
-		{
-			value.Label("Reviewer Name").IsRequired();
-		}
+        public virtual int Id { get; set; }
+        public virtual bool Approved { get; set; }
 
-		partial void OnTextChanging(string value)
-		{
-			value.Label("Review").IsRequired();
-		}
+        [Required(ErrorMessage = "Review is required")]
+        public virtual string Text { get; set; }
+
+        public virtual int Rating { get; set; }
+
+        [Required(ErrorMessage = "Reviewer Name is required")]
+        public virtual string Reviewer { get; set; }
+
+        public virtual Product Product { get; set; }
 	}
 }

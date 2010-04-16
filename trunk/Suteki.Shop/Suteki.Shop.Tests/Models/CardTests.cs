@@ -55,7 +55,7 @@ namespace Suteki.Shop.Tests.Models
         {
             var originalCard = new Card
                                    {
-                                       CardTypeId = 3,
+                                       CardType = new CardType { Id = 3 },
                                        Holder = "Mike Hadlow",
                                        Number = "1111 1111 1111 1117",
                                        IssueNumber = "1",
@@ -68,7 +68,7 @@ namespace Suteki.Shop.Tests.Models
 
             var copiedCard = originalCard.Copy();
 
-            Assert.That(originalCard.CardTypeId, Is.EqualTo(copiedCard.CardTypeId));
+            Assert.That(originalCard.CardType, Is.EqualTo(copiedCard.CardType));
             Assert.That(originalCard.Holder, Is.EqualTo(copiedCard.Holder));
             Assert.That(originalCard.Number, Is.EqualTo(copiedCard.Number));
             Assert.That(originalCard.IssueNumber, Is.EqualTo(copiedCard.IssueNumber));
@@ -82,24 +82,16 @@ namespace Suteki.Shop.Tests.Models
         [Test]
         public void IssueNumber_ShouldOnlyBeASingleDigit()
         {
-            var card = new Card();
-            card.IssueNumber = "3";
+            var card = new Card {IssueNumber = "3"};
 
             // should also be OK to set an empty string
             card.IssueNumber = "";
         }
 
-        [Test, ExpectedException(typeof(ValidationException))]
-        public void IssueNumber_ShouldNotBeATwoDigitNumber()
-        {
-            var card = new Card();
-            card.IssueNumber = "33";
-        }
-
         [Test]
         public void CardNumberAsString_Should_format_card_number_as_groups_of_four_digits()
         {
-            var expectedCardNumber = "1111 1111 1111 1117 ";
+            const string expectedCardNumber = "1111 1111 1111 1117 ";
 
             var card1 = new Card {Number = "1111111111111117"};
             Assert.That(card1.CardNumberAsString, Is.EqualTo(expectedCardNumber));
@@ -117,7 +109,7 @@ namespace Suteki.Shop.Tests.Models
         [Test]
         public void CardNumberAsString_Should_format_19_digit_card_number()
         {
-            var expectedCardNumber = "1111 1111 1111 1111 113";
+            const string expectedCardNumber = "1111 1111 1111 1111 113";
             var card = new Card {Number = "1111111111111111113"};
             Assert.That(card.CardNumberAsString, Is.EqualTo(expectedCardNumber));
         }

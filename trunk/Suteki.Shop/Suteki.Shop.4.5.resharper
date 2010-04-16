@@ -2,7 +2,6 @@
   <Daemon.SolutionSettings>
     <SkipFilesAndFolders>
       <Item>F63A91D4-3A6C-4729-BE83-D6CB45A53EF3/d:Controllers/f:CategoryController.cs</Item>
-      <Item>F63A91D4-3A6C-4729-BE83-D6CB45A53EF3/f:Shop.designer.cs</Item>
     </SkipFilesAndFolders>
   </Daemon.SolutionSettings>
   <CodeStyleSettings>
@@ -71,7 +70,7 @@
       <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="Locals" />
       <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="LocalConstants" />
       <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="Parameters" />
-      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="PublicFields" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="PublicFields" />
       <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="Constants" />
       <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="StaticReadonly" />
       <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="EnumMember" />

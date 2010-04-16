@@ -24,7 +24,7 @@
                            new Dictionary<string, object> { { "onsubmit", "submitHandler();" } }))
                        { %>
                         
-                        <%= Html.Hidden("orderId", ViewData.Model.Order.OrderId.ToString()) %>
+                        <%= Html.Hidden("orderId", ViewData.Model.Order.Id.ToString()) %>
                         
                         <label for="privateKey">Private Key</label>
                         <%= Html.TextBox("privateKey")%>

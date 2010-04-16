@@ -9,21 +9,21 @@ namespace Suteki.Common.Repositories
 {
     public static class QueriableExtensions
     {
-        const string expression_not_property = "propertyExpression must be a property accessor. e.g: 'x => x.MyProperty'";
+        const string expressionNotProperty = "propertyExpression must be a property accessor. e.g: 'x => x.MyProperty'";
 
         public static IQueryable<T> WithSelectItem<T>(this IQueryable<T> items, Expression<Func<T, string>> propertyExpression) 
             where T : new()
         {
             if (propertyExpression.Body.NodeType != ExpressionType.MemberAccess)
             {
-                throw new ArgumentException(expression_not_property);
+                throw new ArgumentException(expressionNotProperty);
             }
             
             var memberExpression = propertyExpression.Body as MemberExpression;
             var property = memberExpression.Member as PropertyInfo;
             if (property == null)
             {
-                throw new ArgumentException(expression_not_property);
+                throw new ArgumentException(expressionNotProperty);
             }
 
             var selectItem = new T();
@@ -47,7 +47,7 @@ namespace Suteki.Common.Repositories
                         ),
                     Expression.Constant(primaryKey)
                     ),
-                new ParameterExpression[] { itemParameter }
+                new[] { itemParameter }
                 );
             return items.Where(whereExpression);
         }

@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using Suteki.Common.Models;
 
 namespace Suteki.Common.Extensions
 {
@@ -19,12 +18,6 @@ namespace Suteki.Common.Extensions
             {
                 yield return new NameValue<object>(property.Name, () => property.GetValue(item, null));
             }
-        }
-
-        public static NameValue<object> GetPrimaryKey(this object item)
-        {
-            PropertyInfo property = item.GetType().GetPrimaryKey();
-            return new NameValue<object>(property.Name, () => property.GetValue(item, null));
         }
 
         public static void WriteProperties(this object item)

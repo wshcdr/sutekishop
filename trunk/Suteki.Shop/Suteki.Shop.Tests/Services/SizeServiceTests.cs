@@ -12,13 +12,12 @@ namespace Suteki.Shop.Tests.Services
     public class SizeServiceTests
     {
         ISizeService sizeService;
-        IRepository<Size> sizeRepository;
 
         [SetUp]
         public void SetUp()
         {
-            sizeRepository = MockRepository.GenerateStub<IRepository<Size>>();
-            sizeService = new SizeService(sizeRepository);
+            MockRepository.GenerateStub<IRepository<Size>>();
+            sizeService = new SizeService();
         }
 
         [Test]
@@ -78,10 +77,6 @@ namespace Suteki.Shop.Tests.Services
             var form = new NameValueCollection {{"someOtherKey", "xyz"}};
 
             var product = CreateProductWithSizes();
-
-            // sizeRepository DeleteOnSubmit should not be called
-            sizeRepository.Expect(sr => sr.DeleteOnSubmit(Arg<Size>.Is.Anything))
-                .Throw(new Exception("Test should not call sizeRepository.DeleteOnSubmit"));
 
             sizeService.WithValues(form).Update(product);
 

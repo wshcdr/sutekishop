@@ -1,13 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 using Suteki.Common.Extensions;
-using Suteki.Common.Validation;
+using Suteki.Common.Models;
+using Suteki.Shop.Models.CustomDataAnnotations;
 
 namespace Suteki.Shop
 {
-    public partial class Card
+    public class Card : IEntity
     {
+        public virtual int Id { get; set; }
+
+        [Required(ErrorMessage = "You must enter a value for Card Holder")]
+        [StringLength(50, ErrorMessage = "Card Holder cannot be more than 50 characters long")]
+        public virtual string Holder { get; set; }
+
+        [Required(ErrorMessage = "You must enter a value for Card Number")]
+        [StringLength(19, ErrorMessage = "A credit card number can not be more than 19 characters long")]
+        [CreditCard(ErrorMessage = "Not a valid credit card number")]
+        public virtual string Number { get; set; }
+
+        public virtual int ExpiryMonth { get; set; }
+        public virtual int ExpiryYear { get; set; }
+        public virtual int StartMonth { get; set; }
+        public virtual int StartYear { get; set; }
+
+        [Numeric(ErrorMessage = "Issue Number may only be a number")]
+        [StringLength(1, ErrorMessage = "Issue Number may only be one character")]
+        public virtual string IssueNumber { get; set; }
+
+        [Required(ErrorMessage = "Security Code is required")]
+        [Numeric(ErrorMessage = "SecurityCode must be a number")]
+        [StringLength(4, ErrorMessage = "Security Code must not be more than 4 characters long")]
+        public virtual string SecurityCode { get; set; }
+
+        public virtual CardType CardType { get; set; }
+
+        IList<Order> orders = new List<Order>();
+        public virtual IList<Order> Orders
+        {
+            get { return orders; }
+            set { orders = value; }
+        }
+
         public static IEnumerable<int> Months
         {
             get
@@ -32,59 +68,37 @@ namespace Suteki.Shop
             }
         }
 
-        public Card Copy()
+        public virtual Card Copy()
         {
             return new Card
             {
-                _CardTypeId = this._CardTypeId,
-                _Holder = this._Holder,
-                _Number = this._Number,
-                _IssueNumber = this._IssueNumber,
-                _SecurityCode = this._SecurityCode,
-                _StartMonth = this._StartMonth,
-                _StartYear = this._StartYear,
-                _ExpiryMonth = this._ExpiryMonth,
-                _ExpiryYear = this._ExpiryYear
+                CardType = CardType,
+                Holder = Holder,
+                Number = Number,
+                IssueNumber = IssueNumber,
+                SecurityCode = SecurityCode,
+                StartMonth = StartMonth,
+                StartYear = StartYear,
+                ExpiryMonth = ExpiryMonth,
+                ExpiryYear = ExpiryYear
             };
-        }
-
-        // validation
-
-        partial void OnHolderChanging(string value)
-        {
-            value.Label("Card Holder").IsRequired().WithMaxLength(50);
-        }
-
-        partial void OnNumberChanging(string value)
-        {
-            value.Label("Card Number").IsRequired().IsCreditCard();
-        }
-
-        partial void OnIssueNumberChanging(string value)
-        {
-            value.Label("Issue Number").IsNumeric().WithMaxLength(1);
-        }
-
-        partial void OnSecurityCodeChanging(string value)
-        {
-            value.Label("Security Code").IsRequired().IsNumeric().WithMaxLength(4);
         }
 
         // encrypted value setters
 
-        public void SetEncryptedNumber(string number)
+        public virtual void SetEncryptedNumber(string number)
         {
-            this._Number = number;
+            this.Number = number;
         }
 
-        public void SetEncryptedSecurityCode(string securityCode)
+        public virtual void SetEncryptedSecurityCode(string securityCode)
         {
-            this._SecurityCode = securityCode;
+            this.SecurityCode = securityCode;
         }
 
         // computed properties
 
-        public string StartDateAsString
+        public virtual string StartDateAsString
         {
             get
             {
@@ -96,7 +110,7 @@ namespace Suteki.Shop
             }
         }
 
-        public string ExpiryDateAsString
+        public virtual string ExpiryDateAsString
         {
             get
             {
@@ -104,7 +118,7 @@ namespace Suteki.Shop
             }
         }
 
-        public string CardNumberAsString
+        public virtual string CardNumberAsString
         {
             get
             {

@@ -1,10 +1,15 @@
-﻿using System;
+﻿using Suteki.Common.Models;
 
 namespace Suteki.Shop
 {
-    public partial class BasketItem
+    public class BasketItem : IEntity
     {
-        public decimal Total
+        public virtual int Id { get; set; }
+        public virtual int Quantity { get; set; }
+        public virtual Size Size { get; set; }
+        public virtual Basket Basket { get; set; }
+
+        public virtual decimal Total
         {
             get
             {
@@ -12,7 +17,7 @@ namespace Suteki.Shop
             }
         }
 
-        public decimal TotalWeight
+        public virtual decimal TotalWeight
         {
             get
             {

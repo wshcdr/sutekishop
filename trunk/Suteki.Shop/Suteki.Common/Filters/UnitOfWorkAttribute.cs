@@ -1,5 +1,6 @@
 using System.Web.Mvc;
-using Suteki.Common.Repositories;
+using Castle.Facilities.NHibernateIntegration;
+using NHibernate;
 
 namespace Suteki.Common.Filters
 {
@@ -12,24 +13,29 @@ namespace Suteki.Common.Filters
 
 	public class UnitOfWorkFilter : IActionFilter
 	{
-		private readonly IDataContextProvider provider;
+	    readonly ISessionManager sessionManager;
+	    ITransaction transaction;
 
-		public UnitOfWorkFilter(IDataContextProvider provider)
-		{
-			this.provider = provider;
-		}
+	    public UnitOfWorkFilter(ISessionManager sessionManager)
+	    {
+	        this.sessionManager = sessionManager;
+	    }
 
-		public void OnActionExecuting(ActionExecutingContext filterContext)
+	    public void OnActionExecuting(ActionExecutingContext filterContext)
 		{
+	        transaction = sessionManager.OpenSession().BeginTransaction();
 		}
 
 		public void OnActionExecuted(ActionExecutedContext filterContext)
 		{
-			var context = provider.DataContext;
-
-			if (filterContext.Controller.ViewData.ModelState.IsValid)
+		    var thereWereNoExceptions = filterContext.Exception == null || filterContext.ExceptionHandled;
+            if (filterContext.Controller.ViewData.ModelState.IsValid && thereWereNoExceptions)
 			{
-				context.SubmitChanges();
+				transaction.Commit();
+			}
+			else
+			{
+			    transaction.Rollback();
 			}
 		}
 	}

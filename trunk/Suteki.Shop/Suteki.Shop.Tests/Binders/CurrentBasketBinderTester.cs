@@ -1,4 +1,3 @@
-using System;
 using System.Web.Mvc;
 using NUnit.Framework;
 using Rhino.Mocks;
@@ -12,22 +11,28 @@ namespace Suteki.Shop.Tests.Binders
 	{
 		User user;
 		IUserService userService;
+        IBasketService basketService;
 		CurrentBasketBinder binder;
 
 		[SetUp]
 		public void Setup()
 		{
-			user = new User();
-			userService = MockRepository.GenerateStub<IUserService>();
+			user = new User { Role = Role.Administrator };
+			
+            userService = MockRepository.GenerateStub<IUserService>();
 			userService.Expect(x => x.CurrentUser).Return(user);
-			binder = new CurrentBasketBinder(userService);
+		    
+            basketService = MockRepository.GenerateStub<IBasketService>();
+		    basketService.Stub(b => b.GetCurrentBasketFor(user)).Return(new Basket());
+
+			binder = new CurrentBasketBinder(userService, basketService);
 		}
 
 		[Test]
 		public void When_user_is_guest_user_should_be_promoted_to_customer()
 		{
-			user.RoleId = Role.GuestId;
-			var customer = new User() { Email = "foo@bar" };
+			user.Role = Role.Guest;
+			var customer = new User { Email = "foo@bar" };
 			userService.Expect(x => x.CreateNewCustomer()).Return(customer);
 
 			binder.BindModel(new ControllerContext(), new ModelBindingContext());

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Data.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
-using Suteki.Common;
 
 namespace Suteki.Common.Repositories
 {
@@ -20,18 +17,18 @@ namespace Suteki.Common.Repositories
             return InOrder(items.AsQueryable());
         }
 
-        public static T AtPosition<T>(this IQueryable<T> items, int position) where T : IOrderable
+        public static T AtPosition<T>(this IEnumerable<T> items, int position) where T : IOrderable
         {
             return items.SingleOrDefault(i => i.Position == position);
         }
 
-        public static T GetItemBefore<T>(this IQueryable<T> items, int position) where T : IOrderable
+        public static T GetItemBefore<T>(this IEnumerable<T> items, int position) where T : IOrderable
         {
             if(!items.Any(i => i.Position < position)) return default(T);
             return items.SingleOrDefault(i1 => items.Where(i2 => i2.Position < position).Max(i3 => i3.Position) == i1.Position);
         }
 
-        public static T GetItemAfter<T>(this IQueryable<T> items, int position) where T : IOrderable
+        public static T GetItemAfter<T>(this IEnumerable<T> items, int position) where T : IOrderable
         {
             if (!items.Any(i => i.Position > position)) return default(T);
             return items.SingleOrDefault(i1 => items.Where(i2 => i2.Position > position).Min(i3 => i3.Position) == i1.Position);

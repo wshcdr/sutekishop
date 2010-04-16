@@ -10,7 +10,7 @@
 		</p>
 		<p>Product Review:</p>
 		<p><%= this.TextArea(x => x.Review.Text).Rows(10).Columns(40) %></p>
-		<%= this.Hidden(x => x.Product.ProductId).Name("id") %>
+		<%= this.Hidden(x => x.Product.Id).Name("id") %>
 		<!--
 		<p>Rating:</p>
 		<input name="<%= this.NameFor(x => x.Review.Rating) %>" type="radio" value="5" /> <%= Html.Stars(5) %><br />

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using MvcContrib;
+using Suteki.Common.Binders;
 using Suteki.Common.Filters;
 using Suteki.Common.Repositories;
 using Suteki.Common.Services;
@@ -81,58 +81,54 @@ namespace Suteki.Shop.Controllers
 		[AdministratorsOnly]
 		public ActionResult New(int id)
 		{
-			var defaultProduct = Product.DefaultProduct(id, productOrderableService.NextPosition);
+		    var category = categoryRepository.GetById(id);
+			var defaultProduct = Product.DefaultProduct(category, productOrderableService.NextPosition);
 			return View("Edit", EditViewData.WithProduct(defaultProduct));
 		}
 
 		[AdministratorsOnly, AcceptVerbs(HttpVerbs.Post), ValidateInput(false)]
-		public ActionResult New([BindProduct(Fetch = false)] Product product)
+		public ActionResult New([BindUsing(typeof(ProductBinder))] Product product)
 		{
-			if (ModelState.IsValid)
+		    if (ModelState.IsValid)
 			{
-				productRepository.InsertOnSubmit(product);
+				productRepository.SaveOrUpdate(product);
 				uow.Commit(); //Need explicit commit in order to get the product id.
 				Message = "Product successfully added.";
-				return this.RedirectToAction(x => x.Edit(product.ProductId));
+				return this.RedirectToAction(x => x.Edit(product.Id));
 			}
-			else
-			{
-				return View("Edit", EditViewData.WithProduct(product));
-			}
+		    return View("Edit", EditViewData.WithProduct(product));
 		}
 
-		[AdministratorsOnly]
+	    [AdministratorsOnly]
 		public ActionResult Edit(int id)
 		{
 			return RenderEditView(id);
 		}
 
 		[AcceptVerbs(HttpVerbs.Post), UnitOfWork, AdministratorsOnly, ValidateInput(false)]
-		public ActionResult Edit([BindProduct] Product product)
+        public ActionResult Edit([BindUsing(typeof(ProductBinder))] Product product)
 		{
-			if (ModelState.IsValid)
+		    if (ModelState.IsValid)
 			{
 				Message = "Product successfully saved.";
-				return this.RedirectToAction(x => x.Edit(product.ProductId));
+				return this.RedirectToAction(x => x.Edit(product.Id));
 			}
-			else
-			{
-				return View("Edit", EditViewData.WithProduct(product));
-			}
+		    return View("Edit", EditViewData.WithProduct(product));
 		}
 
-		ActionResult RenderEditView(int id)
+	    ActionResult RenderEditView(int id)
 		{
 			var product = productRepository.GetById(id);
 			return View("Edit", EditViewData.WithProduct(product));
 		}
 
+        // TODO: Will constrained by work with property value?
 		[AdministratorsOnly, UnitOfWork]
 		public ActionResult MoveUp(int id, int position)
 		{
 			productOrderableService
 				.MoveItemAtPosition(position)
-				.ConstrainedBy(product => product.ProductCategories.Any(pc => pc.CategoryId == id))
+				.ConstrainedBy(product => product.ProductCategories.Any(pc => pc.Category.Id == id))
 				.UpOne();
 
 
@@ -144,7 +140,7 @@ namespace Suteki.Shop.Controllers
 		{
 			productOrderableService
 				.MoveItemAtPosition(position)
-				.ConstrainedBy(product => product.ProductCategories.Any(pc => pc.CategoryId == id))
+                .ConstrainedBy(product => product.ProductCategories.Any(pc => pc.Category.Id == id))
 				.DownOne();
 
 			return this.RedirectToAction(x => x.Index(id));

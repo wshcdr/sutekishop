@@ -1,5 +1,4 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Shop.Master" Inherits="Suteki.Shop.ViewPage<ShopViewData>" %>
-<%@ Import Namespace="Suteki.Common.Extensions"%>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
 
 <script type="text/javascript">
@@ -18,7 +17,7 @@ function onThumbnailClick(img)
 <h1><%= Html.Encode(ViewData.Model.Product.Name) %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= ViewData.Model.Product.Price.ToString("£0.00") %><%= ViewData.Model.Product.IsActiveAsString %></h1>
 
 <% if(User.IsAdministrator()) { %>
-    <p><%= Html.ActionLink<ProductController>(c => c.Edit(ViewData.Model.Product.ProductId), "Edit") %></p>
+    <p><%= Html.ActionLink<ProductController>(c => c.Edit(ViewData.Model.Product.Id), "Edit") %></p>
 <% } %>
 
 <% Html.RenderPartial("ProductDescription", Model.Product); %>
@@ -30,6 +29,6 @@ function onThumbnailClick(img)
 </a>
  so that we can let you know when it will be available.</p>
 
-<% Html.RenderAction<ReviewsController>(c => c.Show(Model.Product.ProductId)); %>
+<% Html.RenderAction<ReviewsController>(c => c.Show(Model.Product.Id)); %>
 
 </asp:Content>

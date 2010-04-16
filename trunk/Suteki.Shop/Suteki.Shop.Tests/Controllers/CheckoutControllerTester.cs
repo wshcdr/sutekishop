@@ -1,13 +1,9 @@
 using System;
-using System.Collections.Specialized;
 using System.Linq;
-using System.Web.Mvc;
 using NUnit.Framework;
 using Rhino.Mocks;
 using Suteki.Common.Repositories;
-using Suteki.Common.Services;
 using Suteki.Common.TestHelpers;
-using Suteki.Common.Validation;
 using Suteki.Shop.Controllers;
 using Suteki.Shop.Services;
 using Suteki.Shop.ViewData;
@@ -21,6 +17,7 @@ namespace Suteki.Shop.Tests.Controllers
 		CheckoutController controller;
 		IRepository<Basket> basketRepository;
 		IUserService userService;
+	    IBasketService basketService;
 		IPostageService postageService;
 		IRepository<Country> countryRepository;
 		IRepository<CardType> cardTypeRepository;
@@ -36,6 +33,7 @@ namespace Suteki.Shop.Tests.Controllers
 			unitOfWorkManager = MockRepository.GenerateStub<IUnitOfWorkManager>();
 
 			userService = MockRepository.GenerateStub<IUserService>();
+		    basketService = MockRepository.GenerateStub<IBasketService>();
 			postageService = MockRepository.GenerateStub<IPostageService>();
 			countryRepository = MockRepository.GenerateStub<IRepository<Country>>();
 			cardTypeRepository = MockRepository.GenerateStub<IRepository<CardType>>();
@@ -53,17 +51,18 @@ namespace Suteki.Shop.Tests.Controllers
 				orderRepository,
 				unitOfWorkManager,
 				emailService,
-				subscriptionRepository
+				subscriptionRepository,
+                basketService
 			);
 			mocks.ReplayAll();
-			userService.Expect(us => us.CurrentUser).Return(new User { UserId = 4, RoleId = Role.AdministratorId });
+			userService.Expect(us => us.CurrentUser).Return(new User { Id = 4, Role = Role.Administrator });
 		}
 
 		[Test]
 		public void Index_ShouldDisplayCheckoutForm() {
 			const int basketId = 6;
 
-			var basket = new Basket { BasketId = basketId };
+			var basket = new Basket { Id = basketId };
 			var countries = new List<Country> { new Country() }.AsQueryable();
 			var cardTypes = new List<CardType> { new CardType() }.AsQueryable();
 
@@ -77,8 +76,8 @@ namespace Suteki.Shop.Tests.Controllers
 				.ReturnsViewResult()
 				.WithModel<ShopViewData>()
 				.AssertNotNull(vd => vd.Order)
-				.AssertNotNull(vd => vd.Order.Contact)
-				.AssertNotNull(vd => vd.Order.Contact1)
+				.AssertNotNull(vd => vd.Order.CardContact)
+				.AssertNotNull(vd => vd.Order.DeliveryContact)
 				.AssertNotNull(vd => vd.Order.Card)
 				.AssertAreSame(basket, vd => vd.Order.Basket)
 				.AssertNotNull(vd => vd.Countries)
@@ -99,7 +98,7 @@ namespace Suteki.Shop.Tests.Controllers
 
 		[Test]
 		public void IndexWithPost_ShouldCreateANewOrder() {
-			var order = new Order() { OrderId = 4 };
+			var order = new Order { Id = 4 };
 
 			//controller.Expect(x => x.EmailOrder(order));
 
@@ -110,7 +109,7 @@ namespace Suteki.Shop.Tests.Controllers
 				.WithRouteValue("id", "4");
 
 //			emailService.AssertWasCalled(x => x.SendOrderConfirmation(order));
-			orderRepository.AssertWasCalled(x => x.InsertOnSubmit(order));
+			orderRepository.AssertWasCalled(x => x.SaveOrUpdate(order));
 //			unitOfWorkManager.AssertWasCalled(x => x.Commit());
 		}
 
@@ -118,7 +117,7 @@ namespace Suteki.Shop.Tests.Controllers
 		public void IndexWithPost_ShouldRenderViewOnError()
 		{
 			controller.ModelState.AddModelError("foo", "bar");
-			var order = new Order() { BasketId = 6 };
+			var order = new Order { Basket = new Basket { Id = 6} };
 			controller.Index(order)
 				.ReturnsViewResult()
 				.WithModel<ShopViewData>()
@@ -139,7 +138,7 @@ namespace Suteki.Shop.Tests.Controllers
 		[Test]
 		public void ConfirmWithPost_UpdatesOrderStatus()
 		{
-			var order = new Order() { OrderId = 5 };
+			var order = new Order { Id = 5 };
 
 			controller.Confirm(order)
 				.ReturnsRedirectToRouteResult()
@@ -153,32 +152,39 @@ namespace Suteki.Shop.Tests.Controllers
 		[Test]
 		public void ConfirmWithPost_CreatesMailingListSubscriptionForDeliveryContact()
 		{
-			var order = new Order() { Contact1 = new Contact(), ContactMe = true, Email = "foo@bar.com"};
+			var order = new Order { DeliveryContact = new Contact(), ContactMe = true, Email = "foo@bar.com"};
 			MailingListSubscription subscription = null;
 
-			subscriptionRepository.Expect(x => x.InsertOnSubmit(Arg<MailingListSubscription>.Is.Anything))
+			subscriptionRepository.Expect(x => x.SaveOrUpdate(Arg<MailingListSubscription>.Is.Anything))
 				.Do(new Action<MailingListSubscription>(x => subscription = x));
 
 			controller.Confirm(order);
 
 			subscription.ShouldNotBeNull();
-			subscription.Contact.ShouldBeTheSameAs(order.Contact1);
+			subscription.Contact.ShouldBeTheSameAs(order.DeliveryContact);
 			subscription.Email.ShouldEqual("foo@bar.com");
 		}
 
 		[Test]
 		public void ConfirmWithPost_CreatesMailingListSubscriptionForCardContact()
 		{
-			var order = new Order() { Contact = new Contact(), ContactMe = true, Email = "foo@bar.com" };
+			var order = new Order
+			{
+			    CardContact = new Contact(), 
+                ContactMe = true, 
+                Email = "foo@bar.com", 
+                UseCardHolderContact = true
+			};
+
 			MailingListSubscription subscription = null;
 
-			subscriptionRepository.Expect(x => x.InsertOnSubmit(Arg<MailingListSubscription>.Is.Anything))
+			subscriptionRepository.Expect(x => x.SaveOrUpdate(Arg<MailingListSubscription>.Is.Anything))
 				.Do(new Action<MailingListSubscription>(x => subscription = x));
 
 			controller.Confirm(order);
 
 			subscription.ShouldNotBeNull();
-			subscription.Contact.ShouldBeTheSameAs(order.Contact);
+			subscription.Contact.ShouldBeTheSameAs(order.CardContact);
 			subscription.Email.ShouldEqual("foo@bar.com");
 		}
 	}

@@ -117,7 +117,7 @@ namespace Suteki.Common.TestHelpers
         {
             if (viewName != result.ViewName)
             {
-                throw new TestHelperException("ViewResult.ViewName is not '{0}'".With(viewName));
+                throw new TestHelperException("ViewResult.ViewName is not '{0}', but {1}".With(viewName, result.ViewName));
             }
             return result;
         }

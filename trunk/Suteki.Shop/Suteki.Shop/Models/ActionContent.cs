@@ -3,14 +3,17 @@ using System.Web.Mvc.Html;
 
 namespace Suteki.Shop
 {
-    public partial class ActionContent
+    public class ActionContent : Content
     {
-        public override MvcHtmlString Link(System.Web.Mvc.HtmlHelper htmlHelper)
+        public virtual string Controller { get; set; }
+        public virtual string Action { get; set; }
+
+        public override MvcHtmlString Link(HtmlHelper htmlHelper)
         {
             return htmlHelper.ActionLink(Name, Action, Controller);
         }
 
-		public override string Url(System.Web.Mvc.UrlHelper urlHelper) 
+		public override string Url(UrlHelper urlHelper) 
 		{
 			return urlHelper.Action(Action, Controller);
 		}

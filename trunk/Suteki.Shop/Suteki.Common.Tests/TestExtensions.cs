@@ -5,9 +5,15 @@ namespace Suteki.Common.Tests
 {
 	public static class TestExtensions
 	{
-		public static T ShouldNotBeNull<T>(this T obj)
+	    public static T ShouldNotBeNull<T>(this T obj)
+	    {
+            Assert.IsNotNull(obj);
+            return obj;
+        }
+
+		public static T ShouldNotBeNull<T>(this T obj, string message)
 		{
-			Assert.IsNotNull(obj);
+			Assert.IsNotNull(obj, message);
 			return obj;
 		}
 
@@ -35,6 +41,11 @@ namespace Suteki.Common.Tests
 		public static void ShouldBeTheSameAs(this object actual, object expected)
 		{
 			Assert.AreSame(expected, actual);
+		}
+
+        public static void ShouldBeNotBeTheSameAs(this object actual, object expected)
+		{
+			Assert.AreNotSame(expected, actual);
 		}
 
 		public static T CastTo<T>(this object source)

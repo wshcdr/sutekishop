@@ -4,25 +4,22 @@ using Suteki.Shop.Controllers;
 
 namespace Suteki.Shop
 {
-	public partial class TextContent : ITextContent
+	public class TextContent : Content, ITextContent
 	{
-		partial void OnTextChanging(string value)
-		{
-			//value.Label("Text").IsRequired();
-		}
+	    public virtual string Text { get; set; }
 
-        public override MvcHtmlString EditLink(HtmlHelper htmlHelper)
+	    public override MvcHtmlString EditLink(HtmlHelper htmlHelper)
 		{
-			return htmlHelper.ActionLink<CmsController>(c => c.Edit(ContentId), "Edit");
+			return htmlHelper.ActionLink<CmsController>(c => c.Edit(Id), "Edit");
 		}
 
 		public static TextContent DefaultTextContent(Content parentContent, int nextPosition)
 		{
 			return new TextContent
 			{
-				Content1 = parentContent,
+				ParentContent = parentContent,
 				IsActive = true,
-				ContentTypeId = ContentType.TextContentId,
+				ContentType = ContentType.TextContent,
 				Position = nextPosition
 			};
 		}

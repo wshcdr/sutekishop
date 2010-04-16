@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Specialized;
 using System.Web;
 using System.Web.Mvc;
 using NUnit.Framework;
@@ -18,10 +16,10 @@ namespace Suteki.Shop.Tests.Binders
 	[TestFixture]
 	public class ProductBinderTester
 	{
-		ProductBinder binder;
-		IValidatingBinder validator;
-		IRepository<Product> repository;
-		List<Product> products;
+		ProductBinder productBinder;
+		IModelBinder defaultBinder;
+        FakeRepository<Product> productRepository;
+	    IRepository<Category> categoryRepository;
 		ControllerContext controllerContext;
 		IHttpFileService fileService;
 		IOrderableService<ProductImage> imageOrderableService;
@@ -33,19 +31,16 @@ namespace Suteki.Shop.Tests.Binders
 		[SetUp]
 		public void Setup()
 		{
-			products= new List<Product>();
 			images = new List<Image>();
-			validator = MockRepository.GenerateStub<IValidatingBinder>();
-			repository = MockRepository.GenerateStub<IRepository<Product>>();
-			repository.Expect(x => x.GetAll()).Return(products.AsQueryable());
+
+		    productRepository = new FakeRepository<Product>();
+		    categoryRepository = new FakeRepository<Category>(id => new Category {Id = id});
+
 			fileService = MockRepository.GenerateStub<IHttpFileService>();
-			imageOrderableService = MockRepository.GenerateStub<IOrderableService<ProductImage>>();
-			fileService.Expect(x => x.GetUploadedImages(null)).IgnoreArguments().Return(images);
+            imageOrderableService = MockRepository.GenerateStub<IOrderableService<ProductImage>>();
 			sizeService = MockRepository.GenerateStub<ISizeService>();
 			
-			var resolver = MockRepository.GenerateStub<IRepositoryResolver>();
-			
-			controllerContext = new ControllerContext()
+			controllerContext = new ControllerContext
 			{
 				HttpContext = MockRepository.GenerateStub<HttpContextBase>()
 			};
@@ -54,7 +49,7 @@ namespace Suteki.Shop.Tests.Binders
 			sizeService.Expect(x => x.WithValues(controllerContext.HttpContext.Request.Form)).Return(sizeService);
 
 			valueProvider = new FakeValueProvider();
-			bindingContext = new ModelBindingContext() 
+			bindingContext = new ModelBindingContext
 			{
 				ModelState = new ModelStateDictionary(),
                 ModelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(Product)),
@@ -62,29 +57,37 @@ namespace Suteki.Shop.Tests.Binders
 				ValueProvider = valueProvider
 			};
 
-			binder = new ProductBinder(validator, resolver, repository, fileService, imageOrderableService, sizeService);
-		}
+            defaultBinder = MockRepository.GenerateStub<IModelBinder>();
+            defaultBinder.Stub(b => b.BindModel(controllerContext, bindingContext))
+                .Return(new Product { Id = 0, Name = "foo" }).Repeat.Any();
+
+            productBinder = new ProductBinder(defaultBinder, productRepository, categoryRepository, fileService, imageOrderableService, sizeService);
+        }
 
 		[Test]
 		public void ShouldAddErrorToModelstateWhenNameNotUnique()
 		{
-			products.Add(new Product() { ProductId = 5, Name = "foo" });
-			binder.Accept(new DataBindAttribute() { Fetch = false });
-			SetupBoundProduct(p => p.Name = "foo");
+            fileService.Stub(x => x.GetUploadedImages(null)).IgnoreArguments().Return(images);
 
+            productRepository.EntitesToReturnFromGetAll.Add(new Product { Id = 5, Name = "foo" });
 
-			binder.BindModel(controllerContext, bindingContext);
-			bindingContext.ModelState["product.ProductId"].ShouldNotBeNull();
+			var product = productBinder.BindModel(controllerContext, bindingContext);
+
+		    product.ShouldNotBeNull("Product is null");
+			bindingContext.ModelState["product.ProductId"].ShouldNotBeNull("Expected model state error");
 		}
 
 		[Test]
 		public void ShouldUpdateImages()
 		{
-			images.Add(new Image());
-			images.Add(new Image());
-			binder.Accept(new DataBindAttribute() { Fetch = false });
-			var product = (Product)binder.BindModel(controllerContext, bindingContext);
+            fileService.Stub(x => x.GetUploadedImages(null)).IgnoreArguments().Return(images);
 
+			images.Add(new Image());
+			images.Add(new Image());
+
+			var product = (Product)productBinder.BindModel(controllerContext, bindingContext);
+
+            product.ShouldNotBeNull("Product is null");
 			product.ProductImages.Count.ShouldEqual(2);
 			product.ProductImages.First().Image.ShouldBeTheSameAs(images[0]);
 			product.ProductImages.Last().Image.ShouldBeTheSameAs(images[1]);
@@ -92,41 +95,48 @@ namespace Suteki.Shop.Tests.Binders
 			product.ProductImages.Last().Position.ShouldEqual(1);
 		}
 
+	    [Test]
+	    public void Validation_errors_thrown_by_file_service_should_be_added_to_model_state()
+	    {
+	        fileService.Stub(f => f.GetUploadedImages(null)).IgnoreArguments().Throw(
+	            new ValidationException("Image upload failed"));
+            productBinder.BindModel(controllerContext, bindingContext);
+
+            bindingContext.ModelState["validation_error_0"].Errors[0].ErrorMessage.ShouldEqual("Image upload failed");
+
+            fileService.AssertWasCalled(f => f.GetUploadedImages(Arg<HttpRequestBase>.Is.Anything, Arg<string[]>.Is.Anything));
+	    }
+
 		[Test]
 		public void ShouldUpdateSizes()
 		{
-			binder.Accept(new DataBindAttribute() { Fetch = false });
-			var product = (Product)binder.BindModel(controllerContext, bindingContext);
+            fileService.Stub(x => x.GetUploadedImages(null)).IgnoreArguments().Return(images);
+
+			productBinder.BindModel(controllerContext, bindingContext);
 			sizeService.AssertWasCalled(x => x.Update(Arg<Product>.Is.Anything));
 		}
 
 		[Test]
 		public void ShouldUpdateCategories()
 		{
+            fileService.Stub(x => x.GetUploadedImages(null)).IgnoreArguments().Return(images);
+
 			valueProvider.AddValue("categories", new[] { 1, 2 }, "1,2");
-			binder.Accept(new DataBindAttribute{Fetch = false});
-			var product = (Product)binder.BindModel(controllerContext, bindingContext);
+			var product = (Product)productBinder.BindModel(controllerContext, bindingContext);
 
 			product.ProductCategories.Count().ShouldEqual(2);
-			product.ProductCategories.First().CategoryId.ShouldEqual(1);
-			product.ProductCategories.Last().CategoryId.ShouldEqual(2);
+			product.ProductCategories.First().Category.Id.ShouldEqual(1);
+            product.ProductCategories.Last().Category.Id.ShouldEqual(2);
 		}
 
 
 		[Test]
 		public void AddsModelStateErrorWhenNoCategories()
 		{
-			binder.Accept(new DataBindAttribute { Fetch = false });
-			var product = (Product)binder.BindModel(controllerContext, bindingContext);
+            fileService.Stub(x => x.GetUploadedImages(null)).IgnoreArguments().Return(images);
 
+			productBinder.BindModel(controllerContext, bindingContext);
 			bindingContext.ModelState["categories"].Errors.Count.ShouldEqual(1);
-		}
-
-		private void SetupBoundProduct(Action<Product> action)
-		{
-			validator.Expect(x => x.UpdateFrom(null, null, null, null)).IgnoreArguments().Do(new Action<object, NameValueCollection, ModelStateDictionary, string>((obj, form, modelstate, prefix) => 
-				action((Product)obj)
-			));
 		}
 	}
 }

@@ -11,9 +11,21 @@ namespace Suteki.Shop.Tests
 			return obj;
 		}
 
+        public static T ShouldNotBeNull<T>(this T obj, string message)
+		{
+			Assert.IsNotNull(obj, message);
+			return obj;
+		}
+
 		public static T ShouldEqual<T>(this T actual, object expected)
 		{
 			Assert.AreEqual(expected, actual);
+			return actual;
+		}
+
+        public static T ShouldEqual<T>(this T actual, object expected, string message)
+		{
+			Assert.AreEqual(expected, actual, message);
 			return actual;
 		}
 
@@ -47,9 +59,19 @@ namespace Suteki.Shop.Tests
 			Assert.IsTrue(source);
 		}
 
+        public static void ShouldBeTrue(this bool source, string message)
+		{
+			Assert.IsTrue(source, message);
+		}
+
 		public static void ShouldBeFalse(this bool source)
 		{
 			Assert.IsFalse(source);
+		}
+
+        public static void ShouldBeFalse(this bool source, string message)
+		{
+			Assert.IsFalse(source, message);
 		}
 	}
 }

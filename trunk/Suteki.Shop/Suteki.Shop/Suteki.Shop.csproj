@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.1.0.39271, Culture=neutral, PublicKeyToken=3a9cab8f8d22bfb7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Antlr3.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Castle.Core.dll</HintPath>
@@ -42,6 +46,10 @@
     <Reference Include="Castle.Facilities.Logging, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Castle.Facilities.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Facilities.NHibernateIntegration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Castle.Facilities.NHibernateIntegration.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Facilities.WcfIntegration, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -66,6 +74,18 @@
     <Reference Include="Elmah, Version=1.1.11517.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentNHibernate, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="HibernatingRhinos.Profiler.Appender, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0774796e73ebf640, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\HibernatingRhinos.Profiler.Appender.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -94,6 +114,18 @@
     <Reference Include="MvcContrib.FluentHtml, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\MvcContrib.FluentHtml.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate, Version=3.0.0.1001, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.ByteCode.Castle, Version=3.0.0.1001, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\NHibernate.ByteCode.Castle.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Data.Linq, Version=1.13.41.2, Culture=neutral, PublicKeyToken=cab60358ab4081ea, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Remotion.Data.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -181,7 +213,35 @@
     <Compile Include="HtmlHelpers\UrlHelperExtensions.cs" />
     <Compile Include="IoC\ContainerBuilder.cs" />
     <Compile Include="IoC\UrlBasedComponentSelector.cs" />
+    <Compile Include="Maps\ActionContentMap.cs" />
+    <Compile Include="Maps\BasketItemMap.cs" />
+    <Compile Include="Maps\BasketMap.cs" />
+    <Compile Include="Maps\CardMap.cs" />
+    <Compile Include="Maps\CardTypeMap.cs" />
+    <Compile Include="Maps\CategoryMap.cs" />
+    <Compile Include="Maps\ContactMap.cs" />
+    <Compile Include="Maps\ContentMap.cs" />
+    <Compile Include="Maps\ContentTypeMap.cs" />
+    <Compile Include="Maps\CountryMap.cs" />
+    <Compile Include="Maps\ImageMap.cs" />
+    <Compile Include="Maps\MailingListSubscriptionMap.cs" />
+    <Compile Include="Maps\MenuMap.cs" />
+    <Compile Include="Maps\OrderMap.cs" />
+    <Compile Include="Maps\OrderStatusMap.cs" />
+    <Compile Include="Maps\PostageMap.cs" />
+    <Compile Include="Maps\PostZoneMap.cs" />
+    <Compile Include="Maps\ProductCategoryMap.cs" />
+    <Compile Include="Maps\ProductImageMap.cs" />
+    <Compile Include="Maps\ProductMap.cs" />
+    <Compile Include="Maps\ReviewMap.cs" />
+    <Compile Include="Maps\RoleMap.cs" />
+    <Compile Include="Maps\SizeMap.cs" />
+    <Compile Include="Maps\TextContentMap.cs" />
+    <Compile Include="Maps\TopContentMap.cs" />
+    <Compile Include="Maps\UserMap.cs" />
     <Compile Include="Models\ActionContent.cs" />
+    <Compile Include="Models\Basket.cs" />
+    <Compile Include="Models\BasketItem.cs" />
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\CardType.cs" />
     <Compile Include="Models\Category.cs" />
@@ -189,17 +249,18 @@
     <Compile Include="Models\Content.cs" />
     <Compile Include="Models\ContentType.cs" />
     <Compile Include="Models\Country.cs" />
+    <Compile Include="Models\CustomDataAnnotations\CreditCardAttribute.cs" />
+    <Compile Include="Models\CustomDataAnnotations\EmailAttribute.cs" />
+    <Compile Include="Models\CustomDataAnnotations\NumericAttribute.cs" />
+    <Compile Include="Models\CustomDataAnnotations\StringPropertyAttributeBase.cs" />
     <Compile Include="Models\Exceptions\NoMenuException.cs" />
     <Compile Include="Models\IActivatable.cs" />
     <Compile Include="Models\Image.cs" />
-    <Compile Include="Models\Basket.cs" />
-    <Compile Include="Models\BasketItem.cs" />
     <Compile Include="Models\ITextContent.cs" />
     <Compile Include="Models\IUrlNamed.cs" />
     <Compile Include="Models\LoadOptions.cs" />
     <Compile Include="Models\MailingListSubscription.cs" />
     <Compile Include="Models\Menu.cs" />
-    <Compile Include="Models\MenuRepository.cs" />
     <Compile Include="Models\ModelHelpers\UrlNameHelperExtensions.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderSearchCriteria.cs" />
@@ -208,6 +269,7 @@
     <Compile Include="Models\PostageResult.cs" />
     <Compile Include="Models\PostZone.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ProductCategory.cs" />
     <Compile Include="Models\ProductImage.cs" />
     <Compile Include="Models\Review.cs" />
     <Compile Include="Models\Role.cs" />
@@ -222,6 +284,7 @@
     <Compile Include="Repositories\ContentRepositoryExtensions.cs" />
     <Compile Include="Repositories\BasketRepositoryExtensions.cs" />
     <Compile Include="Repositories\CountryRepositoryExtensions.cs" />
+    <Compile Include="Repositories\FluentNHibernateConfigurationBuilder.cs" />
     <Compile Include="Repositories\MailingListRepositoryExtensions.cs" />
     <Compile Include="Repositories\OrderRepositoryExtensions.cs" />
     <Compile Include="Repositories\PostZoneRepositoryExtensions.cs" />
@@ -230,12 +293,14 @@
     <Compile Include="Repositories\UserRepositoryExtensions.cs" />
     <Compile Include="Routes\RouteManager.cs" />
     <Compile Include="Services\BaseControllerService.cs" />
+    <Compile Include="Services\BasketService.cs" />
     <Compile Include="Services\CheckoutService.cs" />
     <Compile Include="Services\DbConnectionChecker.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\EncryptionService.cs" />
     <Compile Include="Services\HttpFileService.cs" />
     <Compile Include="Services\IBaseControllerService.cs" />
+    <Compile Include="Services\IBasketService.cs" />
     <Compile Include="Services\IDbConnectionChecker.cs" />
     <Compile Include="Services\IEncryptionService.cs" />
     <Compile Include="Services\IFormsAuthentication.cs" />
@@ -251,11 +316,6 @@
     <Compile Include="Services\PostageService.cs" />
     <Compile Include="Services\SizeService.cs" />
     <Compile Include="Services\UserService.cs" />
-    <Compile Include="Shop.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Shop.dbml</DependentUpon>
-    </Compile>
     <Compile Include="ViewData\CategoryViewData.cs" />
     <Compile Include="ViewData\CategoryViewDataExtensions.cs" />
     <Compile Include="ViewData\CmsViewData.cs" />
@@ -349,13 +409,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Shop.dbml">
-      <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>Shop.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Images\creditcards.gif" />
@@ -613,10 +666,8 @@
     <Content Include="FileNotFound.htm" />
     <Content Include="GenericErrorPage.htm" />
     <Content Include="log4net.config" />
-    <None Include="Shop.dbml.layout">
-      <DependentUpon>Shop.dbml</DependentUpon>
-    </None>
     <None Include="MetaWebLogAPI.svc.explicitXmlRpcHost.Factory" />
+    <None Include="Models\DomainModel.cd" />
     <None Include="Views\EmailTemplates\OrderConfirmation.vm" />
     <None Include="Views\EmailTemplates\OrderDispatch.vm" />
     <None Include="Views\EmailTemplates\_orderDetails.vm" />

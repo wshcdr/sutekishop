@@ -6,16 +6,16 @@
         <h3>Card Holder</h3>
         
         <dl>
-            <dt>First Name</dt><dd><%= Model.Order.Contact.Firstname %>&nbsp;</dd>
-            <dt>Last Name</dt><dd><%= Model.Order.Contact.Lastname %>&nbsp;</dd>
-            <dt>Address 1</dt><dd><%= Model.Order.Contact.Address1 %>&nbsp;</dd>
-            <dt>Address 2</dt><dd><%= Model.Order.Contact.Address2 %>&nbsp;</dd>
-            <dt>Address 3</dt><dd><%= Model.Order.Contact.Address3 %>&nbsp;</dd>
-            <dt>Town</dt><dd><%= Model.Order.Contact.Town %>&nbsp;</dd>
-            <dt>County</dt><dd><%= Model.Order.Contact.County %>&nbsp;</dd>
-            <dt>Postcode</dt><dd><%= Model.Order.Contact.Postcode %>&nbsp;</dd>
-            <dt>Country</dt><dd><%= Model.Order.Contact.Country.Name %>&nbsp;</dd>
-            <dt>Telephone</dt><dd><%= Model.Order.Contact.Telephone %>&nbsp;</dd>
+            <dt>First Name</dt><dd><%= Model.Order.CardContact.Firstname %>&nbsp;</dd>
+            <dt>Last Name</dt><dd><%= Model.Order.CardContact.Lastname %>&nbsp;</dd>
+            <dt>Address 1</dt><dd><%= Model.Order.CardContact.Address1 %>&nbsp;</dd>
+            <dt>Address 2</dt><dd><%= Model.Order.CardContact.Address2 %>&nbsp;</dd>
+            <dt>Address 3</dt><dd><%= Model.Order.CardContact.Address3 %>&nbsp;</dd>
+            <dt>Town</dt><dd><%= Model.Order.CardContact.Town %>&nbsp;</dd>
+            <dt>County</dt><dd><%= Model.Order.CardContact.County %>&nbsp;</dd>
+            <dt>Postcode</dt><dd><%= Model.Order.CardContact.Postcode %>&nbsp;</dd>
+            <dt>Country</dt><dd><%= Model.Order.CardContact.Country.Name %>&nbsp;</dd>
+            <dt>Telephone</dt><dd><%= Model.Order.CardContact.Telephone %>&nbsp;</dd>
             <dt>Email</dt><dd><%= Html.Mailto(ViewData.Model.Order.Email, ViewData.Model.Order.Email) %>&nbsp;</dd>
             <dt>Newsletter</dt><dd><%= Model.Order.ContactMe.ToYesNo() %></dd>
         </dl>
@@ -33,16 +33,16 @@
         <% } else { %>
         
         <dl>
-            <dt>First Name</dt><dd><%= ViewData.Model.Order.Contact1.Firstname %>&nbsp;</dd>
-            <dt>Last Name</dt><dd><%= ViewData.Model.Order.Contact1.Lastname %>&nbsp;</dd>
-            <dt>Address 1</dt><dd><%= ViewData.Model.Order.Contact1.Address1 %>&nbsp;</dd>
-            <dt>Address 2</dt><dd><%= ViewData.Model.Order.Contact1.Address2 %>&nbsp;</dd>
-            <dt>Address 3</dt><dd><%= ViewData.Model.Order.Contact1.Address3 %>&nbsp;</dd>
-            <dt>Town</dt><dd><%= ViewData.Model.Order.Contact1.Town %>&nbsp;</dd>
-            <dt>County</dt><dd><%= ViewData.Model.Order.Contact1.County %>&nbsp;</dd>
-            <dt>Postcode</dt><dd><%= ViewData.Model.Order.Contact1.Postcode %>&nbsp;</dd>
-            <dt>Country</dt><dd><%= ViewData.Model.Order.Contact1.Country.Name %>&nbsp;</dd>
-            <dt>Telephone</dt><dd><%= ViewData.Model.Order.Contact1.Telephone %>&nbsp;</dd>
+            <dt>First Name</dt><dd><%= ViewData.Model.Order.DeliveryContact.Firstname %>&nbsp;</dd>
+            <dt>Last Name</dt><dd><%= ViewData.Model.Order.DeliveryContact.Lastname %>&nbsp;</dd>
+            <dt>Address 1</dt><dd><%= ViewData.Model.Order.DeliveryContact.Address1 %>&nbsp;</dd>
+            <dt>Address 2</dt><dd><%= ViewData.Model.Order.DeliveryContact.Address2 %>&nbsp;</dd>
+            <dt>Address 3</dt><dd><%= ViewData.Model.Order.DeliveryContact.Address3 %>&nbsp;</dd>
+            <dt>Town</dt><dd><%= ViewData.Model.Order.DeliveryContact.Town %>&nbsp;</dd>
+            <dt>County</dt><dd><%= ViewData.Model.Order.DeliveryContact.County %>&nbsp;</dd>
+            <dt>Postcode</dt><dd><%= ViewData.Model.Order.DeliveryContact.Postcode %>&nbsp;</dd>
+            <dt>Country</dt><dd><%= ViewData.Model.Order.DeliveryContact.Country.Name %>&nbsp;</dd>
+            <dt>Telephone</dt><dd><%= ViewData.Model.Order.DeliveryContact.Telephone %>&nbsp;</dd>
         </dl>
         
         <% } %>

@@ -57,12 +57,12 @@ namespace Suteki.Shop.XmlRpc
         {
             var connectionStringProvider = new ConnectionStringProvider("Data Source=.\\SQLEXPRESS;Initial Catalog=JumpTheGun;Integrated Security=True");
             var dataContextProvider = new DataContextProvider(connectionStringProvider);
-            this.contentRepository = new Repository<Content>(dataContextProvider);
-            this.userRepository = new Repository<User>(dataContextProvider);
-            var categoryRepository = new Repository<Suteki.Shop.Category>(dataContextProvider);
-            this.contentOrderableService = new OrderableService<Content>(contentRepository);
-            this.baseControllerService = new BaseControllerService(categoryRepository);
-            this.imageFileService = new ImageFileService();
+            contentRepository = new Repository<Content>(dataContextProvider);
+            userRepository = new Repository<User>(dataContextProvider);
+            var categoryRepository = new Repository<Shop.Category>(dataContextProvider);
+            contentOrderableService = new OrderableService<Content>(contentRepository);
+            baseControllerService = new BaseControllerService(categoryRepository);
+            imageFileService = new ImageFileService();
         }
 
 //        public MetaWeblog()
@@ -76,7 +76,7 @@ namespace Suteki.Shop.XmlRpc
         /// <returns></returns>
         private static IWindsorContainer GetIocContainer()
         {
-            IContainerAccessor containerAccessor = HttpContext.Current.ApplicationInstance as IContainerAccessor;
+            var containerAccessor = HttpContext.Current.ApplicationInstance as IContainerAccessor;
             if (containerAccessor == null)
             {
                 throw new XmlRpcFaultException(1,
@@ -114,7 +114,7 @@ namespace Suteki.Shop.XmlRpc
 
             ValidateUser(username, password);
 
-            BlogInfo[] blogInfos = new BlogInfo[]
+            var blogInfos = new[]
             {
                 new BlogInfo
                 {
@@ -144,7 +144,7 @@ namespace Suteki.Shop.XmlRpc
 
         private static int GetContentId(string postid)
         {
-            int contentId = 0;
+            int contentId;
             if (!int.TryParse(postid, out contentId))
             {
                 throw new XmlRpcFaultException(1, "Invalid post id");
@@ -199,7 +199,7 @@ namespace Suteki.Shop.XmlRpc
                 link = GetPostUrl(content),
                 description = textContent.Text,
                 dateCreated = DateTime.Now,
-                postid = content.ContentId,
+                postid = content.Id,
                 title = content.Name,
                 permalink = "",
                 categories = new string[0]
@@ -227,7 +227,7 @@ namespace Suteki.Shop.XmlRpc
                     dateCreated = DateTime.Now,
                     description = ((ITextContent)content).Text,
                     title = content.Name,
-                    postid = content.ContentId,
+                    postid = content.Id,
                     permalink = GetPostUrl(content)
                 });
 
@@ -256,20 +256,21 @@ namespace Suteki.Shop.XmlRpc
 
             ValidateUser(username, password);
 
+            var parent = contentRepository.GetById(1); // hack assumes that root content has id = 1
             var content = new TextContent
             {
-                ParentContentId = 1,
+                ParentContent = parent,
                 Position = contentOrderableService.NextPosition,
-                ContentTypeId = ContentType.TextContentId,
+                ContentType = ContentType.TextContent,
                 IsActive = publish,
                 Name = post.title,
                 Text = post.description
             };
 
-            contentRepository.InsertOnSubmit(content);
+            contentRepository.SaveOrUpdate(content);
             contentRepository.SubmitChanges();
 
-            return content.ContentId.ToString();
+            return content.Id.ToString();
         }
 
         public mediaObjectInfo newMediaObject(object blogid, string username, string password, mediaObject mediaobject)
@@ -487,7 +488,7 @@ namespace Suteki.Shop.XmlRpc
              Description = "Retrieve information about the text formatting plugins supported by the server.")]
         public MtTextFilter[] GetSupportedTextFilters()
         {
-            return new MtTextFilter[] { new MtTextFilter("test", "test"), };
+            return new[] { new MtTextFilter("test", "test"), };
         }
 
         #endregion

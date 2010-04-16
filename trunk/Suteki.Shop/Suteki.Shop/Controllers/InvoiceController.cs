@@ -24,7 +24,7 @@ namespace Suteki.Shop.Controllers
 			var order = orderRepository.GetById(id);
 			postageService.CalculatePostageFor(order);
 
-			AppendTitle("Invoice {0}".With(order.OrderId));
+			AppendTitle("Invoice {0}".With(order.Id));
 
 			return View(ShopView.Data.WithOrder(order));
 		}

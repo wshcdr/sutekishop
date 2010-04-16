@@ -1,5 +1,4 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Shop.Master"  Inherits="Suteki.Shop.ViewPage<ShopViewData>" %>
-<%@ Import Namespace="Suteki.Common.Models"%>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
 
 <script type="text/javascript" language="javascript">
@@ -43,11 +42,11 @@ function updatePostageOnUseCardholderDetailsChange(checkbox)
     var select;
     if(checkbox.checked)
     {
-        select = document.getElementById("cardcontact_countryid");
+        select = document.getElementById("cardcontact_country_id");
     }
     else
     {
-        select = document.getElementById("deliverycontact_countryid");
+        select = document.getElementById("deliverycontact_country_id");
     }
     updateSelectedCountry(select);
 }
@@ -56,7 +55,7 @@ function updateSelectedCountry(select)
 {
     var useCardholderContactCheck = document.getElementsByName("order.usecardholdercontact")[0];
     
-    if((!useCardholderContactCheck.checked && select.id) == "cardcontact_countryid") return;
+    if((!useCardholderContactCheck.checked && select.id) == "cardcontact_country_id") return;
     
     for(var i = 0; i < select.options.length; i++)
     {
@@ -66,7 +65,7 @@ function updateSelectedCountry(select)
             
             var form = document.getElementById("mainForm");
             
-            var url = <%= "\"" + Url.RouteUrl(new { Controller = "Checkout", Action = "UpdateCountry", Id = ViewData.Model.Order.Basket.BasketId }) + "\"" %>
+            var url = <%= "\"" + Url.RouteUrl(new { Controller = "Checkout", Action = "UpdateCountry", Id = ViewData.Model.Order.Basket.Id }) + "\"" %>
                  + "?countryId=" + select.options[i].value ;
                  
             form.action = url;
@@ -77,10 +76,10 @@ function updateSelectedCountry(select)
 
 function addHandlers()
 {
-    var cardcontactCountryid = document.getElementById("cardcontact_countryid");
+    var cardcontactCountryid = document.getElementById("cardcontact_country_id");
     cardcontactCountryid.onchange = function() { updateSelectedCountry(this); }
     
-    var deliverycontactCountryid = document.getElementById("deliverycontact_countryid");
+    var deliverycontactCountryid = document.getElementById("deliverycontact_country_id");
     deliverycontactCountryid.onchange = function() { updateSelectedCountry(this); }
 }
 

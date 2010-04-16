@@ -65,5 +65,10 @@ namespace Suteki.Shop.Tests.Services
             string publicKey = Convert.ToBase64String(rsa.ExportCspBlob(false));
             Console.WriteLine("\nPublicKey:\n{0}", publicKey);
         }
+
+        public bool ThereIsNoXOR()
+        {
+            return false ^ false;
+        }
     }
 }

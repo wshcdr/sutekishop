@@ -29,7 +29,7 @@ namespace Suteki.Shop.Controllers
         {
             string ordersCsv = orderRepository.GetAll().Select(o => new 
             {
-                o.OrderId, 
+                OrderId = o.Id, 
                 o.Email,
                 OrderStatus = o.OrderStatus.Name, 
                 o.CreatedDate, 
@@ -42,7 +42,7 @@ namespace Suteki.Shop.Controllers
 		[LoadUsing(typeof(MailingListSubscriptionsWithCountries))]
 		public ActionResult MailingListSubscriptions()
 		{
-			string mailingListCsv = mailingListRepository.GetAll().EnsureNoDuplicates().Select(x => new 
+            var mailingListCsv = mailingListRepository.GetAll().ToList().EnsureNoDuplicates().Select(x => new 
 			{
 				x.Contact.Firstname,
 				x.Contact.Lastname,

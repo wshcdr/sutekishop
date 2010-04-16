@@ -113,7 +113,7 @@
 </tr>
 <tr>
 	<td>assertText</td>
-	<td>basketItem_SizeId</td>
+	<td>basketItem_size_Id</td>
 	<td>10cm 20cm 30cm</td>
 </tr>
 <tr>

@@ -27,7 +27,8 @@ namespace Suteki.Shop.Controllers
 
 		public ActionResult MainMenu()
 		{
-			return View(menuRepository.GetById(1));
+		    var menu = menuRepository.GetById(1);
+			return View(menu);
 		}
 
 		public ActionResult LeftMenu()
@@ -49,15 +50,15 @@ namespace Suteki.Shop.Controllers
 		}
 
 		[AdministratorsOnly, AcceptVerbs(HttpVerbs.Post), UnitOfWork]
-		public ActionResult Edit([DataBind] Menu content)
+		public ActionResult Edit(Menu content)
 		{
 			if (ModelState.IsValid)
 			{
 				Message = "Changes have been saved.";
-				return this.RedirectToAction(c => c.List(content.ParentContentId.Value));
+				return this.RedirectToAction(c => c.List(content.ParentContent.Id));
 			}
 
-			return View("Edit", GetEditViewData(content.ParentContentId.Value).WithContent(content));
+            return View("Edit", GetEditViewData(content.ParentContent.Id).WithContent(content));
 		}
 
 		[AdministratorsOnly]
@@ -75,16 +76,16 @@ namespace Suteki.Shop.Controllers
 		}
 
 		[AcceptVerbs(HttpVerbs.Post), AdministratorsOnly, UnitOfWork]
-		public ActionResult New([DataBind(Fetch = false)] Menu content)
+		public ActionResult New([EntityBind(Fetch = false)] Menu content)
 		{
 			if (ModelState.IsValid)
 			{
-				menuRepository.InsertOnSubmit(content);
+				menuRepository.SaveOrUpdate(content);
 				Message = "New menu has been successfully added.";
-				return this.RedirectToAction(c => c.List(content.ParentContentId.Value));
+                return this.RedirectToAction(c => c.List(content.ParentContent.Id));
 			}
 
-			return View("Edit", GetEditViewData(content.ParentContentId.Value).WithContent(content));
+            return View("Edit", GetEditViewData(content.ParentContent.Id).WithContent(content));
 		}
 
 		private CmsViewData GetEditViewData(int contentId)

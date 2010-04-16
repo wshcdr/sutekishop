@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Suteki.Shop.Repositories
 {
 	public static class MailingListRepositoryExtensions
 	{
-		public static IQueryable<MailingListSubscription> EnsureNoDuplicates(this IQueryable<MailingListSubscription> subscriptions)
+        public static IEnumerable<MailingListSubscription> EnsureNoDuplicates(this IEnumerable<MailingListSubscription> subscriptions)
 		{
 			var grouped = from s in subscriptions
 			              group s by s.Email into groupedByEmail

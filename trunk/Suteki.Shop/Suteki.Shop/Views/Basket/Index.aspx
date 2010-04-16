@@ -29,7 +29,7 @@
             <td class="number"><%= basketItem.Quantity%></td>
             <td class="number"><%= basketItem.Size.Product.Price.ToString("£0.00")%></td>
             <td class="number"><%= basketItem.Total.ToString("£0.00")%></td>
-            <td class="number"><%= Html.ActionLink<BasketController>(c => c.Remove(basketItem.BasketItemId), "X")%></td>
+            <td class="number"><%= Html.ActionLink<BasketController>(c => c.Remove(basketItem.Id), "X")%></td>
         </tr>
         
         <% } %>
@@ -53,7 +53,7 @@
         </tr>
 
         <tr>
-            <td>For <%= this.Select(x=>x.Basket.CountryId).Options(Model.Countries, x => x.CountryId, x =>x.Name).Name("country") %></td>
+            <td>For <%= this.Select(x=>x.Basket.Country.Id).Options(Model.Countries, x => x.Id, x =>x.Name).Name("country.id") %></td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
@@ -80,7 +80,7 @@
 
 <script type="text/javascript">
 	$(function() {
-		$('#country').change(function() {
+		$('#country_id').change(function() {
 			$('#basketForm').attr('action', '<%= Url.Action<BasketController>(c => c.UpdateCountry(null)) %>').submit();
 		});
 	});

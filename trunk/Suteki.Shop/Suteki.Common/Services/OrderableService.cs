@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
-using Suteki.Common;
 using Suteki.Common.Repositories;
 using System.Linq.Expressions;
-using Suteki.Common.Services;
 
 namespace Suteki.Common.Services
 {
@@ -13,7 +11,7 @@ namespace Suteki.Common.Services
         IOrderableService<T> 
         where T : class, IOrderable
     {
-        IRepository<T> repository;
+        readonly IRepository<T> repository;
         int postion;
         Expression<Func<T, bool>> predicate;
 
@@ -24,8 +22,7 @@ namespace Suteki.Common.Services
 
         public IOrderServiceWithPosition<T> MoveItemAtPosition(int postion)
         {
-            OrderableService<T> orderService = new OrderableService<T>(repository);
-            orderService.postion = postion;
+            var orderService = new OrderableService<T>(repository) {postion = postion};
             return orderService;
         }
 
@@ -50,20 +47,22 @@ namespace Suteki.Common.Services
         IOrderServiceWithConstrainedPosition<T> IOrderServiceWithPosition<T>.ConstrainedBy(
             Expression<Func<T, bool>> predicate)
         {
-            OrderableService<T> orderService = new OrderableService<T>(repository);
-            orderService.postion = postion;
-            orderService.predicate = predicate;
+            var orderService = new OrderableService<T>(repository)
+            {
+                postion = postion, 
+                predicate = predicate
+            };
             return orderService;
         }
 
         void IOrderServiceWithConstrainedPosition<T>.UpOne()
         {
-            Move<T>.ItemAt(postion).In(repository.GetAll().Where(predicate)).UpOne();
+            Move<T>.ItemAt(postion).In(repository.GetAll().Where(predicate).ToList()).UpOne();
         }
 
         void IOrderServiceWithConstrainedPosition<T>.DownOne()
         {
-            Move<T>.ItemAt(postion).In(repository.GetAll().Where(predicate)).DownOne();
+            Move<T>.ItemAt(postion).In(repository.GetAll().Where(predicate).ToList()).DownOne();
         }
     }
 

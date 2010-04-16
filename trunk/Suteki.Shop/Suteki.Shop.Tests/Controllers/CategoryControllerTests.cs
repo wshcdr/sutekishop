@@ -5,14 +5,10 @@ using Rhino.Mocks;
 using Suteki.Common.Repositories;
 using Suteki.Common.Services;
 using Suteki.Common.TestHelpers;
-using Suteki.Common.Validation;
 using Suteki.Shop.Controllers;
 using Suteki.Shop.Services;
 using Suteki.Shop.ViewData;
 using Suteki.Shop.Tests.Repositories;
-using System.Collections.Specialized;
-using System.Threading;
-using System.Security.Principal;
 using System.Web.Mvc;
 using System.Collections.Generic;
 
@@ -68,9 +64,9 @@ namespace Suteki.Shop.Tests.Controllers
 
             var category = new Category
             {
-                CategoryId = categoryId,
+                Id = categoryId,
                 Name = "My Category",
-                ParentId = 23
+                Parent = new Category { Id = 23 }
             };
 
             categoryRepository.Stub(cr => cr.GetById(categoryId)).Return(category);
@@ -104,7 +100,8 @@ namespace Suteki.Shop.Tests.Controllers
     	[Test]
     	public void EditWithPost_should_render_view_with_error_when_binding_fails()
     	{
-			categoryController.ModelState.AddModelError("foo", "bar");
+            fileService.Expect(x => x.GetUploadedImages(null, null)).IgnoreArguments().Return(new List<Image>());
+            categoryController.ModelState.AddModelError("foo", "bar");
 
 			var category = new Category();
 			categoryController.Edit(category)
@@ -136,9 +133,9 @@ namespace Suteki.Shop.Tests.Controllers
 
 			var category = new Category 
 			{
-				CategoryId = categoryId,
+				Id = categoryId,
 				Name = name,
-				ParentId = parentid
+                Parent = new Category { Id = parentid }
 			};
 
 			fileService.Expect(x => x.GetUploadedImages(null, null)).IgnoreArguments().Return(new List<Image>());
@@ -147,7 +144,7 @@ namespace Suteki.Shop.Tests.Controllers
 				.ReturnsRedirectToRouteResult()
 				.ToAction("Index");
 
-			categoryRepository.AssertWasCalled(x => x.InsertOnSubmit(category));
+			categoryRepository.AssertWasCalled(x => x.SaveOrUpdate(category));
 			categoryController.Message.ShouldNotBeNull();
 		}
 
@@ -166,14 +163,15 @@ namespace Suteki.Shop.Tests.Controllers
     	[Test]
     	public void NewWithPost_should_render_view_on_error()
     	{
-			categoryController.ModelState.AddModelError("foo", "bar");
+            fileService.Expect(x => x.GetUploadedImages(null, null)).IgnoreArguments().Return(new List<Image>());
+            categoryController.ModelState.AddModelError("foo", "bar");
 
 			categoryController.New(new Category())
 				.ReturnsViewResult()
 				.ForView("Edit")
 				.WithModel<ShopViewData>();
 
-			categoryRepository.AssertWasNotCalled(x => x.InsertOnSubmit(Arg<Category>.Is.Anything));
+			categoryRepository.AssertWasNotCalled(x => x.SaveOrUpdate(Arg<Category>.Is.Anything));
 
     	}
 

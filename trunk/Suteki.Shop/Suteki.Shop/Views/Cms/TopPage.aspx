@@ -3,6 +3,6 @@
     <%= ViewData.Model.TextContent.Text%>
 
     <% if(User.IsAdministrator()) { %>
-        <p><%= Html.ActionLink<CmsController>(c => c.Edit(ViewData.Model.Content.ContentId), "Edit")%></p>
+        <p><%= Html.ActionLink<CmsController>(c => c.Edit(ViewData.Model.Content.Id), "Edit")%></p>
     <% } %>
 </asp:Content>

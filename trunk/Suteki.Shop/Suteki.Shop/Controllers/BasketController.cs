@@ -1,10 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using Suteki.Common.Binders;
 using Suteki.Common.Extensions;
 using Suteki.Common.Filters;
 using Suteki.Common.Repositories;
-using Suteki.Common.Validation;
 using Suteki.Shop.Binders;
 using Suteki.Shop.Filters;
 using Suteki.Shop.Repositories;
@@ -15,17 +15,19 @@ namespace Suteki.Shop.Controllers
 {
     public class BasketController : ControllerBase
     {
-    	private readonly IRepository<BasketItem> basketItemRepository;
-        private readonly IRepository<Size> sizeRepository;
-        private readonly IUserService userService;
-        private readonly IPostageService postageService;
-        private readonly IRepository<Country> countryRepository;
+        readonly IUserService userService;
+        readonly IBasketService basketService;
+        readonly IPostageService postageService;
+        readonly IRepository<Country> countryRepository;
 
-    	public BasketController(IRepository<BasketItem> basketItemRepository, IRepository<Size> sizeRepository, IUserService userService, IPostageService postageService, IRepository<Country> countryRepository)
+    	public BasketController(
+            IUserService userService, 
+            IPostageService postageService, 
+            IRepository<Country> countryRepository, 
+            IBasketService basketService)
         {
-    		this.basketItemRepository = basketItemRepository;
-            this.sizeRepository = sizeRepository;
-            this.userService = userService;
+    	    this.basketService = basketService;
+    	    this.userService = userService;
             this.postageService = postageService;
             this.countryRepository = countryRepository;
         }
@@ -34,21 +36,19 @@ namespace Suteki.Shop.Controllers
         public ActionResult Index()
         {
             var user = userService.CurrentUser;
-            return  View("Index", IndexViewData(user.CurrentBasket));
+            return  View("Index", IndexViewData(basketService.GetCurrentBasketFor(user)));
         }
 
         [UnitOfWork, AcceptVerbs(HttpVerbs.Post)]
-		public ActionResult Update([CurrentBasket] Basket basket, [DataBind(Fetch = false)] BasketItem basketItem)
+		public ActionResult Update([CurrentBasket] Basket basket, [EntityBind(Fetch = false)] BasketItem basketItem)
         {
-			var size = sizeRepository.GetById(basketItem.SizeId);
-
-            if (!size.IsInStock)
+            if (!basketItem.Size.IsInStock)
             {
-                Message = RenderIndexViewWithError(size);
-				return this.RedirectToAction<ProductController>(c => c.Item(size.Product.UrlName));
+                Message = RenderIndexViewWithError(basketItem.Size);
+                return this.RedirectToAction<ProductController>(c => c.Item(basketItem.Size.Product.UrlName));
             }
 
-            basket.BasketItems.Add(basketItem);
+            basket.AddBasketItem(basketItem);
 			return this.RedirectToAction(c => c.Index());
         }
 
@@ -66,7 +66,7 @@ namespace Suteki.Shop.Controllers
         {
             if (basket.Country == null)
             {
-                basket.Country = countryRepository.GetById(basket.CountryId);
+                throw new ApplicationException("Country has not been lazy loaded for this basket");
             }
 
 			var countries = countryRepository.GetAll().Active().InOrder();
@@ -79,37 +79,38 @@ namespace Suteki.Shop.Controllers
 		[UnitOfWork]
         public ActionResult Remove(int id)
         {
-            var basket = userService.CurrentUser.CurrentBasket;
-            var basketItem = basket.BasketItems.Where(item => item.BasketItemId == id).SingleOrDefault();
+            var basket = basketService.GetCurrentBasketFor(userService.CurrentUser);
+            var basketItem = basket.BasketItems.Where(item => item.Id == id).SingleOrDefault();
 
             if (basketItem != null)
             {
-                basketItemRepository.DeleteOnSubmit(basketItem);
+                basket.RemoveBasketItem(basketItem);
             }
 
 			return this.RedirectToAction(c => c.Index());
         }
 
 		[AcceptVerbs(HttpVerbs.Post), UnitOfWork]
-		public ActionResult UpdateCountry(int? country)
+		public ActionResult UpdateCountry(Country country)
 		{
-			if (country.HasValue) 
+			if (country.Id != 0) 
 			{
-				userService.CurrentUser.CurrentBasket.CountryId = country.Value;
+				basketService.GetCurrentBasketFor(userService.CurrentUser).Country = country;
 			}
 
 			return this.RedirectToAction(c => c.Index());
 		}
 
 		[AcceptVerbs(HttpVerbs.Post), UnitOfWork]
-		public ActionResult GoToCheckout(int? country)
+        public ActionResult GoToCheckout(Country country)
 		{
-			if(country.HasValue)
+		    var currentBasket = basketService.GetCurrentBasketFor(userService.CurrentUser);
+            if (country.Id != 0)
 			{
-				userService.CurrentUser.CurrentBasket.CountryId = country.Value;
-			}
+                currentBasket.Country = country;
+            }
 
-			return this.RedirectToAction<CheckoutController>(c => c.Index(userService.CurrentUser.CurrentBasket.BasketId));
+            return this.RedirectToAction<CheckoutController>(c => c.Index(currentBasket.Id));
 		}
     }
 }

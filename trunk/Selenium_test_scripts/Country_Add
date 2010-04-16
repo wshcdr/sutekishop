@@ -48,7 +48,7 @@
 </tr>
 <tr>
 	<td>select</td>
-	<td>Item_PostZoneId</td>
+	<td>Item_PostZone_Id</td>
 	<td>label=Europe</td>
 </tr>
 <tr>

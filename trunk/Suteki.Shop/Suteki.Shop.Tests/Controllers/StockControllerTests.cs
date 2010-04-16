@@ -44,7 +44,7 @@ namespace Suteki.Shop.Tests.Controllers
 
         private static Category BuildCategories()
         {
-            var root = new Category { CategoryId = 1, Name = "Root" };
+            var root = new Category { Id = 1, Name = "Root" };
             return root;
         }
 
@@ -80,8 +80,8 @@ namespace Suteki.Shop.Tests.Controllers
         {
             return new List<Size>
             {
-                new Size { SizeId = 1, IsInStock = false },
-                new Size { SizeId = 2, IsInStock = true }
+                new Size { Id = 1, IsInStock = false },
+                new Size { Id = 2, IsInStock = true }
             }.AsQueryable();
         }
     }

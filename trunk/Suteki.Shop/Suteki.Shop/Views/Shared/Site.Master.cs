@@ -1,14 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 using Suteki.Common.Extensions;
-using Suteki.Common.Repositories;
-using Suteki.Shop;
-using Suteki.Shop.ViewData;
-using Suteki.Shop.HtmlHelpers;
-using Suteki.Shop.Repositories;
 using Suteki.Shop.Controllers;
 
 namespace Suteki.Shop.Views.Shared

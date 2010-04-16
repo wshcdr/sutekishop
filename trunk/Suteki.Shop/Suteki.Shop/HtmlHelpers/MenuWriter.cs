@@ -72,7 +72,7 @@ namespace Suteki.Shop.HtmlHelpers
             {
                 writer.AddAttribute("class", "editMenuLink");
                 writer.RenderBeginTag(HtmlTextWriterTag.Li); 
-                writer.Write(htmlHelper.ActionLink<MenuController>(c => c.List(menu.ContentId), "Edit this menu"));
+                writer.Write(htmlHelper.ActionLink<MenuController>(c => c.List(menu.Id), "Edit this menu"));
                 writer.RenderEndTag();
             }
         }

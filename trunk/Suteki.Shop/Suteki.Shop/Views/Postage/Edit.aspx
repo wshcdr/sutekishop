@@ -7,7 +7,7 @@
     <%= Html.MessageBox(ViewData.Model) %>
 
     <% using (Html.BeginForm()) { %>
-		<%= this.Hidden(x=>x.Item.PostageId) %>
+		<%= this.Hidden(x=>x.Item.Id) %>
 		<%= this.Hidden(x => x.Item.Position) %>
 		<%= this.TextBox(x => x.Item.Name).Label("Name") %>
 		<%= this.TextBox(x => x.Item.MaxWeight).Label("Max Weight (grams)") %>

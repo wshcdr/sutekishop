@@ -25,15 +25,14 @@ namespace Suteki.Shop.Tests.Controllers
 
             countryRepository = MockRepository.GenerateStub<IRepository<Country>>();
 
-            countryController = new CountryController();
-            countryController.Repository = countryRepository;
+            countryController = new CountryController {Repository = countryRepository};
         }
 
         [Test]
         public void GetLookupLists_ShouldGetPostZones()
         {
             var repositoryResolver = MockRepository.GenerateStub<IRepositoryResolver>();
-            countryController.repositoryResolver = repositoryResolver;
+            countryController.RepositoryResolver = repositoryResolver;
 
             // create a list of post zones
             var postZones = new List<PostZone>

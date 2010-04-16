@@ -8,8 +8,8 @@ namespace Suteki.Shop.Services
 {
     public class HttpFileService : IHttpFileService
     {
-        IImageFileService imageFileService;
-        IImageService imageService;
+        readonly IImageFileService imageFileService;
+        readonly IImageService imageService;
 
         public HttpFileService(IImageFileService imageFileService, IImageService imageService)
         {
@@ -19,11 +19,11 @@ namespace Suteki.Shop.Services
 
         public IEnumerable<Image> GetUploadedImages(HttpRequestBase request, params string[] imageDefinitionKeys)
         {
-            List<Image> images = new List<Image>();
+            var images = new List<Image>();
 
             foreach (string inputTagName in request.Files)
             {
-                HttpPostedFileBase file = request.Files[inputTagName];
+                var file = request.Files[inputTagName];
                 if (file.ContentLength > 0)
                 {
                     // upload the image to filesystem
@@ -32,7 +32,7 @@ namespace Suteki.Shop.Services
                         throw new ValidationException(string.Format("File '{0}' is not an image file (*.jpg)", file.FileName));
                     }
 
-                    Image image = new Image
+                    var image = new Image
                     {
                         FileName = Guid.NewGuid(),
                         Description = Path.GetFileName(file.FileName)
@@ -52,9 +52,9 @@ namespace Suteki.Shop.Services
             return images;
         }
 
-        private bool IsNotImage(HttpPostedFileBase file)
+        private static bool IsNotImage(HttpPostedFileBase file)
         {
-            string extension = Path.GetExtension(file.FileName).ToLower();
+            var extension = Path.GetExtension(file.FileName).ToLower();
             return (extension != ".jpg");
         }
     }

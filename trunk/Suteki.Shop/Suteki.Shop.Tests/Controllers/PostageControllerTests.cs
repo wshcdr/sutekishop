@@ -11,7 +11,6 @@ using Suteki.Common.ViewData;
 using Suteki.Shop.Controllers;
 using System.Collections.Generic;
 using Rhino.Mocks;
-using Suteki.Shop.ViewData;
 
 namespace Suteki.Shop.Tests.Controllers
 {
@@ -22,7 +21,6 @@ namespace Suteki.Shop.Tests.Controllers
 
         private IRepository<Postage> postageRepository;
         private IOrderableService<Postage> orderableService;
-        private IValidatingBinder validatingBinder;
         private IHttpContextService httpContextService;
 
         [SetUp]
@@ -33,15 +31,13 @@ namespace Suteki.Shop.Tests.Controllers
 
             postageRepository = MockRepository.GenerateStub<IRepository<Postage>>();
             orderableService = MockRepository.GenerateStub<IOrderableService<Postage>>();
-            validatingBinder = new ValidatingBinder(new SimplePropertyBinder());
             httpContextService = MockRepository.GenerateStub<IHttpContextService>();
 
             postageController = new PostageController
             {
                 Repository = postageRepository,
                 OrderableService = orderableService,
-                ValidatingBinder = validatingBinder,
-                httpContextService = httpContextService
+                HttpContextService = httpContextService
             };
         }
 
@@ -72,7 +68,7 @@ namespace Suteki.Shop.Tests.Controllers
         public void Edit_ShouldShowEditViewWithExistingPostage()
         {
             var postageId = 3;
-            var postage = new Postage { PostageId = postageId };
+            var postage = new Postage { Id = postageId };
 
             postageRepository.Expect(pr => pr.GetById(postageId)).Return(postage);
 
@@ -91,7 +87,7 @@ namespace Suteki.Shop.Tests.Controllers
     			.ReturnsRedirectToRouteResult()
     			.ToAction("Index");
 
-			postageRepository.AssertWasCalled(x=>x.InsertOnSubmit(postage));
+			postageRepository.AssertWasCalled(x=>x.SaveOrUpdate(postage));
     	}
 
     	[Test]
@@ -102,7 +98,7 @@ namespace Suteki.Shop.Tests.Controllers
     			.ReturnsViewResult()
     			.ForView("Edit");
 
-			postageRepository.AssertWasNotCalled(x=>x.InsertOnSubmit(Arg<Postage>.Is.Anything));
+			postageRepository.AssertWasNotCalled(x=>x.SaveOrUpdate(Arg<Postage>.Is.Anything));
     	}
 
 

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Suteki.Common.Extensions;
@@ -18,12 +17,12 @@ namespace Suteki.Shop.ViewData
             var categories = domainCategories
                 .Select(category => new CategoryViewData
                 {
-                    CategoryId = category.CategoryId,
+                    CategoryId = category.Id,
                     Name = category.Name,
-                    ParentId = category.ParentId,
+                    ParentId = category.Parent == null ? null : (int?)category.Parent.Id,
                     Position = category.Position,
                     IsActive = category.IsActive,
-                    ImageId = category.ImageId
+                    ImageId = category.Image == null ? null : (int?)category.Image.Id
                 }).ToList();
 
             // tie parents to children

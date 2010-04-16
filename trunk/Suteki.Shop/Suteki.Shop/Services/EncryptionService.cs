@@ -37,6 +37,8 @@ namespace Suteki.Shop.Services
         /// <returns></returns>
         public string Encrypt(string stringToEncrypt)
         {
+            if (stringToEncrypt == null) throw new ArgumentNullException("stringToEncrypt");
+
             // .net uses UTF8 encoding internally
             UTF8Encoding encoding = new UTF8Encoding();
             byte[] dataToEncrypt = encoding.GetBytes(stringToEncrypt);

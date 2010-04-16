@@ -1,10 +1,9 @@
-using System.Data;
-using System.Data.Linq;
 using System.Web.Mvc;
+using Castle.Facilities.NHibernateIntegration;
+using NHibernate;
 using NUnit.Framework;
 using Rhino.Mocks;
 using Suteki.Common.Filters;
-using Suteki.Common.Repositories;
 using Suteki.Common.Tests.TestHelpers;
 
 namespace Suteki.Common.Tests.Filters
@@ -12,47 +11,48 @@ namespace Suteki.Common.Tests.Filters
 	[TestFixture]
 	public class UnitOfWorkFilterTester
 	{
-		MockContext context;
+	    ISessionManager sessionManager;
+	    ISession session;
+	    ITransaction transaction;
 		UnitOfWorkFilter filter;
 
 		[SetUp]
 		public void Setup()
 		{
-			context = new MockContext();
-			var contextProvider = MockRepository.GenerateStub<IDataContextProvider>();
-			contextProvider.Expect(x => x.DataContext).Return(context);
-			filter = new UnitOfWorkFilter(contextProvider);
+		    sessionManager = MockRepository.GenerateStub<ISessionManager>();
+		    session = MockRepository.GenerateStub<ISession>();
+		    transaction = MockRepository.GenerateStub<ITransaction>();
+
+		    sessionManager.Stub(s => s.OpenSession()).Return(session);
+		    session.Stub(s => s.BeginTransaction()).Return(transaction);
+
+			filter = new UnitOfWorkFilter(sessionManager);
 		}
 
+	    [Test]
+	    public void Transaction_should_be_started_when_action_is_run()
+	    {
+	        filter.OnActionExecuting(new ActionExecutingContext { Controller = new TestController() });
+            session.AssertWasCalled(s => s.BeginTransaction());
+	    }
+
 		[Test]
-		public void Changes_should_be_submitted_when_result_executed()
+		public void Transaction_should_be_commited_when_action_completes()
 		{
-			filter.OnActionExecuted(new ActionExecutedContext() { Controller = new TestController() });
-			context.ChangesSubmitted.ShouldBeTrue();
+		    var controller = new TestController();
+            filter.OnActionExecuting(new ActionExecutingContext { Controller = controller });
+			filter.OnActionExecuted(new ActionExecutedContext { Controller = controller });
+			transaction.AssertWasCalled(t => t.Commit());
 		}
 
 		[Test]
-		public void Changes_should_not_be_submitted_if_there_are_errors_in_modelstate()
+		public void Transaction_should_be_rolled_back_if_there_are_errors_in_modelstate()
 		{
 			var controller = new TestController();
 			controller.ModelState.AddModelError("foo", "bar");
-			filter.OnActionExecuted(new ActionExecutedContext() { Controller = controller });
-			context.ChangesSubmitted.ShouldBeFalse();
+            filter.OnActionExecuting(new ActionExecutingContext { Controller = controller });
+			filter.OnActionExecuted(new ActionExecutedContext { Controller = controller });
+			transaction.AssertWasCalled(t => t.Rollback());
 		}
-
-		private class MockContext : DataContext
-		{
-			public bool ChangesSubmitted;
-
-			public MockContext() : base("foo")
-			{
-			}
-
-			public override void SubmitChanges(ConflictMode failureMode) 
-			{
-				ChangesSubmitted = true;
-			}
-		}
-
 	}
 }

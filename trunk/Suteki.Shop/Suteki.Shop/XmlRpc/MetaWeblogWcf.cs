@@ -42,7 +42,7 @@ namespace Suteki.Shop.XmlRpc
 
         private static int GetContentId(string postid)
         {
-            var contentId = 0;
+            int contentId;
             if (!int.TryParse(postid, out contentId))
             {
                 throw new ApplicationException("Invalid post id");
@@ -103,7 +103,7 @@ namespace Suteki.Shop.XmlRpc
                 link = GetPostUrl(content),
                 description = textContent.Text,
                 dateCreated = DateTime.Now,
-                postid = content.ContentId,
+                postid = content.Id,
                 title = content.Name,
                 permalink = "",
                 categories = new string[0]
@@ -123,7 +123,7 @@ namespace Suteki.Shop.XmlRpc
                     dateCreated = DateTime.Now,
                     description = ((ITextContent)content).Text,
                     title = content.Name,
-                    postid = content.ContentId,
+                    postid = content.Id,
                     permalink = GetPostUrl(content)
                 });
 
@@ -134,21 +134,22 @@ namespace Suteki.Shop.XmlRpc
         public string newPost(string blogid, string username, string password, Post post, bool publish)
         {
             ValidateUser(username, password);
+            var parent = contentRepository.GetById(1); // hack, assumes that the root content has id 1
 
             var content = new TextContent
             {
-                ParentContentId = 1,
+                ParentContent = parent,
                 Position = contentOrderableService.NextPosition,
-                ContentTypeId = ContentType.TextContentId,
+                ContentType = ContentType.TextContent,
                 IsActive = publish,
                 Name = post.title,
                 Text = post.description
             };
 
-            contentRepository.InsertOnSubmit(content);
+            contentRepository.SaveOrUpdate(content);
             contentRepository.SubmitChanges();
 
-            return content.ContentId.ToString();
+            return content.Id.ToString();
         }
 
         public mediaObjectInfo newMediaObject(object blogid, string username, string password, mediaObject mediaobject)

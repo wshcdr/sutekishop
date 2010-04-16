@@ -39,6 +39,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.1.0.39271, Culture=neutral, PublicKeyToken=3a9cab8f8d22bfb7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Antlr3.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Castle.Core.dll</HintPath>
@@ -47,6 +51,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Castle.DynamicProxy2.dll</HintPath>
     </Reference>
+    <Reference Include="Castle.Facilities.NHibernateIntegration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Castle.Facilities.NHibernateIntegration.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.MicroKernel, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Castle.MicroKernel.dll</HintPath>
@@ -54,6 +62,10 @@
     <Reference Include="Castle.Windsor, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentNHibernate, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\FluentNHibernate.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -66,6 +78,14 @@
     <Reference Include="MvcContrib, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\MvcContrib.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate, Version=3.0.0.1001, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.ByteCode.Castle, Version=3.0.0.1001, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\NHibernate.ByteCode.Castle.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.4.7.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
       <SpecificVersion>False</SpecificVersion>
@@ -108,7 +128,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Binders\BindUsingAttributeTester.cs" />
-    <Compile Include="Binders\DataBinderTester.cs" />
+    <Compile Include="Binders\DefaultModelBinderSpike.cs" />
+    <Compile Include="Binders\EntityModelBinderTests.cs" />
+    <Compile Include="Extensions\TypeExtensionTests.cs" />
     <Compile Include="Extensions\UrlExtensionsHelperTests.cs" />
     <Compile Include="Filters\FilterUsingAttributeTester.cs" />
     <Compile Include="Filters\UnitOfWorkFilterTester.cs" />
@@ -121,7 +143,6 @@
     <Compile Include="Spikes\NamesSpike.cs" />
     <Compile Include="Spikes\ReflectionSpikes.cs" />
     <Compile Include="TestHelpers\MvcTestHelpers.cs" />
-    <Compile Include="Validation\ValidatingBinderTests.cs" />
     <Compile Include="Validation\ValidationExtensionsTests.cs" />
     <Compile Include="Windsor\ArrayResolverTests.cs" />
   </ItemGroup>

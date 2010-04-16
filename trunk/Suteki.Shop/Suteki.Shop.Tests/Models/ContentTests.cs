@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using Suteki.Shop.Models.Exceptions;
 
 namespace Suteki.Shop.Tests.Models
 {
@@ -14,22 +13,21 @@ namespace Suteki.Shop.Tests.Models
         {
             mainMenu = new Menu
             {
-                ContentId = Menu.MainMenuId
+                Id = Menu.MainMenuId
             };
 
             subMenu = new Menu
             {
-                Content1 = mainMenu,
-                ParentContentId = Menu.MainMenuId
+                ParentContent = mainMenu
             };
         }
 
         [Test]
         public void TextContent_SubMenu_ShouldReturnItsSubMenu()
         {
-            TextContent textContent = new TextContent
+            var textContent = new TextContent
             {
-                Content1 = subMenu
+                ParentContent = subMenu
             };
 
             Assert.That(textContent.SubMenu, Is.SameAs(subMenu));
@@ -39,9 +37,9 @@ namespace Suteki.Shop.Tests.Models
         public void TextContentWithoutSubMenu_SubMenu_ShouldReturnNull()
         {
 
-            TextContent textContent = new TextContent
+            var textContent = new TextContent
             {
-                Content1 = mainMenu
+                ParentContent = mainMenu
             };
 
             Assert.That(textContent.SubMenu, Is.Null);
@@ -62,9 +60,9 @@ namespace Suteki.Shop.Tests.Models
         [Test]
         public void SubSubMenu_SubMenu_ShouldReturnSubMenu()
         {
-            Menu subSubMenu = new Menu
+            var subSubMenu = new Menu
             {
-                Content1 = subMenu
+                ParentContent = subMenu
             };
 
             Assert.That(subSubMenu.SubMenu, Is.SameAs(subMenu));

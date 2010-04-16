@@ -4,20 +4,20 @@ using System.Web.Mvc;
 
 namespace Suteki.Shop
 {
-    public partial class Menu
+    public class Menu : Content
     {
         public const int MainMenuId = 1;
 
         public override MvcHtmlString EditLink(HtmlHelper htmlHelper)
         {
-            return htmlHelper.ActionLink<MenuController>(c => c.Edit(ContentId), "Edit");
+            return htmlHelper.ActionLink<MenuController>(c => c.Edit(Id), "Edit");
         }
 
-        public bool IsMainMenu
+        public virtual bool IsMainMenu
         {
             get
             {
-                return ContentId == MainMenuId;
+                return Id == MainMenuId;
             }
         }
 
@@ -25,8 +25,8 @@ namespace Suteki.Shop
 		{
 			return new Menu 
 			{
-				ContentTypeId = ContentType.MenuId,
-				Content1 = parent,
+				ContentType = ContentType.Menu,
+				ParentContent = parent,
 				IsActive = true,
 				Position = position
 			};
