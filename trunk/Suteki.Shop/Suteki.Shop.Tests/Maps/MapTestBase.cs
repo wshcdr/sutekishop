@@ -3,10 +3,10 @@ using System.Data;
 using System.Reflection;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
-using FluentNHibernate.Conventions.Helpers;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
+using Suteki.Shop.Maps;
 using Suteki.Shop.Repositories;
 
 namespace Suteki.Shop.Tests.Maps
@@ -16,6 +16,29 @@ namespace Suteki.Shop.Tests.Maps
         private static Configuration configuration;
         private static IDbConnection connection;
         private static ISessionFactory sessionFactory;
+        static readonly object sessionFactoryLock = new object();
+
+        /// <summary>
+        /// Fixture setup and teardown doesn't seem to work in some build environments, so 
+        /// fall back to lazy initialisation.
+        /// </summary>
+        private static ISessionFactory SessionFactory
+        {
+            get
+            {
+                if(sessionFactory == null)
+                {
+                    lock (sessionFactoryLock)
+                    {
+                        if (sessionFactory == null)
+                        {
+                            Start(typeof(ProductMap).Assembly);
+                        }
+                    }
+                }
+                return sessionFactory;
+            }
+        }
 
         public static void Start(Assembly mapAssembly)
         {
@@ -33,7 +56,7 @@ namespace Suteki.Shop.Tests.Maps
 
         public static ISession OpenSession()
         {
-            return sessionFactory.OpenSession(connection);
+            return SessionFactory.OpenSession(connection);
         }
 
         private static ISessionFactory GetSessionFactory()

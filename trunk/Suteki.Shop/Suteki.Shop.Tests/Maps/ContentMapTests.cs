@@ -1,8 +1,6 @@
 using System;
 using System.Linq;
-using NHibernate;
 using NHibernate.Linq;
-using NHibernate.Proxy;
 using NUnit.Framework;
 using Suteki.Common.Extensions;
 using Suteki.Shop.Repositories;
@@ -65,7 +63,8 @@ namespace Suteki.Shop.Tests.Maps
             InSession(session =>
             {
                 var menus = session.Query<Content>().Menus().AsEnumerable();
-                menus.Count().ShouldEqual(2);
+                // other tests might have inserted menus, but we should get at least our two
+                Assert.That(menus.Count() >= 2);
             });
         }
 
