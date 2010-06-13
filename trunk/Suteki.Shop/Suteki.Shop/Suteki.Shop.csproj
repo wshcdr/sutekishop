@@ -11,7 +11,8 @@
     <RootNamespace>Suteki.Shop</RootNamespace>
     <AssemblyName>Suteki.Shop</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <MvcBuildViews>false</MvcBuildViews>
+    <MvcBuildViews>true</MvcBuildViews>
+    <EnableUpdateable>false</EnableUpdateable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

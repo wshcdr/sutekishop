@@ -129,6 +129,7 @@
   <ItemGroup>
     <Compile Include="Binders\BindUsingAttributeTester.cs" />
     <Compile Include="Binders\DefaultModelBinderSpike.cs" />
+    <Compile Include="Binders\EntityModelBinderBindingSubclassTests.cs" />
     <Compile Include="Binders\EntityModelBinderTests.cs" />
     <Compile Include="Extensions\TypeExtensionTests.cs" />
     <Compile Include="Extensions\UrlExtensionsHelperTests.cs" />

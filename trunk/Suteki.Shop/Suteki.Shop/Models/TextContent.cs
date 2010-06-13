@@ -10,7 +10,7 @@ namespace Suteki.Shop
 
 	    public override MvcHtmlString EditLink(HtmlHelper htmlHelper)
 		{
-			return htmlHelper.ActionLink<CmsController>(c => c.Edit(Id), "Edit");
+			return htmlHelper.ActionLink<CmsController>(c => c.EditText(Id), "Edit");
 		}
 
 		public static TextContent DefaultTextContent(Content parentContent, int nextPosition)
