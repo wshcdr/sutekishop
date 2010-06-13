@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using MvcContrib;
 using Suteki.Common.Binders;
@@ -91,27 +92,37 @@ namespace Suteki.Shop.Controllers
 		}
 
 		[AdministratorsOnly]
-		public ActionResult Edit(int id)
+		public ActionResult EditText(int id)
 		{
-		    var viewData = GetEditViewData(id);
-			var content = contentRepository.GetById(id);
-			return View("Edit", viewData.WithContent(content));
+		    return EditContent(id);
 		}
 
-		[AdministratorsOnly, UnitOfWork, AcceptVerbs(HttpVerbs.Post)]
-		public ActionResult Edit(Content content)
-		{
-			if (ModelState.IsValid)
-			{
-				Message = "Changes have been saved.";
-                return this.RedirectToAction<MenuController>(c => c.List(content.ParentContent.Id));
-			}
+	    ActionResult EditContent(int id)
+	    {
+	        var viewData = GetEditViewData(id);
+	        var content = contentRepository.GetById(id);
+	        return View("Edit", viewData.WithContent(content));
+	    }
 
-			//Error
-			return View(GetEditViewData(content.Id).WithContent(content));
+	    [AdministratorsOnly, UnitOfWork, AcceptVerbs(HttpVerbs.Post)]
+		public ActionResult EditText(TextContent content)
+		{
+		    return EditContent(content, "EditText");
 		}
 
-		CmsViewData GetEditViewData(int contentId)
+	    ActionResult EditContent(Content content, string errorView)
+	    {
+	        if (ModelState.IsValid)
+	        {
+	            Message = "Changes have been saved.";
+	            return this.RedirectToAction<MenuController>(c => c.List(content.ParentContent.Id));
+	        }
+
+	        //Error
+            return View(errorView, GetEditViewData(content.Id).WithContent(content));
+	    }
+
+	    CmsViewData GetEditViewData(int contentId)
 		{
 			var menus = contentRepository.GetAll().NotIncluding(contentId).Menus().ToList();
 			return CmsView.Data.WithMenus(menus);
@@ -142,5 +153,17 @@ namespace Suteki.Shop.Controllers
 
             return this.RedirectToAction<MenuController>(c => c.List(content.ParentContent.Id));
 		}
+
+        [AdministratorsOnly]
+        public ActionResult EditTop(int id)
+        {
+            return EditContent(id);
+        }
+
+        [AdministratorsOnly, UnitOfWork, AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditTop(TopContent content)
+	    {
+            return EditContent(content, "EditTop");
+        }
 	}
 }

@@ -140,7 +140,7 @@ namespace Suteki.Shop.Tests.Controllers
             var menus = new List<Content>().AsQueryable();
             contentRepository.Stub(cr => cr.GetAll()).Return(menus);
 
-            cmsController.Edit(contentId)
+            cmsController.EditText(contentId)
                 .ReturnsViewResult()
                 .ForView("Edit")
                 .WithModel<CmsViewData>()
@@ -155,7 +155,7 @@ namespace Suteki.Shop.Tests.Controllers
 			cmsController.ModelState.AddModelError("foo", "bar");
 
 			var content = new TextContent();
-			cmsController.Edit(content)
+			cmsController.EditText(content)
 				.ReturnsViewResult()
 				.WithModel<CmsViewData>()
 				.AssertAreSame(content, x => x.Content);
@@ -179,7 +179,7 @@ namespace Suteki.Shop.Tests.Controllers
     	[Test]
     	public void EditWithPost_should_work_for_TopContent()
     	{
-			cmsController.Edit(new TopContent
+			cmsController.EditTop(new TopContent
 			{
                 ParentContent = new Content { Id = 4 }
 			});
