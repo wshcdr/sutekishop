@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Suteki.Shop.ActionContent">
-    <Position X="12" Y="14.5" Width="1.5" />
+    <Position X="14.25" Y="19.25" Width="1.5" />
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
@@ -25,7 +25,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Suteki.Shop.Identity" BaseTypeListCollapsed="true">
-    <Position X="7.5" Y="1.5" Width="1.5" />
+    <Position X="6" Y="0.5" Width="1.75" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
       <Compartment Name="Methods" Collapsed="true" />
@@ -37,18 +37,26 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Suteki.Shop.Basket">
-    <Position X="8" Y="4.75" Width="1.5" />
+    <Position X="7" Y="8.5" Width="1.5" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
+    <AssociationLine Name="User" Type="Suteki.Shop.User" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="8.281" Y="8.5" />
+        <Point X="8.281" Y="8.125" />
+        <Point X="2.438" Y="8.125" />
+        <Point X="2.438" Y="5.199" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>CAFDBAABAAAAAAAARAAAAEAAABIAQAAEAAAIABAAAAA=</HashCode>
       <FileName>Models\Basket.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="User" />
       <Property Name="Country" />
+      <Property Name="User" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="BasketItems" />
@@ -57,7 +65,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Suteki.Shop.BasketItem">
-    <Position X="5.25" Y="4.75" Width="1.5" />
+    <Position X="4.25" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAgAAAAAAAAAAAAAAAQAAAEAAAgAAAAAA=</HashCode>
       <FileName>Models\BasketItem.cs</FileName>
@@ -98,7 +106,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Suteki.Shop.Category" BaseTypeListCollapsed="true">
-    <Position X="9.5" Y="14.75" Width="1.5" />
+    <Position X="9.5" Y="18.5" Width="1.5" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
       <Compartment Name="Methods" Collapsed="true" />
@@ -116,7 +124,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Suteki.Shop.Contact">
-    <Position X="13.25" Y="7" Width="1.5" />
+    <Position X="14.75" Y="7" Width="1.5" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
       <Compartment Name="Methods" Collapsed="true" />
@@ -135,7 +143,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Suteki.Shop.Content">
-    <Position X="17" Y="10" Width="1.5" />
+    <Position X="18.25" Y="14.25" Width="1.5" />
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
       <Compartment Name="Fields" Collapsed="true" />
@@ -145,8 +153,8 @@
       <FileName>Models\Content.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="ContentType" />
       <Property Name="ParentContent" />
+      <Property Name="ContentType" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="Contents" />
@@ -154,7 +162,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Suteki.Shop.ContentType">
-    <Position X="19.5" Y="10.75" Width="1.5" />
+    <Position X="21.75" Y="15.5" Width="1.5" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
@@ -165,7 +173,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Suteki.Shop.Country" BaseTypeListCollapsed="true">
-    <Position X="15.75" Y="7.25" Width="1.5" />
+    <Position X="12" Y="11.5" Width="1.5" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
@@ -183,7 +191,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Suteki.Shop.Image">
-    <Position X="9.5" Y="11.25" Width="1.5" />
+    <Position X="9.5" Y="15" Width="1.5" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
       <Compartment Name="Methods" Collapsed="true" />
@@ -198,12 +206,12 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Suteki.Shop.MailingListSubscription">
-    <Position X="13.25" Y="11.75" Width="1.5" />
+    <Position X="17.75" Y="7.25" Width="1.75" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAACAAAAAGAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAAQGAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\MailingListSubscription.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -212,7 +220,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Suteki.Shop.Menu">
-    <Position X="14.25" Y="14.5" Width="1.5" />
+    <Position X="16.5" Y="19.25" Width="1.5" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
       <Compartment Name="Methods" Collapsed="true" />
@@ -228,17 +236,25 @@
       <Compartment Name="Fields" Collapsed="true" />
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
+    <AssociationLine Name="User" Type="Suteki.Shop.User" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="10.75" Y="7" />
+        <Point X="10.375" Y="7" />
+        <Point X="10.375" Y="4.625" />
+        <Point X="3" Y="4.625" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>IAFDAABAQCACgAAAAAAAAAAAAgBAAAAQhgADAAEAIBE=</HashCode>
       <FileName>Models\Order.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Card" />
+      <Property Name="CardContact" />
+      <Property Name="DeliveryContact" />
       <Property Name="OrderStatus" />
       <Property Name="User" />
       <Property Name="Basket" />
-      <Property Name="DeliveryContact" />
-      <Property Name="CardContact" />
     </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
@@ -250,7 +266,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Suteki.Shop.OrderStatus">
-    <Position X="10.75" Y="1.5" Width="1.5" />
+    <Position X="10.75" Y="0.5" Width="1.5" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
@@ -285,7 +301,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Suteki.Shop.PostZone" BaseTypeListCollapsed="true">
-    <Position X="18.25" Y="7.25" Width="1.5" />
+    <Position X="12" Y="14.5" Width="1.5" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
@@ -299,25 +315,35 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Suteki.Shop.Product" BaseTypeListCollapsed="true">
-    <Position X="5.25" Y="10.5" Width="1.5" />
+    <Position X="4.25" Y="14.25" Width="1.5" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
+    <AssociationLine Name="ProductCategories" Type="Suteki.Shop.ProductCategory">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.122" Y="0.745" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>QAAKAMAABQBwAAQgEBAAAAQCACAUABAACAAAAGAACYA=</HashCode>
+      <HashCode>QAAKAMAABQRwAAQgEBAAAAQCACAUABAACAAAAGAACYA=</HashCode>
       <FileName>Models\Product.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="Reviews" />
       <Property Name="ProductImages" />
-      <Property Name="ProductCategories" />
       <Property Name="Sizes" />
+      <Property Name="ProductCategories" />
+      <Property Name="Reviews" />
     </ShowAsCollectionAssociation>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Suteki.Shop.ProductCategory">
-    <Position X="7" Y="15.25" Width="1.5" />
+    <Position X="4.25" Y="20.25" Width="1.5" />
+    <AssociationLine Name="Product" Type="Suteki.Shop.Product">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.846" Y="0.735" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
       <FileName>Models\ProductCategory.cs</FileName>
@@ -329,7 +355,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Suteki.Shop.ProductImage" BaseTypeListCollapsed="true">
-    <Position X="7.5" Y="11.25" Width="1.5" />
+    <Position X="7" Y="15" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAgAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\ProductImage.cs</FileName>
@@ -341,7 +367,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Suteki.Shop.Review">
-    <Position X="2.75" Y="10.5" Width="1.5" />
+    <Position X="1.75" Y="14.25" Width="1.5" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
@@ -370,7 +396,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Suteki.Shop.Size" BaseTypeListCollapsed="true">
-    <Position X="5.25" Y="7.25" Width="1.5" />
+    <Position X="4.25" Y="11" Width="1.5" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
@@ -387,7 +413,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Suteki.Shop.StockItem">
-    <Position X="2.75" Y="7.25" Width="1.5" />
+    <Position X="1.75" Y="11" Width="1.5" />
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
@@ -397,7 +423,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Suteki.Shop.TextContent">
-    <Position X="16.5" Y="14.5" Width="1.5" />
+    <Position X="18.75" Y="19.25" Width="1.5" />
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
@@ -408,7 +434,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Suteki.Shop.TopContent">
-    <Position X="18.75" Y="14.5" Width="1.5" />
+    <Position X="21" Y="19.25" Width="1.5" />
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
