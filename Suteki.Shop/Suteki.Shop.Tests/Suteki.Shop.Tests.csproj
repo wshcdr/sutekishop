@@ -189,6 +189,7 @@
     <Compile Include="Filters\EnsureSslFilterTester.cs" />
     <Compile Include="Filters\LoadOptionsTester.cs" />
     <Compile Include="IoCTests.cs" />
+    <Compile Include="IoC\UrlBasedComponentSelectorTests.cs" />
     <Compile Include="Maps\BasketMapTests.cs" />
     <Compile Include="Maps\ContentMapTests.cs" />
     <Compile Include="Maps\MapsTestsSetupAndTeardown.cs" />

@@ -18,11 +18,7 @@ namespace Suteki.Shop.IoC
 
         public bool HasOpinionAbout(string key, Type service)
         {
-            foreach (var type in selectableTypes)
-            {
-                if(service == type) return true;
-            }
-            return false;
+            return selectableTypes.Any(type => service == type);
         }
 
         public IHandler SelectHandler(string key, Type service, IHandler[] handlers)
@@ -33,7 +29,7 @@ namespace Suteki.Shop.IoC
             return selectedHandler;
         }
 
-        private IHandler GetDefaultHandler(Type service, IHandler[] handlers)
+        private static IHandler GetDefaultHandler(Type service, IHandler[] handlers)
         {
             if (handlers.Length == 0)
             {
@@ -42,10 +38,10 @@ namespace Suteki.Shop.IoC
             return handlers[0];
         }
 
-        protected string GetHostname()
+        protected virtual string GetHostname()
         {
             if (HttpContext.Current == null) return noHostName;
-            if (HttpContext.Current.Request == null) return noHostName;
+            if (HttpContext.Current.CurrentHandler == null) return noHostName;
 
             return HttpContext.Current.Request.ServerVariables["SERVER_NAME"];
         }
