@@ -13,7 +13,6 @@ using MvcContrib;
 
 namespace Suteki.Shop.Controllers
 {
-	[AdministratorsOnly]
     public class CategoryController : ControllerBase
     {
         private readonly IRepository<Category> categoryRepository;
@@ -29,12 +28,21 @@ namespace Suteki.Shop.Controllers
         	this.orderableService = orderableService;
         }
 
+        [AdministratorsOnly, HttpGet, UnitOfWork]
         public ActionResult Index()
         {
             var root = categoryRepository.GetAll().MapToViewData().GetRoot();
 			return View("Index", ShopView.Data.WithCategoryViewData(root));
         }
 
+        [HttpGet, UnitOfWork]
+        public ActionResult LeftMenu()
+        {
+            var rootCategory = categoryRepository.GetAll().MapToViewData().GetRoot();
+            return View(rootCategory);
+        }
+
+        [AdministratorsOnly, HttpGet, UnitOfWork]
         public ActionResult New(int id)
         {
             var parentCategory = categoryRepository.GetById(id);
@@ -42,7 +50,7 @@ namespace Suteki.Shop.Controllers
             return View("Edit", EditViewData.WithCategory(defaultCategory)); 
         }
 
-		[AcceptVerbs(HttpVerbs.Post), UnitOfWork]
+        [AdministratorsOnly, AcceptVerbs(HttpVerbs.Post), UnitOfWork]
 		public ActionResult New([EntityBind(Fetch = false)] Category category)
 		{
 		    Image image = null;
@@ -65,13 +73,14 @@ namespace Suteki.Shop.Controllers
 			return this.RedirectToAction(c => c.Index());
 		}
 
+        [AdministratorsOnly, HttpGet, UnitOfWork]
         public ActionResult Edit(int id)
         {
             var category = categoryRepository.GetById(id);
             return View("Edit", EditViewData.WithCategory(category));
         }
 
-		[AcceptVerbs(HttpVerbs.Post), UnitOfWork]
+        [AdministratorsOnly, AcceptVerbs(HttpVerbs.Post), UnitOfWork]
 		public ActionResult Edit(Category category)
 		{
 			var viewData = EditViewData.WithCategory(category);
@@ -103,21 +112,21 @@ namespace Suteki.Shop.Controllers
             }
         }
 
-		[UnitOfWork]
+        [AdministratorsOnly, UnitOfWork]
         public ActionResult MoveUp(int id)
         {
             MoveThis(id).UpOne();
 			return this.RedirectToAction(c => c.Index());
         }
 
-		[UnitOfWork]
+        [AdministratorsOnly, UnitOfWork]
         public ActionResult MoveDown(int id)
         {
             MoveThis(id).DownOne();
 			return this.RedirectToAction(c => c.Index());
         }
 
-		[UnitOfWork]
+        [AdministratorsOnly, UnitOfWork]
 		public ActionResult DeleteImage(int id, int imageId)
 		{
 			var category = categoryRepository.GetById(id);

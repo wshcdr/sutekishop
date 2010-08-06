@@ -189,5 +189,15 @@ namespace Suteki.Shop.Tests.Controllers
 
 			imageRepository.AssertWasCalled(x => x.DeleteOnSubmit(image));
     	}
+
+        [Test]
+        public void LeftMenu_should_return_tree_of_CategoryViewData()
+        {
+            var rootCategory = categoryController.LeftMenu()
+                .ReturnsViewResult()
+                .WithModel<CategoryViewData>();
+
+            Assert.That(rootCategory.Name, Is.EqualTo("root"));
+        }
     }
 }

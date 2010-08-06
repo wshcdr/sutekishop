@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Web.Mvc;
 using MvcContrib;
 using Suteki.Common.Binders;
@@ -8,43 +9,38 @@ using Suteki.Common.Repositories;
 using Suteki.Common.Services;
 using Suteki.Shop.Filters;
 using Suteki.Shop.ViewData;
+using NHibernate.Linq;
 
 namespace Suteki.Shop.Controllers
 {
 	public class MenuController : ControllerBase
 	{
 		private readonly IRepository<Menu> menuRepository;
-		private readonly IRepository<Category> categoryRepository;
 		private readonly IOrderableService<Content> contentOrderableService;
 
-		public MenuController(IRepository<Menu> menuRepository, IRepository<Category> categoryRepository,
-		                      IOrderableService<Content> contentOrderableService)
+		public MenuController(IRepository<Menu> menuRepository, IOrderableService<Content> contentOrderableService)
 		{
 			this.menuRepository = menuRepository;
 			this.contentOrderableService = contentOrderableService;
-			this.categoryRepository = categoryRepository;
 		}
 
+        [HttpGet, UnitOfWork]
 		public ActionResult MainMenu()
 		{
 		    var menu = menuRepository.GetById(1);
-			return View(menu);
-		}
-
-		public ActionResult LeftMenu()
-		{
-		    var rootCategory = categoryRepository.GetAll().MapToViewData().GetRoot();
-			return View(rootCategory);
+            return View(menu);
 		}
 
 		[AdministratorsOnly]
-		public ActionResult List(int id)
+        [HttpGet, UnitOfWork]
+        public ActionResult List(int id)
 		{
 			return View(CmsView.Data.WithContent(menuRepository.GetById(id)));
 		}
 
 		[AdministratorsOnly]
-		public ViewResult Edit(int id)
+        [HttpGet, UnitOfWork]
+        public ViewResult Edit(int id)
 		{
 			return View(GetEditViewData(id).WithContent(menuRepository.GetById(id)));
 		}
@@ -62,7 +58,8 @@ namespace Suteki.Shop.Controllers
 		}
 
 		[AdministratorsOnly]
-		public ViewResult New(int id)
+        [HttpGet, UnitOfWork]
+        public ViewResult New(int id)
 		{
 			var parentMenu = menuRepository.GetById(id);
 
