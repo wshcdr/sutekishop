@@ -16,16 +16,14 @@ namespace Suteki.Shop.Tests.Controllers
 	{
 		private MenuController controller;
 		private IRepository<Menu> menuRepository;
-		private IRepository<Category> categoryRepository;
 		private IOrderableService<Content> orderableService;
 
 		[SetUp]
 		public void Setup()
 		{
-			categoryRepository = MockRepositoryBuilder.CreateCategoryRepository();
 			menuRepository = MockRepository.GenerateStub<IRepository<Menu>>();
 			orderableService = MockRepository.GenerateStub<IOrderableService<Content>>();
-			controller = new MenuController(menuRepository, categoryRepository, orderableService);
+			controller = new MenuController(menuRepository, orderableService);
 		}
 
 		[Test]
@@ -98,15 +96,5 @@ namespace Suteki.Shop.Tests.Controllers
 				.WithModel<CmsViewData>()
 				.AssertAreSame(mainMenu, vd => vd.Menu);
 		}
-
-	    [Test]
-	    public void LeftMenu_should_return_tree_of_CategoryViewData()
-	    {
-	        var rootCategory = controller.LeftMenu()
-	            .ReturnsViewResult()
-	            .WithModel<CategoryViewData>();
-
-	        Assert.That(rootCategory.Name, Is.EqualTo("root"));
-	    }
 	}
 }

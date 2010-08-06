@@ -63,7 +63,7 @@
                             </ul>
                         </div>
 
-                        <% Html.RenderAction<MenuController>(c => c.LeftMenu()); %>
+                        <% Html.RenderAction<CategoryController>(c => c.LeftMenu()); %>
                     </div>
                 </div>
 

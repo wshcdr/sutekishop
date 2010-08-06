@@ -31,7 +31,8 @@ namespace Suteki.Shop.Controllers
 		}
 
 		//TODO: Possibly look at slimming down this action.
-		public ActionResult Index(string urlName)
+        [HttpGet, UnitOfWork]
+        public ActionResult Index(string urlName)
 		{
 		    Content content;
 
@@ -70,7 +71,8 @@ namespace Suteki.Shop.Controllers
 		}
 
 		[AdministratorsOnly]
-		public ActionResult Add(int id)
+        [HttpGet, UnitOfWork]
+        public ActionResult Add(int id)
 		{
 		    var viewData = GetEditViewData(0);
 			var parentContent = contentRepository.GetById(id);
@@ -92,7 +94,8 @@ namespace Suteki.Shop.Controllers
 		}
 
 		[AdministratorsOnly]
-		public ActionResult EditText(int id)
+        [HttpGet, UnitOfWork]
+        public ActionResult EditText(int id)
 		{
 		    return EditContent(id);
 		}
@@ -110,7 +113,7 @@ namespace Suteki.Shop.Controllers
 		    return EditContent(content, "EditText");
 		}
 
-	    ActionResult EditContent(Content content, string errorView)
+        ActionResult EditContent(Content content, string errorView)
 	    {
 	        if (ModelState.IsValid)
 	        {
@@ -155,6 +158,7 @@ namespace Suteki.Shop.Controllers
 		}
 
         [AdministratorsOnly]
+        [HttpGet, UnitOfWork]
         public ActionResult EditTop(int id)
         {
             return EditContent(id);

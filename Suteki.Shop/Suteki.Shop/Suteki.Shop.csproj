@@ -364,6 +364,7 @@
   <ItemGroup>
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Views\Category\LeftMenu.ascx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -693,7 +694,6 @@
     <Content Include="Views\MailingList\Index.aspx" />
     <Content Include="Views\MailingList\List.aspx" />
     <Content Include="Views\Menu\Edit.aspx" />
-    <Content Include="Views\Menu\LeftMenu.ascx" />
     <Content Include="Views\Menu\MainMenu.ascx" />
     <Content Include="Views\Menu\UpDown.ascx" />
     <Content Include="Views\Invoice\Show.aspx" />
