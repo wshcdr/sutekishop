@@ -24,7 +24,7 @@ namespace Suteki.Shop.Controllers
 			this.contentOrderableService = contentOrderableService;
 		}
 
-        [HttpGet, UnitOfWork]
+        [UnitOfWork]
 		public ActionResult MainMenu()
 		{
 		    var menu = menuRepository.GetById(1);

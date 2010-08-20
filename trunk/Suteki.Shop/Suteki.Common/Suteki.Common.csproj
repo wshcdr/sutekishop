@@ -115,9 +115,6 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -163,13 +160,8 @@
     <Compile Include="Models\IEntity.cs" />
     <Compile Include="Models\NullableEntityAttribute.cs" />
     <Compile Include="Models\StringValueExtensions.cs" />
-    <Compile Include="Repositories\ConnectionStringProvider.cs" />
-    <Compile Include="Repositories\DataContextProvider.cs" />
     <Compile Include="Repositories\FakeRepository.cs" />
-    <Compile Include="Repositories\IConnectionStringProvider.cs" />
-    <Compile Include="Repositories\IDataContextProvider.cs" />
     <Compile Include="Repositories\IUnitOfWorkManager.cs" />
-    <Compile Include="Repositories\LinqToSqlUnitOfWorkManager.cs" />
     <Compile Include="Repositories\NHibernateRepository.cs" />
     <Compile Include="Services\DebugWritingService.cs" />
     <Compile Include="Services\EmailBuilder.cs" />
@@ -182,7 +174,6 @@
     <Compile Include="Repositories\IRepositoryResolver.cs" />
     <Compile Include="Repositories\OrderableExtensions.cs" />
     <Compile Include="Repositories\QueriableExtensions.cs" />
-    <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\RepositoryResolver.cs" />
     <Compile Include="Services\EmailSender.cs" />
     <Compile Include="Services\EmailSenderLogger.cs" />

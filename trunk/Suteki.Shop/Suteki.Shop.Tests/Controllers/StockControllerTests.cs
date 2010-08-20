@@ -61,7 +61,6 @@ namespace Suteki.Shop.Tests.Controllers
             var sizes = CreateSizes();
 
             sizeRepository.Expect(s => s.GetAll()).Return(sizes);
-            sizeRepository.Expect(s => s.SubmitChanges());
 
             var root = BuildCategories();
             categoryRepository.Expect(cr => cr.GetById(1)).Return(root);

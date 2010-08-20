@@ -140,9 +140,6 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -209,7 +206,6 @@
     <Compile Include="Filters\AuthenticateFilter.cs" />
     <Compile Include="Filters\CopyMessageFromTempDataToViewData.cs" />
     <Compile Include="Filters\EnsureSsl.cs" />
-    <Compile Include="Filters\LoadUsingAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -266,7 +262,6 @@
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\ITextContent.cs" />
     <Compile Include="Models\IUrlNamed.cs" />
-    <Compile Include="Models\LoadOptions.cs" />
     <Compile Include="Models\MailingListSubscription.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\ModelHelpers\UrlNameHelperExtensions.cs" />
@@ -303,7 +298,6 @@
     <Compile Include="Services\BaseControllerService.cs" />
     <Compile Include="Services\BasketService.cs" />
     <Compile Include="Services\CheckoutService.cs" />
-    <Compile Include="Services\DbConnectionChecker.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\EncryptionService.cs" />
     <Compile Include="Services\HttpFileService.cs" />
@@ -356,10 +350,8 @@
     </Compile>
     <Compile Include="XmlRpc\MetaWeblog.cs" />
     <Compile Include="XmlRpc\MetaWeblogAPI.cs" />
-    <Compile Include="XmlRpc\MetaWeblogWcf.cs" />
     <Compile Include="XmlRpc\Service\XmlRpcServiceHostBuilder.cs" />
     <Compile Include="XmlRpc\Service\XmlRpcServiceModel.cs" />
-    <Compile Include="XmlRpc\WcfConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Default.aspx" />
@@ -388,7 +380,9 @@
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Configuration\Windsor.config" />
+    <Content Include="Configuration\Windsor.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Content\Images\cross.png" />
     <Content Include="Content\Images\down.png" />
     <Content Include="Content\Images\Logo_background.png" />

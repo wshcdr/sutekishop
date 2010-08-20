@@ -25,7 +25,6 @@ namespace Suteki.Shop.Tests.Services
         public void CreateNewCustomer_ShouldReturnANewCustomerAddedToTheRepository()
         {
             userRepository.Expect(ur => ur.SaveOrUpdate(Arg<User>.Is.Anything));
-            userRepository.Expect(ur => ur.SubmitChanges());
 
             User user = userService.CreateNewCustomer();
 

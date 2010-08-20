@@ -1,22 +1,18 @@
-using System;
 using System.Linq;
 using System.Web.Mvc;
 using MvcContrib.Pagination;
-using Suteki.Common.Binders;
-using Suteki.Common.Extensions;
 using Suteki.Common.Filters;
 using Suteki.Common.Repositories;
 using Suteki.Shop.Binders;
 using Suteki.Shop.Filters;
-using Suteki.Shop.Models;
 using Suteki.Shop.ViewData;
 using MvcContrib;
 namespace Suteki.Shop.Controllers
 {
 	public class MailingListController : ControllerBase
 	{
-		IRepository<Country> countryRepository;
-		IRepository<MailingListSubscription> subscriptionRepository;
+	    readonly IRepository<Country> countryRepository;
+	    readonly IRepository<MailingListSubscription> subscriptionRepository;
 
 		public MailingListController(IRepository<Country> countryRepository, IRepository<MailingListSubscription> subscriptionRepository)
 		{
@@ -37,14 +33,9 @@ namespace Suteki.Shop.Controllers
 			if(ModelState.IsValid)
 			{
 				subscriptionRepository.SaveOrUpdate(mailingListSubscription);
-				if(addAnother.GetValueOrDefault())
-				{
-					return this.RedirectToAction(c => c.Index());
-				}
-				else
-				{
-					return this.RedirectToAction(c => c.Confirm());					
-				}
+				return addAnother.GetValueOrDefault() ? 
+                    this.RedirectToAction(c => c.Index()) : 
+                    this.RedirectToAction(c => c.Confirm());
 			}
 
 			return View(
@@ -58,7 +49,7 @@ namespace Suteki.Shop.Controllers
 			return View();
 		}
 
-		[AdministratorsOnly, LoadUsing(typeof(MailingListSubscriptionsWithCountries))]
+		[AdministratorsOnly, UnitOfWork]
 		public ActionResult List(int? page)
 		{
 			var subscriptions = subscriptionRepository
@@ -68,7 +59,7 @@ namespace Suteki.Shop.Controllers
 			return View(ShopView.Data.WithSubscriptions(subscriptions));
 		}
 
-		[AdministratorsOnly]
+        [AdministratorsOnly, UnitOfWork]
 		public ActionResult Edit(int id)
 		{
 			var subscription = subscriptionRepository.GetById(id);

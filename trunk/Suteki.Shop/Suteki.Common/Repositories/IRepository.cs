@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Data.Linq;
+﻿using System.Linq;
 
 namespace Suteki.Common.Repositories
 {
@@ -10,8 +8,6 @@ namespace Suteki.Common.Repositories
         IQueryable<T> GetAll();
         void SaveOrUpdate(T entity);
         void DeleteOnSubmit(T entity);
-		[Obsolete("Units of Work should be managed externally to the Repository.")]
-        void SubmitChanges();
     }
 
     public interface IRepository
@@ -20,7 +16,5 @@ namespace Suteki.Common.Repositories
         IQueryable GetAll();
         void SaveOrUpdate(object entity);
         void DeleteOnSubmit(object entity);
-		[Obsolete("Units of Work should be managed externally to the Repository.")]
-        void SubmitChanges();
     }
 }

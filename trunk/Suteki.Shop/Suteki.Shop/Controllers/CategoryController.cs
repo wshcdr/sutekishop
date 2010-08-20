@@ -35,7 +35,7 @@ namespace Suteki.Shop.Controllers
 			return View("Index", ShopView.Data.WithCategoryViewData(root));
         }
 
-        [HttpGet, UnitOfWork]
+        [UnitOfWork]
         public ActionResult LeftMenu()
         {
             var rootCategory = categoryRepository.GetAll().MapToViewData().GetRoot();

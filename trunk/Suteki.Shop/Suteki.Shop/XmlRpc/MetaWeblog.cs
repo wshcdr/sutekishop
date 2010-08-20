@@ -25,6 +25,7 @@ namespace Suteki.Shop.XmlRpc
         private IOrderableService<Content> contentOrderableService;
         private IBaseControllerService baseControllerService;
         private IImageFileService imageFileService;
+        private IUnitOfWorkManager unitOfWorkManager;
 
         public MetaWeblog(
             IRepository<Content> contentRepository,
@@ -55,14 +56,14 @@ namespace Suteki.Shop.XmlRpc
 
         private void CreateServices()
         {
-            var connectionStringProvider = new ConnectionStringProvider("Data Source=.\\SQLEXPRESS;Initial Catalog=JumpTheGun;Integrated Security=True");
-            var dataContextProvider = new DataContextProvider(connectionStringProvider);
-            contentRepository = new Repository<Content>(dataContextProvider);
-            userRepository = new Repository<User>(dataContextProvider);
-            var categoryRepository = new Repository<Shop.Category>(dataContextProvider);
-            contentOrderableService = new OrderableService<Content>(contentRepository);
-            baseControllerService = new BaseControllerService(categoryRepository);
-            imageFileService = new ImageFileService();
+            var iocContainer = GetIocContainer();
+
+            contentRepository = iocContainer.Resolve<IRepository<Content>>();
+            userRepository = iocContainer.Resolve<IRepository<User>>();
+            contentOrderableService = iocContainer.Resolve<IOrderableService<Content>>();
+            baseControllerService = iocContainer.Resolve<IBaseControllerService>();
+            imageFileService = iocContainer.Resolve<IImageFileService>();
+            unitOfWorkManager = iocContainer.Resolve<IUnitOfWorkManager>();
         }
 
 //        public MetaWeblog()
@@ -137,7 +138,7 @@ namespace Suteki.Shop.XmlRpc
             Content content = contentRepository.GetById(contentId);
 
             contentRepository.DeleteOnSubmit(content);
-            contentRepository.SubmitChanges();
+            unitOfWorkManager.Commit();
 
             return false;
         }
@@ -173,7 +174,7 @@ namespace Suteki.Shop.XmlRpc
             textContent.Text = post.description;
             content.IsActive = publish;
 
-            contentRepository.SubmitChanges();
+            unitOfWorkManager.Commit();
 
             return false;
 
@@ -268,7 +269,7 @@ namespace Suteki.Shop.XmlRpc
             };
 
             contentRepository.SaveOrUpdate(content);
-            contentRepository.SubmitChanges();
+            unitOfWorkManager.Commit();
 
             return content.Id.ToString();
         }
