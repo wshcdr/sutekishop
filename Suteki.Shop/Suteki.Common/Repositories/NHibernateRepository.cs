@@ -33,11 +33,6 @@ namespace Suteki.Common.Repositories
             sessionManager.OpenSession().Delete(entity);
         }
 
-        public void SubmitChanges()
-        {
-            sessionManager.OpenSession().Flush();
-        }
-
         object IRepository.GetById(int id)
         {
             return GetById(id);
@@ -56,11 +51,6 @@ namespace Suteki.Common.Repositories
         void IRepository.DeleteOnSubmit(object entity)
         {
             DeleteOnSubmit((T)entity);
-        }
-
-        void IRepository.SubmitChanges()
-        {
-            SubmitChanges();
         }
     }
 }

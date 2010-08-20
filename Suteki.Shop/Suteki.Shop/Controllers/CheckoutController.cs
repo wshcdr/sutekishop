@@ -78,7 +78,7 @@ namespace Suteki.Shop.Controllers
 				.WithOrder(order);
 		}
 
-		[AcceptVerbs(HttpVerbs.Post)]
+		[AcceptVerbs(HttpVerbs.Post), UnitOfWork]
 		public ActionResult Index([BindUsing(typeof(OrderBinder))] Order order)
 		{
 			if (ModelState.IsValid)

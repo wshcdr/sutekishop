@@ -10,13 +10,12 @@ namespace Suteki.Shop.Repositories
 {
     public class FluentNHibernateConfigurationBuilder : IConfigurationBuilder
     {
+        private const string conectionStringKey = "SutekiShopConnectionString";
+
         public Configuration GetConfiguration(IConfiguration facilityConfiguration)
         {
             return Fluently.Configure()
-                .Database(MsSqlConfiguration.MsSql2005.ConnectionString(c => c
-                    .Server(@"localhost\sqlexpress")
-                    .Database("SutekiShop")
-                    .TrustedConnection()))
+                .Database(MsSqlConfiguration.MsSql2005.ConnectionString(c => c.FromConnectionStringWithKey(conectionStringKey)))
                 .Mappings(ConfigureMappings)
                 .BuildConfiguration();
         }

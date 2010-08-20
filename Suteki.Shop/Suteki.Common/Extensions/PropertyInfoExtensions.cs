@@ -1,5 +1,4 @@
 using System;
-using System.Data.Linq.Mapping;
 using System.Reflection;
 using Suteki.Common.Models;
 
@@ -37,20 +36,6 @@ namespace Suteki.Common.Extensions
         public static bool IsPrimaryKey(this PropertyInfo propertyInfo)
         {
             return propertyInfo.Name == "Id" || propertyInfo.Name == propertyInfo.DeclaringType.Name + "Id";
-        }
-
-        public static bool IsForeignKey(this PropertyInfo propertyInfo)
-        {
-            var association = propertyInfo.GetAttributeOf<AssociationAttribute>();
-            if (association == null) return false;
-            return association.IsForeignKey;
-        }
-
-        public static string ForeignKeyIdField(this PropertyInfo propertyInfo)
-        {
-            var association = propertyInfo.GetAttributeOf<AssociationAttribute>();
-            if (association == null) return null;
-            return association.ThisKey;
         }
 
         public static bool AllowNull(this PropertyInfo propertyInfo)

@@ -18,7 +18,7 @@ namespace Suteki.Shop.Tests.Models
                         FlatRate = 10.00M
                     }
                 },
-                BasketItems = new System.Data.Linq.EntitySet<BasketItem>
+                BasketItems = new System.Collections.Generic.List<BasketItem>
                 {
                     new BasketItem
                     {

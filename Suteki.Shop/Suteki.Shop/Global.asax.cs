@@ -26,7 +26,6 @@ namespace Suteki.Shop
             HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
             RouteManager.RegisterRoutes(RouteTable.Routes);
             InitializeWindsor();
-            DbConnectionCheck();
             ModelBinders.Binders.DefaultBinder = ServiceLocator.Current.GetInstance<IModelBinder>();
         }
 
@@ -46,17 +45,10 @@ namespace Suteki.Shop
                 // create a new Windsor Container
 				container = ContainerBuilder.Build("Configuration\\Windsor.config"); 
 
-                WcfConfiguration.ConfigureContainer(container);
-
 				ServiceLocator.SetLocatorProvider(() => container.Resolve<IServiceLocator>());
                 // set the controller factory to the Windsor controller factory (in MVC Contrib)
                 ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
             }
-        }
-
-        private void DbConnectionCheck()
-        {
-            ServiceLocator.Current.GetInstance<IDbConnectionChecker>().CheckConnection();
         }
 
         /* /// <summary>

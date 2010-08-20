@@ -22,7 +22,7 @@ namespace Suteki.Shop.Controllers
 			this.productRepository = productRepository;
 		}
 
-		[LoadUsing(typeof(ReviewsWithProducts)), AdministratorsOnly]
+		[AdministratorsOnly]
 		public ActionResult Index()
 		{
 			return View(new ReviewViewData

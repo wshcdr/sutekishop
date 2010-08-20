@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using Suteki.Common.Extensions;
+using Suteki.Common.Filters;
 using Suteki.Common.Repositories;
 using Suteki.Shop.Filters;
 using Suteki.Shop.Models;
@@ -25,6 +26,7 @@ namespace Suteki.Shop.Controllers
             return View("Index");
         }
 
+        [UnitOfWork]
         public ActionResult Orders()
         {
             string ordersCsv = orderRepository.GetAll().Select(o => new 
@@ -39,7 +41,7 @@ namespace Suteki.Shop.Controllers
             return Content(ordersCsv, "text/csv");
         }
 
-		[LoadUsing(typeof(MailingListSubscriptionsWithCountries))]
+		[UnitOfWork]
 		public ActionResult MailingListSubscriptions()
 		{
             var mailingListCsv = mailingListRepository.GetAll().ToList().EnsureNoDuplicates().Select(x => new 
@@ -60,7 +62,8 @@ namespace Suteki.Shop.Controllers
 			return Content(mailingListCsv, "text/csv");
 		}
 
-		public ActionResult MailingListEmails()
+        [UnitOfWork]
+        public ActionResult MailingListEmails()
 		{
 			string mailingListEmails = string.Join(";", mailingListRepository.GetAll().Select(x => x.Email).Distinct().ToArray());
 			return Content(mailingListEmails, "text/plain");

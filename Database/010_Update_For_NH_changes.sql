@@ -1,5 +1,6 @@
 
 -- update db for NH changes
+use SutekiShop
 
 alter table [Content]
 	add ContentType varchar(50)
