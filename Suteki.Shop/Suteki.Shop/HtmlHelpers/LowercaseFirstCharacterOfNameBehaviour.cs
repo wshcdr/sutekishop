@@ -3,7 +3,7 @@ using MvcContrib.FluentHtml.Elements;
 
 namespace Suteki.Shop.HtmlHelpers
 {
-	public class LowercaseFirstCharacterOfNameBehaviour : IMemberBehavior {
+	public class LowercaseFirstCharacterOfNameBehaviour : IBehavior<IMemberElement> {
 		public void Execute(IMemberElement element) {
 			string name = null;
 			if(element.Builder.Attributes.TryGetValue("name", out name) && !string.IsNullOrEmpty(name))

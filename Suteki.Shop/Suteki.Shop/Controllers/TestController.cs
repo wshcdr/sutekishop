@@ -34,7 +34,7 @@ namespace Suteki.Shop.Controllers
         public ActionResult Email()
         {
             string toAddress = BaseControllerService.EmailAddress;
-            emailSender.Send(toAddress, "Hello from Suteki Shop", "The email body");
+            emailSender.Send(toAddress, "Hello from Suteki Shop", "The email body", false);
             return Content("Email sent to {0}".With(toAddress));
         }
 
