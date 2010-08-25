@@ -221,8 +221,9 @@ namespace Suteki.Shop.XmlRpc
 
             var posts = contentRepository
                 .GetAll()
+                .TextContent()
                 .InOrder()
-                .Where(c => c is ITextContent)
+                .ToList()
                 .Select(content => new Post 
                 { 
                     dateCreated = DateTime.Now,
