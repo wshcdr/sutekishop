@@ -4,7 +4,6 @@ using Suteki.Common.Extensions;
 using Suteki.Common.Filters;
 using Suteki.Common.Repositories;
 using Suteki.Shop.Filters;
-using Suteki.Shop.Models;
 using Suteki.Shop.Repositories;
 
 namespace Suteki.Shop.Controllers
@@ -29,7 +28,7 @@ namespace Suteki.Shop.Controllers
         [UnitOfWork]
         public ActionResult Orders()
         {
-            string ordersCsv = orderRepository.GetAll().Select(o => new 
+            var ordersCsv = orderRepository.GetAll().ToList().Select(o => new 
             {
                 OrderId = o.Id, 
                 o.Email,
