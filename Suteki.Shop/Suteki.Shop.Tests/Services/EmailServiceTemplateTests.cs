@@ -1,5 +1,7 @@
 using System;
+using System.Globalization;
 using System.IO;
+using System.Threading;
 using NUnit.Framework;
 using Suteki.Common.Services;
 using Suteki.Shop.Services;
@@ -18,6 +20,13 @@ namespace Suteki.Shop.Tests.Services
 
         private const string expectedOrderBodyPath = @"Templates\ExpectedOrderConfirmation.html";
         private const string expectedDispatchBodyPath = @"Templates\ExpectedDispatchNotification.html";
+
+        [TestFixtureSetUp]
+        public void TestFixtureSetUp()
+        {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-gb");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-gb");
+		}
 
         [SetUp]
         public void SetUp()
