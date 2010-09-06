@@ -24,16 +24,11 @@ namespace Suteki.Shop.Repositories
             }
             if (!string.IsNullOrEmpty(criteria.Postcode))
             {
-                orders = orders
-                    .Where(o => 
-                        o.CardContact.Postcode == criteria.Postcode || 
-                        o.DeliveryContact.Postcode == criteria.Postcode);
+                orders = orders.Where(o => o.CardContact.Postcode == criteria.Postcode);
             }
             if (!string.IsNullOrEmpty(criteria.Lastname))
             {
-                orders = orders.Where(o =>
-                    o.CardContact.Lastname == criteria.Lastname ||
-                    o.DeliveryContact.Lastname == criteria.Lastname);
+                orders = orders.Where(o => o.CardContact.Lastname == criteria.Lastname);
             }
             if (criteria.OrderStatusId != 0)
             {
