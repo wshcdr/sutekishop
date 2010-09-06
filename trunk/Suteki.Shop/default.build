@@ -3,7 +3,8 @@
 	<property name="solution.file" value="Suteki.Shop.sln" />
 	<property name="project.file" value="Suteki.Shop\Suteki.Shop.csproj"/>
 	<property name="project.configuration" value="debug"/>
-	
+	<property name="teamcity.dotnet.nant.nunit2.platform" value="x86" />
+
 	<!-- Nant contrib -->
 	<loadtasks assembly="nant\Nant.Contrib.Tasks.dll"/>
 	
