@@ -673,9 +673,9 @@
     <Content Include="log4net.config" />
     <None Include="MetaWebLogAPI.svc.explicitXmlRpcHost.Factory" />
     <None Include="Models\DomainModel.cd" />
-    <None Include="Views\EmailTemplates\OrderConfirmation.vm" />
-    <None Include="Views\EmailTemplates\OrderDispatch.vm" />
-    <None Include="Views\EmailTemplates\_orderDetails.vm" />
+    <Content Include="Views\EmailTemplates\OrderConfirmation.vm" />
+    <Content Include="Views\EmailTemplates\OrderDispatch.vm" />
+    <Content Include="Views\EmailTemplates\_orderDetails.vm" />
     <Content Include="MetaWebLogAPI.svc" />
     <Content Include="NoAccess.htm" />
     <Content Include="Views\Checkout\Confirm.aspx" />
