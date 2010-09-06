@@ -28,6 +28,11 @@ namespace Suteki.Shop.Services
 
             this.publicKey = publicKey;
             this.privateKey = privateKey;
+
+            // On IIS7 decryption was failing because the App Pool user didn't have permissions to access
+            // it's key store, changing to use machine key store fixed it. See this StackOverflow thread:
+            // http://stackoverflow.com/questions/1102884/rsacryptoserviceprovider-cryptographicexception-system-cannot-find-the-file-speci
+            RSACryptoServiceProvider.UseMachineKeyStore = true;
         }
 
         /// <summary>
@@ -82,9 +87,13 @@ namespace Suteki.Shop.Services
             {
                 rsa.ImportCspBlob(Convert.FromBase64String(privateKey));
             }
-            catch
+            catch (CryptographicException exception)
             {
-                throw new ValidationException("Invalid Private Key");
+                if(exception.Message == "Bad Data.\r\n")
+                {
+                    throw new ValidationException("Invalid Private Key", exception);
+                }
+                throw;
             }
 
             // decrypt the byte array.

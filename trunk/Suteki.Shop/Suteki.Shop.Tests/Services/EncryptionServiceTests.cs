@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using Suteki.Common.Validation;
 using Suteki.Shop.Services;
 using System.Security.Cryptography;
 
@@ -69,6 +70,17 @@ namespace Suteki.Shop.Tests.Services
         public bool ThereIsNoXOR()
         {
             return false ^ false;
+        }
+
+        [Test, ExpectedException(typeof(ValidationException))]
+        public void Decrypt_ShouldThrowValidationExceptionOnInvalidPrivateKey()
+        {
+            var encryptedCard = encryptionService.Encrypt(creditCardNumber);
+            var bytes = Convert.FromBase64String(privateKey);
+            bytes[10] = 0;
+            var invalidKey = Convert.ToBase64String(bytes);
+            encryptionService.PrivateKey = invalidKey;
+            encryptionService.Decrypt(encryptedCard);
         }
     }
 }
