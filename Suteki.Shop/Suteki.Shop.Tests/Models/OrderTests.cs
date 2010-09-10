@@ -1,14 +1,29 @@
 ﻿using System;
 using NUnit.Framework;
+// ReSharper disable InconsistentNaming
 
 namespace Suteki.Shop.Tests.Models
 {
     [TestFixture]
     public class OrderTests
     {
+        [Test]
+        public void UserAsString_should_return_user_email()
+        {
+            var order = new Order
+            {
+                User = new User
+                {
+                    Email = "mike@mike.com"
+                }
+            };
+
+            order.UserAsString.ShouldEqual("mike@mike.com");
+        }
+
         public static Order Create350GramOrder()
         {
-            Order order = new Order
+            var order = new Order
             {
                 Basket = BasketTests.Create350GramBasket(),
                 UseCardHolderContact = true,
@@ -25,7 +40,7 @@ namespace Suteki.Shop.Tests.Models
 
         public static Order Create450GramOrder()
         {
-            Order order = Create350GramOrder();
+            var order = Create350GramOrder();
 
             // add one more item to make max weight band (weight now 450)
             order.Basket.BasketItems.Add(new BasketItem
@@ -40,3 +55,4 @@ namespace Suteki.Shop.Tests.Models
         }
     }
 }
+// ReSharper restore InconsistentNaming
