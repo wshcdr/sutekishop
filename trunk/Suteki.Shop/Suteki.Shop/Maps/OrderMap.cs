@@ -22,6 +22,7 @@ namespace Suteki.Shop.Maps
             References(x => x.CardContact).Cascade.All();
             References(x => x.DeliveryContact).Cascade.All();
             References(x => x.OrderStatus);
+            References(x => x.User).Cascade.All();
         }
     }
 }
