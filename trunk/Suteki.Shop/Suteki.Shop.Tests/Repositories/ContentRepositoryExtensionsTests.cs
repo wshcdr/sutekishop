@@ -14,10 +14,10 @@ namespace Suteki.Shop.Tests.Repositories
         [SetUp]
         public void SetUp()
         {
-            var menuType = new ContentType {Name = "Menu"};
-            var textType = new ContentType {Name = "TextContent"};
-            var actionType = new ContentType {Name = "Action"};
-            var topType = new ContentType {Name = "TopContent"};
+            var menuType = new ContentType { Id = 1, Name = "Menu"};
+            var textType = new ContentType { Id = 2, Name = "TextContent"};
+            var actionType = new ContentType { Id = 3, Name = "Action"};
+            var topType = new ContentType { Id = 4, Name = "TopContent"};
 
             InSession(session =>
             {
