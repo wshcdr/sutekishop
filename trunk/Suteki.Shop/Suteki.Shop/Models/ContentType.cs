@@ -3,7 +3,7 @@ using Suteki.Common.Models;
 
 namespace Suteki.Shop
 {
-    public class ContentType : IEntity
+    public class ContentType : INamedEntity
     {
         public const int MenuId = 1;
         public const int TextContentId = 2;

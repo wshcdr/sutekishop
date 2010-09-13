@@ -3,7 +3,7 @@ using Suteki.Common.Models;
 
 namespace Suteki.Shop
 {
-    public class OrderStatus : IEntity
+    public class OrderStatus : INamedEntity
     {
         // these constants must match those in the database
         public static int PendingId { get { return 0; } }

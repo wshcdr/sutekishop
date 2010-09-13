@@ -178,6 +178,7 @@
     <Compile Include="Controllers\SiteMapControllerTests.cs" />
     <Compile Include="Controllers\StockControllerTests.cs" />
     <Compile Include="Controllers\UserControllerTests.cs" />
+    <Compile Include="Database\DatabaseManagerTester.cs" />
     <Compile Include="Extensions\CategoryWriterTests.cs" />
     <Compile Include="Extensions\EnumerableExtensionsTests.cs" />
     <Compile Include="Extensions\ObjectExtensionsTests.cs" />
@@ -276,6 +277,11 @@
     <None Include="..\Suteki.Shop\Views\EmailTemplates\_orderDetails.vm">
       <Link>Templates\_orderDetails.vm</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Suteki.Shop\Web.config">
+      <Link>Web.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
