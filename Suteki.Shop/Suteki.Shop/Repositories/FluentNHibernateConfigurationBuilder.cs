@@ -14,8 +14,13 @@ namespace Suteki.Shop.Repositories
 
         public Configuration GetConfiguration(IConfiguration facilityConfiguration)
         {
+            return BuildConfiguration(MsSqlConfiguration.MsSql2005.ConnectionString(c => c.FromConnectionStringWithKey(conectionStringKey)));
+        }
+
+        public Configuration BuildConfiguration(IPersistenceConfigurer persistenceConfigurer)
+        {
             return Fluently.Configure()
-                .Database(MsSqlConfiguration.MsSql2005.ConnectionString(c => c.FromConnectionStringWithKey(conectionStringKey)))
+                .Database(persistenceConfigurer)
                 .Mappings(ConfigureMappings)
                 .BuildConfiguration();
         }

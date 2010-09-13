@@ -8,7 +8,7 @@ using Suteki.Shop.Repositories;
 
 namespace Suteki.Shop
 {
-    public class Category : IActivatable, IOrderable, IEntity
+    public class Category : IActivatable, IOrderable, INamedEntity
     {
         public virtual int Id { get; set; }
 

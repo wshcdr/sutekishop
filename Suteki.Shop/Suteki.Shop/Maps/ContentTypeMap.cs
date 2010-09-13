@@ -6,7 +6,7 @@ namespace Suteki.Shop.Maps
     {
         public ContentTypeMap()
         {
-            Id(x => x.Id);
+            Id(x => x.Id).GeneratedBy.Assigned();
             Map(x => x.Name);
             HasMany(x => x.Contents);
         }

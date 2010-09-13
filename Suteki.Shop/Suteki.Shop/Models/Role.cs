@@ -3,7 +3,7 @@ using Suteki.Common.Models;
 
 namespace Suteki.Shop
 {
-    public class Role : IEntity
+    public class Role : INamedEntity
     {
         public virtual int Id { get; set; }
         public virtual string Name { get; set; }

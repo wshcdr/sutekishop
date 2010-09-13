@@ -6,7 +6,7 @@ namespace Suteki.Shop.Maps
     {
         public OrderStatusMap()
         {
-            Id(x => x.Id);
+            Id(x => x.Id).GeneratedBy.Assigned();
 
             Map(x => x.Name);
 

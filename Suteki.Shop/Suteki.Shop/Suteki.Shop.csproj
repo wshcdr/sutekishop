@@ -202,6 +202,9 @@
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Database\DatabaseManager.cs" />
+    <Compile Include="Database\StaticData.cs" />
+    <Compile Include="Database\StaticDataGenerator.cs" />
     <Compile Include="Filters\AdministratorsOnlyAttribute.cs" />
     <Compile Include="Filters\AuthenticateFilter.cs" />
     <Compile Include="Filters\CopyMessageFromTempDataToViewData.cs" />
