@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using System.Web.UI;
+using Castle.Windsor;
 using Suteki.Common.Extensions;
 using Suteki.Common.ViewData;
 using Microsoft.Web.Mvc;
@@ -104,5 +105,41 @@ namespace Suteki.Common.HtmlHelpers
             var pageListBuilder = new Pager(htmlHelper, controller, action, pagedList);
             return pageListBuilder.WriteHtml();
         }
+
+        public static string With<TService, TModel>(this HtmlHelper<TModel> htmlHelper)
+        {
+            return htmlHelper.With<TService, TModel>(service => service.ToString());
+        }
+
+        public static string With<TService, TModel>(this HtmlHelper<TModel> htmlHelper, Func<TService, string> useServiceAction)
+        {
+            var containerAccessor = htmlHelper.ViewContext.HttpContext.ApplicationInstance as IContainerAccessor;
+            if (containerAccessor == null)
+            {
+                throw new SutekiCommonException("The ASP.NET Application instance (Global.asax) must implement IContainerAccessor.");
+            }
+            var container = containerAccessor.Container;
+
+            var service = container.Resolve<TService>();
+            var requireHtmlHelper = service as IRequireHtmlHelper<TModel>;
+            if (requireHtmlHelper != null)
+            {
+                requireHtmlHelper.HtmlHelper = htmlHelper;
+            }
+
+            try
+            {
+                return useServiceAction(service);
+            }
+            finally
+            {
+                container.Release(service);
+            }
+        }
+    }
+
+    public interface IRequireHtmlHelper<TModel>
+    {
+        HtmlHelper<TModel> HtmlHelper { get; set; }
     }
 }
