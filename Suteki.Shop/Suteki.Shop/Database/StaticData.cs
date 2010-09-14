@@ -10,10 +10,10 @@ namespace Suteki.Shop.Database
         {
             var insertRole = CreateInsert<Role>(session);
 
-            insertRole(1, "Administrator");
-            insertRole(2, "Order Processor");
-            insertRole(3, "Customer");
-            insertRole(4, "Guest");
+            insertRole(Role.AdministratorId, "Administrator");
+            insertRole(Role.OrderProcessorId, "Order Processor");
+            insertRole(Role.CustomerId, "Customer");
+            insertRole(Role.GuestId, "Guest");
         }
 
         public static void InsertAdministrator(ISession session)
@@ -38,30 +38,30 @@ namespace Suteki.Shop.Database
                 session.Save(cardType);
             };
 
-            insertCardType(1, "Visa / Delta / Electron", false);
-            insertCardType(2, "Master Card / Euro Card", false);
-            insertCardType(3, "American Express", false);
-            insertCardType(4, "Switch / Solo / Maestro", true);
+            insertCardType(CardType.VisaDeltaElectronId, "Visa / Delta / Electron", false);
+            insertCardType(CardType.MasterCardEuroCardId, "Master Card / Euro Card", false);
+            insertCardType(CardType.AmericanExpressId, "American Express", false);
+            insertCardType(CardType.SwitchSoloMaestro, "Switch / Solo / Maestro", true);
         }
 
         public static void InsertOrderStatus(ISession session)
         {
             var insertOrderStatus = CreateInsert<OrderStatus>(session);
 
-            insertOrderStatus(0, "Pending");
-            insertOrderStatus(1, "Created");
-            insertOrderStatus(2, "Dispatched");
-            insertOrderStatus(3, "Rejected");
+            insertOrderStatus(OrderStatus.PendingId, "Pending");
+            insertOrderStatus(OrderStatus.CreatedId, "Created");
+            insertOrderStatus(OrderStatus.DispatchedId, "Dispatched");
+            insertOrderStatus(OrderStatus.RejectedId, "Rejected");
         }
 
         public static void InsertContentType(ISession session)
         {
             var insertContentType = CreateInsert<ContentType>(session);
 
-            insertContentType(1, "Menu");
-            insertContentType(2, "Text");
-            insertContentType(3, "Action");
-            insertContentType(4, "Top");
+            insertContentType(ContentType.MenuId, "Menu");
+            insertContentType(ContentType.TextContentId, "Text");
+            insertContentType(ContentType.ActionContentId, "Action");
+            insertContentType(ContentType.TopContentId, "Top");
         }
 
         public static void InsertContent(ISession session)
