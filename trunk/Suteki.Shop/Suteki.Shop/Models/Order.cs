@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Suteki.Common.Models;
 using Suteki.Shop.Models.CustomDataAnnotations;
@@ -30,6 +31,14 @@ namespace Suteki.Shop
         public virtual OrderStatus OrderStatus { get; set; }
         public virtual User User { get; set; }
         public virtual Basket Basket { get; set; }
+
+        private IList<OrderLine> orderLines = new List<OrderLine>();
+
+        public virtual IList<OrderLine> OrderLines
+        {
+            get { return orderLines; }
+            protected set { orderLines = value; }
+        }
 
         public virtual Contact PostalContact
         {
@@ -107,6 +116,28 @@ namespace Suteki.Shop
                 return Basket.Country.Id;
             }
             return contact.Country.Id;
+        }
+
+        public virtual void AddLine(string productName, int quantity, decimal price)
+        {
+            if (productName == null)
+            {
+                throw new ArgumentNullException("productName");
+            }
+            if (quantity == 0)
+            {
+                throw new ArgumentException("quantity can not be zero");
+            }
+
+            var orderLine = new OrderLine
+            {
+                ProductName = productName,
+                Quantity = quantity,
+                Price = price,
+                Order = this
+            };
+
+            OrderLines.Add(orderLine);
         }
     }
 }

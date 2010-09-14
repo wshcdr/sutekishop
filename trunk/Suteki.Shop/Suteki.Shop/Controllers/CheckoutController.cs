@@ -48,7 +48,8 @@ namespace Suteki.Shop.Controllers
 			this.userService = userService;
 		}
 
-		public ActionResult Index(int id)
+        [HttpGet, UnitOfWork]
+        public ActionResult Index(int id)
 		{
 			// create a default order
 			var order = CurrentOrder ?? new Order {UseCardHolderContact = true};
@@ -78,7 +79,7 @@ namespace Suteki.Shop.Controllers
 				.WithOrder(order);
 		}
 
-		[AcceptVerbs(HttpVerbs.Post), UnitOfWork]
+		[HttpPost, UnitOfWork]
 		public ActionResult Index([BindUsing(typeof(OrderBinder))] Order order)
 		{
 			if (ModelState.IsValid)
@@ -100,6 +101,7 @@ namespace Suteki.Shop.Controllers
 			emailService.SendOrderConfirmation(order);
 		}
 
+        [HttpGet, UnitOfWork]
 		public ActionResult Confirm(int id)
 		{
 			var order = orderRepository.GetById(id);
@@ -108,7 +110,7 @@ namespace Suteki.Shop.Controllers
 			return View(ShopView.Data.WithOrder(order));
 		}
 
-		[AcceptVerbs(HttpVerbs.Post), UnitOfWork]
+		[HttpPost, UnitOfWork]
 		public ActionResult Confirm(Order order)
 		{
 			order.OrderStatus = OrderStatus.Created;
