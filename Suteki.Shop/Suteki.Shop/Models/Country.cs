@@ -5,7 +5,7 @@ using Suteki.Common.Models;
 
 namespace Suteki.Shop
 {
-    public class Country : IOrderable, IActivatable, IEntity
+    public class Country : IOrderable, IActivatable, INamedEntity
     {
         public virtual int Id { get; set; }
 
