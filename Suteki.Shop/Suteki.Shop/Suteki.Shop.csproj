@@ -269,6 +269,7 @@
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\ModelHelpers\UrlNameHelperExtensions.cs" />
     <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderLine.cs" />
     <Compile Include="Models\OrderSearchCriteria.cs" />
     <Compile Include="Models\OrderStatus.cs" />
     <Compile Include="Models\Postage.cs" />
