@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
+using Suteki.Common.Extensions;
 using Suteki.Common.Models;
 using Suteki.Common.Repositories;
 using System.Web.Mvc.Html;
@@ -11,10 +12,10 @@ namespace Suteki.Common.HtmlHelpers
 {
     public interface IComboFor<TEntity, TModel> where TEntity : INamedEntity
     {
-        string BoundTo(Expression<Func<TModel, int>> propertyExpression, Expression<Func<TEntity, bool>> whereClause);
-        string BoundTo(Expression<Func<TModel, int>> propertyExpression, string propertyNamePrefix);
-        string BoundTo(Expression<Func<TModel, int>> propertyExpression);
-        string BoundTo(Expression<Func<TModel, int>> propertyExpression, Expression<Func<TEntity, bool>> whereClause, string propertyNamePrefix);
+        string BoundTo(Expression<Func<TModel, TEntity>> propertyExpression, Expression<Func<TEntity, bool>> whereClause);
+        string BoundTo(Expression<Func<TModel, TEntity>> propertyExpression, string propertyNamePrefix);
+        string BoundTo(Expression<Func<TModel, TEntity>> propertyExpression);
+        string BoundTo(Expression<Func<TModel, TEntity>> propertyExpression, Expression<Func<TEntity, bool>> whereClause, string propertyNamePrefix);
     }
 
     public class ComboFor<TEntity, TModel> : IComboFor<TEntity, TModel>, IRequireHtmlHelper<TModel> where TEntity : class, INamedEntity
@@ -27,32 +28,33 @@ namespace Suteki.Common.HtmlHelpers
         {
             this.repository = repository;
         }
-        public string BoundTo(Expression<Func<TModel, int>> propertyExpression, Expression<Func<TEntity, bool>> whereClause, string propertyNamePrefix)
+        public string BoundTo(Expression<Func<TModel, TEntity>> propertyExpression, Expression<Func<TEntity, bool>> whereClause, string propertyNamePrefix)
         {
             WhereClause = whereClause;
             PropertyNamePrefix = propertyNamePrefix;
             return BoundTo(propertyExpression);
         }
 
-        public string BoundTo(Expression<Func<TModel, int>> propertyExpression, Expression<Func<TEntity, bool>> whereClause)
+        public string BoundTo(Expression<Func<TModel, TEntity>> propertyExpression, Expression<Func<TEntity, bool>> whereClause)
         {
             WhereClause = whereClause;
             return BoundTo(propertyExpression);
         }
 
-        public string BoundTo(Expression<Func<TModel, int>> propertyExpression, string propertyNamePrefix)
+        public string BoundTo(Expression<Func<TModel, TEntity>> propertyExpression, string propertyNamePrefix)
         {
             PropertyNamePrefix = propertyNamePrefix;
             return BoundTo(propertyExpression);
         }
 
-        public string BoundTo(Expression<Func<TModel, int>> propertyExpression)
+        public string BoundTo(Expression<Func<TModel, TEntity>> propertyExpression)
         {
             var getPropertyValue = propertyExpression.Compile();
-            var propertyName = (!String.IsNullOrEmpty(PropertyNamePrefix) ? PropertyNamePrefix : "") + Utils.ExpressionHelper.GetPropertyFromExpression(propertyExpression).Name;
+            var propertyName = (!String.IsNullOrEmpty(PropertyNamePrefix) ? PropertyNamePrefix : "") + 
+                Utils.ExpressionHelper.GetDottedPropertyNameFromExpression(propertyExpression) + ".Id";
 
             var viewDataModelIsNull = (!typeof(TModel).IsValueType) && HtmlHelper.ViewData.Model == null;
-            var selectedId = viewDataModelIsNull ? 0 : getPropertyValue(HtmlHelper.ViewData.Model);
+            var selectedId = viewDataModelIsNull ? 0 : getPropertyValue(HtmlHelper.ViewData.Model).Id;
             return BuildCombo(selectedId, propertyName);
         }
 
@@ -64,6 +66,11 @@ namespace Suteki.Common.HtmlHelpers
 
         protected virtual string BuildCombo(int selectedId, string htmlId)
         {
+            if (string.IsNullOrEmpty(htmlId))
+            {
+                throw new ArgumentException("htmlId can not be null or empty");
+            }
+
             if (HtmlHelper == null)
             {
                 throw new SutekiCommonException("HtmlHelper is null");
@@ -78,16 +85,14 @@ namespace Suteki.Common.HtmlHelpers
             {
                 queryable = queryable.Where(WhereClause);
             }
+            if (typeof(IEntity).IsOrderable())
+            {
+                queryable = queryable.Cast<IOrderable>().OrderBy(ord => ord.Position).Cast<TEntity>();
+            }
             var items = queryable.AsEnumerable()
-                .OrderBy(e => e.Name)
                 .Select(e => new SelectListItem { Selected = e.Id == selectedId, Text = e.Name, Value = e.Id.ToString() });
 
-            var initialItem = new[]
-            {
-                new SelectListItem {Selected = selectedId == 0, Text = "<Please Select>", Value = "0"}
-            };
-
-            return initialItem.Union(items);
+            return items;
         }
 
         public HtmlHelper<TModel> HtmlHelper { get; set; }

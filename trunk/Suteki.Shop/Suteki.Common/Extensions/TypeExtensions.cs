@@ -40,6 +40,11 @@ namespace Suteki.Common.Extensions
             return typeof(IEnumerable).IsAssignableFrom(type);
         }
 
+        public static bool IsOrderable(this Type type)
+        {
+            return typeof (IOrderable).IsAssignableFrom(type);
+        }
+
         public static bool IsProxy(this Type type)
         {
             return type.AssemblyQualifiedName.Contains("DynamicProxyGenAssembly2");

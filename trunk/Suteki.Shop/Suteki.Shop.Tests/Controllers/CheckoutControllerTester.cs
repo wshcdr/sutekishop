@@ -62,7 +62,7 @@ namespace Suteki.Shop.Tests.Controllers
 		public void Index_ShouldDisplayCheckoutForm() {
 			const int basketId = 6;
 
-			var basket = new Basket { Id = basketId };
+			var basket = new Basket { Id = basketId, Country = new Country() };
 			var countries = new List<Country> { new Country() }.AsQueryable();
 			var cardTypes = new List<CardType> { new CardType() }.AsQueryable();
 
@@ -87,7 +87,11 @@ namespace Suteki.Shop.Tests.Controllers
 		[Test]
 		public void Index_should_load_order_from_tempdata()
 		{
-			var order = new Order();
+			var order = new Order
+			{
+			    CardContact = new Contact(),
+                DeliveryContact = new Contact()
+			};
 			controller.TempData["order"] = order;
 
 			controller.Index(4)
@@ -116,8 +120,12 @@ namespace Suteki.Shop.Tests.Controllers
 		[Test]
 		public void IndexWithPost_ShouldRenderViewOnError()
 		{
+            const int basketId = 6;
+            var basket = new Basket { Id = basketId, Country = new Country() };
+            basketRepository.Stub(br => br.GetById(basketId)).Return(basket);
+
 			controller.ModelState.AddModelError("foo", "bar");
-			var order = new Order { Basket = new Basket { Id = 6} };
+            var order = new Order { Basket = new Basket { Id = basketId } };
 			controller.Index(order)
 				.ReturnsViewResult()
 				.WithModel<ShopViewData>()

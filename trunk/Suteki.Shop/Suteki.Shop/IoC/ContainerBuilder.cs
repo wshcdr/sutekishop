@@ -7,6 +7,7 @@ using Castle.Windsor.Configuration.Interpreters;
 using Microsoft.Practices.ServiceLocation;
 using Suteki.Common.Binders;
 using Suteki.Common.Filters;
+using Suteki.Common.HtmlHelpers;
 using Suteki.Common.Repositories;
 using Suteki.Common.Services;
 using Suteki.Common.Windsor;
@@ -45,6 +46,7 @@ namespace Suteki.Shop.IoC
 
             container.Register(
                 Component.For(typeof(IRepository<>)).ImplementedBy(typeof(NHibernateRepository<>)).LifeStyle.Transient,
+                Component.For(typeof(IComboFor<,>)).ImplementedBy(typeof(ComboFor<,>)).LifeStyle.Transient,
                 Component.For<IImageService>().ImplementedBy<ImageService>().Named("image.service").LifeStyle.Transient,
                 Component.For<IEncryptionService>().ImplementedBy<EncryptionService>().Named("encryption.service").LifeStyle.Transient,
                 Component.For<IHttpFileService>().ImplementedBy<HttpFileService>().LifeStyle.Transient,

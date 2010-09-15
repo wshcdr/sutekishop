@@ -147,6 +147,7 @@
     <Compile Include="Spikes\NamesSpike.cs" />
     <Compile Include="Spikes\ReflectionSpikes.cs" />
     <Compile Include="TestHelpers\MvcTestHelpers.cs" />
+    <Compile Include="Utils\ExpressionHelperTests.cs" />
     <Compile Include="Validation\ValidationExtensionsTests.cs" />
     <Compile Include="Windsor\ArrayResolverTests.cs" />
   </ItemGroup>
