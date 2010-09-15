@@ -6,12 +6,14 @@ namespace Suteki.Common.Repositories
 {
     public class FakeRepository<TEntity> : IRepository<TEntity> where TEntity : class, new()
     {
-        readonly Func<int, TEntity> entityFactory;
+        public Func<int, TEntity> EntityFactory { get; set; }
         public IList<TEntity> EntitesToReturnFromGetAll { get; private set; }
         public IList<TEntity> EntitiesSubmitted { get; private set; }
         public IList<TEntity> EntitiesDeleted { get; private set; }
         public bool SubmitChangesWasCalled { get; private set; }
         public int EntitiesReturnedFromGetById { get; private set; }
+
+        public Action<TEntity> SaveOrUpdateDelegate { get; set; }
 
         public FakeRepository() : this(id => null)
         {
@@ -24,13 +26,14 @@ namespace Suteki.Common.Repositories
             EntitiesDeleted = new List<TEntity>();
             SubmitChangesWasCalled = false;
             EntitiesReturnedFromGetById = 0;
-            this.entityFactory = entityFactory;
+            EntityFactory = entityFactory;
+            SaveOrUpdateDelegate = entity => EntitiesSubmitted.Add(entity);
         }
 
         public TEntity GetById(int id)
         {
             EntitiesReturnedFromGetById++;
-            return entityFactory(id);
+            return EntityFactory(id);
         }
 
         public IQueryable<TEntity> GetAll()
@@ -40,7 +43,7 @@ namespace Suteki.Common.Repositories
 
         public void SaveOrUpdate(TEntity entity)
         {
-            EntitiesSubmitted.Add(entity);
+            SaveOrUpdateDelegate(entity);
         }
 
         public void DeleteOnSubmit(TEntity entity)

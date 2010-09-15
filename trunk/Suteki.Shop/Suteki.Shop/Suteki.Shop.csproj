@@ -173,7 +173,6 @@
     <Compile Include="ActionResults\RedirectToReferrerResult.cs" />
     <Compile Include="Binders\CurrentBasketBinder.cs" />
     <Compile Include="Binders\MailingListSubscriptionBinder.cs" />
-    <Compile Include="Binders\OrderBinder.cs" />
     <Compile Include="Binders\ProductBinder.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CheckoutController.cs" />

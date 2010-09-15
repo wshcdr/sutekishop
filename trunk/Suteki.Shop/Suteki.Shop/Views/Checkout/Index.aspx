@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Shop.Master"  Inherits="Suteki.Shop.ViewPage<ShopViewData>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Shop.Master"  Inherits="Suteki.Shop.ViewPage<CheckoutViewData>" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
 
 <script type="text/javascript" language="javascript">
@@ -7,14 +7,14 @@ var first = true;
 
 function toggleCardHolderDetails()
 {
-    var useCardholderContactCheck = document.getElementsByName("order.usecardholdercontact")[0];
+    var useCardholderContactCheck = document.getElementsByName("UseCardholderContact")[0];
     var deliveryAddress = document.getElementById("deliveryAddress");
     toggleVisibilityWithCheckbox(useCardholderContactCheck, deliveryAddress);
 }
 
 function toggleCard()
 {
-    var paybytelephone = document.getElementsByName("order.paybytelephone")[0];
+    var paybytelephone = document.getElementsByName("PayByTelephone")[0];
     var cardDetails = document.getElementById("cardDetails");
     toggleVisibilityWithCheckbox(paybytelephone, cardDetails);
 }
@@ -42,20 +42,20 @@ function updatePostageOnUseCardholderDetailsChange(checkbox)
     var select;
     if(checkbox.checked)
     {
-        select = document.getElementById("cardcontact_country_id");
+        select = document.getElementById("CardContactCountry_Id");
     }
     else
     {
-        select = document.getElementById("deliverycontact_country_id");
+        select = document.getElementById("DeliveryContactCountry_Id");
     }
     updateSelectedCountry(select);
 }
 
 function updateSelectedCountry(select)
 {
-    var useCardholderContactCheck = document.getElementsByName("order.usecardholdercontact")[0];
+    var useCardholderContactCheck = document.getElementsByName("UseCardholderContact")[0];
     
-    if((!useCardholderContactCheck.checked && select.id) == "cardcontact_country_id") return;
+    if((!useCardholderContactCheck.checked && select.id) == "CardContactCountry_Id") return;
     
     for(var i = 0; i < select.options.length; i++)
     {
@@ -65,8 +65,7 @@ function updateSelectedCountry(select)
             
             var form = document.getElementById("mainForm");
             
-            var url = <%= "\"" + Url.RouteUrl(new { Controller = "Checkout", Action = "UpdateCountry", Id = ViewData.Model.Order.Basket.Id }) + "\"" %>
-                 + "?countryId=" + select.options[i].value ;
+            var url = <%= "\"" + Url.RouteUrl(new { Controller = "Checkout", Action = "UpdateCountry" }) + "\"" %>
                  
             form.action = url;
             form.submit();
@@ -76,10 +75,10 @@ function updateSelectedCountry(select)
 
 function addHandlers()
 {
-    var cardcontactCountryid = document.getElementById("cardcontact_country_id");
+    var cardcontactCountryid = document.getElementById("CardContactCountry_Id");
     cardcontactCountryid.onchange = function() { updateSelectedCountry(this); }
     
-    var deliverycontactCountryid = document.getElementById("deliverycontact_country_id");
+    var deliverycontactCountryid = document.getElementById("DeliveryContactCountry_Id");
     deliverycontactCountryid.onchange = function() { updateSelectedCountry(this); }
 }
 
@@ -103,7 +102,7 @@ function addHandlers()
 <!-- basket view -->
 
     <h3>Order Details</h3>
-	<% Html.RenderAction<BasketController>(c => c.Readonly(ViewData.Model.Order.Basket.Id)); %>
+	<% Html.RenderAction<BasketController>(c => c.Readonly(ViewData.Model.BasketId)); %>
 
 <!-- addresses -->
 	

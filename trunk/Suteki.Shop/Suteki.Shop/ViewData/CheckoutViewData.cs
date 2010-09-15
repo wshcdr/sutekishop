@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Suteki.Common.ViewData;
+using Suteki.Shop.Models.CustomDataAnnotations;
 
 namespace Suteki.Shop.ViewData
 {
@@ -10,15 +11,9 @@ namespace Suteki.Shop.ViewData
 
         // card contact
 
-        [Required]
         public string CardContactFirstName { get; set; }
-
-        [Required]
         public string CardContactLastName { get; set; }
-
-        [Required]
         public string CardContactAddress1 { get; set; }
-
         public string CardContactAddress2 { get; set; }
         public string CardContactAddress3 { get; set; }
         public string CardContactTown { get; set; }
@@ -29,7 +24,14 @@ namespace Suteki.Shop.ViewData
 
         // email
 
+        [Required(ErrorMessage = "Email is required")]
+        [Email(ErrorMessage = "Not a valid email address")]
+        [StringLength(250, ErrorMessage = "Email must not be longer than 250 characters")]
         public string Email { get; set; }
+
+        [Required(ErrorMessage = "Confirm Email is required")]
+        [Email(ErrorMessage = "Not a valid email address")]
+        [StringLength(250, ErrorMessage = "Email must not be longer than 250 characters")]
         public string EmailConfirm { get; set; }
 
         // delivery contact
@@ -56,13 +58,17 @@ namespace Suteki.Shop.ViewData
         public CardType CardCardType { get; set; }
         public string CardHolder { get; set; }
         public string CardNumber { get; set; }
-        public string CardExpiryMonth { get; set; }
-        public string CardExpiryYear { get; set; }
-        public string CardStartMonth { get; set; }
-        public string CardStartYear { get; set; }
+        public int CardExpiryMonth { get; set; }
+        public int CardExpiryYear { get; set; }
+        public int CardStartMonth { get; set; }
+        public int CardStartYear { get; set; }
         public string CardIssueNumber { get; set; }
         public string CardSecurityCode { get; set; }
 
         public bool PayByTelephone { get; set; }
+
+        // contact agreement
+
+        public bool ContactMe { get; set; }
     }
 }
