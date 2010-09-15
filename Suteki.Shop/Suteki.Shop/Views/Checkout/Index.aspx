@@ -103,7 +103,7 @@ function addHandlers()
 <!-- basket view -->
 
     <h3>Order Details</h3>
-	<% Html.RenderPartial("OrderDetails"); %>
+	<% Html.RenderAction<BasketController>(c => c.Readonly(ViewData.Model.Order.Basket.Id)); %>
 
 <!-- addresses -->
 	

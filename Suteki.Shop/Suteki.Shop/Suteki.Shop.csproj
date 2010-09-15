@@ -324,6 +324,7 @@
     <Compile Include="Services\UserService.cs" />
     <Compile Include="ViewData\CategoryViewData.cs" />
     <Compile Include="ViewData\CategoryViewDataExtensions.cs" />
+    <Compile Include="ViewData\CheckoutViewData.cs" />
     <Compile Include="ViewData\CmsViewData.cs" />
     <Compile Include="ViewData\ReviewViewData.cs" />
     <Compile Include="ViewData\RsdViewData.cs" />
@@ -360,6 +361,7 @@
   <ItemGroup>
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Views\Basket\Readonly.ascx" />
     <Content Include="Views\Category\LeftMenu.ascx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -684,7 +686,6 @@
     <Content Include="NoAccess.htm" />
     <Content Include="Views\Checkout\Confirm.aspx" />
     <Content Include="Views\Checkout\CustomerDetails.ascx" />
-    <Content Include="Views\Checkout\OrderDetails.ascx" />
     <Content Include="Views\Checkout\PaymentDetails.ascx" />
     <Content Include="Views\Cms\NotFound.aspx" />
     <Content Include="Views\MailingList\Confirm.aspx" />

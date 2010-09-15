@@ -4,8 +4,7 @@
 	<h1>Review your Details then Place Order</h1>
 	<p>When you are happy that your Order Details are correct, please press the 'Place Order' button.</p>
 	
-	
-	<% Html.RenderPartial("~/Views/Order/OrderDetails.ascx"); %>
+    <% Html.RenderAction<BasketController>(b => b.Readonly(Model.Order.Basket.Id)); %>
 
 	<% Html.RenderPartial("~/Views/Order/CustomerDetails.ascx"); %>
 	

@@ -21,13 +21,16 @@ namespace Suteki.Shop.Tests.Controllers
             userService = MockRepository.GenerateStub<IUserService>();
             postageService = MockRepository.GenerateStub<IPostageService>();
             countryRepository = MockRepository.GenerateStub<IRepository<Country>>();
+            basketRepository = MockRepository.GenerateStub<IRepository<Basket>>();
+
             basketService = new BasketService(countryRepository);
 
             basketController = new BasketController(
                 userService,
                 postageService,
                 countryRepository,
-                basketService);
+                basketService,
+                basketRepository);
 
             testContext = new ControllerTestContext(basketController);
 
@@ -46,6 +49,7 @@ namespace Suteki.Shop.Tests.Controllers
         IBasketService basketService;
         private IPostageService postageService;
         private IRepository<Country> countryRepository;
+        private IRepository<Basket> basketRepository;
 
         private static BasketItem CreateBasketItem()
         {
@@ -165,6 +169,21 @@ namespace Suteki.Shop.Tests.Controllers
 			basketController.Message.ShouldEqual(expectedMessage);
 
             Assert.AreEqual(0, user.Baskets[0].BasketItems.Count, "should not be any basket items");
+        }
+
+        [Test]
+        public void Readonly_should_return_basket_with_postage()
+        {
+            var basket = new Basket();
+            basketRepository.Stub(b => b.GetById(4)).Return(basket);
+
+            basketController.Readonly(4)
+                .ReturnsViewResult()
+                .ForView("Readonly")
+                .WithModel<Basket>()
+                .AssertAreSame(basket, vdBasket => vdBasket);
+
+            postageService.AssertWasCalled(p => p.CalculatePostageFor(basket));
         }
     }
 }
