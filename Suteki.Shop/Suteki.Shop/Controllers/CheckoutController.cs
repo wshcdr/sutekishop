@@ -63,8 +63,8 @@ namespace Suteki.Shop.Controllers
 		{
             var basket = basketRepository.GetById(basketId);
             order.Basket = basket;
-			if (order.CardContact == null) order.CardContact = new Contact();
-			if (order.DeliveryContact == null) order.DeliveryContact = new Contact();
+			if (order.CardContact == null) order.CardContact = new Contact { Country = basket.Country };
+			if (order.DeliveryContact == null) order.DeliveryContact = new Contact { Country = basket.Country };
 			if (order.Card == null) order.Card = new Card { CardType = new CardType { Id = CardType.VisaDeltaElectronId }};
 		}
 

@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using System.Web.UI;
 using Castle.Windsor;
 using Suteki.Common.Extensions;
+using Suteki.Common.Models;
 using Suteki.Common.ViewData;
 using Microsoft.Web.Mvc;
 
@@ -135,6 +136,12 @@ namespace Suteki.Common.HtmlHelpers
             {
                 container.Release(service);
             }
+        }
+
+        public static string ComboFor<TModel, TLookup>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TLookup>> propertyExpression)
+            where TLookup : INamedEntity
+        {
+            return htmlHelper.With<IComboFor<TLookup, TModel>, TModel>(combo => combo.BoundTo(propertyExpression));
         }
     }
 
