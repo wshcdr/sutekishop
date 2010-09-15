@@ -19,14 +19,17 @@ namespace Suteki.Shop.Controllers
         readonly IBasketService basketService;
         readonly IPostageService postageService;
         readonly IRepository<Country> countryRepository;
+        readonly IRepository<Basket> basketRepository;
 
     	public BasketController(
             IUserService userService, 
             IPostageService postageService, 
             IRepository<Country> countryRepository, 
-            IBasketService basketService)
+            IBasketService basketService, 
+            IRepository<Basket> basketRepository)
         {
     	    this.basketService = basketService;
+    	    this.basketRepository = basketRepository;
     	    this.userService = userService;
             this.postageService = postageService;
             this.countryRepository = countryRepository;
@@ -52,7 +55,15 @@ namespace Suteki.Shop.Controllers
 			return this.RedirectToAction(c => c.Index());
         }
 
-        private string RenderIndexViewWithError(Size size)
+        [UnitOfWork, ChildActionOnly]
+        public ActionResult Readonly(int id)
+        {
+            var basket = basketRepository.GetById(id);
+            postageService.CalculatePostageFor(basket);
+            return View("Readonly", basket);
+        }
+
+        private static string RenderIndexViewWithError(Size size)
         {
         	if (size.Product.HasSize)
             {
