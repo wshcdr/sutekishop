@@ -171,6 +171,7 @@
     <Compile Include="Services\IAppSettings.cs" />
     <Compile Include="Services\IEmailBuilder.cs" />
     <Compile Include="Utils\ExperssionHelper.cs" />
+    <Compile Include="Validation\DataAnnotationsValidator.cs" />
     <Compile Include="Windsor\ArrayResolver.cs" />
     <Compile Include="Models\IOrderable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

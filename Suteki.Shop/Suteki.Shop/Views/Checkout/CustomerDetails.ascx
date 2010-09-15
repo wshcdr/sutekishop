@@ -1,7 +1,7 @@
-<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<ShopViewData>" %>
+<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<CheckoutViewData>" %>
 
-        <%= Html.Hidden("order.id", ViewData.Model.Order.Id.ToString())%>
-        <%= Html.Hidden("order.basket.id", ViewData.Model.Order.Basket.Id.ToString())%>
+        <%= Html.HiddenFor(m => m.OrderId)%>
+        <%= Html.HiddenFor(m => m.BasketId)%>
         
         <!-- card contact -->
 
@@ -12,52 +12,52 @@
         
         <table>
             <tr>
-                <td class="label"><label for="cardcontact.firstname">First Name</label></td>
-                <td class="field"><%= Html.TextBox("cardcontact.firstname", ViewData.Model.Order.CardContact.Firstname)%></td>
+                <td class="label"><label for="CardContactFirstName">First Name</label></td>
+                <td class="field"><%= Html.TextBoxFor(m => m.CardContactFirstName)%></td>
             </tr>
             <tr>
-                <td class="label"><label for="cardcontact.lastname">Last Name</label></td>
-                <td class="field"><%= Html.TextBox("cardcontact.lastname", ViewData.Model.Order.CardContact.Lastname)%></td>
+                <td class="label"><label for="CardContactLastName">Last Name</label></td>
+                <td class="field"><%= Html.TextBoxFor(m => m.CardContactLastName)%></td>
             </tr>
             <tr>
-                <td class="label"><label for="cardcontact.address1">Address</label></td>
-                <td class="field"><%= Html.TextBox("cardcontact.address1", ViewData.Model.Order.CardContact.Address1)%></td>
+                <td class="label"><label for="CardContactAddress1">Address</label></td>
+                <td class="field"><%= Html.TextBoxFor(m => m.CardContactAddress1)%></td>
             </tr>
             <tr>
-                <td class="label"><label for="cardcontact.address2">&nbsp;</label></td>
-                <td class="field"><%= Html.TextBox("cardcontact.address2", ViewData.Model.Order.CardContact.Address2)%></td>
+                <td class="label"><label for="CardContactAddress2">&nbsp;</label></td>
+                <td class="field"><%= Html.TextBoxFor(m => m.CardContactAddress2)%></td>
             </tr>
             <tr>
-                <td class="label"><label for="cardcontact.address3">&nbsp;</label></td>
-                <td class="field"><%= Html.TextBox("cardcontact.address3", ViewData.Model.Order.CardContact.Address3)%></td>
+                <td class="label"><label for="CardContactAddress3">&nbsp;</label></td>
+                <td class="field"><%= Html.TextBoxFor(m => m.CardContactAddress3)%></td>
             </tr>
             <tr>
-                <td class="label"><label for="cardcontact.town">Town / City</label></td>
-                <td class="field"><%= Html.TextBox("cardcontact.town", ViewData.Model.Order.CardContact.Town)%></td>
+                <td class="label"><label for="CardContactTown">Town / City</label></td>
+                <td class="field"><%= Html.TextBoxFor(m => m.CardContactTown)%></td>
             </tr>
             <tr>
-                <td class="label"><label for="cardcontact.county">County</label></td>
-                <td class="field"><%= Html.TextBox("cardcontact.county", ViewData.Model.Order.CardContact.County)%></td>
+                <td class="label"><label for="CardContactCounty">County</label></td>
+                <td class="field"><%= Html.TextBoxFor(m => m.CardContactCounty)%></td>
             </tr>
             <tr>
-                <td class="label"><label for="cardcontact.postcode">Postcode</label></td>
-                <td class="field"><%= Html.TextBox("cardcontact.postcode", ViewData.Model.Order.CardContact.Postcode)%></td>
+                <td class="label"><label for="CardContactPostcode">Postcode</label></td>
+                <td class="field"><%= Html.TextBoxFor(m => m.CardContactPostcode)%></td>
             </tr>
             <tr>
-                <td class="label"><label for="cardcontact.country.id">Country*</label></td>
-                <td class="field"><%= Html.DropDownList("cardcontact.country.id", new SelectList(ViewData.Model.Countries, "Id", "Name", ViewData.Model.Order.CardContactCountryId))%></td>
+                <td class="label"><label for="CardContactCountry.Id">Country*</label></td>
+                <td class="field"><%= Html.ComboFor(m => m.CardContactCountry)%></td>
             </tr>
             <tr>
-                <td class="label"><label for="cardcontact.telephone">Telephone</label></td>
-                <td class="field"><%= Html.TextBox("cardcontact.telephone", ViewData.Model.Order.CardContact.Telephone)%></td>
+                <td class="label"><label for="CardContactTelephone">Telephone</label></td>
+                <td class="field"><%= Html.TextBoxFor(m => m.CardContactTelephone)%></td>
             </tr>
             <tr>
-                <td class="label"><label for="order.email">Email</label></td>
-                <td class="field"><%= Html.TextBox("order.email", ViewData.Model.Order.Email)%></td>
+                <td class="label"><label for="Email">Email</label></td>
+                <td class="field"><%= Html.TextBoxFor(m => m.Email)%></td>
             </tr>
             <tr>
-                <td class="label"><label for="emailconfirm">Confirm Email</label></td>
-                <td class="field"><%= Html.TextBox("emailconfirm")%></td>
+                <td class="label"><label for="EmailConfirm">Confirm Email</label></td>
+                <td class="field"><%= Html.TextBoxFor(m => m.EmailConfirm)%></td>
             </tr>
         </table>
     </div>
@@ -69,8 +69,8 @@
         
         <table>
             <tr>
-                <td class="label"><label for="order.usecardholdercontact">Use Cardholder Details</label></td>
-                <td class="field"><%= Html.CheckBox("order.usecardholdercontact", ViewData.Model.Order.UseCardHolderContact,
+                <td class="label"><label for="UseCardholderContact">Use Cardholder Details</label></td>
+                <td class="field"><%= Html.CheckBoxFor(m => m.UseCardholderContact,
                         new { onclick = "javascript:toggleCardHolderDetails();" })%></td>
             </tr>
         </table>
@@ -79,44 +79,44 @@
 
             <table>
                 <tr>
-                    <td class="label"><label for="deliverycontact.firstname">First Name</label></td>
-                    <td class="field"><%= Html.TextBox("deliverycontact.firstname", ViewData.Model.Order.DeliveryContact.Firstname)%></td>
+                    <td class="label"><label for="DeliveryContactFirstName">First Name</label></td>
+                    <td class="field"><%= Html.TextBoxFor(m => m.DeliveryContactFirstName)%></td>
                 </tr>
                 <tr>
-                    <td class="label"><label for="deliverycontact.lastname">Last Name</label></td>
-                    <td class="field"><%= Html.TextBox("deliverycontact.lastname", ViewData.Model.Order.DeliveryContact.Lastname)%></td>
+                    <td class="label"><label for="DeliveryContactLastName">Last Name</label></td>
+                    <td class="field"><%= Html.TextBoxFor(m => m.DeliveryContactLastName)%></td>
                 </tr>
                 <tr>
-                    <td class="label"><label for="deliverycontact.address1">Address</label></td>
-                    <td class="field"><%= Html.TextBox("deliverycontact.address1", ViewData.Model.Order.DeliveryContact.Address1)%></td>
+                    <td class="label"><label for="DeliveryContactAddress1">Address</label></td>
+                    <td class="field"><%= Html.TextBoxFor(m => m.DeliveryContactAddress1)%></td>
                 </tr>
                 <tr>
-                    <td class="label"><label for="deliverycontact.address2">&nbsp;</label></td>
-                    <td class="field"><%= Html.TextBox("deliverycontact.address2", ViewData.Model.Order.DeliveryContact.Address2)%></td>
+                    <td class="label"><label for="DeliveryContactAddress2">&nbsp;</label></td>
+                    <td class="field"><%= Html.TextBoxFor(m => m.DeliveryContactAddress2)%></td>
                 </tr>
                 <tr>
-                    <td class="label"><label for="deliverycontact.address3">&nbsp;</label></td>
-                    <td class="field"><%= Html.TextBox("deliverycontact.address3", ViewData.Model.Order.DeliveryContact.Address3)%></td>
+                    <td class="label"><label for="DeliveryContactAddress3">&nbsp;</label></td>
+                    <td class="field"><%= Html.TextBoxFor(m => m.DeliveryContactAddress3)%></td>
                 </tr>
                 <tr>
-                    <td class="label"><label for="deliverycontact.town">Town / City</label></td>
-                    <td class="field"><%= Html.TextBox("deliverycontact.town", ViewData.Model.Order.DeliveryContact.Town)%></td>
+                    <td class="label"><label for="DeliveryContactTown">Town / City</label></td>
+                    <td class="field"><%= Html.TextBoxFor(m => m.DeliveryContactTown)%></td>
                 </tr>
                 <tr>
-                    <td class="label"><label for="deliverycontact.county">County</label></td>
-                    <td class="field"><%= Html.TextBox("deliverycontact.county", ViewData.Model.Order.DeliveryContact.County)%></td>
+                    <td class="label"><label for="DeliveryContactCounty">County</label></td>
+                    <td class="field"><%= Html.TextBoxFor(m => m.DeliveryContactCounty)%></td>
                 </tr>
                 <tr>
-                    <td class="label"><label for="deliverycontact.postcode">Postcode</label></td>
-                    <td class="field"><%= Html.TextBox("deliverycontact.postcode", ViewData.Model.Order.DeliveryContact.Postcode)%></td>
+                    <td class="label"><label for="DeliveryContactPostcode">Postcode</label></td>
+                    <td class="field"><%= Html.TextBoxFor(m => m.DeliveryContactPostcode)%></td>
                 </tr>
                 <tr>
-                    <td class="label"><label for="deliverycontact.country.id">Country</label></td>
-                    <td class="field"><%= Html.DropDownList("deliverycontact.country.id", new SelectList(ViewData.Model.Countries, "Id", "Name", ViewData.Model.Order.DeliveryContactCountryId))%></td>
+                    <td class="label"><label for="DeliveryContactCountry.Id">Country</label></td>
+                    <td class="field"><%= Html.ComboFor(m => m.DeliveryContactCountry)%></td>
                 </tr>
                 <tr>
-                    <td class="label"><label for="deliverycontact.telephone">Telephone</label></td>
-                    <td class="field"><%= Html.TextBox("deliverycontact.telephone", ViewData.Model.Order.DeliveryContact.Telephone)%></td>
+                    <td class="label"><label for="DeliveryContactTelephone">Telephone</label></td>
+                    <td class="field"><%= Html.TextBoxFor(m => m.DeliveryContactTelephone)%></td>
                 </tr>
             </table>
         
@@ -126,8 +126,8 @@
         
         <table>
             <tr>
-                <td class="label"><label for="order.additionalinformation">Additional Information</label></td>
-                <td class="field"><span><%= Html.TextArea("order.additionalinformation", ViewData.Model.Order.AdditionalInformation)%></span></td>
+                <td class="label"><label for="AdditionalInformation">Additional Information</label></td>
+                <td class="field"><span><%= Html.TextAreaFor(m => m.AdditionalInformation)%></span></td>
             </tr>
         </table>
         
