@@ -6,6 +6,7 @@ using Suteki.Common.Filters;
 using Suteki.Common.Repositories;
 using Suteki.Common.Services;
 using Suteki.Shop.Binders;
+using Suteki.Shop.Extensions;
 using Suteki.Shop.Filters;
 using Suteki.Shop.Repositories;
 using Suteki.Shop.Services;
@@ -22,7 +23,13 @@ namespace Suteki.Shop.Controllers
 		readonly IUserService userService;
 		readonly IUnitOfWorkManager uow;
 
-		public ProductController(IRepository<Product> productRepository, IRepository<Category> categoryRepository, ISizeService sizeService, IOrderableService<Product> productOrderableService, IUserService userService, IUnitOfWorkManager uow)
+		public ProductController(
+            IRepository<Product> productRepository, 
+            IRepository<Category> categoryRepository, 
+            ISizeService sizeService, 
+            IOrderableService<Product> productOrderableService, 
+            IUserService userService, 
+            IUnitOfWorkManager uow)
 		{
 			this.productRepository = productRepository;
 			this.uow = uow;
@@ -68,6 +75,12 @@ namespace Suteki.Shop.Controllers
 		    try
 		    {
 		        var product = productRepository.GetAll().WithUrlName(urlName);
+
+                if(!product.IsVisibleTo(userService.CurrentUser))
+                {
+                    return View("ItemNotAvailable");
+                }
+
                 AppendTitle(product.Name);
                 AppendMetaDescription(product.PlainTextDescription);
                 return View("Item", ShopView.Data.WithProduct(product));
