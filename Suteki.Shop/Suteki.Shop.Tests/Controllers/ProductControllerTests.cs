@@ -11,6 +11,7 @@ using System.Security.Principal;
 using Suteki.Shop.Services;
 using System.Web.Mvc;
 
+// ReSharper disable InconsistentNaming
 namespace Suteki.Shop.Tests.Controllers
 {
     [TestFixture]
@@ -44,9 +45,15 @@ namespace Suteki.Shop.Tests.Controllers
 
         	userService = MockRepository.GenerateStub<IUserService>();
 
-			productController = new ProductController(productRepository, categoryRepository, sizeService, productOrderableService, userService, MockRepository.GenerateStub<IUnitOfWorkManager>());
+			productController = new ProductController(
+                productRepository, 
+                categoryRepository, 
+                sizeService, 
+                productOrderableService, 
+                userService, 
+                MockRepository.GenerateStub<IUnitOfWorkManager>());
 
-        	userService.Expect(c => c.CurrentUser).Return(new User { Role = Role.Administrator });
+        	userService.Stub(c => c.CurrentUser).Return(new User { Role = Role.Administrator });
         }
 
         [Test]
@@ -97,6 +104,17 @@ namespace Suteki.Shop.Tests.Controllers
                 .ForView("Item");
 
             viewResult.ViewData["MetaDescription"].ShouldEqual("Description 4");
+        }
+
+        [Test]
+        public void Inactive_item_should_not_be_visible_to_non_admins()
+        {
+            // .Repeat.Any() causes previous stub to be overwritten.
+            userService.Expect(c => c.CurrentUser).Return(User.Guest).Repeat.Any();
+
+            productController.Item("Product_6")
+                .ReturnsViewResult()
+                .ForView("ItemNotAvailable");
         }
 
         [Test]
@@ -188,3 +206,4 @@ namespace Suteki.Shop.Tests.Controllers
         }
     }
 }
+// ReSharper restore InconsistentNaming

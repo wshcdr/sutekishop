@@ -201,6 +201,7 @@
     <Compile Include="Models\ContactTests.cs" />
     <Compile Include="Models\ContentTests.cs" />
     <Compile Include="Models\CustomDataAnnotations\CreditCardAttributeTests.cs" />
+    <Compile Include="Models\Extensions\ActivatableExtensionsTests.cs" />
     <Compile Include="Models\ImageTests.cs" />
     <Compile Include="Models\OrderLineTests.cs" />
     <Compile Include="Models\OrderTests.cs" />

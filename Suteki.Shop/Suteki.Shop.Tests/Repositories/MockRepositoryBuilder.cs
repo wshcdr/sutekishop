@@ -138,7 +138,7 @@ namespace Suteki.Shop.Tests.Repositories
                 new Product { Id = 3, Name = "Product 3", Description = "Description 3", ProductCategories = { new ProductCategory { Category = new Category { Id = 4 } } }},
                 new Product { Id = 4, Name = "Product 4", Description = "<p>\"Description 4\"</p>", ProductCategories = { new ProductCategory { Category = new Category { Id = 4 } } }},
                 new Product { Id = 5, Name = "Product 5", Description = "Description 5", ProductCategories = { new ProductCategory { Category = new Category { Id = 6 } } } },
-                new Product { Id = 6,  Name = "Product 6", Description = "Description 6", ProductCategories = { new ProductCategory { Category = new Category { Id = 6 } } } },
+                new Product { Id = 6, IsActive = false, Name = "Product 6", Description = "Description 6", ProductCategories = { new ProductCategory { Category = new Category { Id = 6 } } } },
             };
         }
 

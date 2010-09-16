@@ -260,6 +260,7 @@
     <Compile Include="Models\CustomDataAnnotations\NumericAttribute.cs" />
     <Compile Include="Models\CustomDataAnnotations\StringPropertyAttributeBase.cs" />
     <Compile Include="Models\Exceptions\NoMenuException.cs" />
+    <Compile Include="Models\Extensions\ActivatableExtensions.cs" />
     <Compile Include="Models\IActivatable.cs" />
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\ITextContent.cs" />
@@ -362,6 +363,7 @@
     <Content Include="Global.asax" />
     <Content Include="Views\Basket\Readonly.ascx" />
     <Content Include="Views\Category\LeftMenu.ascx" />
+    <Content Include="Views\Product\ItemNotAvailable.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

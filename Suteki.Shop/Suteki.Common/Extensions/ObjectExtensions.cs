@@ -70,5 +70,10 @@ namespace Suteki.Common.Extensions
             }
             return source as T;
         }
+
+        public static IEnumerable<T> Single<T>(this T item)
+        {
+            yield return item;
+        }
     }
 }
