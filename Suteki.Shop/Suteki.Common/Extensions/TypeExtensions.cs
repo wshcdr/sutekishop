@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Linq;
 using System.Reflection;
-using System.Collections.Generic;
 using Suteki.Common.Models;
 
 namespace Suteki.Common.Extensions
@@ -23,18 +21,6 @@ namespace Suteki.Common.Extensions
             return typeof(IEntity).IsAssignableFrom(type);
         }
 
-        public static IEnumerable<PropertyInfo> PropertiesWithAttributeOf(this Type type, Type attributeType)
-        {
-            return type.GetProperties().Where(property => property.HasAttributeOf(attributeType));
-        }
-
-        public static TAttribute GetAttributeOf<TAttribute>(this Type type)
-        {
-            var attributes = type.GetCustomAttributes(typeof (TAttribute), true);
-            if(attributes.Length == 0) return default(TAttribute);
-            return (TAttribute)attributes[0];
-        }
-
         public static bool IsEnumerable(this Type type)
         {
             return typeof(IEnumerable).IsAssignableFrom(type);
@@ -45,9 +31,5 @@ namespace Suteki.Common.Extensions
             return typeof (IOrderable).IsAssignableFrom(type);
         }
 
-        public static bool IsProxy(this Type type)
-        {
-            return type.AssemblyQualifiedName.Contains("DynamicProxyGenAssembly2");
-        }
     }
 }
