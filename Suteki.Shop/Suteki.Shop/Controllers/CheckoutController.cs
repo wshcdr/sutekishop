@@ -190,17 +190,11 @@ namespace Suteki.Shop.Controllers
 	    }
 
 	    static void EnsureBasketCountry(Order order)
-        {
-            if (order.DeliveryContact != null && order.Basket.Country != order.DeliveryContact.Country)
-            {
-                order.Basket.Country = order.DeliveryContact.Country;
-            }
-            //No Delivery contact specified - resort to CardContact. 
-            else if (order.CardContact != null && order.Basket.Country != order.CardContact.Country)
-            {
-                order.Basket.Country = order.CardContact.Country;
-            }
-        }
+	    {
+	        order.Basket.Country = order.UseCardHolderContact ? 
+                order.CardContact.Country : 
+                order.DeliveryContact.Country;
+	    }
 
 	    private void EmailOrder(Order order)
 		{
