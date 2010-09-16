@@ -139,6 +139,7 @@
     <Compile Include="Binders\BindUsingAttribute.cs" />
     <Compile Include="Binders\EntityModelBinder.cs" />
     <Compile Include="Binders\IAcceptsAttribute.cs" />
+    <Compile Include="Binders\MoneyBinder.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\OrderableScaffoldController.cs" />
     <Compile Include="Controllers\ScaffoldController.cs" />
@@ -147,7 +148,6 @@
     <Compile Include="Extensions\NameValue.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\PagedList.cs" />
-    <Compile Include="Extensions\PropertyInfoExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Extensions\UrlExtensions.cs" />
@@ -159,9 +159,11 @@
     <Compile Include="HtmlHelpers\HtmlHelperExtensions.cs" />
     <Compile Include="HtmlHelpers\Pager.cs" />
     <Compile Include="HtmlHelpers\RequestExtensions.cs" />
+    <Compile Include="Models\Money.cs" />
+    <Compile Include="NHibernate\BaseImmutableUserType.cs" />
+    <Compile Include="NHibernate\MoneyUserType.cs" />
     <Compile Include="SutekiCommonException.cs" />
     <Compile Include="Models\IEntity.cs" />
-    <Compile Include="Models\NullableEntityAttribute.cs" />
     <Compile Include="Models\StringValueExtensions.cs" />
     <Compile Include="Repositories\FakeRepository.cs" />
     <Compile Include="Repositories\IUnitOfWorkManager.cs" />

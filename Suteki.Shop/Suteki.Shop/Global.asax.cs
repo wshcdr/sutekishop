@@ -5,6 +5,8 @@ using System.Web.Routing;
 using Castle.Windsor;
 using Microsoft.Practices.ServiceLocation;
 using MvcContrib.Castle;
+using Suteki.Common.Binders;
+using Suteki.Common.Models;
 using Suteki.Shop.IoC;
 using Suteki.Shop.Routes;
 using Suteki.Shop.Services;
@@ -26,7 +28,13 @@ namespace Suteki.Shop
             HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
             RouteManager.RegisterRoutes(RouteTable.Routes);
             InitializeWindsor();
+            InitializeBinders();
+        }
+
+        private static void InitializeBinders()
+        {
             ModelBinders.Binders.DefaultBinder = ServiceLocator.Current.GetInstance<IModelBinder>();
+            ModelBinders.Binders.Add(typeof(Money), new MoneyBinder());
         }
 
         protected void Application_End(object sender, EventArgs e)

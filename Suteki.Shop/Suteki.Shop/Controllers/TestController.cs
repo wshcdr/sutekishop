@@ -1,7 +1,8 @@
-﻿using System;
+﻿using System.Linq;
 using System.Web.Mvc;
 using Castle.Core.Logging;
 using Suteki.Common.Extensions;
+using Suteki.Common.Models;
 using Suteki.Common.Services;
 
 namespace Suteki.Shop.Controllers
@@ -43,6 +44,15 @@ namespace Suteki.Shop.Controllers
             var url = System.Web.HttpContext.Current.Request.Url;
             var output = "AbsoluteUri: {0}, LocalPath: {1}".With(url.AbsoluteUri, url.LocalPath);
             return Content(output);
+        }
+
+        public ActionResult MoneyBindingTest(Money money)
+        {
+            if (ModelState.IsValid)
+            {
+                return Content(string.Format("Bound to Money value: {0}", money));
+            }
+            return Content(ModelState.SelectMany(ms => ms.Value.Errors).Aggregate("", (agg, error) => agg + error.ErrorMessage + " "));
         }
     }
 }
