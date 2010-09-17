@@ -124,7 +124,7 @@ namespace Suteki.Shop.Database
                 AskIfMaxWeight = false,
                 Position = 1,
                 IsActive = true,
-                FlatRate = 10
+                FlatRate = new Money(10M)
             };
             session.Save(postZone);
 

@@ -11,7 +11,7 @@ namespace Suteki.Common.NHibernate
         public override object NullSafeGet(IDataReader rs, string[] names, object owner)
         {
             var amount = ((decimal?)NHibernateUtil.Decimal.NullSafeGet(rs, names[0]));
-            return new Money(amount.Value);
+            return amount.HasValue ? new Money(amount.Value) : Money.Zero;
         }
 
         public override void NullSafeSet(IDbCommand cmd, object value, int index)

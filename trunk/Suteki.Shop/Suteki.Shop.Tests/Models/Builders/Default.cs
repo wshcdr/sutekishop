@@ -1,4 +1,5 @@
 using System;
+using Suteki.Common.Models;
 
 namespace Suteki.Shop.Tests.Models.Builders
 {
@@ -13,7 +14,7 @@ namespace Suteki.Shop.Tests.Models.Builders
                 AskIfMaxWeight = false,
                 Position = 1,
                 IsActive = true,
-                FlatRate = 10M
+                FlatRate = new Money(10M)
             };
         }
 
@@ -25,7 +26,7 @@ namespace Suteki.Shop.Tests.Models.Builders
                 IsActive = true,
                 MaxWeight = 1000,
                 Position = 1,
-                Price = 0.45M
+                Price = new Money(0.45M)
             };
         }
 
@@ -160,7 +161,7 @@ namespace Suteki.Shop.Tests.Models.Builders
             {
                 Name = "Blue Jeans",
                 Description = "Our nicest Blue Jeans, for when price is no object.",
-                Price = 200M,
+                Price = new Money(200M),
                 Position = 1,
                 Weight = 200,
                 IsActive = true

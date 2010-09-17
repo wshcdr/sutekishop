@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NUnit.Framework;
+using Suteki.Common.Models;
 using Suteki.Common.Repositories;
 using Suteki.Shop.Services;
 using Suteki.Shop.Tests.Models;
@@ -64,7 +65,7 @@ namespace Suteki.Shop.Tests.Services
             // total weight = 350
             var order = OrderTests.Create350GramOrder();
 
-            Assert.AreEqual(1.10M * 2.5M, postageService.CalculatePostageFor(order).Price, "incorrect figure calculated");
+            Assert.AreEqual(1.10M * 2.5M, postageService.CalculatePostageFor(order).Price.Amount, "incorrect figure calculated");
         }
 
         [Test]
@@ -79,7 +80,7 @@ namespace Suteki.Shop.Tests.Services
             postageRepository.Replay();
 
             Assert.IsFalse(postageService.CalculatePostageFor(order).Phone, "phone is true");
-            Assert.That(postageService.CalculatePostageFor(order).Price, Is.EqualTo(10.00M), "Incorrect price calculated");
+            Assert.That(postageService.CalculatePostageFor(order).Price.Amount, Is.EqualTo(10.00M), "Incorrect price calculated");
         }
 
         [Test]
@@ -88,7 +89,7 @@ namespace Suteki.Shop.Tests.Services
             var order = OrderTests.Create450GramOrder();
 
             Assert.IsFalse(postageService.CalculatePostageFor(order).Phone, "phone is true");
-            Assert.That(postageService.CalculatePostageFor(order).Price, Is.EqualTo(10.00M), "Incorrect price calculated");
+            Assert.That(postageService.CalculatePostageFor(order).Price.Amount, Is.EqualTo(10.00M), "Incorrect price calculated");
         }
 
         [Test]
@@ -101,7 +102,7 @@ namespace Suteki.Shop.Tests.Services
             {
                 Country = new Country
                 {
-                    PostZone = new PostZone { Multiplier = 2.5M, AskIfMaxWeight = true, FlatRate = 123.45M }
+                    PostZone = new PostZone { Multiplier = 2.5M, AskIfMaxWeight = true, FlatRate = new Money(123.45M) }
                 }
             };
             order.UpdateBasket();

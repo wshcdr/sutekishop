@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using NUnit.Framework;
+using Suteki.Common.Models;
 using Suteki.Common.Services;
 using Suteki.Shop.Services;
 using Rhino.Mocks;
@@ -108,7 +109,7 @@ namespace Suteki.Shop.Tests.Services
                                     Product = new Product
                                     {
                                         Name = "grey shirt",
-                                        Price = 4.80M
+                                        Price = new Money(4.80M)
                                     }
                                 }
                             },
@@ -121,7 +122,7 @@ namespace Suteki.Shop.Tests.Services
                                     Product = new Product
                                     {
                                         Name = "blue trousers",
-                                        Price = 12.33M
+                                        Price = new Money(12.33M)
                                     }
                                 }
                             }

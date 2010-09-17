@@ -13,7 +13,7 @@
 	.Columns(column => {
 		column.For(x => Html.ActionLink<PostageController>(c => c.Edit(x.Id), x.Name)).DoNotEncode().HeaderAttributes(@class => "thin");
 		column.For(x => x.MaxWeight).Attributes(@class => "number").HeaderAttributes(@class => "thin number");
-		column.For(x => x.Price).Format("{0:C}").Attributes(@class => "number").HeaderAttributes(@class => "thin number");
+		column.For(x => x.Price.ToStringWithSymbol()).Attributes(@class => "number").HeaderAttributes(@class => "thin number").Named("Price");
 		column.For(x => Html.Tick(x.IsActive)).DoNotEncode().HeaderAttributes(@class => "thin").Named("Active");
 		column.For(x =>  Html.UpArrowLink<PostageController>(c => c.MoveUp(x.Position, 1))).Named("&nbsp;").DoNotEncode();
 		column.For(x => Html.DownArrowLink<PostageController>(c => c.MoveDown(x.Position, 1))).Named("&nbsp;").DoNotEncode();

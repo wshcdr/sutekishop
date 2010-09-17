@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Shop.Master" Inherits="Suteki.Shop.ViewPage<ShopViewData>" %>
+<%@ Import Namespace="Suteki.Common.Models" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
     <h1>Product</h1>
     
@@ -16,7 +17,7 @@
 		<%= this.TextBox(x => x.Product.Name).Label("Name") %>
 		<%= this.MultiSelect(x => x.Product.ProductCategories.Select(y => y.Category.Id)).Name("categories").Options(Model.Categories, x => x.Id, x => x.Name).Label("Categories (ctrl+click to select more than one)") %>
         <%= this.TextBox(x => x.Product.Weight).Label("Weight") %>
-        <%= this.TextBox(x => x.Product.Price).Format("{0:0.00}").Label("Price £") %>
+        <%= this.TextBox(x => x.Product.Price).Label("Price " + Money.Symbol) %>
         <%= this.CheckBox(x => x.Product.IsActive).Label("Active") %>
         
         <%= this.TextArea(x => x.Product.Description).Label("Description") %>

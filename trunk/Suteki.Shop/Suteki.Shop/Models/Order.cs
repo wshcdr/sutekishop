@@ -118,7 +118,7 @@ namespace Suteki.Shop
             return contact.Country.Id;
         }
 
-        public virtual void AddLine(string productName, int quantity, decimal price)
+        public virtual void AddLine(string productName, int quantity, Money price)
         {
             if (productName == null)
             {

@@ -37,11 +37,11 @@ namespace Suteki.Shop
             }
         }
 
-        public virtual decimal Total
+        public virtual Money Total
         {
             get
             {
-                return BasketItems.Sum(item => item.Total);
+                return new Money(BasketItems.Sum(item => item.Total.Amount));
             }
         }
 
@@ -51,7 +51,7 @@ namespace Suteki.Shop
             {
                 if (postageTotal == null) return " - ";
                 if (postageTotal.Phone) return "Phone";
-                return postageTotal.Price.ToString("£0.00");
+                return postageTotal.Price.ToStringWithSymbol();
             }
         }
 
@@ -61,7 +61,7 @@ namespace Suteki.Shop
             {
                 if (postageTotal == null) return " - ";
                 if (postageTotal.Phone) return "Phone";
-                return (Total + postageTotal.Price).ToString("£0.00");
+                return (Total + postageTotal.Price).ToStringWithSymbol();
             }
         }
 
@@ -85,7 +85,7 @@ namespace Suteki.Shop
             if (postageToApply == null) return postageTotal = PostageResult.WithDefault(postZone);
 
             var multiplier = postZone.Multiplier;
-            var total = Math.Round(postageToApply.Price * multiplier, 2, MidpointRounding.AwayFromZero);
+            var total = new Money(Math.Round(postageToApply.Price.Amount * multiplier, 2, MidpointRounding.AwayFromZero));
 
             return postageTotal = PostageResult.WithPrice(total);
         }

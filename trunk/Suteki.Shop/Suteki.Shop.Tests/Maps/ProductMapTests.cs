@@ -1,5 +1,6 @@
 using System;
 using NUnit.Framework;
+using Suteki.Common.Models;
 
 namespace Suteki.Shop.Tests.Maps
 {
@@ -29,7 +30,7 @@ namespace Suteki.Shop.Tests.Maps
             {
                 Name = "Sophie",
                 Description = "A nice sloop",
-                Price = 86.22M,
+                Price = new Money(86.22M),
                 IsActive = true,
                 Position = 1
             };
