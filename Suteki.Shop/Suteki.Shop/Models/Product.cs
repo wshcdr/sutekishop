@@ -30,7 +30,7 @@ namespace Suteki.Shop
         [Required(ErrorMessage = "Description is required")]
         public virtual string Description { get; set; }
 
-        public virtual decimal Price { get; set; }
+        public virtual Money Price { get; set; }
         public virtual int Position { get; set; }
         public virtual int Weight { get; set; }
         public virtual bool IsActive { get; set; }

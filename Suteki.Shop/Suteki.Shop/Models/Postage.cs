@@ -12,7 +12,7 @@ namespace Suteki.Shop
         public virtual string Name { get; set; }
 
         public virtual int MaxWeight { get; set; }
-        public virtual decimal Price { get; set; }
+        public virtual Money Price { get; set; }
         public virtual int Position { get; set; }
         public virtual bool IsActive { get; set; }
     }

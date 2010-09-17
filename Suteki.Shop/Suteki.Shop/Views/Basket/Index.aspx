@@ -27,8 +27,8 @@
             <td><%= Html.ActionLink<ProductController>(c => c.Item(basketItem.Size.Product.UrlName), basketItem.Size.Product.Name)%></td>
             <td><%= basketItem.Size.Name%></td>
             <td class="number"><%= basketItem.Quantity%></td>
-            <td class="number"><%= basketItem.Size.Product.Price.ToString("£0.00")%></td>
-            <td class="number"><%= basketItem.Total.ToString("£0.00")%></td>
+            <td class="number"><%= basketItem.Size.Product.Price.ToStringWithSymbol()%></td>
+            <td class="number"><%= basketItem.Total.ToStringWithSymbol()%></td>
             <td class="number"><%= Html.ActionLink<BasketController>(c => c.Remove(basketItem.Id), "X")%></td>
         </tr>
         
@@ -39,7 +39,7 @@
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td class="number"><%= Model.Basket.Total.ToString("£0.00")%></td>
+            <td class="number"><%= Model.Basket.Total.ToStringWithSymbol()%></td>
             <td>&nbsp;</td>
         </tr>
 

@@ -12,7 +12,7 @@
 		<%= this.TextBox(x => x.Item.Name).Label("Name") %>
 		<%= this.TextBox(x => x.Item.Multiplier).Format("0.00").Label("Multiplier") %>
 		<%= this.CheckBox(x => x.Item.AskIfMaxWeight).Label("Ask If Max Weight") %>
-		<%= this.TextBox(x => x.Item.FlatRate).Format("0.00").Label("Flat Rate") %>
+		<%= this.TextBox(x => x.Item.FlatRate).Label("Flat Rate") %>
 		<%= this.CheckBox(x => x.Item.IsActive).Label("Active") %>
         
         <input type="submit" value="Save" />

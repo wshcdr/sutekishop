@@ -11,7 +11,7 @@
 		<%= this.Hidden(x => x.Item.Position) %>
 		<%= this.TextBox(x => x.Item.Name).Label("Name") %>
 		<%= this.TextBox(x => x.Item.MaxWeight).Label("Max Weight (grams)") %>
-        <%= this.TextBox(x => x.Item.Price).Format("0.00").Label("Price") %>
+        <%= this.TextBox(x => x.Item.Price).Label("Price") %>
         <%= this.CheckBox(x=>x.Item.IsActive).Label("Active") %>
         <input type="submit" value="Save Changes" />
     <% } %>

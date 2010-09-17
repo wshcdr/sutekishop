@@ -179,7 +179,7 @@ namespace Suteki.Shop.Tests.Controllers
 ""Firstname2"",""Lastname2"",""Address12"",""Address22"",""Address32"",""Town2"",""County2"",""Postcode2"",""UK"",""01234567892"",""bar@foo.com""
 ";
 
-        const string expectedOrdersCsv = 
+        const string expectedOrdersCsv =
 @"0,""mike@mike.com"",""Dispatched"",""18/10/2008x 00:00:00"",0
 0,""mike@mike.com"",""Dispatched"",""18/10/2008x 00:00:00"",0
 ";

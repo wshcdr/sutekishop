@@ -1,5 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
+using Suteki.Common.Models;
+
 // ReSharper disable InconsistentNaming
 
 namespace Suteki.Shop.Tests.Models
@@ -29,7 +31,7 @@ namespace Suteki.Shop.Tests.Models
                 UseCardHolderContact = true,
                 CardContact = new Contact { Country = new Country
                     {
-                       PostZone = new PostZone { Multiplier = 2.5M, FlatRate = 10.00M, AskIfMaxWeight = false }
+                       PostZone = new PostZone { Multiplier = 2.5M, FlatRate = new Money(10.00M), AskIfMaxWeight = false }
                     } },
                 Email = "mike@mike.com",
                 CreatedDate = new DateTime(2008, 10, 18),
@@ -48,7 +50,7 @@ namespace Suteki.Shop.Tests.Models
                 Quantity = 1,
                 Size = new Size
                 {
-                    Product = new Product { Weight = 100 }
+                    Product = new Product { Weight = 100, Price = new Money(0M) }
                 }
             });
             return order;

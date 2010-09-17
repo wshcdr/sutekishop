@@ -16,7 +16,7 @@ namespace Suteki.Shop
         public virtual bool AskIfMaxWeight { get; set; }
         public virtual int Position { get; set; }
         public virtual bool IsActive { get; set; }
-        public virtual decimal FlatRate { get; set; }
+        public virtual Money FlatRate { get; set; }
 
         IList<Country> countries = new List<Country>();
         public virtual IList<Country> Countries

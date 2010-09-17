@@ -14,7 +14,7 @@ function onThumbnailClick(img)
 
 <div class="error"><%= TempData["message"] %></div>
 
-<h1><%= Html.Encode(ViewData.Model.Product.Name) %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= ViewData.Model.Product.Price.ToString("£0.00") %><%= ViewData.Model.Product.IsActiveAsString %></h1>
+<h1><%= Html.Encode(ViewData.Model.Product.Name) %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= ViewData.Model.Product.Price.ToStringWithSymbol()%><%= ViewData.Model.Product.IsActiveAsString %></h1>
 
 <% if(User.IsAdministrator()) { %>
     <p><%= Html.ActionLink<ProductController>(c => c.Edit(ViewData.Model.Product.Id), "Edit") %></p>

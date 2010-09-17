@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Suteki.Common.Models;
 
 namespace Suteki.Shop.Tests.Models
 {
@@ -15,7 +16,7 @@ namespace Suteki.Shop.Tests.Models
                     {
                         AskIfMaxWeight = false,
                         Multiplier = 2.5M,
-                        FlatRate = 10.00M
+                        FlatRate = new Money(10.00M)
                     }
                 },
                 BasketItems = new System.Collections.Generic.List<BasketItem>
@@ -25,7 +26,7 @@ namespace Suteki.Shop.Tests.Models
                         Quantity = 10,
                         Size = new Size
                         {
-                            Product = new Product {Weight = 10}
+                            Product = new Product {Weight = 10, Price = new Money(0M) }
                         }
                     },
                     new BasketItem
@@ -33,7 +34,7 @@ namespace Suteki.Shop.Tests.Models
                         Quantity = 5,
                         Size = new Size
                         {
-                            Product = new Product {Weight = 10}
+                            Product = new Product {Weight = 10, Price = new Money(0M) }
                         }
                     },
                     new BasketItem
@@ -41,7 +42,7 @@ namespace Suteki.Shop.Tests.Models
                         Quantity = 4,
                         Size = new Size
                         {
-                            Product = new Product {Weight = 50}
+                            Product = new Product {Weight = 50, Price = new Money(0M) }
                         }
                     }
                 }

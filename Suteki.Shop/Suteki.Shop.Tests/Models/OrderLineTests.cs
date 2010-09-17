@@ -1,5 +1,6 @@
 // ReSharper disable InconsistentNaming
 using NUnit.Framework;
+using Suteki.Common.Models;
 
 namespace Suteki.Shop.Tests.Models
 {
@@ -19,13 +20,13 @@ namespace Suteki.Shop.Tests.Models
         {
             const string itemName = "Large Black Mac";
             const int quantity = 4;
-            const decimal price = 23.45M;
+            var price = new Money(23.45M);
 
             order.AddLine(itemName, quantity, price);
 
             order.OrderLines[0].ProductName.ShouldEqual("Large Black Mac");
             order.OrderLines[0].Quantity.ShouldEqual(4);
-            order.OrderLines[0].Price.ShouldEqual(23.45M);
+            order.OrderLines[0].Price.Amount.ShouldEqual(23.45M);
             order.OrderLines[0].Order.ShouldBeTheSameAs(order);
         }
     }

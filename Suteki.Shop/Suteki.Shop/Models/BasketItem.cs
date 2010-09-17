@@ -9,7 +9,7 @@ namespace Suteki.Shop
         public virtual Size Size { get; set; }
         public virtual Basket Basket { get; set; }
 
-        public virtual decimal Total
+        public virtual Money Total
         {
             get
             {

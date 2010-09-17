@@ -35,7 +35,7 @@ namespace Suteki.Shop.Controllers
                 o.Email,
                 OrderStatus = o.OrderStatus.Name, 
                 o.CreatedDate, 
-                o.Basket.Total
+                o.Basket.Total.Amount
             }).AsCsv();
 
             return Content(ordersCsv, "text/csv");

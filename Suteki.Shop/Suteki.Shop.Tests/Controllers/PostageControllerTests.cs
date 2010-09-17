@@ -3,6 +3,7 @@ using System.Security.Principal;
 using System.Threading;
 using System.Web.Mvc;
 using NUnit.Framework;
+using Suteki.Common.Models;
 using Suteki.Common.Repositories;
 using Suteki.Common.Services;
 using Suteki.Common.TestHelpers;
@@ -82,7 +83,7 @@ namespace Suteki.Shop.Tests.Controllers
     	[Test]
     	public void NewWithPost_ShouldAddNewPostage()
     	{
-    		var postage = new Postage() { MaxWeight = 250, Price = (decimal)5.25, Name = "foo"};
+    		var postage = new Postage() { MaxWeight = 250, Price = new Money(5.25M), Name = "foo"};
     		postageController.New(postage)
     			.ReturnsRedirectToRouteResult()
     			.ToAction("Index");
