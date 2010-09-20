@@ -231,6 +231,7 @@
     <Compile Include="Maps\CountryMap.cs" />
     <Compile Include="Maps\ImageMap.cs" />
     <Compile Include="Maps\MailingListSubscriptionMap.cs" />
+    <Compile Include="Maps\MappingExtensions.cs" />
     <Compile Include="Maps\MenuMap.cs" />
     <Compile Include="Maps\OrderMap.cs" />
     <Compile Include="Maps\OrderStatusMap.cs" />
