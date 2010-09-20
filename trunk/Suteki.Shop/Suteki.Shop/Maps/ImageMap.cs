@@ -9,7 +9,7 @@ namespace Suteki.Shop.Maps
             Id(x => x.Id);
 
             Map(x => x.FileName);
-            Map(x => x.Description);
+            Map(x => x.Description).Text();
 
             HasMany(x => x.ProductImages).Inverse();
         }

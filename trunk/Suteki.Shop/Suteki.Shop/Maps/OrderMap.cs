@@ -9,7 +9,7 @@ namespace Suteki.Shop.Maps
             Id(x => x.Id);
 
             Map(x => x.Email);
-            Map(x => x.AdditionalInformation);
+            Map(x => x.AdditionalInformation).Text();
             Map(x => x.UseCardHolderContact);
             Map(x => x.PayByTelephone);
             Map(x => x.CreatedDate);

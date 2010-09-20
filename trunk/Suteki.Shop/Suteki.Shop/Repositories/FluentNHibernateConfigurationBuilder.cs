@@ -1,11 +1,9 @@
-using System;
 using Castle.Core.Configuration;
 using Castle.Facilities.NHibernateIntegration;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using FluentNHibernate.Conventions;
 using FluentNHibernate.Conventions.Helpers;
-using FluentNHibernate.Conventions.Instances;
 using NHibernate.Cfg;
 using Suteki.Common.NHibernate;
 using Suteki.Shop.Maps;
@@ -18,7 +16,8 @@ namespace Suteki.Shop.Repositories
 
         public Configuration GetConfiguration(IConfiguration facilityConfiguration)
         {
-            return BuildConfiguration(MsSqlConfiguration.MsSql2005.ConnectionString(c => c.FromConnectionStringWithKey(conectionStringKey)));
+            return BuildConfiguration(MsSqlConfiguration.MsSql2005.ConnectionString(c => 
+                c.FromConnectionStringWithKey(conectionStringKey)));
         }
 
         public Configuration BuildConfiguration(IPersistenceConfigurer persistenceConfigurer)

@@ -6,7 +6,7 @@ namespace Suteki.Shop.Maps
     {
         public TextContentMap()
         {
-            Map(x => x.Text);
+            Map(x => x.Text).Text();
         }
     }
 }
