@@ -30,7 +30,6 @@
 <table>
     <tr>
         <th class="wide">Product</th>
-        <th class="wide number">Size</th>
         <th class="wide number">Quantity</th>
         <th class="wide number">Unit Price</th>
         <th class="wide number">Total Price</th>
@@ -38,15 +37,14 @@
     
     <tr></tr>
     
-    <% foreach (var basketItem in ViewData.Model.Order.Basket.BasketItems)
+    <% foreach (var orderLine in ViewData.Model.Order.OrderLines)
        { %>
     
     <tr>
-        <td><%= Html.ActionLink<ProductController>(c => c.Item(basketItem.Size.Product.UrlName), basketItem.Size.Product.Name)%></td>
-        <td class="number"><%= basketItem.Size.Name%></td>
-        <td class="number"><%= basketItem.Quantity%></td>
-        <td class="number"><%= basketItem.Size.Product.Price.ToStringWithSymbol()%></td>
-        <td class="number"><%= basketItem.Total.ToStringWithSymbol()%></td>
+        <td><%= orderLine.ProductName%></td>
+        <td class="number"><%= orderLine.Quantity%></td>
+        <td class="number"><%= orderLine.Price.ToStringWithSymbol()%></td>
+        <td class="number"><%= orderLine.Total.ToStringWithSymbol()%></td>
     </tr>
     
     <% } %>
@@ -55,35 +53,25 @@
         <td>Total</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td class="number"><%= ViewData.Model.Order.Basket.Total.ToStringWithSymbol()%></td>
+        <td class="number"><%= ViewData.Model.Order.Total.ToStringWithSymbol()%></td>
     </tr>
 
     <tr>
         <td>Postage</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td class="number"><%= ViewData.Model.Order.Basket.PostageTotal%></td>
-        <td>&nbsp;</td>
+        <td class="number"><%= ViewData.Model.Order.PostageTotal%></td>
     </tr>
 
     <tr>
-        <td>(for <%= ViewData.Model.Order.Basket.Country.Name %>)</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
+        <td colspan="4">(<%= ViewData.Model.Order.PostageDescription %>)</td>
     </tr>
 
     <tr class="total">
         <td>Total With Postage</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td class="number"><%= ViewData.Model.Order.Basket.TotalWithPostage%></td>
-        <td>&nbsp;</td>
+        <td class="number"><%= ViewData.Model.Order.TotalWithPostage%></td>
     </tr>
     
 </table>

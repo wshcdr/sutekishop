@@ -28,10 +28,10 @@ namespace Suteki.Shop.Binders
 
 			if(UserIsGuest(user))
 			{
-				user = PromoteGuestToCustomer();
+				PromoteGuestToCustomer();
 			}
 
-	        return basketService.GetCurrentBasketFor(user);
+	        return basketService.GetCurrentBasketForCurrentUser();
 		}
 
 		private User PromoteGuestToCustomer()

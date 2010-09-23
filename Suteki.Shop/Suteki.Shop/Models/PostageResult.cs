@@ -4,8 +4,9 @@ namespace Suteki.Shop
 {
     public class PostageResult
     {
-        public Money Price { get; set; }
-        public bool Phone { get; set; }
+        public virtual Money Price { get; set; }
+        public virtual bool Phone { get; set; }
+        public virtual string Description { get; set; }
 
         public static PostageResult WithPhone { get { return new PostageResult { Phone = true }; } }
         

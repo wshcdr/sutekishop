@@ -23,6 +23,10 @@ namespace Suteki.Shop.Maps
             References(x => x.DeliveryContact).Cascade.All();
             References(x => x.OrderStatus);
             References(x => x.User).Cascade.All();
+
+            HasMany(x => x.OrderLines).Cascade.All();
+
+            Component(x => x.Postage).ColumnPrefix("Postage");
         }
     }
 }

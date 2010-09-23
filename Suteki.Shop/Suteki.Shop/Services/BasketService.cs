@@ -10,26 +10,30 @@ namespace Suteki.Shop.Services
         const string defaultCountryName = "United Kingdom";
 
         readonly IRepository<Country> countryRepository;
+        readonly IUserService userService;
 
-        public BasketService(IRepository<Country> countryRepository)
+        public BasketService(IRepository<Country> countryRepository, IUserService userService)
         {
             this.countryRepository = countryRepository;
+            this.userService = userService;
         }
 
-        public Basket GetCurrentBasketFor(User user)
+        public Basket GetCurrentBasketForCurrentUser()
         {
+            var user = userService.CurrentUser;
             return user.Baskets.Count == 0 ? 
-                CreateNewBasketFor(user) : 
+                CreateNewBasketForCurrentUser() : 
                 user.Baskets.CurrentBasket();
         }
 
-        public Basket CreateNewBasketFor(User user)
+        public Basket CreateNewBasketForCurrentUser()
         {
             var country = countryRepository.GetAll().SingleOrDefault(c => c.Name == defaultCountryName);
             if (country == null)
             {
                 throw new ApplicationException(string.Format(
-                    "There is no country with Name == '{0}'. (this name is coded in BasketService.defaultCountryName)",
+                    "The Default Country is missing from the database. " + 
+                    "Expected to find a country with Name == '{0}'. (this name is coded in BasketService.defaultCountryName)",
                     defaultCountryName));
             }
             var basket = new Basket
@@ -37,7 +41,7 @@ namespace Suteki.Shop.Services
                 OrderDate = DateTime.Now,
                 Country = country
             };
-            user.AddBasket(basket);
+            userService.CurrentUser.AddBasket(basket);
             return basket;
         }
     }

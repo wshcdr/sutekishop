@@ -23,7 +23,7 @@ namespace Suteki.Shop.Tests.Binders
 			userService.Expect(x => x.CurrentUser).Return(user);
 		    
             basketService = MockRepository.GenerateStub<IBasketService>();
-		    basketService.Stub(b => b.GetCurrentBasketFor(user)).Return(new Basket());
+		    basketService.Stub(b => b.GetCurrentBasketForCurrentUser()).Return(new Basket());
 
 			binder = new CurrentBasketBinder(userService, basketService);
 		}
