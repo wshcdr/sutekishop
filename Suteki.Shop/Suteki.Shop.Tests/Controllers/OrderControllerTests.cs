@@ -24,7 +24,6 @@ namespace Suteki.Shop.Tests.Controllers
         private IRepository<CardType> cardTypeRepository;
 
         private IEncryptionService encryptionService;
-        private IPostageService postageService;
         private IUserService userService;
 		IOrderSearchService searchService;
 
@@ -43,7 +42,6 @@ namespace Suteki.Shop.Tests.Controllers
 			
 
             encryptionService = MockRepository.GenerateStub<IEncryptionService>();
-            postageService = MockRepository.GenerateStub<IPostageService>();
             userService = MockRepository.GenerateStub<IUserService>();
 			searchService = MockRepository.GenerateStub<IOrderSearchService>();
 
@@ -54,15 +52,12 @@ namespace Suteki.Shop.Tests.Controllers
                 countryRepository,
                 cardTypeRepository,
                 encryptionService,
-                postageService,
                 userService,
 				searchService,
 				statusRepository
 				);
 
             testContext = new ControllerTestContext(orderController);
-
-            postageService.Expect(ps => ps.CalculatePostageFor(Arg<Order>.Is.Anything));
 
             userService.Expect(us => us.CurrentUser).Return(new User { Id = 4, Role = Role.Administrator });
 
@@ -126,8 +121,7 @@ namespace Suteki.Shop.Tests.Controllers
                     StartYear = 2004,
                     ExpiryMonth = 3,
                     ExpiryYear = 2010
-                },
-                Basket = new Basket(),
+                }
             };
             order.Card.SetEncryptedNumber("asldfkjaslfjdslsdjkfjflkdjdlsakj");
             order.Card.SetEncryptedSecurityCode("asldkfjsadlfjdskjfdlkd");

@@ -16,14 +16,17 @@ namespace Suteki.Shop.Services
 	    readonly IRepository<Basket> basketRepository;
         readonly IEncryptionService encryptionService;
         readonly IPostageService postageService;
+        readonly IUserService userService;
 
-	    public CheckoutService(
+        public CheckoutService(
             IRepository<Basket> basketRepository, 
             IEncryptionService encryptionService, 
-            IPostageService postageService)
+            IPostageService postageService, 
+            IUserService userService)
 	    {
 	        this.basketRepository = basketRepository;
 	        this.postageService = postageService;
+	        this.userService = userService;
 	        this.encryptionService = encryptionService;
 	    }
 
@@ -32,9 +35,9 @@ namespace Suteki.Shop.Services
             if (EmailAddressesDoNotMatch(checkoutViewData, modelState)) return null;
 
             var basket = basketRepository.GetById(checkoutViewData.BasketId);
+
             var order = new Order
             {
-                Basket = basket,
                 Email = checkoutViewData.Email,
                 AdditionalInformation = checkoutViewData.AdditionalInformation,
                 ContactMe = checkoutViewData.ContactMe,
@@ -45,9 +48,10 @@ namespace Suteki.Shop.Services
                 DispatchedDate = DateTime.Now,
                 OrderStatus = OrderStatus.Pending,
                 UseCardHolderContact = checkoutViewData.UseCardholderContact,
-                PayByTelephone = checkoutViewData.PayByTelephone
+                PayByTelephone = checkoutViewData.PayByTelephone,
+                CreatedBy = userService.CurrentUser
             };
-            EnsureBasketCountry(order);
+
             AddOrderLinesFromBasket(order, basket);
 	        CalcuatePostage(order, basket);
             return order;
@@ -163,13 +167,6 @@ namespace Suteki.Shop.Services
             }
 
             return card;
-        }
-
-        static void EnsureBasketCountry(Order order)
-        {
-            order.Basket.Country = order.UseCardHolderContact ?
-                order.CardContact.Country :
-                order.DeliveryContact.Country;
         }
 
 	}

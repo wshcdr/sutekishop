@@ -17,7 +17,6 @@ namespace Suteki.Shop.Tests.Controllers
 		IRepository<Basket> basketRepository;
 		IUserService userService;
 	    IBasketService basketService;
-		IPostageService postageService;
 		IRepository<CardType> cardTypeRepository;
 		FakeRepository<Order> orderRepository;
 		IUnitOfWorkManager unitOfWorkManager;
@@ -33,7 +32,6 @@ namespace Suteki.Shop.Tests.Controllers
 
 			userService = MockRepository.GenerateStub<IUserService>();
 		    basketService = MockRepository.GenerateStub<IBasketService>();
-			postageService = MockRepository.GenerateStub<IPostageService>();
 			cardTypeRepository = MockRepository.GenerateStub<IRepository<CardType>>();
 			orderRepository = new FakeRepository<Order>();
 			subscriptionRepository = MockRepository.GenerateStub<IRepository<MailingListSubscription>>();
@@ -45,7 +43,6 @@ namespace Suteki.Shop.Tests.Controllers
 			controller = new CheckoutController(
 				basketRepository,
 				userService,
-				postageService,
 				cardTypeRepository,
 				orderRepository,
 				unitOfWorkManager,

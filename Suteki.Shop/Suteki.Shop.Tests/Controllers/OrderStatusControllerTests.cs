@@ -33,8 +33,7 @@ namespace Suteki.Shop.Tests.Controllers
 			var order = new Order
 			{
 				Id = orderId,
-				OrderStatus = OrderStatus.Created,
-				Basket = new Basket()
+				OrderStatus = OrderStatus.Created
 			};
 
 			repository.Expect(or => or.GetById(orderId)).Return(order);
@@ -66,8 +65,7 @@ namespace Suteki.Shop.Tests.Controllers
 			{
 				Id = orderId,
 				OrderStatus = OrderStatus.Dispatched,
-				DispatchedDate = DateTime.Now,
-				Basket = new Basket()
+				DispatchedDate = DateTime.Now
 			};
 
 			repository.Expect(or => or.GetById(orderId)).Return(order);

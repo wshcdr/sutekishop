@@ -3,6 +3,5 @@
     public interface IPostageService
     {
         PostageResult CalculatePostageFor(Basket basket);
-        PostageResult CalculatePostageFor(Order order);
     }
 }
