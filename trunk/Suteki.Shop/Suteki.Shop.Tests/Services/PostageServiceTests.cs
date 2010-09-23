@@ -28,86 +28,41 @@ namespace Suteki.Shop.Tests.Services
         }
 
         [Test]
-        public void CalculatePostageForBasket_ShouldCalculatePostageForABasket()
-        {
-            var basket = BasketTests.Create350GramBasket();
-            postageService.CalculatePostageFor(basket);
-
-            Assert.That(basket.PostageTotal, Is.EqualTo("£2.75"));
-        }
-
-        [Test]
-        public void CalculatePostageForOrder_ShouldWorkForCompleteOrder()
-        {
-            var order = OrderTests.Create350GramOrder();
-            postageService.CalculatePostageFor(order);
-
-            Assert.That(order.Basket.PostageTotal, Is.EqualTo("£2.75"));
-        }
-
-        [Test]
-        public void CalculatePostageForOrder_ShouldWorkForIncompleteOrder()
-        {
-            var order = OrderTests.Create350GramOrder();
-
-            // remove the contacts
-            order.CardContact = null;
-            order.DeliveryContact = null;
-
-            postageService.CalculatePostageFor(order);
-
-            Assert.That(order.Basket.PostageTotal, Is.EqualTo("£2.75"));
-        }
-
-        [Test]
-        public void CalculatePostage_ShouldCalculateCorrectPostage()
-        {
-            // total weight = 350
-            var order = OrderTests.Create350GramOrder();
-
-            Assert.AreEqual(1.10M * 2.5M, postageService.CalculatePostageFor(order).Price.Amount, "incorrect figure calculated");
-        }
-
-        [Test]
         public void CalculatePostage_WhenNoPostagesGivenThenUseFlatRate()
         {
             // total weight = 350
-            var order = OrderTests.Create350GramOrder();
+            var basket = BasketTests.Create350GramBasket();
             var postages = new List<Postage>().AsQueryable();
 
             postageRepository.BackToRecord();
             postageRepository.Expect(pr => pr.GetAll()).Return(postages);
             postageRepository.Replay();
 
-            Assert.IsFalse(postageService.CalculatePostageFor(order).Phone, "phone is true");
-            Assert.That(postageService.CalculatePostageFor(order).Price.Amount, Is.EqualTo(10.00M), "Incorrect price calculated");
+            Assert.IsFalse(postageService.CalculatePostageFor(basket).Phone, "phone is true");
+            Assert.That(postageService.CalculatePostageFor(basket).Price.Amount, Is.EqualTo(10.00M), "Incorrect price calculated");
         }
 
         [Test]
         public void CalculatePostage_ShouldUseFlatRateOnMaxWeightBand()
         {
-            var order = OrderTests.Create450GramOrder();
+            var basket = BasketTests.Create450GramBasket();
 
-            Assert.IsFalse(postageService.CalculatePostageFor(order).Phone, "phone is true");
-            Assert.That(postageService.CalculatePostageFor(order).Price.Amount, Is.EqualTo(10.00M), "Incorrect price calculated");
+            Assert.IsFalse(postageService.CalculatePostageFor(basket).Phone, "phone is true");
+            Assert.That(postageService.CalculatePostageFor(basket).Price.Amount, Is.EqualTo(10.00M), "Incorrect price calculated");
         }
 
         [Test]
         public void CalculatePostage_ShouldPhoneIfPhoneOnMaxWeightIsTrue()
         {
-            var order = OrderTests.Create450GramOrder();
+            var basket = BasketTests.Create450GramBasket();
 
             // replace the order contact (AskIfMaxWeight is true, FlatRate is 123.45)
-            order.CardContact = new Contact
+            basket.Country = new Country
             {
-                Country = new Country
-                {
-                    PostZone = new PostZone { Multiplier = 2.5M, AskIfMaxWeight = true, FlatRate = new Money(123.45M) }
-                }
+                PostZone = new PostZone {Multiplier = 2.5M, AskIfMaxWeight = true, FlatRate = new Money(123.45M)}
             };
-            order.UpdateBasket();
 
-            Assert.That(postageService.CalculatePostageFor(order).Phone, Is.True, "phone is false");
+            Assert.That(postageService.CalculatePostageFor(basket).Phone, Is.True, "phone is false");
         }
     }
 }

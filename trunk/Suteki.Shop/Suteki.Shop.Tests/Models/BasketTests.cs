@@ -26,7 +26,7 @@ namespace Suteki.Shop.Tests.Models
                         Quantity = 10,
                         Size = new Size
                         {
-                            Product = new Product {Weight = 10, Price = new Money(0M) }
+                            Product = new Product {Weight = 10, Price = new Money(1.23M) }
                         }
                     },
                     new BasketItem
@@ -34,7 +34,7 @@ namespace Suteki.Shop.Tests.Models
                         Quantity = 5,
                         Size = new Size
                         {
-                            Product = new Product {Weight = 10, Price = new Money(0M) }
+                            Product = new Product {Weight = 10, Price = new Money(5.88M) }
                         }
                     },
                     new BasketItem
@@ -42,11 +42,25 @@ namespace Suteki.Shop.Tests.Models
                         Quantity = 4,
                         Size = new Size
                         {
-                            Product = new Product {Weight = 50, Price = new Money(0M) }
+                            Product = new Product {Weight = 50, Price = new Money(12.33M) }
                         }
                     }
                 }
             };
+        }
+
+        public static Basket Create450GramBasket()
+        {
+            var basket = Create350GramBasket();
+            basket.BasketItems.Add(new BasketItem
+            {
+                Quantity = 1,
+                Size = new Size
+                {
+                    Product = new Product { Weight = 100, Price = new Money(0M) }
+                }
+            });
+            return basket;
         }
     }
 }

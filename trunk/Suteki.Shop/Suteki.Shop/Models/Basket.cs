@@ -19,16 +19,6 @@ namespace Suteki.Shop
             set { basketItems = value; }
         }
 
-        IList<Order> orders = new List<Order>();
-        public virtual IList<Order> Orders
-        {
-            get { return orders; }
-            set { orders = value; }
-        }
-
-        
-        private PostageResult postageTotal;
-
         public virtual bool IsEmpty
         {
             get
@@ -43,51 +33,6 @@ namespace Suteki.Shop
             {
                 return new Money(BasketItems.Sum(item => item.Total.Amount));
             }
-        }
-
-        public virtual string PostageTotal
-        {
-            get
-            {
-                if (postageTotal == null) return " - ";
-                if (postageTotal.Phone) return "Phone";
-                return postageTotal.Price.ToStringWithSymbol();
-            }
-        }
-
-        public virtual string TotalWithPostage
-        {
-            get
-            {
-                if (postageTotal == null) return " - ";
-                if (postageTotal.Phone) return "Phone";
-                return (Total + postageTotal.Price).ToStringWithSymbol();
-            }
-        }
-
-        public virtual PostageResult CalculatePostage(IQueryable<Postage> postages)
-        {
-            if (postages == null)
-            {
-                throw new ArgumentNullException("postages");
-            }
-
-            var postZone = Country.PostZone;
-
-            var totalWeight = (int)BasketItems
-                .Sum(bi => bi.TotalWeight);
-
-            var postageToApply = postages
-                .Where(p => totalWeight <= p.MaxWeight && p.IsActive)
-                .OrderBy(p => p.MaxWeight)
-                .FirstOrDefault();
-
-            if (postageToApply == null) return postageTotal = PostageResult.WithDefault(postZone);
-
-            var multiplier = postZone.Multiplier;
-            var total = new Money(Math.Round(postageToApply.Price.Amount * multiplier, 2, MidpointRounding.AwayFromZero));
-
-            return postageTotal = PostageResult.WithPrice(total);
         }
 
         public virtual void AddBasketItem(BasketItem basketItem)

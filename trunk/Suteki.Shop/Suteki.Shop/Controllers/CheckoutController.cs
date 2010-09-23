@@ -13,7 +13,6 @@ namespace Suteki.Shop.Controllers
 		readonly IRepository<Basket> basketRepository;
 		readonly IUserService userService;
 	    readonly IBasketService basketService;
-		readonly IPostageService postageService;
 	    readonly IRepository<CardType> cardTypeRepository;
 		readonly IRepository<Order> orderRepository;
 		readonly IUnitOfWorkManager unitOfWork;
@@ -24,7 +23,6 @@ namespace Suteki.Shop.Controllers
 		public CheckoutController(
             IRepository<Basket> basketRepository, 
             IUserService userService, 
-            IPostageService postageService, 
             IRepository<CardType> cardTypeRepository, 
             IRepository<Order> orderRepository, 
             IUnitOfWorkManager unitOfWork, 
@@ -41,7 +39,6 @@ namespace Suteki.Shop.Controllers
 			this.unitOfWork = unitOfWork;
 			this.orderRepository = orderRepository;
 			this.cardTypeRepository = cardTypeRepository;
-		    this.postageService = postageService;
 			this.userService = userService;
 		}
 
@@ -71,7 +68,6 @@ namespace Suteki.Shop.Controllers
 	    private void EmailOrder(Order order)
 		{
 			userService.CurrentUser.EnsureCanViewOrder(order);
-			postageService.CalculatePostageFor(order);
 			emailService.SendOrderConfirmation(order);
 		}
 
@@ -80,7 +76,6 @@ namespace Suteki.Shop.Controllers
 		{
 			var order = orderRepository.GetById(id);
 			userService.CurrentUser.EnsureCanViewOrder(order);
-			postageService.CalculatePostageFor(order);
 			return View(ShopView.Data.WithOrder(order));
 		}
 

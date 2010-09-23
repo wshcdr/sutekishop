@@ -3,7 +3,6 @@ using Rhino.Mocks;
 using Suteki.Common.Repositories;
 using Suteki.Common.TestHelpers;
 using Suteki.Shop.Controllers;
-using Suteki.Shop.Services;
 using Suteki.Shop.ViewData;
 
 namespace Suteki.Shop.Tests.Controllers
@@ -13,14 +12,12 @@ namespace Suteki.Shop.Tests.Controllers
 	{
 		InvoiceController controller;
 		IRepository<Order> repository;
-		IPostageService postageService;
 
 		[SetUp]
 		public void Setup()
 		{
 			repository = MockRepository.GenerateStub<IRepository<Order>>();
-			postageService = MockRepository.GenerateStub<IPostageService>();
-			controller = new InvoiceController(repository, postageService);
+			controller = new InvoiceController(repository);
 		}
 
 		[Test]

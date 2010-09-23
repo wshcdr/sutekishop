@@ -18,11 +18,11 @@ namespace Suteki.Shop.Maps
             Map(x => x.ContactMe);
 
             References(x => x.Card).Cascade.All();
-            References(x => x.Basket);
             References(x => x.CardContact).Cascade.All();
             References(x => x.DeliveryContact).Cascade.All();
             References(x => x.OrderStatus);
             References(x => x.User).Cascade.All();
+            References(x => x.CreatedBy).Cascade.All();
 
             HasMany(x => x.OrderLines).Cascade.All();
 

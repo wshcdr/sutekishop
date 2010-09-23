@@ -31,8 +31,8 @@ namespace Suteki.Shop
         public virtual Contact CardContact { get; set; }
         public virtual Contact DeliveryContact { get; set; }
         public virtual OrderStatus OrderStatus { get; set; }
+        public virtual User CreatedBy { get; set; }
         public virtual User User { get; set; }
-        public virtual Basket Basket { get; set; }
 
         private IList<OrderLine> orderLines = new List<OrderLine>();
 
@@ -75,41 +75,6 @@ namespace Suteki.Shop
         public virtual bool IsDispatched { get { return OrderStatus.Id == OrderStatus.DispatchedId; } }
         public virtual bool IsRejected { get { return OrderStatus.Id == OrderStatus.RejectedId; } }
 
-        // TODO: replace ids with object refs
-        public virtual void UpdateBasket()
-        {
-            if (PostalContact.Country == null)
-            {
-                if (PostalContact.Country == null)
-                {
-                    throw new ApplicationException("PostalContact.Country is null");
-                }
-                Basket.Country.Id = PostalContact.Country.Id;
-            }
-            else
-            {
-                Basket.Country = PostalContact.Country;
-            }
-        }
-
-        // TODO: replace ids with object refs
-        public virtual int CardContactCountryId
-        {
-            get
-            {
-                return GetContactCountryId(CardContact);
-            }
-        }
-
-        // TODO: replace ids with object refs
-        public virtual int DeliveryContactCountryId
-        {
-            get
-            {
-                return GetContactCountryId(DeliveryContact);
-            }
-        }
-
         public virtual Money Total
         {
             get { return orderLines.Select(line => line.Total).Sum(); }
@@ -144,16 +109,6 @@ namespace Suteki.Shop
                 if (Postage == null) return "No postage calculated";
                 return Postage.Description;
             }
-        }
-
-        private int GetContactCountryId(Contact contact)
-        {
-            if (contact == null || contact.Country == null || contact.Country.Id == 0)
-            {
-                if (Basket == null || Basket.Country == null) return 0;
-                return Basket.Country.Id;
-            }
-            return contact.Country.Id;
         }
 
         public virtual void AddLine(string productName, int quantity, Money price)

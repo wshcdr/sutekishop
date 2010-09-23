@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using NUnit.Framework;
+using Suteki.Common.Models;
 using Suteki.Common.Repositories;
 using Suteki.Common.TestHelpers;
 using Suteki.Shop.Controllers;
@@ -37,11 +38,11 @@ namespace Suteki.Shop.Tests.Controllers
         [Test]
         public void Orders_ShouldReturnACsvFileOfOrders()
         {
-            IQueryable<Order> orders = new List<Order>
-                                           {
-                                               OrderTests.Create350GramOrder(),
-                                               OrderTests.Create450GramOrder()
-                                           }.AsQueryable();
+            var orders = new List<Order>
+            {
+                CreateOrder(),
+                CreateOrder()
+            }.AsQueryable();
 
             orderRepository.Expect(or => or.GetAll()).Return(orders);
 
@@ -72,6 +73,35 @@ namespace Suteki.Shop.Tests.Controllers
 
             Assert.That(result.ContentType, Is.EqualTo("text/csv"));
         }
+
+
+        public static Order CreateOrder()
+        {
+            var order = new Order
+            {
+                UseCardHolderContact = true,
+                CardContact = new Contact
+                {
+                    Country = new Country
+                    {
+                        PostZone = new PostZone { Multiplier = 2.5M, FlatRate = new Money(10.00M), AskIfMaxWeight = false }
+                    }
+                },
+                Email = "mike@mike.com",
+                CreatedDate = new DateTime(2008, 10, 18),
+                OrderStatus = new OrderStatus { Name = "Dispatched" },
+                OrderLines =
+                    {
+                        new OrderLine
+                        {
+                            Price = new Money(12.33M),
+                            Quantity = 1
+                        }
+                    }
+            };
+            return order;
+        }
+
 
     	[Test]
     	public void MailingListSubscriptions_ShouldReturnASscFileOfSubscriptions()
@@ -180,8 +210,8 @@ namespace Suteki.Shop.Tests.Controllers
 ";
 
         const string expectedOrdersCsv =
-@"0,""mike@mike.com"",""Dispatched"",""18/10/2008x 00:00:00"",0
-0,""mike@mike.com"",""Dispatched"",""18/10/2008x 00:00:00"",0
+@"0,""mike@mike.com"",""Dispatched"",""18/10/2008x 00:00:00"",12.33
+0,""mike@mike.com"",""Dispatched"",""18/10/2008x 00:00:00"",12.33
 ";
     }
 }

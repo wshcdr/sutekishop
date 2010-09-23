@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using Suteki.Common.Binders;
 using Suteki.Common.Extensions;
@@ -7,8 +6,6 @@ using Suteki.Common.Filters;
 using Suteki.Common.Repositories;
 using Suteki.Shop.Binders;
 using Suteki.Shop.Filters;
-using Suteki.Shop.Repositories;
-using Suteki.Shop.ViewData;
 using Suteki.Shop.Services;
 using MvcContrib;
 namespace Suteki.Shop.Controllers
@@ -16,26 +13,20 @@ namespace Suteki.Shop.Controllers
     public class BasketController : ControllerBase
     {
         readonly IBasketService basketService;
-        readonly IPostageService postageService;
-        readonly IRepository<Country> countryRepository;
         readonly IRepository<Basket> basketRepository;
 
     	public BasketController(
-            IPostageService postageService, 
-            IRepository<Country> countryRepository, 
             IBasketService basketService, 
             IRepository<Basket> basketRepository)
         {
     	    this.basketService = basketService;
     	    this.basketRepository = basketRepository;
-    	    this.postageService = postageService;
-            this.countryRepository = countryRepository;
         }
 
 		[FilterUsing(typeof(EnsureSsl))]
         public ActionResult Index()
         {
-            return  View("Index", IndexViewData(basketService.GetCurrentBasketForCurrentUser()));
+            return  View("Index", basketService.GetCurrentBasketForCurrentUser());
         }
 
         [UnitOfWork, AcceptVerbs(HttpVerbs.Post)]
@@ -55,7 +46,6 @@ namespace Suteki.Shop.Controllers
         public ActionResult Readonly(int id)
         {
             var basket = basketRepository.GetById(id);
-            postageService.CalculatePostageFor(basket);
             return View("Readonly", basket);
         }
 
@@ -67,20 +57,6 @@ namespace Suteki.Shop.Controllers
             }
 
         	return "Sorry, {0} is out of stock.".With(size.Product.Name);
-        }
-
-        private ShopViewData IndexViewData(Basket basket)
-        {
-            if (basket.Country == null)
-            {
-                throw new ApplicationException("Country has not been lazy loaded for this basket");
-            }
-
-			var countries = countryRepository.GetAll().Active().InOrder();
-
-            return ShopView.Data.WithBasket(basket)
-				.WithCountries(countries)
-                .WithTotalPostage(postageService.CalculatePostageFor(basket));
         }
 
 		[UnitOfWork]

@@ -10,9 +10,9 @@ namespace Suteki.Shop
 
         public static PostageResult WithPhone { get { return new PostageResult { Phone = true }; } }
         
-        public static PostageResult WithPrice(Money price)
+        public static PostageResult WithPrice(Money price, string description)
         {
-            return new PostageResult { Phone = false, Price = price };
+            return new PostageResult { Phone = false, Price = price, Description = description };
         }
 
         public static PostageResult WithDefault(PostZone postZone)
@@ -23,7 +23,7 @@ namespace Suteki.Shop
             }
             else
             {
-                return WithPrice(postZone.FlatRate);
+                return WithPrice(postZone.FlatRate, string.Empty);
             }
         }
     }

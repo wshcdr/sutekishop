@@ -9,7 +9,6 @@ using Suteki.Shop.Filters;
 using Suteki.Shop.ViewData;
 using Suteki.Shop.Repositories;
 using Suteki.Shop.Services;
-using Suteki.Common.Binders;
 using MvcContrib;
 namespace Suteki.Shop.Controllers
 {
@@ -19,7 +18,6 @@ namespace Suteki.Shop.Controllers
     	readonly IRepository<Country> countryRepository;
         readonly IRepository<CardType> cardTypeRepository;
         readonly IEncryptionService encryptionService;
-    	readonly IPostageService postageService;
     	readonly IUserService userService;
 		readonly IOrderSearchService searchService;
 		readonly IRepository<OrderStatus> statusRepository;
@@ -29,8 +27,9 @@ namespace Suteki.Shop.Controllers
 			IRepository<Country> countryRepository, 
 			IRepository<CardType> cardTypeRepository, 
 			IEncryptionService encryptionService, 
-			IPostageService postageService, 
-			IUserService userService, IOrderSearchService searchService, IRepository<OrderStatus> statusRepository)
+			IUserService userService, 
+            IOrderSearchService searchService, 
+            IRepository<OrderStatus> statusRepository)
         {
             this.orderRepository = orderRepository;
         	this.statusRepository = statusRepository;
@@ -39,7 +38,6 @@ namespace Suteki.Shop.Controllers
         	this.countryRepository = countryRepository;
             this.cardTypeRepository = cardTypeRepository;
             this.encryptionService = encryptionService;
-        	this.postageService = postageService;
         }
 
 		[AdministratorsOnly]
@@ -138,7 +136,6 @@ namespace Suteki.Shop.Controllers
         private ShopViewData CheckoutViewData(Order order)
         {
 			userService.CurrentUser.EnsureCanViewOrder(order);
-            postageService.CalculatePostageFor(order);
 
             return ShopView.Data
                 .WithCountries(countryRepository.GetAll().Active().InOrder())

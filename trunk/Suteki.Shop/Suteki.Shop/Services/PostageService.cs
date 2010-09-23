@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using Suteki.Common.Models;
 using Suteki.Common.Repositories;
 
 namespace Suteki.Shop.Services
@@ -14,19 +16,29 @@ namespace Suteki.Shop.Services
 
         public PostageResult CalculatePostageFor(Basket basket)
         {
-            var postages = postageRepository.GetAll();
-
-            return basket.CalculatePostage(postages);
-        }
-
-        public PostageResult CalculatePostageFor(Order order)
-        {
-            if (order.Basket == null)
+            if (basket == null)
             {
-                throw new ApplicationException("Order has no basket");
+                throw new ArgumentNullException("basket");
             }
 
-            return CalculatePostageFor(order.Basket);
+            var postages = postageRepository.GetAll();
+
+            var postZone = basket.Country.PostZone;
+
+            var totalWeight = (int)basket.BasketItems
+                .Sum(bi => bi.TotalWeight);
+
+            var postageToApply = postages
+                .Where(p => totalWeight <= p.MaxWeight && p.IsActive)
+                .OrderBy(p => p.MaxWeight)
+                .FirstOrDefault();
+
+            if (postageToApply == null) return PostageResult.WithDefault(postZone);
+
+            var multiplier = postZone.Multiplier;
+            var total = new Money(Math.Round(postageToApply.Price.Amount * multiplier, 2, MidpointRounding.AwayFromZero));
+
+            return PostageResult.WithPrice(total, string.Format("for {0}", basket.Country.Name));
         }
     }
 }

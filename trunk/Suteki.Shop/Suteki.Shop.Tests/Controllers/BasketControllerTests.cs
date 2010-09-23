@@ -19,14 +19,12 @@ namespace Suteki.Shop.Tests.Controllers
         public void SetUp()
         {
             userService = MockRepository.GenerateStub<IUserService>();
-            postageService = MockRepository.GenerateStub<IPostageService>();
             countryRepository = MockRepository.GenerateStub<IRepository<Country>>();
             basketRepository = MockRepository.GenerateStub<IRepository<Basket>>();
 
             basketService = new BasketService(countryRepository, userService);
 
-            basketController = new BasketController(postageService,
-                countryRepository,
+            basketController = new BasketController(
                 basketService,
                 basketRepository);
 
@@ -45,7 +43,6 @@ namespace Suteki.Shop.Tests.Controllers
 
         private IUserService userService;
         IBasketService basketService;
-        private IPostageService postageService;
         private IRepository<Country> countryRepository;
         private IRepository<Basket> basketRepository;
 
@@ -68,16 +65,11 @@ namespace Suteki.Shop.Tests.Controllers
         [Test]
         public void Index_ShouldShowIndexViewWithCurrentBasket()
         {
-            testContext.TestContext.Context.User = user;
-			countryRepository.Expect(x => x.GetAll()).Return(new List<Country>().AsQueryable());
-
-
 			basketController.Index()
 				.ReturnsViewResult()
 				.ForView("Index")
-				.WithModel<ShopViewData>()
-				.AssertAreSame(user.Baskets[0], vd => vd.Basket)
-				.AssertNotNull(x => x.Countries);
+				.WithModel<Basket>()
+				.AssertAreSame(user.Baskets[0], vd => vd);
         }
 
     	[Test]
@@ -180,8 +172,6 @@ namespace Suteki.Shop.Tests.Controllers
                 .ForView("Readonly")
                 .WithModel<Basket>()
                 .AssertAreSame(basket, vdBasket => vdBasket);
-
-            postageService.AssertWasCalled(p => p.CalculatePostageFor(basket));
         }
     }
 }

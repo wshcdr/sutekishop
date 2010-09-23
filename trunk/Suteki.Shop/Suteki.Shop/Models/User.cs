@@ -106,7 +106,7 @@ namespace Suteki.Shop
 			if (!IsAdministrator) 
 			{
                 // TODO: would object equality be better here?
-                if (order.Basket.User.Id != Id) 
+                if (order.CreatedBy.Id != Id) 
 				{
 					throw new ApplicationException("You are attempting to view an order that was not created by you");
 				}

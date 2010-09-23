@@ -1,11 +1,11 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Shop.Master" Inherits="Suteki.Shop.ViewPage<ShopViewData>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Shop.Master" Inherits="Suteki.Shop.ViewPage<Basket>" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
 
 <h1>Basket</h1>
 
 <%= Html.ValidationSummary() %>
 
-<% if(Model.Basket.IsEmpty) { %>
+<% if(Model.IsEmpty) { %>
 
     <p>Your basket is empty</p>
 
@@ -21,7 +21,7 @@
             <th class="thin number">Delete</th>
         </tr>
         
-        <% foreach (var basketItem in Model.Basket.BasketItems) { %>
+        <% foreach (var basketItem in Model.BasketItems) { %>
         
         <tr>
             <td><%= Html.ActionLink<ProductController>(c => c.Item(basketItem.Size.Product.UrlName), basketItem.Size.Product.Name)%></td>
@@ -39,37 +39,12 @@
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td class="number"><%= Model.Basket.Total.ToStringWithSymbol()%></td>
+            <td class="number"><%= Model.Total.ToStringWithSymbol()%></td>
             <td>&nbsp;</td>
         </tr>
 
-        <tr>
-            <td>Postage</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td class="number"><%= Model.Basket.PostageTotal%></td>
-            <td>&nbsp;</td>
-        </tr>
+        <% Html.RenderAction<PostageDetailController>(c => c.Index(Model.Id)); %>
 
-        <tr>
-            <td>For <%= this.Select(x=>x.Basket.Country.Id).Options(Model.Countries, x => x.Id, x =>x.Name).Name("country.id") %></td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-        </tr>
-
-        <tr class="total">
-            <td>Total With Postage</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td class="number"><%= Model.Basket.TotalWithPostage%></td>
-            <td>&nbsp;</td>
-        </tr>
-        
     </table>
 
     <p>The default postage & package charge displayed is for UK postal deliveries. If you select a delivery address outside the UK please check this price again.</p>
@@ -80,7 +55,7 @@
 
 <script type="text/javascript">
 	$(function() {
-		$('#country_id').change(function() {
+	    $('#Country_Id').change(function () {
 			$('#basketForm').attr('action', '<%= Url.Action<BasketController>(c => c.UpdateCountry(null)) %>').submit();
 		});
 	});

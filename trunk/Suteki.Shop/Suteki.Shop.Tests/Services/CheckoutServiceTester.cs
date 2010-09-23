@@ -13,13 +13,15 @@ namespace Suteki.Shop.Tests.Services
 	[TestFixture]
 	public class CheckoutServiceTester
 	{
-	    private ICheckoutService checkoutService;
+	    ICheckoutService checkoutService;
         IRepository<Basket> basketRepository;
 	    IEncryptionService encryptionService;
         IPostageService postageService;
+	    IUserService userService;
 
 	    CheckoutViewData checkoutViewData;
-	    private Basket basket;
+	    Basket basket;
+	    User user;
 
 	    [SetUp]
 	    public void SetUp()
@@ -27,13 +29,17 @@ namespace Suteki.Shop.Tests.Services
             basketRepository = MockRepository.GenerateStub<IRepository<Basket>>();
             encryptionService = MockRepository.GenerateStub<IEncryptionService>();
 	        postageService = MockRepository.GenerateStub<IPostageService>();
+	        userService = MockRepository.GenerateStub<IUserService>();
 
-            checkoutService = new CheckoutService(basketRepository, encryptionService, postageService);
+            checkoutService = new CheckoutService(basketRepository, encryptionService, postageService, userService);
 
             checkoutViewData = GetCheckoutViewData();
             basket = CreateBasketWithId(7);
             basketRepository.Stub(r => r.GetById(7)).Return(basket);
-        }
+
+	        user = new User();
+	        userService.Stub(u => u.CurrentUser).Return(user);
+	    }
 
 	    [Test]
 	    public void OrderFromCheckoutViewData_should_create_the_correct_order()
@@ -141,10 +147,8 @@ namespace Suteki.Shop.Tests.Services
             };
         }
 
-        private static void VerifyOrderMatchesCheckoutViewData(Order order, CheckoutViewData checkoutViewData)
+        private void VerifyOrderMatchesCheckoutViewData(Order order, CheckoutViewData checkoutViewData)
         {
-            order.Basket.Id.ShouldEqual(checkoutViewData.BasketId);
-
             order.CardContact.Firstname.ShouldEqual(checkoutViewData.CardContactFirstName);
             order.CardContact.Lastname.ShouldEqual(checkoutViewData.CardContactLastName);
             order.CardContact.Address1.ShouldEqual(checkoutViewData.CardContactAddress1);
@@ -185,6 +189,8 @@ namespace Suteki.Shop.Tests.Services
 
             order.PayByTelephone.ShouldEqual(checkoutViewData.PayByTelephone);
             order.ContactMe.ShouldEqual(checkoutViewData.ContactMe);
+
+            order.CreatedBy.ShouldBeTheSameAs(user);
         }
 
         private static Basket CreateBasketWithId(int id)
