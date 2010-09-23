@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Suteki.Common.Models;
 using Suteki.Shop.Models.CustomDataAnnotations;
+using Suteki.Common.Extensions;
 
 namespace Suteki.Shop
 {
@@ -105,6 +107,42 @@ namespace Suteki.Shop
             get
             {
                 return GetContactCountryId(DeliveryContact);
+            }
+        }
+
+        public virtual Money Total
+        {
+            get { return orderLines.Select(line => line.Total).Sum(); }
+        }
+
+        public virtual PostageResult Postage { get; set; }
+
+        public virtual string PostageTotal
+        {
+            get
+            {
+                if (Postage == null) return " - ";
+                if (Postage.Phone) return "Phone";
+                return Postage.Price.ToStringWithSymbol();
+            }
+        }
+
+        public virtual string TotalWithPostage
+        {
+            get
+            {
+                if (Postage == null) return " - ";
+                if (Postage.Phone) return "Phone";
+                return (Postage.Price + Total).ToStringWithSymbol();
+            }
+        }
+
+        public virtual string PostageDescription
+        {
+            get
+            {
+                if (Postage == null) return "No postage calculated";
+                return Postage.Description;
             }
         }
 

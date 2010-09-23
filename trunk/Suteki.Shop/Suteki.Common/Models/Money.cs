@@ -128,7 +128,7 @@ namespace Suteki.Common.Models
             {
                 throw new ArgumentNullException("b");
             }
-            return new Money(a + b.Amount);
+            return new Money(a * b.Amount);
         }
 
         public static Money operator -(Money a, Money b)

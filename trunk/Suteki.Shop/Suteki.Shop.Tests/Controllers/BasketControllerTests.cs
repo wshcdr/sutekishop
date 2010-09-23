@@ -23,11 +23,9 @@ namespace Suteki.Shop.Tests.Controllers
             countryRepository = MockRepository.GenerateStub<IRepository<Country>>();
             basketRepository = MockRepository.GenerateStub<IRepository<Basket>>();
 
-            basketService = new BasketService(countryRepository);
+            basketService = new BasketService(countryRepository, userService);
 
-            basketController = new BasketController(
-                userService,
-                postageService,
+            basketController = new BasketController(postageService,
                 countryRepository,
                 basketService,
                 basketRepository);
@@ -88,7 +86,7 @@ namespace Suteki.Shop.Tests.Controllers
     	    var country = new Country{ Id = 5 };
 
             basketController.GoToCheckout(country);
-            basketService.GetCurrentBasketFor(userService.CurrentUser).Country.ShouldBeTheSameAs(country);
+            basketService.GetCurrentBasketForCurrentUser().Country.ShouldBeTheSameAs(country);
     	}
 
     	[Test]
@@ -98,7 +96,7 @@ namespace Suteki.Shop.Tests.Controllers
 				.ReturnsRedirectToRouteResult()
 				.ToController("Checkout")
 				.ToAction("Index")
-                .WithRouteValue("id", basketService.GetCurrentBasketFor(user).Id.ToString());
+                .WithRouteValue("id", basketService.GetCurrentBasketForCurrentUser().Id.ToString());
     	}
 
     	[Test]
@@ -106,7 +104,7 @@ namespace Suteki.Shop.Tests.Controllers
     	{
             var country = new Country { Id = 5 };
             basketController.UpdateCountry(country);
-            basketService.GetCurrentBasketFor(userService.CurrentUser).Country.ShouldBeTheSameAs(country);
+            basketService.GetCurrentBasketForCurrentUser().Country.ShouldBeTheSameAs(country);
     	}
 
     	[Test]
@@ -160,7 +158,7 @@ namespace Suteki.Shop.Tests.Controllers
 
             const string expectedMessage = "Sorry, Denim Jacket, Size S is out of stock.";
 
-            basketController.Update(basketService.GetCurrentBasketFor(user), basketItem)
+            basketController.Update(basketService.GetCurrentBasketForCurrentUser(), basketItem)
 				.ReturnsRedirectToRouteResult()
 				.ToController("Product")
 				.ToAction("Item")

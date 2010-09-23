@@ -70,7 +70,8 @@ namespace Suteki.Shop.IoC
                 Component.For<IAppSettings>().ImplementedBy<AppSettings>().LifeStyle.Singleton,
                 Component.For<IEmailService>().ImplementedBy<EmailService>().LifeStyle.Transient,
                 Component.For<IModelBinder, EntityModelBinder>().ImplementedBy<EntityModelBinder>().LifeStyle.Transient,
-                Component.For<IBasketService>().ImplementedBy<BasketService>().LifeStyle.Transient
+                Component.For<IBasketService>().ImplementedBy<BasketService>().LifeStyle.Transient,
+                Component.For<ICheckoutService>().ImplementedBy<CheckoutService>().LifeStyle.Transient
                 );
 
             return container;

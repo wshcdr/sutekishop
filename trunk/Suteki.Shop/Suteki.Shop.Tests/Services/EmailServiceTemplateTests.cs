@@ -50,7 +50,6 @@ namespace Suteki.Shop.Tests.Services
 
             var renderedContents = emailSender.SentBody;
             var expectedContents = File.ReadAllText(expectedOrderBodyPath);
-
             renderedContents.ShouldEqual(expectedContents);
         }
 
@@ -63,6 +62,7 @@ namespace Suteki.Shop.Tests.Services
             var renderedContents = emailSender.SentBody;
             var expectedContents = File.ReadAllText(expectedDispatchBodyPath);
 
+            //Console.WriteLine(renderedContents);
             renderedContents.ShouldEqual(expectedContents);
         }
 
@@ -91,42 +91,30 @@ namespace Suteki.Shop.Tests.Services
                 Email = "joe@blogs.com",
                 Card = new Card
                 {
-                    CardType = new CardType { Name = "Visa" },
+                    CardType = new CardType {Name = "Visa"},
                     Holder = "Joe Blogs"
                 },
                 AdditionalInformation = "some info",
-                Basket = new Basket
-                {
-                    Country = new Country { Name = "UK" },
-                    BasketItems =
+                OrderLines =
+                    {
+                        new OrderLine
                         {
-                            new BasketItem
-                            {
-                                Quantity = 3,
-                                Size = new Size
-                                {
-                                    Name = "medium",
-                                    Product = new Product
-                                    {
-                                        Name = "grey shirt",
-                                        Price = new Money(4.80M)
-                                    }
-                                }
-                            },
-                            new BasketItem
-                            {
-                                Quantity = 2,
-                                Size = new Size
-                                {
-                                    Name = "small",
-                                    Product = new Product
-                                    {
-                                        Name = "blue trousers",
-                                        Price = new Money(12.33M)
-                                    }
-                                }
-                            }
+                            ProductName = "grey shirt - medium",
+                            Quantity = 3,
+                            Price = new Money(4.8M)
+                        },
+                        new OrderLine
+                        {
+                            ProductName = "blue trousers - small",
+                            Quantity = 2,
+                            Price = new Money(12.33M)
                         }
+                    },
+                Postage = new PostageResult
+                {
+                    Phone = false,
+                    Price = new Money(4.55M),
+                    Description = "for United Kingdom"
                 }
             };
         }

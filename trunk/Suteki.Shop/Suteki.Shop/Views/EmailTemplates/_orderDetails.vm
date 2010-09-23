@@ -6,53 +6,41 @@
 <table>
 	<tr>
 		<th class="wide">Product</th>
-		<th class="thin">Size</th>
 		<th class="thin number">Quantity</th>
 		<th class="thin number">Unit Price</th>
 		<th class="thin number">Total Price</th>
 	</tr>
-    #foreach($basketItem in $order.Basket.BasketItems)
+    #foreach($orderLine in $order.OrderLines)
 	<tr>
-		<td>$basketItem.Size.Product.Name</td>
-		<td>$basketItem.Size.Name</td>
-		<td class="number">$basketItem.Quantity</td>
-		<td class="number">$basketItem.Size.Product.Price.ToStringWithSymbol()</td>
-		<td class="number">$basketItem.Total.ToStringWithSymbol()</td>
+		<td>$orderLine.ProductName</td>
+		<td class="number">$orderLine.Quantity</td>
+		<td class="number">$orderLine.Price.ToStringWithSymbol()</td>
+		<td class="number">$orderLine.Total.ToStringWithSymbol()</td>
 	</tr>
     #end
 	<tr class="total">
 		<td>Total</td>
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td class="number">$order.Basket.Total.ToStringWithSymbol()</td>
+		<td class="number">$order.Total.ToStringWithSymbol()</td>
 	</tr>
 
 	<tr>
 		<td>Postage</td>
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td class="number">$order.Basket.PostageTotal</td>
-		<td>&nbsp;</td>
+		<td class="number">$order.PostageTotal</td>
 	</tr>
 
 	<tr>
-		<td>(for $order.Basket.Country.Name)</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
+		<td colspan="4">($order.PostageDescription)</td>
 	</tr>
 
 	<tr class="total">
 		<td>Total With Postage</td>
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td class="number">$order.Basket.TotalWithPostage</td>
-		<td>&nbsp;</td>
+		<td class="number">$order.TotalWithPostage</td>
 	</tr>
 </table>
 

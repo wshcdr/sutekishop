@@ -5,6 +5,7 @@ using Rhino.Mocks;
 using Suteki.Common.Repositories;
 using Suteki.Shop.Services;
 
+// ReSharper disable InconsistentNaming
 namespace Suteki.Shop.Tests.Services
 {
     [TestFixture]
@@ -12,27 +13,30 @@ namespace Suteki.Shop.Tests.Services
     {
         IBasketService basketService;
         IRepository<Country> countryRepository;
+        IUserService userService;
+        User user;
 
         [SetUp]
         public void SetUp()
         {
             countryRepository = MockRepository.GenerateStub<IRepository<Country>>();
-            basketService = new BasketService(countryRepository);
+            userService = MockRepository.GenerateStub<IUserService>();
+            basketService = new BasketService(countryRepository, userService);
+
+            user = new User();
+            userService.Stub(u => u.CurrentUser).Return(user).Repeat.Any();
         }
 
         [Test]
         public void GetCurrentBasket_should_return_the_basket_collections_current_basket()
         {
-            var basket = new Basket();
-            var user = new User
-            {
-                Baskets =
-                    {
-                        basket
-                    }
-            };
+            var basket = new Basket {Id = 201};
+            var oldBasket = new Basket {Id = 200};
 
-            var currentBasket = basketService.GetCurrentBasketFor(user);
+            user.AddBasket(basket);
+            user.AddBasket(oldBasket);
+
+            var currentBasket = basketService.GetCurrentBasketForCurrentUser();
 
             currentBasket.ShouldBeTheSameAs(basket);
         }
@@ -43,9 +47,7 @@ namespace Suteki.Shop.Tests.Services
             var country = new Country { Name = "United Kingdom" }; // expect the default country to be United Kingdom.
             countryRepository.Stub(r => r.GetAll()).Return(new[] {country}.AsQueryable());
 
-            var user = new User();
-
-            var currentBasket = basketService.GetCurrentBasketFor(user);
+            var currentBasket = basketService.GetCurrentBasketForCurrentUser();
 
             currentBasket.Country.ShouldBeTheSameAs(country);
         }
@@ -56,9 +58,8 @@ namespace Suteki.Shop.Tests.Services
             var country = new Country { Name = "France" }; // expect the default country to be UK.
             countryRepository.Stub(r => r.GetAll()).Return(new[] { country }.AsQueryable());
 
-            var user = new User();
-
-            basketService.GetCurrentBasketFor(user);
+            basketService.GetCurrentBasketForCurrentUser();
         }
     }
+    // ReSharper restore InconsistentNaming
 }

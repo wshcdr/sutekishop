@@ -15,14 +15,12 @@ namespace Suteki.Shop.Controllers
 {
     public class BasketController : ControllerBase
     {
-        readonly IUserService userService;
         readonly IBasketService basketService;
         readonly IPostageService postageService;
         readonly IRepository<Country> countryRepository;
         readonly IRepository<Basket> basketRepository;
 
     	public BasketController(
-            IUserService userService, 
             IPostageService postageService, 
             IRepository<Country> countryRepository, 
             IBasketService basketService, 
@@ -30,16 +28,14 @@ namespace Suteki.Shop.Controllers
         {
     	    this.basketService = basketService;
     	    this.basketRepository = basketRepository;
-    	    this.userService = userService;
-            this.postageService = postageService;
+    	    this.postageService = postageService;
             this.countryRepository = countryRepository;
         }
 
 		[FilterUsing(typeof(EnsureSsl))]
         public ActionResult Index()
         {
-            var user = userService.CurrentUser;
-            return  View("Index", IndexViewData(basketService.GetCurrentBasketFor(user)));
+            return  View("Index", IndexViewData(basketService.GetCurrentBasketForCurrentUser()));
         }
 
         [UnitOfWork, AcceptVerbs(HttpVerbs.Post)]
@@ -90,7 +86,7 @@ namespace Suteki.Shop.Controllers
 		[UnitOfWork]
         public ActionResult Remove(int id)
         {
-            var basket = basketService.GetCurrentBasketFor(userService.CurrentUser);
+            var basket = basketService.GetCurrentBasketForCurrentUser();
             var basketItem = basket.BasketItems.Where(item => item.Id == id).SingleOrDefault();
 
             if (basketItem != null)
@@ -106,7 +102,7 @@ namespace Suteki.Shop.Controllers
 		{
 			if (country.Id != 0) 
 			{
-				basketService.GetCurrentBasketFor(userService.CurrentUser).Country = country;
+				basketService.GetCurrentBasketForCurrentUser().Country = country;
 			}
 
 			return this.RedirectToAction(c => c.Index());
@@ -115,7 +111,7 @@ namespace Suteki.Shop.Controllers
 		[AcceptVerbs(HttpVerbs.Post), UnitOfWork]
         public ActionResult GoToCheckout(Country country)
 		{
-		    var currentBasket = basketService.GetCurrentBasketFor(userService.CurrentUser);
+		    var currentBasket = basketService.GetCurrentBasketForCurrentUser();
             if (country.Id != 0)
 			{
                 currentBasket.Country = country;

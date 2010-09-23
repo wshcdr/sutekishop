@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Suteki.Common.Models;
 
 namespace Suteki.Common.Extensions
 {
@@ -87,6 +88,10 @@ namespace Suteki.Common.Extensions
             }
         }
 
+        public static Money Sum(this IEnumerable<Money> amounts)
+        {
+            return new Money(amounts.Sum(amount => amount.Amount));
+        }
 
         public static string AsCsv<T>(this IEnumerable<T> items)
             where T : class
