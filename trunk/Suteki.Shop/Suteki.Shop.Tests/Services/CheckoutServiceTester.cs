@@ -37,7 +37,7 @@ namespace Suteki.Shop.Tests.Services
             basket = CreateBasketWithId(7);
             basketRepository.Stub(r => r.GetById(7)).Return(basket);
 
-	        user = new User();
+            user = new User { Role = Role.Administrator };
 	        userService.Stub(u => u.CurrentUser).Return(user);
 	    }
 
