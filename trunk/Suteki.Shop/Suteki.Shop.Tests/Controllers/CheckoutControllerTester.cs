@@ -1,6 +1,7 @@
 using System;
 using NUnit.Framework;
 using Rhino.Mocks;
+using Suteki.Common.Events;
 using Suteki.Common.Repositories;
 using Suteki.Common.TestHelpers;
 using Suteki.Shop.Controllers;
@@ -16,12 +17,8 @@ namespace Suteki.Shop.Tests.Controllers
 		CheckoutController controller;
 		IRepository<Basket> basketRepository;
 		IUserService userService;
-	    IBasketService basketService;
-		IRepository<CardType> cardTypeRepository;
 		FakeRepository<Order> orderRepository;
 		IUnitOfWorkManager unitOfWorkManager;
-		IEmailService emailService;
-		IRepository<MailingListSubscription> subscriptionRepository;
 	    ICheckoutService checkoutService;
 
 		[SetUp]
@@ -31,28 +28,19 @@ namespace Suteki.Shop.Tests.Controllers
 			unitOfWorkManager = MockRepository.GenerateStub<IUnitOfWorkManager>();
 
 			userService = MockRepository.GenerateStub<IUserService>();
-		    basketService = MockRepository.GenerateStub<IBasketService>();
-			cardTypeRepository = MockRepository.GenerateStub<IRepository<CardType>>();
 			orderRepository = new FakeRepository<Order>();
-			subscriptionRepository = MockRepository.GenerateStub<IRepository<MailingListSubscription>>();
-			emailService = MockRepository.GenerateStub<IEmailService>();
 		    MockRepository.GenerateStub<IEncryptionService>();
 		    checkoutService = MockRepository.GenerateStub<ICheckoutService>();
 
-			var mocks = new MockRepository(); //TODO: No need to partial mock once email sending is fixed
 			controller = new CheckoutController(
 				basketRepository,
 				userService,
-				cardTypeRepository,
 				orderRepository,
 				unitOfWorkManager,
-				emailService,
-				subscriptionRepository,
-                basketService,
                 checkoutService
 			);
-			mocks.ReplayAll();
-			userService.Expect(us => us.CurrentUser).Return(new User { Id = 4, Role = Role.Administrator });
+
+			userService.Stub(us => us.CurrentUser).Return(new User { Id = 4, Role = Role.Administrator });
 		}
 
 		[Test]
@@ -65,17 +53,13 @@ namespace Suteki.Shop.Tests.Controllers
 		    };
 		    basketRepository.Stub(b => b.GetById(basketId)).Return(basket);
 
-		    var visa = new CardType();
-			cardTypeRepository.Stub(ctr => ctr.GetById(CardType.VisaDeltaElectronId))
-                .Return(visa);
-
 			// exercise Checkout action
 		    controller.Index(basketId)
 		        .ReturnsViewResult()
 		        .WithModel<CheckoutViewData>()
                 .AssertAreSame(basket.Country, vd => vd.CardContactCountry)
                 .AssertAreSame(basket.Country, vd => vd.DeliveryContactCountry)
-		        .AssertAreSame(visa, vd => vd.CardCardType)
+                .AssertAreEqual(CardType.VisaDeltaElectronId, vd => vd.CardCardType.Id)
 		        .AssertAreEqual(basketId, vd => vd.BasketId)
                 .AssertIsTrue(vd => vd.UseCardholderContact);
 		}
@@ -143,52 +127,17 @@ namespace Suteki.Shop.Tests.Controllers
 		{
 			var order = new Order { Id = 5 };
 
+		    DomainEvent.RaiseAction = e => { };
+
 			controller.Confirm(order)
 				.ReturnsRedirectToRouteResult()
 				.ToController("Order")
 				.ToAction("Item")
 				.WithRouteValue("id", "5");
 
-			emailService.AssertWasCalled(x => x.SendOrderConfirmation(order));
-		}
+		    order.OrderStatus.Id.ShouldEqual(OrderStatus.CreatedId);
 
-		[Test]
-		public void ConfirmWithPost_CreatesMailingListSubscriptionForDeliveryContact()
-		{
-			var order = new Order { DeliveryContact = new Contact(), ContactMe = true, Email = "foo@bar.com"};
-			MailingListSubscription subscription = null;
-
-			subscriptionRepository.Expect(x => x.SaveOrUpdate(Arg<MailingListSubscription>.Is.Anything))
-				.Do(new Action<MailingListSubscription>(x => subscription = x));
-
-			controller.Confirm(order);
-
-			subscription.ShouldNotBeNull();
-			subscription.Contact.ShouldBeTheSameAs(order.DeliveryContact);
-			subscription.Email.ShouldEqual("foo@bar.com");
-		}
-
-		[Test]
-		public void ConfirmWithPost_CreatesMailingListSubscriptionForCardContact()
-		{
-			var order = new Order
-			{
-			    CardContact = new Contact(), 
-                ContactMe = true, 
-                Email = "foo@bar.com", 
-                UseCardHolderContact = true
-			};
-
-			MailingListSubscription subscription = null;
-
-			subscriptionRepository.Expect(x => x.SaveOrUpdate(Arg<MailingListSubscription>.Is.Anything))
-				.Do(new Action<MailingListSubscription>(x => subscription = x));
-
-			controller.Confirm(order);
-
-			subscription.ShouldNotBeNull();
-			subscription.Contact.ShouldBeTheSameAs(order.CardContact);
-			subscription.Email.ShouldEqual("foo@bar.com");
+		    DomainEvent.RaiseAction = null;
 		}
 
 	    [Test]

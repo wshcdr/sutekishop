@@ -92,7 +92,7 @@ namespace Suteki.Shop.Controllers
                 }
             }
 
-			userService.CurrentUser.EnsureCanViewOrder(order);
+			userService.CurrentUser.EnsureCanView(order);
             return View("Item", CheckoutViewData(order));
         }
 
@@ -135,7 +135,7 @@ namespace Suteki.Shop.Controllers
 
         private ShopViewData CheckoutViewData(Order order)
         {
-			userService.CurrentUser.EnsureCanViewOrder(order);
+			userService.CurrentUser.EnsureCanView(order);
 
             return ShopView.Data
                 .WithCountries(countryRepository.GetAll().Active().InOrder())

@@ -190,7 +190,7 @@ namespace Suteki.Shop.Tests.Services
             order.PayByTelephone.ShouldEqual(checkoutViewData.PayByTelephone);
             order.ContactMe.ShouldEqual(checkoutViewData.ContactMe);
 
-            order.CreatedBy.ShouldBeTheSameAs(user);
+            order.User.ShouldBeTheSameAs(user);
         }
 
         private static Basket CreateBasketWithId(int id)

@@ -1,6 +1,8 @@
 ﻿using System;
 using NUnit.Framework;
+using Suteki.Common.Events;
 using Suteki.Common.Models;
+using Suteki.Shop.Events;
 
 // ReSharper disable InconsistentNaming
 
@@ -14,7 +16,7 @@ namespace Suteki.Shop.Tests.Models
         {
             var order = new Order
             {
-                User = new User
+                ModifiedBy = new User
                 {
                     Email = "mike@mike.com"
                 }
@@ -66,6 +68,36 @@ namespace Suteki.Shop.Tests.Models
             };
 
             order.PostageDescription.ShouldEqual("some postage description");
+        }
+
+        [Test]
+        public void Confirm_should_change_status_to_Created()
+        {
+            DomainEvent.RaiseAction = e => { };
+            var order = new Order
+            {
+                OrderStatus = OrderStatus.Pending
+            };
+
+            order.Confirm();
+
+            order.OrderStatus.Id.ShouldEqual(OrderStatus.CreatedId);
+            DomainEvent.RaiseAction = null;
+        }
+
+        [Test]
+        public void Confirm_should_raise_OrderConfirmed_event()
+        {
+            OrderConfirmed orderConfirmed = null;
+            DomainEvent.RaiseAction = e => orderConfirmed = e as OrderConfirmed;
+
+            var order = new Order();
+            order.Confirm();
+
+            orderConfirmed.ShouldNotBeNull();
+            orderConfirmed.Order.ShouldBeTheSameAs(order);
+
+            DomainEvent.RaiseAction = null;
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Suteki.Shop.Tests.Controllers
 
 			order.IsDispatched.ShouldBeTrue();
 			order.DispatchedDateAsString.ShouldEqual(DateTime.Now.ToShortDateString());
-			order.User.Id.ShouldEqual(4);
+			order.ModifiedBy.Id.ShouldEqual(4);
 		}
 
 		[Test]

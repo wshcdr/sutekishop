@@ -5,7 +5,7 @@ using Suteki.Common.Models;
 
 namespace Suteki.Shop
 {
-    public class Basket : IEntity
+    public class Basket : IEntity, IAmOwnedBy
     {
         public virtual int Id { get; set; }
         public virtual DateTime OrderDate { get; set; }

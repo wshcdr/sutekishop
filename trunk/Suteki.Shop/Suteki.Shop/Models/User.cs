@@ -60,29 +60,6 @@ namespace Suteki.Shop
 
         public virtual bool CanLogin { get { return IsAdministrator || IsOrderProcessor; } }
 
-//        public virtual Basket CurrentBasket
-//        {
-//            get
-//            {
-//                if (Baskets.Count == 0)
-//                {
-//                    return CreateNewBasket();
-//                }
-//                return Baskets.CurrentBasket();
-//            }
-//        }
-//
-//        public virtual Basket CreateNewBasket()
-//        {
-            // HACK, we're relying on the static data for the default country to be 1 (UK)
-//            return new Basket
-//                       {
-//                           User = this,
-//                           OrderDate = DateTime.Now,
-//                           Country = Country.UK
-//                       };
-//        }
-
         public virtual IIdentity Identity
         {
             get
@@ -101,17 +78,16 @@ namespace Suteki.Shop
         public virtual bool IsOrderProcessor { get { return Role.Id == Role.OrderProcessorId; } }
         public virtual bool IsCustomer { get { return Role.Id == Role.CustomerId; } }
 
-        public virtual void EnsureCanViewOrder(Order order)
-		{
-			if (!IsAdministrator) 
-			{
-                // TODO: would object equality be better here?
-                if (order.CreatedBy.Id != Id) 
-				{
-					throw new ApplicationException("You are attempting to view an order that was not created by you");
-				}
-			}
-		}
+        public virtual void EnsureCanView(IAmOwnedBy amOwnedBy)
+        {
+            if (!IsAdministrator)
+            {
+                if (amOwnedBy.User.Id != Id)
+                {
+                    throw new ApplicationException("You are attempting to view an item that is not owned by you");
+                }
+            }
+        }
     }
 
     /// <summary>

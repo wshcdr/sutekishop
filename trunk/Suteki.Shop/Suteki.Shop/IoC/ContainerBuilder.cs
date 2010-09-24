@@ -6,6 +6,7 @@ using Castle.Windsor;
 using Castle.Windsor.Configuration.Interpreters;
 using Microsoft.Practices.ServiceLocation;
 using Suteki.Common.Binders;
+using Suteki.Common.Events;
 using Suteki.Common.Filters;
 using Suteki.Common.HtmlHelpers;
 using Suteki.Common.Repositories;
@@ -45,6 +46,9 @@ namespace Suteki.Shop.IoC
                                    .Configure(c => c.LifeStyle.Transient.Named(c.Implementation.Name.ToLower())));
 
             container.Register(
+                AllTypes.FromAssembly(Assembly.GetExecutingAssembly())
+                        .BasedOn(typeof(IHandle<>)).WithService.Base()
+                        .Configure(c => c.LifeStyle.Transient),
                 Component.For(typeof(IRepository<>)).ImplementedBy(typeof(NHibernateRepository<>)).LifeStyle.Transient,
                 Component.For(typeof(IComboFor<,>)).ImplementedBy(typeof(ComboFor<,>)).LifeStyle.Transient,
                 Component.For<IImageService>().ImplementedBy<ImageService>().Named("image.service").LifeStyle.Transient,

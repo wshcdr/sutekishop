@@ -59,7 +59,7 @@ namespace Suteki.Shop.Controllers
         	return "Sorry, {0} is out of stock.".With(size.Product.Name);
         }
 
-		[UnitOfWork]
+		[HttpGet, UnitOfWork]
         public ActionResult Remove(int id)
         {
             var basket = basketService.GetCurrentBasketForCurrentUser();
