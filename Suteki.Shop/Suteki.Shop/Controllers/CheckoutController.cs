@@ -1,4 +1,3 @@
-using System;
 using MvcContrib;
 using System.Web.Mvc;
 using Suteki.Common.Filters;
@@ -12,40 +11,31 @@ namespace Suteki.Shop.Controllers
 	{
 		readonly IRepository<Basket> basketRepository;
 		readonly IUserService userService;
-	    readonly IBasketService basketService;
-	    readonly IRepository<CardType> cardTypeRepository;
 		readonly IRepository<Order> orderRepository;
 		readonly IUnitOfWorkManager unitOfWork;
-		readonly IEmailService emailService;
-		readonly IRepository<MailingListSubscription> mailingListRepository;
 	    readonly ICheckoutService checkoutService;
 
 		public CheckoutController(
             IRepository<Basket> basketRepository, 
             IUserService userService, 
-            IRepository<CardType> cardTypeRepository, 
             IRepository<Order> orderRepository, 
             IUnitOfWorkManager unitOfWork, 
-            IEmailService emailService, 
-            IRepository<MailingListSubscription> mailingListRepository, 
-            IBasketService basketService, 
             ICheckoutService checkoutService)
 		{
 			this.basketRepository = basketRepository;
 		    this.checkoutService = checkoutService;
-		    this.basketService = basketService;
-		    this.emailService = emailService;
-			this.mailingListRepository = mailingListRepository;
 			this.unitOfWork = unitOfWork;
 			this.orderRepository = orderRepository;
-			this.cardTypeRepository = cardTypeRepository;
 			this.userService = userService;
 		}
 
         [HttpGet, UnitOfWork]
         public ActionResult Index(int id)
-		{
-            var viewData = CurrentOrder ?? CreateCheckoutViewData(basketRepository.GetById(id));
+        {
+            var basket = basketRepository.GetById(id);
+            userService.CurrentUser.EnsureCanView(basket);
+
+            var viewData = CurrentOrder ?? CreateCheckoutViewData(basket);
             return View("Index", viewData);
 		}
 
@@ -65,40 +55,20 @@ namespace Suteki.Shop.Controllers
 		    return View("Index", checkoutViewData);
 		}
 
-	    private void EmailOrder(Order order)
-		{
-			userService.CurrentUser.EnsureCanViewOrder(order);
-			emailService.SendOrderConfirmation(order);
-		}
-
         [HttpGet, UnitOfWork]
 		public ActionResult Confirm(int id)
 		{
 			var order = orderRepository.GetById(id);
-			userService.CurrentUser.EnsureCanViewOrder(order);
+			userService.CurrentUser.EnsureCanView(order);
 			return View(ShopView.Data.WithOrder(order));
 		}
 
 		[HttpPost, UnitOfWork]
 		public ActionResult Confirm(Order order)
 		{
-			order.OrderStatus = OrderStatus.Created;
+            userService.CurrentUser.EnsureCanView(order);
+			order.Confirm();
 
-			if(order.ContactMe)
-			{
-				var mailingListSubscription = new MailingListSubscription
-				{
-					Contact = order.PostalContact,
-					Email = order.Email,
-                    DateSubscribed = DateTime.Now
-				};
-
-				mailingListRepository.SaveOrUpdate(mailingListSubscription);
-			}
-
-			EmailOrder(order);
-		    basketService.CreateNewBasketForCurrentUser();
-            
 			return this.RedirectToAction<OrderController>(c => c.Item(order.Id));
 		}
 
@@ -128,12 +98,10 @@ namespace Suteki.Shop.Controllers
         [NonAction]
 	    public CheckoutViewData CreateCheckoutViewData(Basket basket)
 	    {
-	        var cardType = cardTypeRepository.GetById(CardType.VisaDeltaElectronId);
-
 	        return new CheckoutViewData
 	        {
 	            BasketId = basket.Id,
-	            CardCardType = cardType,
+	            CardCardType = CardType.VisaDeltaElectron,
 	            CardContactCountry = basket.Country,
 	            DeliveryContactCountry = basket.Country,
 	            UseCardholderContact = true

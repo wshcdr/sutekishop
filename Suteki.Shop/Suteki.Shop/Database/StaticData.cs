@@ -41,7 +41,7 @@ namespace Suteki.Shop.Database
             insertCardType(CardType.VisaDeltaElectronId, "Visa / Delta / Electron", false);
             insertCardType(CardType.MasterCardEuroCardId, "Master Card / Euro Card", false);
             insertCardType(CardType.AmericanExpressId, "American Express", false);
-            insertCardType(CardType.SwitchSoloMaestro, "Switch / Solo / Maestro", true);
+            insertCardType(CardType.SwitchSoloMaestroId, "Switch / Solo / Maestro", true);
         }
 
         public static void InsertOrderStatus(ISession session)

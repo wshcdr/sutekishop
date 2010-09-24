@@ -35,6 +35,7 @@ namespace Suteki.Shop.Services
             if (EmailAddressesDoNotMatch(checkoutViewData, modelState)) return null;
 
             var basket = basketRepository.GetById(checkoutViewData.BasketId);
+            userService.CurrentUser.EnsureCanView(basket);
 
             var order = new Order
             {
@@ -49,7 +50,7 @@ namespace Suteki.Shop.Services
                 OrderStatus = OrderStatus.Pending,
                 UseCardHolderContact = checkoutViewData.UseCardholderContact,
                 PayByTelephone = checkoutViewData.PayByTelephone,
-                CreatedBy = userService.CurrentUser
+                User = userService.CurrentUser
             };
 
             AddOrderLinesFromBasket(order, basket);

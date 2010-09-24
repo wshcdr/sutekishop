@@ -205,6 +205,7 @@
     <Compile Include="Database\DatabaseManager.cs" />
     <Compile Include="Database\StaticData.cs" />
     <Compile Include="Database\StaticDataGenerator.cs" />
+    <Compile Include="Events\OrderConfirmed.cs" />
     <Compile Include="Filters\AdministratorsOnlyAttribute.cs" />
     <Compile Include="Filters\AuthenticateFilter.cs" />
     <Compile Include="Filters\CopyMessageFromTempDataToViewData.cs" />
@@ -212,6 +213,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\AddToMailingListOnOrderConfirmed.cs" />
+    <Compile Include="Handlers\CreateNewBasketOnOrderConfirm.cs" />
+    <Compile Include="Handlers\EmailOrderConfirmationOnOrderConfirmed.cs" />
     <Compile Include="HtmlHelpers\CategoryWriter.cs" />
     <Compile Include="HtmlHelpers\HtmlHelperExtensions.cs" />
     <Compile Include="HtmlHelpers\LowercaseFirstCharacterOfNameBehaviour.cs" />
@@ -266,6 +270,7 @@
     <Compile Include="Models\Exceptions\NoMenuException.cs" />
     <Compile Include="Models\Extensions\ActivatableExtensions.cs" />
     <Compile Include="Models\IActivatable.cs" />
+    <Compile Include="Models\IAmOwnedBy.cs" />
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\ITextContent.cs" />
     <Compile Include="Models\IUrlNamed.cs" />

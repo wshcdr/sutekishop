@@ -9,8 +9,6 @@ using Suteki.Common.Binders;
 using Suteki.Common.Models;
 using Suteki.Shop.IoC;
 using Suteki.Shop.Routes;
-using Suteki.Shop.Services;
-using Suteki.Shop.XmlRpc;
 
 namespace Suteki.Shop
 {

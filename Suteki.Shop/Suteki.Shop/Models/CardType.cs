@@ -20,6 +20,23 @@ namespace Suteki.Shop
         public const int VisaDeltaElectronId = 1;
         public const int MasterCardEuroCardId = 2;
         public const int AmericanExpressId = 3;
-        public const int SwitchSoloMaestro = 4;
+        public const int SwitchSoloMaestroId = 4;
+
+        public static CardType VisaDeltaElectron
+        {
+            get { return new CardType {Id = VisaDeltaElectronId}; }
+        }
+        public static CardType MasterCardEuroCard
+        {
+            get { return new CardType { Id = MasterCardEuroCardId }; }
+        }
+        public static CardType AmericanExpress
+        {
+            get { return new CardType { Id = AmericanExpressId }; }
+        }
+        public static CardType SwitchSoloMaestro
+        {
+            get { return new CardType { Id = SwitchSoloMaestroId }; }
+        }
     }
 }

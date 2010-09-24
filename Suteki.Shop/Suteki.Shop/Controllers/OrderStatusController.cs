@@ -31,7 +31,7 @@ namespace Suteki.Shop.Controllers
 			{
 				order.OrderStatus = OrderStatus.Dispatched;
 				order.DispatchedDate = DateTime.Now;
-				order.User = userService.CurrentUser;
+				order.ModifiedBy = userService.CurrentUser;
 
 				emailService.SendDispatchNotification(order);
 			}
@@ -47,7 +47,7 @@ namespace Suteki.Shop.Controllers
 			if (order.IsCreated)
 			{
 				order.OrderStatus = OrderStatus.Rejected;
-				order.User = userService.CurrentUser;
+				order.ModifiedBy = userService.CurrentUser;
 			}
 
 			return this.RedirectToAction<OrderController>(c => c.Item(order.Id));
@@ -61,7 +61,7 @@ namespace Suteki.Shop.Controllers
 			if (order.IsDispatched || order.IsRejected)
 			{
 				order.OrderStatus = OrderStatus.Created;
-				order.User = null;
+				order.ModifiedBy = null;
 			}
 
 			return this.RedirectToAction<OrderController>(c => c.Item(order.Id));

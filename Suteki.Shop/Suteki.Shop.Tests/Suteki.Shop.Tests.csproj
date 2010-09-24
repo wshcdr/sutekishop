@@ -185,6 +185,9 @@
     <Compile Include="Filters\AuthenticateFilterTester.cs" />
     <Compile Include="Filters\CopyMessageFromTempDataToViewDataTester.cs" />
     <Compile Include="Filters\EnsureSslFilterTester.cs" />
+    <Compile Include="Handlers\AddToMailingListOnOrderConfirmedTests.cs" />
+    <Compile Include="Handlers\CreateNewBasketOnOrderConfirmTests.cs" />
+    <Compile Include="Handlers\EmailOrderConfirmationOnOrderConfirmedTests.cs" />
     <Compile Include="IoCTests.cs" />
     <Compile Include="IoC\UrlBasedComponentSelectorTests.cs" />
     <Compile Include="Maps\BasketMapTests.cs" />

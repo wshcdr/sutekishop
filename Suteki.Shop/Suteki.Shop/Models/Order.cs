@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using Suteki.Common.Events;
 using Suteki.Common.Models;
+using Suteki.Shop.Events;
 using Suteki.Shop.Models.CustomDataAnnotations;
 using Suteki.Common.Extensions;
 
 namespace Suteki.Shop
 {
-    public class Order : IEntity
+    public class Order : IEntity, IAmOwnedBy
     {
         public virtual int Id { get; set; }
 
@@ -31,8 +33,8 @@ namespace Suteki.Shop
         public virtual Contact CardContact { get; set; }
         public virtual Contact DeliveryContact { get; set; }
         public virtual OrderStatus OrderStatus { get; set; }
-        public virtual User CreatedBy { get; set; }
         public virtual User User { get; set; }
+        public virtual User ModifiedBy { get; set; }
 
         private IList<OrderLine> orderLines = new List<OrderLine>();
 
@@ -63,9 +65,9 @@ namespace Suteki.Shop
         {
             get
             {
-                if (User != null)
+                if (ModifiedBy != null)
                 {
-                    return User.Email;
+                    return ModifiedBy.Email;
                 }
                 return "&nbsp;";
             }
@@ -131,6 +133,12 @@ namespace Suteki.Shop
             };
 
             OrderLines.Add(orderLine);
+        }
+
+        public virtual void Confirm()
+        {
+            OrderStatus = OrderStatus.Created;
+            DomainEvent.Raise(new OrderConfirmed(this));
         }
     }
 }
