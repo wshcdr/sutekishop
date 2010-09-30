@@ -125,19 +125,18 @@ namespace Suteki.Shop.Tests.Controllers
 		[Test]
 		public void ConfirmWithPost_UpdatesOrderStatus()
 		{
-			var order = new Order { Id = 5 };
+			var order = new Order { Id = 5, OrderStatus = OrderStatus.Pending };
 
-		    DomainEvent.RaiseAction = e => { };
+		    using(DomainEvent.TurnOff())
+		    {
+		        controller.Confirm(order)
+		            .ReturnsRedirectToRouteResult()
+		            .ToController("Order")
+		            .ToAction("Item")
+		            .WithRouteValue("id", "5");
 
-			controller.Confirm(order)
-				.ReturnsRedirectToRouteResult()
-				.ToController("Order")
-				.ToAction("Item")
-				.WithRouteValue("id", "5");
-
-		    order.OrderStatus.Id.ShouldEqual(OrderStatus.CreatedId);
-
-		    DomainEvent.RaiseAction = null;
+		        order.IsCreated.ShouldBeTrue();
+		    }
 		}
 
 	    [Test]
