@@ -137,8 +137,55 @@ namespace Suteki.Shop
 
         public virtual void Confirm()
         {
+            if (OrderStatus.Id != OrderStatus.PendingId)
+            {
+                throw new InvalidOperationException("Can only confirm when the order status is pending");
+            }
+
             OrderStatus = OrderStatus.Created;
             DomainEvent.Raise(new OrderConfirmed(this));
+        }
+
+        public virtual void Dispatch(User user)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException("user");
+            }
+            if (OrderStatus.Id != OrderStatus.CreatedId)
+            {
+                throw new InvalidOperationException("Can only dispatch when the order status is Created");
+            }
+
+            OrderStatus = OrderStatus.Dispatched;
+            DispatchedDate = DateTime.Now;
+            ModifiedBy = user;
+            DomainEvent.Raise(new OrderDispatched(this));
+        }
+
+        public virtual void Reject(User user)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException("user");
+            }
+            if (OrderStatus.Id != OrderStatus.CreatedId)
+            {
+                throw new InvalidOperationException("Can only reject when order status is Created");
+            }
+
+            OrderStatus = OrderStatus.Rejected;
+            ModifiedBy = user;
+        }
+
+        public virtual void ResetStatus()
+        {
+            if (!(OrderStatus.Id == OrderStatus.DispatchedId || OrderStatus.Id == OrderStatus.RejectedId))
+            {
+                throw new InvalidOperationException("Can only reset status when order status is dispatched or created");
+            }
+            OrderStatus = OrderStatus.Created;
+            ModifiedBy = null;
         }
     }
 }
