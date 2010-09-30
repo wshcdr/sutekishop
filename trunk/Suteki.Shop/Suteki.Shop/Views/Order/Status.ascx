@@ -14,10 +14,10 @@
 <div class="orderAction hideForPrint">
 <% if(ViewContext.HttpContext.User.IsAdministrator()) { %>
     <% if(ViewData.Model.Order.IsCreated) { %>
-        <%= Html.ActionLink<OrderStatusController>(c => c.Dispatch(ViewData.Model.Order.Id), "Dispatch (and send dispatch notification)", new { @class = "linkButton" })%>
-        <%= Html.ActionLink<OrderStatusController>(c => c.Reject(ViewData.Model.Order.Id), "Reject", new { @class = "linkButton" })%>
+        <% Html.PostAction<OrderStatusController>(c => c.Dispatch(Model.Order), "Dispatch"); %>
+        <% Html.PostAction<OrderStatusController>(c => c.Reject(Model.Order), "Reject"); %>
     <% } else { %>
-        <%= Html.ActionLink<OrderStatusController>(c => c.UndoStatus(ViewData.Model.Order.Id), "Reset Status", new { @class = "linkButton" })%>
+        <% Html.PostAction<OrderStatusController>(c => c.UndoStatus(Model.Order), "Reset Status"); %>
     <% } %>
     <%= Html.ActionLink<InvoiceController>(c => c.Show(ViewData.Model.Order.Id), "Print Invoice", new { @class = "linkButton" }) %>
 <% } %>

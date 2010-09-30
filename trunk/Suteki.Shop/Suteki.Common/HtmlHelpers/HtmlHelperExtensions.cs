@@ -143,6 +143,12 @@ namespace Suteki.Common.HtmlHelpers
         {
             return htmlHelper.With<IComboFor<TLookup, TModel>, TModel>(combo => combo.BoundTo(propertyExpression));
         }
+
+        public static void PostAction<TController>(this HtmlHelper htmlHelper, Expression<Action<TController>> action, string buttonText)
+        {
+            var postAction = new PostAction<TController>(htmlHelper, action, buttonText);
+            postAction.Render();
+        }
     }
 
     public interface IRequireHtmlHelper<TModel>

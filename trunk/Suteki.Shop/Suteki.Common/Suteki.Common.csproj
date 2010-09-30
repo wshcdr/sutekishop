@@ -161,6 +161,7 @@
     <Compile Include="HtmlHelpers\ComboFor.cs" />
     <Compile Include="HtmlHelpers\HtmlHelperExtensions.cs" />
     <Compile Include="HtmlHelpers\Pager.cs" />
+    <Compile Include="HtmlHelpers\PostAction.cs" />
     <Compile Include="HtmlHelpers\RequestExtensions.cs" />
     <Compile Include="Models\Money.cs" />
     <Compile Include="NHibernate\BaseImmutableUserType.cs" />
