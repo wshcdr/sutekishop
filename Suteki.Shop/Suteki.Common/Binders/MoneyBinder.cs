@@ -22,7 +22,7 @@ namespace Suteki.Common.Binders
                 var decimalValue = (decimal)valueProviderResult.ConvertTo(typeof(decimal));
                 return new Money(decimalValue);
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 bindingContext.ModelState.AddModelError(bindingContext.ModelName, "Not a valid price.");
                 return null;

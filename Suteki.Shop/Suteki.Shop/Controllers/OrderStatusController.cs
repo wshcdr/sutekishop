@@ -13,12 +13,10 @@ namespace Suteki.Shop.Controllers
 	{
 		readonly IRepository<Order> orderRepository;
 		readonly IUserService userService;
-		readonly IEmailService emailService;
 
-		public OrderStatusController(IRepository<Order> orderRepository, IUserService userService, IEmailService emailService)
+		public OrderStatusController(IRepository<Order> orderRepository, IUserService userService)
 		{
 			this.orderRepository = orderRepository;
-			this.emailService = emailService;
 			this.userService = userService;
 		}
 
@@ -29,11 +27,7 @@ namespace Suteki.Shop.Controllers
 
 			if (order.IsCreated)
 			{
-				order.OrderStatus = OrderStatus.Dispatched;
-				order.DispatchedDate = DateTime.Now;
-				order.ModifiedBy = userService.CurrentUser;
-
-				emailService.SendDispatchNotification(order);
+                order.Dispatch(userService.CurrentUser);
 			}
 
 			return this.RedirectToAction<OrderController>(c => c.Item(order.Id));
@@ -46,8 +40,7 @@ namespace Suteki.Shop.Controllers
 
 			if (order.IsCreated)
 			{
-				order.OrderStatus = OrderStatus.Rejected;
-				order.ModifiedBy = userService.CurrentUser;
+                order.Reject(userService.CurrentUser);
 			}
 
 			return this.RedirectToAction<OrderController>(c => c.Item(order.Id));
@@ -60,8 +53,7 @@ namespace Suteki.Shop.Controllers
 
 			if (order.IsDispatched || order.IsRejected)
 			{
-				order.OrderStatus = OrderStatus.Created;
-				order.ModifiedBy = null;
+				order.ResetStatus();
 			}
 
 			return this.RedirectToAction<OrderController>(c => c.Item(order.Id));

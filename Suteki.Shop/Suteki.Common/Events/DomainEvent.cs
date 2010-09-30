@@ -53,5 +53,32 @@ namespace Suteki.Common.Events
             }
             return accessor.Container;
         }
+
+        // test helpers
+
+        public static DomainEventReset TurnOff()
+        {
+            RaiseAction = e => { };
+            return new DomainEventReset();
+        }
+
+        public static DomainEventReset TestWith(Action<IDomainEvent> raiseAction)
+        {
+            RaiseAction = raiseAction;
+            return new DomainEventReset();
+        }
+
+        public static void Reset()
+        {
+            RaiseAction = null;
+        }
+    }
+
+    public class DomainEventReset : IDisposable
+    {
+        public void Dispose()
+        {
+            DomainEvent.Reset();
+        }
     }
 }

@@ -188,6 +188,7 @@
     <Compile Include="Handlers\AddToMailingListOnOrderConfirmedTests.cs" />
     <Compile Include="Handlers\CreateNewBasketOnOrderConfirmTests.cs" />
     <Compile Include="Handlers\EmailOrderConfirmationOnOrderConfirmedTests.cs" />
+    <Compile Include="Handlers\EmailOrderDispatchOnOrderDispatchTests.cs" />
     <Compile Include="IoCTests.cs" />
     <Compile Include="IoC\UrlBasedComponentSelectorTests.cs" />
     <Compile Include="Maps\BasketMapTests.cs" />

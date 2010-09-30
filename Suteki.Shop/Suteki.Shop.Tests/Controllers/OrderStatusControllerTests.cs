@@ -1,6 +1,7 @@
 using System;
 using NUnit.Framework;
 using Rhino.Mocks;
+using Suteki.Common.Events;
 using Suteki.Common.Repositories;
 using Suteki.Shop.Controllers;
 using Suteki.Shop.Services;
@@ -13,14 +14,13 @@ namespace Suteki.Shop.Tests.Controllers
 		OrderStatusController controller;
 		IUserService userService;
 		IRepository<Order> repository;
-		IEmailService emailService;
-		[SetUp]
+
+        [SetUp]
 		public void Setup()
 		{
 			userService = MockRepository.GenerateStub<IUserService>();
 			repository = MockRepository.GenerateStub<IRepository<Order>>();
-			emailService = MockRepository.GenerateStub<IEmailService>();
-			controller = new OrderStatusController(repository, userService, emailService);
+			controller = new OrderStatusController(repository, userService);
 
 			userService.Expect(x => x.CurrentUser).Return(new User { Id = 4 });
 		}
@@ -29,33 +29,32 @@ namespace Suteki.Shop.Tests.Controllers
 		[Test]
 		public void Dispatch_ShouldChangeOrderStatusAndDispatchedDate()
 		{
-			const int orderId = 44;
-			var order = new Order
-			{
-				Id = orderId,
-				OrderStatus = OrderStatus.Created
-			};
+            using (DomainEvent.TurnOff())
+            {
+                const int orderId = 44;
+                var order = new Order
+                {
+                    Id = orderId,
+                    OrderStatus = OrderStatus.Created
+                };
 
-			repository.Expect(or => or.GetById(orderId)).Return(order);
+                repository.Expect(or => or.GetById(orderId)).Return(order);
 
-			controller.Dispatch(orderId);
+                controller.Dispatch(orderId);
 
-			order.IsDispatched.ShouldBeTrue();
-			order.DispatchedDateAsString.ShouldEqual(DateTime.Now.ToShortDateString());
-			order.ModifiedBy.Id.ShouldEqual(4);
+                order.IsDispatched.ShouldBeTrue();
+            }
 		}
 
-		[Test]
-		public void Dispatch_SendsDispatchEmail()
-		{
-			const int orderId = 44;
-			var order = new Order { OrderStatus = OrderStatus.Created };
-
-			repository.Expect(x => x.GetById(orderId)).Return(order);
-			controller.Dispatch(orderId);
-
-			emailService.AssertWasCalled(x => x.SendDispatchNotification(order));
-		}
+	    [Test]
+	    public void Reject_should_change_order_status_to_rejected()
+	    {
+	        const int orderId = 32;
+	        var order = new Order {OrderStatus = OrderStatus.Created};
+	        repository.Stub(r => r.GetById(orderId)).Return(order);
+	        controller.Reject(orderId);
+            order.IsRejected.ShouldBeTrue();
+	    }
 
 		[Test]
 		public void UndoStatus_ShouldChangeOrderStatusToCreated()

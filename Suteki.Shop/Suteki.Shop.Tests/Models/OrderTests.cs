@@ -73,31 +73,89 @@ namespace Suteki.Shop.Tests.Models
         [Test]
         public void Confirm_should_change_status_to_Created()
         {
-            DomainEvent.RaiseAction = e => { };
-            var order = new Order
+            using (DomainEvent.TurnOff())
             {
-                OrderStatus = OrderStatus.Pending
-            };
+                var order = new Order
+                {
+                    OrderStatus = OrderStatus.Pending
+                };
 
-            order.Confirm();
+                order.Confirm();
 
-            order.OrderStatus.Id.ShouldEqual(OrderStatus.CreatedId);
-            DomainEvent.RaiseAction = null;
+                order.IsCreated.ShouldBeTrue();
+            }
         }
 
         [Test]
         public void Confirm_should_raise_OrderConfirmed_event()
         {
             OrderConfirmed orderConfirmed = null;
-            DomainEvent.RaiseAction = e => orderConfirmed = e as OrderConfirmed;
+            using(DomainEvent.TestWith(e => orderConfirmed = e as OrderConfirmed))
+            {
+                var order = new Order {OrderStatus = OrderStatus.Pending};
+                order.Confirm();
 
-            var order = new Order();
-            order.Confirm();
+                orderConfirmed.ShouldNotBeNull();
+                orderConfirmed.Order.ShouldBeTheSameAs(order);
+            }
+        }
 
-            orderConfirmed.ShouldNotBeNull();
-            orderConfirmed.Order.ShouldBeTheSameAs(order);
+        [Test]
+        public void Dispatch_should_change_status_to_Dispatched()
+        {
+            using (DomainEvent.TurnOff())
+            {
+                var order = new Order
+                {
+                    OrderStatus = OrderStatus.Created
+                };
+                var user = new User();
 
-            DomainEvent.RaiseAction = null;
+                order.Dispatch(user);
+                order.IsDispatched.ShouldBeTrue();
+                order.DispatchedDate.Date.ShouldEqual(DateTime.Now.Date);
+                order.ModifiedBy.ShouldBeTheSameAs(user);
+            }
+        }
+
+        [Test]
+        public void Dispatch_should_raise_OrderDispatched_event()
+        {
+            OrderDispatched orderDispatched = null;
+            using (DomainEvent.TestWith(e => orderDispatched = e as OrderDispatched))
+            {
+                var order = new Order {OrderStatus = OrderStatus.Created};
+
+                order.Dispatch(new User());
+
+                orderDispatched.ShouldNotBeNull();
+                orderDispatched.Order.ShouldBeTheSameAs(order);
+            }
+        }
+
+        [Test]
+        public void Reject_should_change_status_to_rejected()
+        {
+            var order = new Order {OrderStatus = OrderStatus.Created};
+            var user = new User();
+
+            order.Reject(user);
+
+            order.IsRejected.ShouldBeTrue();
+            order.ModifiedBy.ShouldBeTheSameAs(user);
+        }
+
+        [Test]
+        public void UndoStatus_should_change_status_to_created()
+        {
+            var order = new Order
+            {
+                OrderStatus = OrderStatus.Dispatched,
+                ModifiedBy = new User()
+            };
+            order.ResetStatus();
+            order.IsCreated.ShouldBeTrue();
+            order.ModifiedBy.ShouldBeNull();
         }
     }
 }
