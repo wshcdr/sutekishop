@@ -1,6 +1,7 @@
 using System;
 using System.Web.Mvc;
 using Suteki.Common.Extensions;
+using Suteki.Common.Models;
 using Suteki.Common.Repositories;
 
 namespace Suteki.Common.Binders
@@ -40,13 +41,13 @@ namespace Suteki.Common.Binders
             if (modelType.IsEntity() && FetchFromRepository)
             {
                 var id = GetIdFromValueProvider(bindingContext, modelType);
-                if (id != 0)
+                if (id.HasValue && id.Value != 0)
                 {
                     var repository = repositoryResolver.GetRepository(modelType);
                     object entity;
                     try
                     {
-                        entity = repository.GetById(id);
+                        entity = repository.GetById(id.Value);
                     }
                     finally
                     {
@@ -60,18 +61,40 @@ namespace Suteki.Common.Binders
             return base.CreateModel(controllerContext, bindingContext, modelType);
         }
 
-        private static int GetIdFromValueProvider(ModelBindingContext bindingContext, Type modelType)
+        protected override object GetPropertyValue(
+            ControllerContext controllerContext, 
+            ModelBindingContext bindingContext, 
+            System.ComponentModel.PropertyDescriptor propertyDescriptor, 
+            IModelBinder propertyBinder)
+        {
+            // any child entity property which has been changed, needs to be retrieved by calling CreateModel, 
+            // we can force BindComplexModel (in DefaultModelBinder) do this by
+            // setting the bindingContext.ModelMetadata.Model to null
+            var entity = bindingContext.ModelMetadata.Model as IEntity;
+            if (entity != null)
+            {
+                var id = GetIdFromValueProvider(bindingContext, bindingContext.ModelType);
+                if (id.HasValue && id.Value != entity.Id)
+                {
+                    bindingContext.ModelMetadata.Model = null;
+                }
+            }
+            return base.GetPropertyValue(controllerContext, bindingContext, propertyDescriptor, propertyBinder);
+        }
+
+
+        private static int? GetIdFromValueProvider(ModelBindingContext bindingContext, Type modelType)
         {
             var fullPropertyKey = CreateSubPropertyName(bindingContext.ModelName, modelType.GetPrimaryKey().Name);
             if (!bindingContext.ValueProvider.ContainsPrefix(fullPropertyKey))
             {
-                return 0;
+                return null;
             }
 
             var result = bindingContext.ValueProvider.GetValue(fullPropertyKey);
-            if (result == null) return 0;
+            if (result == null) return null;
             var idAsObject = result.ConvertTo(typeof (Int32));
-            if (idAsObject == null) return 0;
+            if (idAsObject == null) return null;
             return (int) idAsObject;
         }
 
