@@ -16,6 +16,7 @@ namespace Suteki.Shop.Database
         private const string checkExistsSql = "select * from sysdatabases where name = '{0}'";
         private const string connectionStringTemplate = "Data Source={0};Initial Catalog=master;{1}";
         private const string connectionStringKey = "connection.connection_string";
+        private string connectionString;
 
         public DatabaseManager(Configuration configuration)
         {
@@ -61,9 +62,13 @@ namespace Suteki.Shop.Database
 
         public string GetConnectionString()
         {
+            if (connectionString != null) return connectionString;
+
             if (configuration.Properties.ContainsKey(connectionStringKey))
             {
-                return configuration.Properties[connectionStringKey];
+                connectionString = configuration.Properties[connectionStringKey];
+                Console.Out.WriteLine("connectionString = '{0}'", connectionString);
+                return connectionString;
             }
             throw new DatabaseCreationException(string.Format("NHibernate configuration, property: '{0}' is not set.",
                                                               connectionStringKey));
@@ -91,7 +96,7 @@ namespace Suteki.Shop.Database
 
         private static string ValueFromKey(string connectionString, string key)
         {
-            var match = Regex.Match(connectionString, string.Format(@"{0}=(\w+);", key));
+            var match = Regex.Match(connectionString, string.Format(@"{0}=([\w\\\(\)]+);", key));
             if (!match.Success)
             {
                 throw new DatabaseCreationException(string.Format("Could not find '{0}' in connection string", key));
