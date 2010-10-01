@@ -152,9 +152,9 @@
 	<td></td>
 </tr>
 <tr>
-	<td>assertText</td>
-	<td>//div[@id='mainContent']/div/div[2]/table/tbody/tr[6]/td[5]</td>
+	<td>verifyTextPresent</td>
 	<td>£460.00</td>
+	<td></td>
 </tr>
 <tr>
 	<td>verifyTextPresent</td>
@@ -177,13 +177,8 @@
 	<td></td>
 </tr>
 <tr>
-	<td>assertText</td>
-	<td>//div[@id='mainContent']/div/div[2]/table/tbody/tr[6]/td[5]</td>
-	<td>£460.00</td>
-</tr>
-<tr>
 	<td>verifyTextPresent</td>
-	<td>Mike</td>
+	<td>£460.00</td>
 	<td></td>
 </tr>
 <tr>

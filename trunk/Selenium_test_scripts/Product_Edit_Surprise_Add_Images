@@ -44,17 +44,17 @@
 <tr>
 	<td>type</td>
 	<td>image_0</td>
-	<td>E:\Source\sutekishop\Selenium_test_scripts\Images\surprise1.jpg</td>
+	<td>${projectDir}\Images\surprise1.jpg</td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>image_1</td>
-	<td>E:\Source\sutekishop\Selenium_test_scripts\Images\surprise2.jpg</td>
+	<td>${projectDir}\Images\surprise2.jpg</td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>image_2</td>
-	<td>E:\Source\sutekishop\Selenium_test_scripts\Images\surprise3.jpg</td>
+	<td>${projectDir}\Images\surprise3.jpg</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
