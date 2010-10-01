@@ -53,7 +53,7 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Dispatch (and send dispatch notification)</td>
+	<td>//input[@value='Dispatch']</td>
 	<td></td>
 </tr>
 <tr>
@@ -63,7 +63,7 @@
 </tr>
 <tr>
 	<td>verifyTextPresent</td>
-	<td>Hadlow </td>
+	<td>Hadlow</td>
 	<td></td>
 </tr>
 <tr>
@@ -73,7 +73,7 @@
 </tr>
 <tr>
 	<td>verifyTextPresent</td>
-	<td>Hove </td>
+	<td>Hove</td>
 	<td></td>
 </tr>
 <tr>
