@@ -14,7 +14,7 @@ namespace Suteki.Shop.Maps
             Map(x => x.PayByTelephone);
             Map(x => x.CreatedDate);
             Map(x => x.DispatchedDate);
-            Map(x => x.Note);
+            Map(x => x.Note).Text();
             Map(x => x.ContactMe);
 
             References(x => x.Card).Cascade.All();

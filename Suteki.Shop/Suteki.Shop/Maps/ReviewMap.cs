@@ -9,7 +9,7 @@ namespace Suteki.Shop.Maps
             Id(x => x.Id);
 
             Map(x => x.Approved);
-            Map(x => x.Text);
+            Map(x => x.Text).Text();
             Map(x => x.Rating);
             Map(x => x.Reviewer);
 
