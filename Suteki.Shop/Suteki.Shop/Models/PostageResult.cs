@@ -8,22 +8,25 @@ namespace Suteki.Shop
         public virtual bool Phone { get; set; }
         public virtual string Description { get; set; }
 
-        public static PostageResult WithPhone { get { return new PostageResult { Phone = true }; } }
+        public static PostageResult WithPhone(string description)
+        {
+            return new PostageResult { Phone = true, Description = description };
+        } 
         
         public static PostageResult WithPrice(Money price, string description)
         {
             return new PostageResult { Phone = false, Price = price, Description = description };
         }
 
-        public static PostageResult WithDefault(PostZone postZone)
+        public static PostageResult WithDefault(PostZone postZone, string description)
         {
             if (postZone.AskIfMaxWeight)
             {
-                return WithPhone;
+                return WithPhone(description);
             }
             else
             {
-                return WithPrice(postZone.FlatRate, string.Empty);
+                return WithPrice(postZone.FlatRate, description);
             }
         }
     }

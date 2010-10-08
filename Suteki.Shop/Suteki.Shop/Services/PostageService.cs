@@ -33,12 +33,14 @@ namespace Suteki.Shop.Services
                 .OrderBy(p => p.MaxWeight)
                 .FirstOrDefault();
 
-            if (postageToApply == null) return PostageResult.WithDefault(postZone);
+            var postageDescription = string.Format("for {0}", basket.Country.Name);
+
+            if (postageToApply == null) return PostageResult.WithDefault(postZone, postageDescription);
 
             var multiplier = postZone.Multiplier;
             var total = new Money(Math.Round(postageToApply.Price.Amount * multiplier, 2, MidpointRounding.AwayFromZero));
 
-            return PostageResult.WithPrice(total, string.Format("for {0}", basket.Country.Name));
+            return PostageResult.WithPrice(total, postageDescription);
         }
     }
 }
