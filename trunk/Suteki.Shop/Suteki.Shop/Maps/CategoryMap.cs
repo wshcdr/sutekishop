@@ -13,7 +13,7 @@ namespace Suteki.Shop.Maps
             Map(x => x.IsActive);
 
             References(x => x.Parent);
-            References(x => x.Image);
+            References(x => x.Image).Cascade.SaveUpdate();
             
             HasMany(x => x.Categories).KeyColumn("ParentId").Cascade.AllDeleteOrphan().Inverse();
             HasMany(x => x.ProductCategories);

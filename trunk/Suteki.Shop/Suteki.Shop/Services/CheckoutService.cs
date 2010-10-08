@@ -67,7 +67,7 @@ namespace Suteki.Shop.Services
         {
             foreach (var basketItem in basket.BasketItems)
             {
-                var productName = basketItem.Size.Product.Name + " - " + basketItem.Size.Name;
+                var productName = basketItem.Size.Product.Name + (basketItem.Size.Name == "-" ? "" : " - " + basketItem.Size.Name);
                 order.AddLine(
                     productName,
                     basketItem.Quantity,

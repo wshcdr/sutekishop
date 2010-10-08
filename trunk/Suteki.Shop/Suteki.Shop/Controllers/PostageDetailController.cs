@@ -37,7 +37,7 @@ namespace Suteki.Shop.Controllers
             };
         }
 
-        [HttpGet, UnitOfWork, ChildActionOnly]
+        [UnitOfWork, ChildActionOnly]
         public ViewResult ReadOnly(int id)
         {
             return View("ReadOnly", BuildViewData(id));
