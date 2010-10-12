@@ -21,13 +21,15 @@ namespace Suteki.Shop.Tests.Models
             const string itemName = "Large Black Mac";
             const int quantity = 4;
             var price = new Money(23.45M);
+            const string urlName = "Large_Black_Mac";
 
-            order.AddLine(itemName, quantity, price);
+            order.AddLine(itemName, quantity, price, urlName);
 
             order.OrderLines[0].ProductName.ShouldEqual("Large Black Mac");
             order.OrderLines[0].Quantity.ShouldEqual(4);
             order.OrderLines[0].Price.Amount.ShouldEqual(23.45M);
             order.OrderLines[0].Order.ShouldBeTheSameAs(order);
+            order.OrderLines[0].ProductUrlName.ShouldEqual(urlName);
         }
     }
 }

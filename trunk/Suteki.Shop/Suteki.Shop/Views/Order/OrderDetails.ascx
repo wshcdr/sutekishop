@@ -13,7 +13,7 @@
        { %>
     
     <tr>
-        <td><%= orderLine.ProductName %></td>
+        <td><%= Html.ActionLink<ProductController>(c => c.Item(orderLine.ProductUrlName), orderLine.ProductName) %></td>
         <td class="number"><%= orderLine.Quantity%></td>
         <td class="number"><%= orderLine.Price.ToStringWithSymbol()%></td>
         <td class="number"><%= orderLine.Total.ToStringWithSymbol()%></td>

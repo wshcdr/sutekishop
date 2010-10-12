@@ -71,7 +71,8 @@ namespace Suteki.Shop.Services
                 order.AddLine(
                     productName,
                     basketItem.Quantity,
-                    basketItem.Size.Product.Price);
+                    basketItem.Size.Product.Price,
+                    basketItem.Size.Product.UrlName);
             }
         }
 

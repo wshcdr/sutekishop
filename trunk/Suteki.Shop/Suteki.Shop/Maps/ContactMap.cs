@@ -19,9 +19,6 @@ namespace Suteki.Shop.Maps
             Map(x => x.County);
 
             References(x => x.Country);
-
-            HasMany(x => x.Orders);
-            HasMany(x => x.Orders1);
         }
     }
 }

@@ -71,6 +71,7 @@ namespace Suteki.Shop.Tests.Services
                 orderLine.Price.ShouldEqual(basketItem.Size.Product.Price);
                 orderLine.Quantity.ShouldEqual(basketItem.Quantity);
                 orderLine.Total.ShouldEqual(basketItem.Total);
+                orderLine.ProductUrlName.ShouldEqual(basketItem.Size.Product.UrlName);
             }
         }
 
