@@ -8,7 +8,8 @@ namespace Suteki.Shop.Maps
         {
             Id(x => x.Id);
 
-            Map(x => x.ProductName);
+            Map(x => x.ProductName).Length(510);
+            Map(x => x.ProductUrlName);
             Map(x => x.Quantity);
             Map(x => x.Price);
 

@@ -52,20 +52,6 @@ namespace Suteki.Shop
 
         public virtual Country Country { get; set; }
 
-        IList<Order> orders = new List<Order>();
-        public virtual IList<Order> Orders
-        {
-            get { return orders; }
-            set { orders = value; }
-        }
-
-        IList<Order> orders1 = new List<Order>();
-        public virtual IList<Order> Orders1
-        {
-            get { return orders1; }
-            set { orders1 = value; }
-        }
-
         public virtual string Fullname
         {
             get

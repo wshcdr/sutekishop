@@ -113,7 +113,7 @@ namespace Suteki.Shop
             }
         }
 
-        public virtual void AddLine(string productName, int quantity, Money price)
+        public virtual void AddLine(string productName, int quantity, Money price, string productUrlName)
         {
             if (productName == null)
             {
@@ -123,13 +123,18 @@ namespace Suteki.Shop
             {
                 throw new ArgumentException("quantity can not be zero");
             }
+            if (productUrlName == null)
+            {
+                throw new ArgumentNullException("productUrlName");
+            }
 
             var orderLine = new OrderLine
             {
                 ProductName = productName,
                 Quantity = quantity,
                 Price = price,
-                Order = this
+                Order = this,
+                ProductUrlName = productUrlName
             };
 
             OrderLines.Add(orderLine);
