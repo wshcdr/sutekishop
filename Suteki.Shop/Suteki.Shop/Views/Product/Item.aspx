@@ -17,8 +17,10 @@ function onThumbnailClick(img)
 <h1><%= Html.Encode(ViewData.Model.Product.Name) %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= ViewData.Model.Product.Price.ToStringWithSymbol()%><%= ViewData.Model.Product.IsActiveAsString %></h1>
 
 <% if(User.IsAdministrator()) { %>
-    <p><%= Html.ActionLink<ProductController>(c => c.Edit(ViewData.Model.Product.Id), "Edit") %></p>
-<% } %>
+    <%= Html.ActionLink<ProductController>(c => c.Edit(ViewData.Model.Product.Id), "Edit", new { @class = "linkButton" })%>
+    <% Html.PostAction<ProductCopyController>(c => c.Copy(ViewData.Model.Product), "Copy");%>
+<%
+} %>
 
 <% Html.RenderPartial("ProductDescription", Model.Product); %>
 <% Html.RenderPartial("BasketOptions", Model.Product); %>
