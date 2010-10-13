@@ -33,4 +33,5 @@ function onThumbnailClick(img)
 
 <% Html.RenderAction<ReviewsController>(c => c.Show(Model.Product.Id)); %>
 
+<% if(User.IsAdministrator()) Html.RenderAction<StockController>(c => c.ProductStock(Model.Product)); %>
 </asp:Content>

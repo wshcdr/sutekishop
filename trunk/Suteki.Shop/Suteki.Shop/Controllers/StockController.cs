@@ -15,14 +15,17 @@ namespace Suteki.Shop.Controllers
 	[AdministratorsOnly]
     public class StockController : ControllerBase
     {
-        IRepository<Category> categoryRepository;
-        IRepository<Size> sizeRepository;
+	    readonly IRepository<Category> categoryRepository;
+	    readonly IRepository<Size> sizeRepository;
+	    readonly IRepository<Product> productRepository;
 
         public StockController(
             IRepository<Category> categoryRepository,
-            IRepository<Size> sizeRepository)
+            IRepository<Size> sizeRepository, 
+            IRepository<Product> productRepository)
         {
             this.categoryRepository = categoryRepository;
+            this.productRepository = productRepository;
             this.sizeRepository = sizeRepository;
         }
 
@@ -55,5 +58,38 @@ namespace Suteki.Shop.Controllers
                 }
             }
         }
+
+        [ChildActionOnly]
+	    public ActionResult ProductStock(Product product)
+        {
+            return View("ProductStock", product);
+        }
+
+        // nasty hack until I can get the ModelBinder to understand collections properly
+        [HttpPost, UnitOfWork]
+        public ActionResult ProductStockUpdate(FormCollection form)
+        {
+            int id;
+            if(!int.TryParse(form["Id"], out id))
+            {
+                throw new ApplicationException("could not find 'Id' in post values");
+            }
+
+            var product = productRepository.GetById(id);
+            for (var i = 0; i < product.Sizes.Count; i++)
+            {
+                var key = string.Format("Sizes[{0}].IsInStock", i);
+                var value = form[key];
+                if(string.IsNullOrEmpty(value)) continue;
+                product.Sizes[i].IsInStock = GetValueAsBool(value);
+            }
+
+            return RedirectToAction("Item", "Product", new { urlName = product.UrlName });
+        }
+
+	    public static bool GetValueAsBool(string value)
+	    {
+	        return value.Split(',').Select(s => bool.Parse(s)).Aggregate(false, (a, b) => a | b);
+	    }
     }
 }
