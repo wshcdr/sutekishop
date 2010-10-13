@@ -3,7 +3,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
 	<h1>Review your Details then Place Order</h1>
 	<p>When you are happy that your Order Details are correct, please press the 'Place Order' button.</p>
-	
+	<p><a href="javascript:javascript:history.go(-1)" class="linkButton">Go Back</a></p>
+
     <% Html.RenderPartial("~/Views/Order/OrderDetails.ascx"); %>
 
 	<% Html.RenderPartial("~/Views/Order/CustomerDetails.ascx"); %>
