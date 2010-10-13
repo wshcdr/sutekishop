@@ -192,6 +192,7 @@
     <Compile Include="Controllers\PostageDetailController.cs" />
     <Compile Include="Controllers\PostZoneController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ProductCopyController.cs" />
     <Compile Include="Controllers\ProductImageController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\ReviewsController.cs" />
@@ -327,10 +328,12 @@
     <Compile Include="Services\ImageFileService.cs" />
     <Compile Include="Services\ImageService.cs" />
     <Compile Include="Services\IPostageService.cs" />
+    <Compile Include="Services\IProductCopyService.cs" />
     <Compile Include="Services\ISizeService.cs" />
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\OrderSearchService.cs" />
     <Compile Include="Services\PostageService.cs" />
+    <Compile Include="Services\ProductCopyService.cs" />
     <Compile Include="Services\SizeService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="ViewData\CategoryViewData.cs" />

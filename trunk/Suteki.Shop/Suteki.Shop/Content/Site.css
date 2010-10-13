@@ -617,6 +617,7 @@ input[type=button]
 	text-decoration: none;
 	display: inline;
 	padding: 2px 5px 2px 5px;
+	margin: 0 0 0 0;
 	width: auto;
 	color: #514E5C;
 	background: #CBC9CE;
@@ -650,6 +651,24 @@ textarea
 {
 	
 }
+
+input[type=submit].postAction
+{
+    display: inline;
+    margin: 0 0 0 0;
+    width: auto;
+    padding: 2px 5px;
+}
+input[type=submit].postAction:hover
+{
+    color: White;
+}
+form.postAction
+{
+    display: inline;
+    margin: 0 0 0 0;
+}
+
 
 /*----------------------------------- cross and tick -------------------------------------*/
 

@@ -37,10 +37,10 @@ namespace Suteki.Common.HtmlHelpers
 
             var controllerName = controllerTypeName.Substring(0, controllerTypeName.Length - controllerString.Length);
 
-            using(htmlHelper.BeginForm(expressionDetails.MethodName, controllerName))
+            using (htmlHelper.BeginForm(expressionDetails.MethodName, controllerName, FormMethod.Post, new { @class = "postAction" }))
             {
                 htmlHelper.ViewContext.Writer.Write(htmlHelper.Hidden("Id", expressionDetails.IdValue));
-                htmlHelper.ViewContext.Writer.Write("<input type=\"submit\" value=\"" + buttonText + "\" />");
+                htmlHelper.ViewContext.Writer.Write("<input type=\"submit\" value=\"" + buttonText + "\" class=\"postAction\" />");
 
             }
         }
