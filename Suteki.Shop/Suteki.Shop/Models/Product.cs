@@ -40,28 +40,28 @@ namespace Suteki.Shop
         public virtual IList<ProductImage> ProductImages
         {
             get { return productImages; }
-            set { productImages = value; }
+            protected set { productImages = value; }
         }
 
         IList<Size> sizes = new List<Size>();
         public virtual IList<Size> Sizes
         {
             get { return sizes; }
-            set { sizes = value; }
+            protected set { sizes = value; }
         }
 
         IList<ProductCategory> productCategories = new List<ProductCategory>();
         public virtual IList<ProductCategory> ProductCategories
         {
             get { return productCategories; }
-            set { productCategories = value; }
+            protected set { productCategories = value; }
         }
 
         IList<Review> reviews = new List<Review>();
         public virtual IList<Review> Reviews
         {
             get { return reviews; }
-            set { reviews = value; }
+            protected set { reviews = value; }
         }
 
         public virtual void AddSize(Size size)
