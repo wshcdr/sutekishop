@@ -13,4 +13,5 @@
 	</div>
 
 	<p><%= Model.Description %></p>
+    <p><a href="mailto:?subject=Check out this Jump the Gun product: <%= Model.Name %>&body=<%= "http://" + Request.Url.Host + Url.Action("Item", new{ urlName = Model.UrlName }) %>">Email to a friend</a></p>
 </div>
