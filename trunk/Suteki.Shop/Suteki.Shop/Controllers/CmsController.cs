@@ -70,6 +70,13 @@ namespace Suteki.Shop.Controllers
 			return View("SubPage", CmsView.Data.WithContent(content));
 		}
 
+        // allow site root head requests
+        [AcceptVerbs(HttpVerbs.Head)]
+	    public ActionResult Index()
+        {
+            return Content("");
+        }
+
 		[AdministratorsOnly]
         [HttpGet, UnitOfWork]
         public ActionResult Add(int id)
