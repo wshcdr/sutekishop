@@ -1,5 +1,3 @@
-using System;
-using NHibernate;
 using NHibernate.Cfg;
 using Suteki.Common.Extensions;
 

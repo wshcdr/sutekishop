@@ -113,6 +113,18 @@ namespace Suteki.Shop.Database
                 Position = 5,
                 IsActive = true
             };
+            session.Save(mailingList);
+
+            var customerReviews = new ActionContent
+            {
+                Name = "Reviews",
+                Controller = "Reviews",
+                Action = "AllApproved",
+                ParentContent = mainMenu,
+                Position = 6,
+                IsActive = true
+            };
+            session.Save(customerReviews);
         }
 
         public static void InsertPostZoneAndCountry(ISession session)
