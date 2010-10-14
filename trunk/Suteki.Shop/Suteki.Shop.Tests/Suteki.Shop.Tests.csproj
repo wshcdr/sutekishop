@@ -153,6 +153,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Version.cs">
+      <Link>Version.cs</Link>
+    </Compile>
     <Compile Include="ActionResults\RedirectToReferrerTests.cs" />
     <Compile Include="Binders\CurrentBasketBinderTester.cs" />
     <Compile Include="Binders\MailingListSubscriptionBinderTester.cs" />

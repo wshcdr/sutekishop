@@ -35,7 +35,7 @@ namespace Suteki.Shop.Tests.Controllers
         {
             const int productId = 5;
             const int copiedId = 7;
-            var originalProduct = new Product();
+            var originalProduct = new Product { Id = productId };
             var copiedProduct = new Product();
 
             productCopyService.Stub(s => s.Copy(originalProduct)).Return(copiedProduct);

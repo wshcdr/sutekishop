@@ -170,6 +170,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Version.cs">
+      <Link>Version.cs</Link>
+    </Compile>
     <Compile Include="ActionResults\RedirectToReferrerResult.cs" />
     <Compile Include="Binders\CurrentBasketBinder.cs" />
     <Compile Include="Binders\MailingListSubscriptionBinder.cs" />
