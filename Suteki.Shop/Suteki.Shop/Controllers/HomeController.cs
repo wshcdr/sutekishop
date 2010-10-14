@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Web.Mvc;
 using Suteki.Common.Repositories;
 using Suteki.Shop.Repositories;
@@ -26,6 +27,13 @@ namespace Suteki.Shop.Controllers
         public ActionResult Error()
         {
             throw new ApplicationException("This error was thrown!");
+        }
+
+        public ActionResult Version()
+        {
+            var version = Assembly.GetExecutingAssembly().GetName().Version;
+            var versionMessage = string.Format("Suteki Shop. Version {0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.MinorRevision);
+            return Content(versionMessage);
         }
     }
 }
