@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Web.Mvc;
 using Suteki.Common.Binders;
@@ -5,7 +6,6 @@ using Suteki.Common.Filters;
 using Suteki.Common.Repositories;
 using Suteki.Shop.ActionResults;
 using Suteki.Shop.Filters;
-using Suteki.Shop.Models;
 using Suteki.Shop.Repositories;
 using Suteki.Shop.ViewData;
 using MvcContrib;
@@ -97,5 +97,12 @@ namespace Suteki.Shop.Controllers
 
 			return new RedirectToReferrerResult();
 		}
+
+        [HttpGet, UnitOfWork]
+	    public ActionResult AllApproved()
+        {
+            var reviews = reviewRepository.GetAll().Approved().OrderByDescending(r => r.Id).ToList();
+            return View("AllApproved", reviews);
+        }
 	}
 }

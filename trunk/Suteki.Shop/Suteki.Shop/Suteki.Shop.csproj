@@ -381,6 +381,7 @@
     <Content Include="Views\PostageDetail\Index.ascx" />
     <Content Include="Views\PostageDetail\ReadOnly.ascx" />
     <Content Include="Views\Product\ItemNotAvailable.aspx" />
+    <Content Include="Views\Reviews\AllApproved.aspx" />
     <Content Include="Views\Stock\ProductStock.ascx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

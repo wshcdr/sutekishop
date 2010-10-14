@@ -1,3 +1,5 @@
+// ReSharper disable InconsistentNaming
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Rhino.Mocks;
@@ -119,5 +121,16 @@ namespace Suteki.Shop.Tests.Controllers
 
 			repository.AssertWasCalled(x => x.DeleteOnSubmit(review));
 		}
+
+	    [Test]
+	    public void AllApproved_shows_all_reviews()
+	    {
+	        controller.AllApproved()
+	            .ReturnsViewResult()
+	            .ForView("AllApproved")
+	            .WithModel<IEnumerable<Review>>()
+	            .AssertAreEqual(3, vd => vd.Count());
+	    }
 	}
 }
+// ReSharper restore InconsistentNaming
