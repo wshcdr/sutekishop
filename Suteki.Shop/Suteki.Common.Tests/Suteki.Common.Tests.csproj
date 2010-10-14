@@ -130,6 +130,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Version.cs">
+      <Link>Version.cs</Link>
+    </Compile>
     <Compile Include="Binders\BindUsingAttributeTester.cs" />
     <Compile Include="Binders\DefaultModelBinderSpike.cs" />
     <Compile Include="Binders\EntityModelBinderBindingSubclassTests.cs" />

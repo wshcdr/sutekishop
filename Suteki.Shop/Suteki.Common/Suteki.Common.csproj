@@ -136,6 +136,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Version.cs">
+      <Link>Version.cs</Link>
+    </Compile>
     <Compile Include="Binders\BindUsingAttribute.cs" />
     <Compile Include="Binders\EntityModelBinder.cs" />
     <Compile Include="Binders\IAcceptsAttribute.cs" />
