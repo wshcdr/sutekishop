@@ -3,7 +3,7 @@ using Suteki.Common.Models;
 
 namespace Suteki.Shop
 {
-    public class Review : IEntity
+    public class Review : IEntity, IComment
 	{
         public virtual int Id { get; set; }
         public virtual bool Approved { get; set; }

@@ -165,6 +165,15 @@ namespace Suteki.Common.TestHelpers
             return viewData;
         }
 
+        public static TViewData AssertAreSame<TViewData>(
+            this TViewData viewData,
+            TViewData expected)
+            where TViewData : class
+        {
+            return viewData.AssertAreSame(expected, vd => vd);
+        }
+
+
         public static TViewData AssertAreEqual<TViewData, TProperty>(
             this TViewData viewData,
             TProperty expected,

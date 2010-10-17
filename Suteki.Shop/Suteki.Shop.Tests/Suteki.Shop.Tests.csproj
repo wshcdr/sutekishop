@@ -200,6 +200,7 @@
     <Compile Include="Maps\MapsTestsSetupAndTeardown.cs" />
     <Compile Include="Maps\MapTestBase.cs" />
     <Compile Include="Maps\ProductMapTests.cs" />
+    <Compile Include="Maps\ReviewMapTests.cs" />
     <Compile Include="Maps\SimpleMapTests.cs" />
     <Compile Include="Maps\ModelTestData.cs" />
     <Compile Include="Models\BasketTests.cs" />
