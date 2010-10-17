@@ -85,11 +85,12 @@ namespace Suteki.Common.HtmlHelpers
             {
                 queryable = queryable.Where(WhereClause);
             }
-            if (typeof(IEntity).IsOrderable())
+            var enumerable = queryable.AsEnumerable();
+            if (typeof(TEntity).IsOrderable())
             {
-                queryable = queryable.Cast<IOrderable>().OrderBy(ord => ord.Position).Cast<TEntity>();
+                enumerable = enumerable.Select(x => (IOrderable)x).InOrder().Select(x => (TEntity)x);
             }
-            var items = queryable.AsEnumerable()
+            var items = enumerable
                 .Select(e => new SelectListItem { Selected = e.Id == selectedId, Text = e.Name, Value = e.Id.ToString() });
 
             return items;
