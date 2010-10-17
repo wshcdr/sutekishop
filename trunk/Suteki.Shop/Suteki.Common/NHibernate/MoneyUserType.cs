@@ -6,6 +6,7 @@ using Suteki.Common.Models;
 
 namespace Suteki.Common.NHibernate
 {
+    [Serializable]
     public class MoneyUserType : BaseImmutableUserType<Money>
     {
         public override object NullSafeGet(IDataReader rs, string[] names, object owner)

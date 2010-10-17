@@ -16,21 +16,43 @@ namespace Suteki.Shop.Tests.Controllers
 	public class ReviewsControllerTests
 	{
 		ReviewsController controller;
-		IRepository<Review> repository;
-		IRepository<Product> productRepository;
+		IRepository<Review> reviewRepository;
+        FakeRepository<Product> productRepository;
+	    IRepository<IComment> commentRepository;
 	    Product product;
 
 		[SetUp]
 		public void Setup()
 		{
-            product = new Product();
-			repository = MockRepositoryBuilder.CreateReviewRepository();
-            productRepository = new FakeRepository<Product>(id => 
-            { 
+            product = new Product
+            {
+                Reviews =
+                    {
+                        new Review(),
+                        new Review()
+                    }
+            };
+
+            productRepository = new FakeRepository<Product>(id =>
+            {
                 product.Id = id;
-                return product; 
+                return product;
             });
-            controller = new ReviewsController(repository, productRepository);
+
+            reviewRepository = MockRepositoryBuilder.CreateReviewRepository();
+
+            commentRepository = MockRepository.GenerateStub<IRepository<IComment>>();
+
+            var comments = new List<IComment>
+	        {
+                new Comment{ Approved = true },
+                new Comment{ Approved = false },
+                new Review{ Approved = true },
+                new Comment{ Approved = true }
+	        }.AsQueryable();
+            commentRepository.Stub(r => r.GetAll()).Return(comments);
+
+            controller = new ReviewsController(reviewRepository, productRepository, commentRepository);
 		}
 
 		[Test]
@@ -38,8 +60,8 @@ namespace Suteki.Shop.Tests.Controllers
 		{
 			controller.Show(1)
 				.ReturnsViewResult()
-				.WithModel<ReviewViewData>()
-				.AssertAreSame(productRepository.GetById(1), x => x.Product)
+				.WithModel<Product>()
+				.AssertAreSame(productRepository.GetById(1), x => x)
 				.AssertAreEqual(2, x => x.Reviews.Count());
 		}
 
@@ -48,22 +70,21 @@ namespace Suteki.Shop.Tests.Controllers
 		{
 			controller.New(5)
 				.ReturnsViewResult()
-				.WithModel<ReviewViewData>()
+				.WithModel<Review>()
 				.AssertAreSame(product, x => x.Product);
 		}
 
 		[Test]
 		public void NewWithPost_saves_review()
 		{
-			var review = new Review();
+            var review = new Review { Product = new Product { Id = 5 } };
 			
-			controller.New(5, review)
+			controller.New(review)
 				.ReturnsRedirectToRouteResult()
-				.ToAction("Submitted");
+				.ToAction("Submitted")
+                .WithRouteValue("Id", "5");
 
-			review.Product.Id.ShouldEqual(5);
-
-			repository.AssertWasCalled(x => x.SaveOrUpdate(review));
+			reviewRepository.AssertWasCalled(x => x.SaveOrUpdate(review));
 		}
 
 		[Test]
@@ -72,11 +93,10 @@ namespace Suteki.Shop.Tests.Controllers
 			controller.ModelState.AddModelError("foo", "bar");
 			var review = new Review();
 
-			controller.New(5, review)
-				.ReturnsViewResult()
-				.WithModel<ReviewViewData>()
-				.AssertAreSame(review, x => x.Review)
-				.AssertAreSame(product, x => x.Product);
+		    controller.New(review)
+		        .ReturnsViewResult()
+		        .WithModel<Review>()
+		        .AssertAreSame(review);
 		}
 
 		[Test]
@@ -84,8 +104,8 @@ namespace Suteki.Shop.Tests.Controllers
 		{
 			controller.Submitted(1)
 				.ReturnsViewResult()
-				.WithModel<ReviewViewData>()
-				.AssertAreSame(product, x => x.Product);
+				.WithModel<Product>()
+				.AssertAreSame(product);
 		}
 
 		[Test]
@@ -93,15 +113,16 @@ namespace Suteki.Shop.Tests.Controllers
 		{
 			controller.Index()
 				.ReturnsViewResult()
-				.WithModel<ReviewViewData>()
-				.AssertAreEqual(2, x => x.Reviews.Count());
+                .ForView("Index")
+				.WithModel<IEnumerable<IComment>>()
+				.AssertAreEqual(1, x => x.Count());
 		}
 
 		[Test]
 		public void Approve_approves_review()
 		{
 			var review = new Review();
-			repository.Expect(x => x.GetById(5)).Return(review);
+            commentRepository.Stub(x => x.GetById(5)).Return(review);
 
 			controller.Approve(5)
 				.ReturnsRedirectToRouteResult()
@@ -114,12 +135,12 @@ namespace Suteki.Shop.Tests.Controllers
 		public void Delete_deletes_review()
 		{
 			var review = new Review();
-			repository.Expect(x => x.GetById(5)).Return(review);
+            commentRepository.Expect(x => x.GetById(5)).Return(review);
 
 			controller.Delete(5)
 				.ReturnsResult<RedirectToReferrerResult>();
 
-			repository.AssertWasCalled(x => x.DeleteOnSubmit(review));
+            commentRepository.AssertWasCalled(x => x.DeleteOnSubmit(review));
 		}
 
 	    [Test]
@@ -128,7 +149,7 @@ namespace Suteki.Shop.Tests.Controllers
 	        controller.AllApproved()
 	            .ReturnsViewResult()
 	            .ForView("AllApproved")
-	            .WithModel<IEnumerable<Review>>()
+	            .WithModel<IEnumerable<IComment>>()
 	            .AssertAreEqual(3, vd => vd.Count());
 	    }
 	}

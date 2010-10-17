@@ -1,29 +1,26 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Shop.master" Inherits="System.Web.Mvc.ViewPage<ReviewViewData>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Shop.master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IComment>>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
     <h2>Unapproved Reviews</h2>
-    <% foreach(var review in Model.Reviews) { %>
+    <% foreach(var comment in Model) { %>
     <div>
 		<p>
-			<strong>Product:</strong> <%= Html.ActionLink<ProductController>(c => c.Item(review.Product.UrlName), review.Product.Name) %>
+        <%
+            var review = comment.CastAs<Review>();
+            if (review != null) { %>
+			<strong><%= Html.ActionLink<ProductController>(c => c.Item(review.Product.UrlName), review.Product.Name)%></strong> reviewed by 
+        <%} %>
+            <strong><%= Html.Encode(comment.Reviewer) %></strong> 
 		</p>
 		<p>
-			<strong>Reviewer:</strong> <%= Html.Encode(review.Reviewer) %>
-		</p>
-		<!--
-		<p>
-			<strong>Rating:</strong> <%= Html.Stars(review.Rating) %>
-		</p>
-		-->
-		<p>
-			<%= Html.Encode(review.Text) %>
+			<%= Html.Encode(comment.Text)%>
 		</p>
 		
-		<% using (Html.BeginForm<ReviewsController>(c => c.Approve(review.Id))) { %>
+		<% using (Html.BeginForm<ReviewsController>(c => c.Approve(comment.Id))) { %>
 			<input type="submit" value="Approve" />
 		<% } %>
 		
-		<% using (Html.BeginForm<ReviewsController>(c => c.Delete(review.Id))) { %>
+		<% using (Html.BeginForm<ReviewsController>(c => c.Delete(comment.Id))) { %>
 			<input type="submit" value="Delete" />
 		<% } %>
 		
@@ -31,7 +28,7 @@
 	</div>
     <% } %>
     
-    <% if (Model.Reviews.Count() == 0) { %>
+    <% if (Model.Count() == 0) { %>
 		<p>There are no outstanding reviews.</p>
     <% } %>
 </asp:Content>

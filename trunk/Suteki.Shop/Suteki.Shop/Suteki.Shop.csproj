@@ -240,6 +240,7 @@
     <Compile Include="Maps\ContentMap.cs" />
     <Compile Include="Maps\ContentTypeMap.cs" />
     <Compile Include="Maps\CountryMap.cs" />
+    <Compile Include="Maps\CommentMap.cs" />
     <Compile Include="Maps\ImageMap.cs" />
     <Compile Include="Maps\MailingListSubscriptionMap.cs" />
     <Compile Include="Maps\MappingExtensions.cs" />
@@ -265,6 +266,7 @@
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\CardType.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\Content.cs" />
     <Compile Include="Models\ContentType.cs" />
@@ -277,6 +279,7 @@
     <Compile Include="Models\Extensions\ActivatableExtensions.cs" />
     <Compile Include="Models\IActivatable.cs" />
     <Compile Include="Models\IAmOwnedBy.cs" />
+    <Compile Include="Models\IComment.cs" />
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\ITextContent.cs" />
     <Compile Include="Models\IUrlNamed.cs" />
@@ -344,7 +347,6 @@
     <Compile Include="ViewData\CheckoutViewData.cs" />
     <Compile Include="ViewData\CmsViewData.cs" />
     <Compile Include="ViewData\PostageResultViewData.cs" />
-    <Compile Include="ViewData\ReviewViewData.cs" />
     <Compile Include="ViewData\RsdViewData.cs" />
     <Compile Include="ViewData\ShopViewData.cs" />
     <Compile Include="Views\Rsd\Index.aspx.cs">

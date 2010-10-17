@@ -1,14 +1,18 @@
-<%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<System.Collections.Generic.IEnumerable<Suteki.Shop.Review>>" MasterPageFile="~/Views/Shared/Shop.Master" %>
+<%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<System.Collections.Generic.IEnumerable<Suteki.Shop.IComment>>" MasterPageFile="~/Views/Shared/Shop.Master" %>
 <asp:Content runat="server" ID="Main" ContentPlaceHolderID="MainContentPlaceHolder">
-    <h2>Reviews of our products</h2>
-    <% foreach(var review in Model) { %>
+    <h2>Customer Comments</h2>
+    <% foreach(var comment in Model) { %>
     <div>
 		<p>
-			<strong><%= Html.ActionLink<ProductController>(c => c.Item(review.Product.UrlName), review.Product.Name) %></strong> reviewed by 
-			<strong><%= Html.Encode(review.Reviewer) %></strong> 
+        <%
+            var review = comment.CastAs<Review>();
+            if (review != null) { %>
+			<strong><%= Html.ActionLink<ProductController>(c => c.Item(review.Product.UrlName), review.Product.Name)%></strong> reviewed by 
+        <%} %>
+            <strong><%= Html.Encode(comment.Reviewer) %></strong> 
 		</p>
 		<p>
-			<%= Html.Encode(review.Text) %>
+			<%= Html.Encode(comment.Text) %>
 		</p>
 		
 		<hr />

@@ -9,12 +9,12 @@ namespace Suteki.Shop.Repositories
 			return reviews.Where(x => x.Product.Id == productId);
 		}
 
-		public static IQueryable<Review> Approved(this IQueryable<Review> reviews)
+        public static IQueryable<T> Approved<T>(this IQueryable<T> reviews) where T : IComment
 		{
 			return reviews.Where(x => x.Approved);
 		}
 
-		public static IQueryable<Review> Unapproved(this IQueryable<Review> reviews)
+        public static IQueryable<T> Unapproved<T>(this IQueryable<T> reviews) where T : IComment
 		{
 			return reviews.Where(x => x.Approved == false);
 		}
