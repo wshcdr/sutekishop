@@ -1,7 +1,9 @@
 <%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<System.Collections.Generic.IEnumerable<Suteki.Shop.IComment>>" MasterPageFile="~/Views/Shared/Shop.Master" %>
 <asp:Content runat="server" ID="Main" ContentPlaceHolderID="MainContentPlaceHolder">
     <h2>Customer Comments</h2>
+    <p><%= Html.ActionLink<CommentController>(c => c.New(), "Make a general comment about us.") %></p>
     <% foreach(var comment in Model) { %>
+    <hr />		
     <div>
 		<p>
         <%
@@ -14,8 +16,6 @@
 		<p>
 			<%= Html.Encode(comment.Text) %>
 		</p>
-		
-		<hr />
 	</div>
     <% } %>
     

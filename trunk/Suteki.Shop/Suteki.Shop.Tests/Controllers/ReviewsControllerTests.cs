@@ -8,7 +8,6 @@ using Suteki.Common.TestHelpers;
 using Suteki.Shop.ActionResults;
 using Suteki.Shop.Controllers;
 using Suteki.Shop.Tests.Repositories;
-using Suteki.Shop.ViewData;
 
 namespace Suteki.Shop.Tests.Controllers
 {
