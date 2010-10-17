@@ -39,7 +39,7 @@ namespace Suteki.Shop.Tests.Services
             copiedProduct.Description.ShouldEqual(originalProduct.Description);
             copiedProduct.Price.ShouldEqual(originalProduct.Price);
             copiedProduct.Weight.ShouldEqual(originalProduct.Weight);
-            copiedProduct.IsActive.ShouldEqual(originalProduct.IsActive);
+            copiedProduct.IsActive.ShouldBeFalse();
         }
 
         [Test]
