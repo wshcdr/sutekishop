@@ -29,7 +29,7 @@ namespace Suteki.Shop.Services
                 Description = originalProduct.Description,
                 Price = originalProduct.Price,
                 Weight = originalProduct.Weight,
-                IsActive = originalProduct.IsActive
+                IsActive = false
             };
 
             ApplyCategories(originalProduct, copiedProduct);
