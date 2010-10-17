@@ -180,6 +180,7 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\CmsController.cs" />
+    <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\CountryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -383,6 +384,8 @@
     <Content Include="Global.asax" />
     <Content Include="Views\Basket\Readonly.ascx" />
     <Content Include="Views\Category\LeftMenu.ascx" />
+    <Content Include="Views\Comment\Confirm.aspx" />
+    <Content Include="Views\Comment\New.aspx" />
     <Content Include="Views\PostageDetail\Index.ascx" />
     <Content Include="Views\PostageDetail\ReadOnly.ascx" />
     <Content Include="Views\Product\ItemNotAvailable.aspx" />
