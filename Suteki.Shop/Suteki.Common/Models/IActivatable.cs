@@ -1,4 +1,4 @@
-﻿namespace Suteki.Shop
+﻿namespace Suteki.Common.Models
 {
     public interface IActivatable
     {
