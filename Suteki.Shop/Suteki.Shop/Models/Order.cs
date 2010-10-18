@@ -37,11 +37,17 @@ namespace Suteki.Shop
         public virtual User ModifiedBy { get; set; }
 
         private IList<OrderLine> orderLines = new List<OrderLine>();
-
         public virtual IList<OrderLine> OrderLines
         {
             get { return orderLines; }
             protected set { orderLines = value; }
+        }
+
+        private IList<OrderAdjustment> adjustments = new List<OrderAdjustment>();
+        public virtual IList<OrderAdjustment> Adjustments
+        {
+            get { return adjustments; }
+            protected set { adjustments = value; }
         }
 
         public virtual Contact PostalContact
@@ -79,7 +85,12 @@ namespace Suteki.Shop
 
         public virtual Money Total
         {
-            get { return orderLines.Select(line => line.Total).Sum(); }
+            get 
+            { 
+                return orderLines.Select(line => line.Total)
+                    .Union(adjustments.Select(a => a.Amount))
+                    .Sum(); 
+            }
         }
 
         public virtual PostageResult Postage { get; set; }
@@ -191,6 +202,18 @@ namespace Suteki.Shop
             }
             OrderStatus = OrderStatus.Created;
             ModifiedBy = null;
+        }
+
+        public virtual void AddAdjustment(OrderAdjustment adjustment)
+        {
+            adjustment.Order = this;
+            adjustments.Add(adjustment);
+        }
+
+        public virtual void RemoveAdjustment(OrderAdjustment adjustment)
+        {
+            adjustment.Order = null;
+            adjustments.Remove(adjustment);
         }
     }
 }

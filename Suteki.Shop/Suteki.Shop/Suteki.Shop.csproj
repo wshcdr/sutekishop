@@ -190,6 +190,7 @@
     <Compile Include="Controllers\BasketController.cs" />
     <Compile Include="Controllers\MailingListController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\OrderAdjustmentController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\OrderStatusController.cs" />
     <Compile Include="Controllers\PostageController.cs" />
@@ -246,6 +247,7 @@
     <Compile Include="Maps\MailingListSubscriptionMap.cs" />
     <Compile Include="Maps\MappingExtensions.cs" />
     <Compile Include="Maps\MenuMap.cs" />
+    <Compile Include="Maps\OrderAdjustmentMap.cs" />
     <Compile Include="Maps\OrderLineMap.cs" />
     <Compile Include="Maps\OrderMap.cs" />
     <Compile Include="Maps\OrderStatusMap.cs" />
@@ -287,6 +289,7 @@
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\ModelHelpers\UrlNameHelperExtensions.cs" />
     <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderAdjustment.cs" />
     <Compile Include="Models\OrderLine.cs" />
     <Compile Include="Models\OrderSearchCriteria.cs" />
     <Compile Include="Models\OrderStatus.cs" />
@@ -385,6 +388,7 @@
     <Content Include="Views\Category\LeftMenu.ascx" />
     <Content Include="Views\Comment\Confirm.aspx" />
     <Content Include="Views\Comment\New.aspx" />
+    <Content Include="Views\OrderAdjustment\Add.ascx" />
     <Content Include="Views\PostageDetail\Index.ascx" />
     <Content Include="Views\PostageDetail\ReadOnly.ascx" />
     <Content Include="Views\Product\ItemNotAvailable.aspx" />

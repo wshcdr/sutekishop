@@ -11,6 +11,8 @@
 <hr />
 
 <% if(User.IsAdministrator()) { %>
+    <% Html.RenderAction<OrderAdjustmentController>(c => c.Add(Model.Order)); %>
+    <hr />
 	<% Html.RenderPartial("Note"); %>
 	<hr />
 <% } %>
