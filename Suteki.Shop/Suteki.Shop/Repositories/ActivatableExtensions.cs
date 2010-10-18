@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
+using Suteki.Common.Models;
 
 namespace Suteki.Shop.Repositories
 {

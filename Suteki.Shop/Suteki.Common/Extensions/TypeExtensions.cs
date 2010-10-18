@@ -31,5 +31,9 @@ namespace Suteki.Common.Extensions
             return typeof (IOrderable).IsAssignableFrom(type);
         }
 
+        public static bool IsActivatable(this Type type)
+        {
+            return typeof (IActivatable).IsAssignableFrom(type);
+        }
     }
 }

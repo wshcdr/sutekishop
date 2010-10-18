@@ -278,7 +278,6 @@
     <Compile Include="Models\CustomDataAnnotations\StringPropertyAttributeBase.cs" />
     <Compile Include="Models\Exceptions\NoMenuException.cs" />
     <Compile Include="Models\Extensions\ActivatableExtensions.cs" />
-    <Compile Include="Models\IActivatable.cs" />
     <Compile Include="Models\IAmOwnedBy.cs" />
     <Compile Include="Models\IComment.cs" />
     <Compile Include="Models\Image.cs" />

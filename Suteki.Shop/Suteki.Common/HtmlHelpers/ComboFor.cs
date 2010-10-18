@@ -50,8 +50,8 @@ namespace Suteki.Common.HtmlHelpers
         public string BoundTo(Expression<Func<TModel, TEntity>> propertyExpression)
         {
             var getPropertyValue = propertyExpression.Compile();
-            var propertyName = (!String.IsNullOrEmpty(PropertyNamePrefix) ? PropertyNamePrefix : "") + 
-                Utils.ExpressionHelper.GetDottedPropertyNameFromExpression(propertyExpression) + ".Id";
+            var propertyName = (!String.IsNullOrEmpty(PropertyNamePrefix) ? PropertyNamePrefix : "")
+                + Utils.ExpressionHelper.GetDottedPropertyNameFromExpression(propertyExpression) + ".Id";
 
             var viewDataModelIsNull = (!typeof(TModel).IsValueType) && HtmlHelper.ViewData.Model == null;
             var selectedId = viewDataModelIsNull ? 0 : getPropertyValue(HtmlHelper.ViewData.Model).Id;
@@ -86,10 +86,17 @@ namespace Suteki.Common.HtmlHelpers
                 queryable = queryable.Where(WhereClause);
             }
             var enumerable = queryable.AsEnumerable();
+
             if (typeof(TEntity).IsOrderable())
             {
                 enumerable = enumerable.Select(x => (IOrderable)x).InOrder().Select(x => (TEntity)x);
             }
+            
+            if (typeof(TEntity).IsActivatable())
+            {
+                enumerable = enumerable.Select(x => (IActivatable)x).Where(a => a.IsActive).Select(x => (TEntity)x);
+            }
+            
             var items = enumerable
                 .Select(e => new SelectListItem { Selected = e.Id == selectedId, Text = e.Name, Value = e.Id.ToString() });
 

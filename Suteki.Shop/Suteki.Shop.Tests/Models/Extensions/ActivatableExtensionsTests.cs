@@ -1,5 +1,6 @@
 // ReSharper disable InconsistentNaming
 using NUnit.Framework;
+using Suteki.Common.Models;
 using Suteki.Shop.Extensions;
 
 namespace Suteki.Shop.Tests.Models.Extensions

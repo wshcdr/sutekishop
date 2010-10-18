@@ -1,3 +1,5 @@
+using Suteki.Common.Models;
+
 namespace Suteki.Shop.Extensions
 {
     public static class ActivatableExtensions
