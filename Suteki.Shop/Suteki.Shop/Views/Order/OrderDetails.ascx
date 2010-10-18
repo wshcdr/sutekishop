@@ -25,9 +25,7 @@
        { %>
     
     <tr>
-        <td><%= adjustment.Description %></td>
-        <td class="number">&nbsp;</td>
-        <td class="number">&nbsp;</td>
+        <td colspan="3"><%= adjustment.Description %></td>
         <td class="number"><%= adjustment.Amount.ToStringWithSymbol()%></td>
     </tr>
     
