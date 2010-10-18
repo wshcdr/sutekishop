@@ -24,7 +24,8 @@ namespace Suteki.Shop.Maps
             References(x => x.ModifiedBy).Cascade.All();
             References(x => x.User).Cascade.All();
 
-            HasMany(x => x.OrderLines).Cascade.All();
+            HasMany(x => x.OrderLines).Cascade.AllDeleteOrphan();
+            HasMany(x => x.Adjustments).Cascade.AllDeleteOrphan();
 
             Component(x => x.Postage).ColumnPrefix("Postage");
         }

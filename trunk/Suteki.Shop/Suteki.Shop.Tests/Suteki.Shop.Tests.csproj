@@ -171,6 +171,7 @@
     <Compile Include="Controllers\BasketControllerTests.cs" />
     <Compile Include="Controllers\MailingListControllerTests.cs" />
     <Compile Include="Controllers\MenuControllerTester.cs" />
+    <Compile Include="Controllers\OrderAdjustmentControllerTests.cs" />
     <Compile Include="Controllers\OrderControllerTests.cs" />
     <Compile Include="Controllers\OrderStatusControllerTests.cs" />
     <Compile Include="Controllers\PostageControllerTests.cs" />
@@ -214,6 +215,7 @@
     <Compile Include="Models\CustomDataAnnotations\CreditCardAttributeTests.cs" />
     <Compile Include="Models\Extensions\ActivatableExtensionsTests.cs" />
     <Compile Include="Models\ImageTests.cs" />
+    <Compile Include="Models\OrderAdjustmentTests.cs" />
     <Compile Include="Models\OrderLineTests.cs" />
     <Compile Include="Models\OrderTests.cs" />
     <Compile Include="Models\PostageTests.cs" />

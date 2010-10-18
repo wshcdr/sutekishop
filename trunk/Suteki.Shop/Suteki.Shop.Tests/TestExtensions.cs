@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace Suteki.Shop.Tests
 {
@@ -73,5 +75,11 @@ namespace Suteki.Shop.Tests
 		{
 			Assert.IsFalse(source, message);
 		}
+
+	    public static void ShouldBeEmpty<T>(this IEnumerable<T> collection)
+	    {
+	        Assert.AreEqual(collection.Count(), 0, 
+                string.Format("Expected collection to be empty, but had {0} items", collection.Count()));
+	    }
 	}
 }
