@@ -21,11 +21,17 @@
     
     <% } %>
     
-    <% foreach (var adjustment in ViewData.Model.Order.Adjustments)
-       { %>
+    <% foreach (var adjustment in ViewData.Model.Order.Adjustments) { %>
     
     <tr>
-        <td colspan="3"><%= adjustment.Description %></td>
+        <td colspan="3">
+        <% if(Page.User.IsAdministrator()) { %>
+            <span class="hideForPrint">
+            <% Html.PostAction<OrderAdjustmentController>(c => c.Delete(adjustment), "Del"); %>
+            </span>
+        <% } %>
+        <%= adjustment.Description %>
+        </td>
         <td class="number"><%= adjustment.Amount.ToStringWithSymbol()%></td>
     </tr>
     

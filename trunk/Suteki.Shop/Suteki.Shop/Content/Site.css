@@ -570,6 +570,11 @@ label
 	margin: 10px 10px 0px 0px;
 }
 
+label.inline
+{
+    display: inline;
+}
+
 input
 {
 	display:block;
@@ -582,6 +587,12 @@ input.inline
 {
 	display:inline;
 	width: 50px;	
+}
+
+input.wide
+{
+    width: 300px;
+    margin: 10px 20px 0px 0px;
 }
 
 input[type=submit], button

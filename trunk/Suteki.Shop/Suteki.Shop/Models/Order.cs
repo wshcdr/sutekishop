@@ -206,12 +206,22 @@ namespace Suteki.Shop
 
         public virtual void AddAdjustment(OrderAdjustment adjustment)
         {
+            if (adjustment == null)
+            {
+                throw new ArgumentNullException("adjustment");
+            }
+
             adjustment.Order = this;
             adjustments.Add(adjustment);
         }
 
         public virtual void RemoveAdjustment(OrderAdjustment adjustment)
         {
+            if (adjustment == null)
+            {
+                throw new ArgumentNullException("adjustment");
+            }
+
             adjustment.Order = null;
             adjustments.Remove(adjustment);
         }

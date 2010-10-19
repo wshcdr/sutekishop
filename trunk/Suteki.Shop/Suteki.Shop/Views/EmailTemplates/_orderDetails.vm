@@ -17,8 +17,16 @@
 		<td class="number">$orderLine.Price.ToStringWithSymbol()</td>
 		<td class="number">$orderLine.Total.ToStringWithSymbol()</td>
 	</tr>
-    #end
-	<tr class="total">
+  #end
+
+  #foreach($adjustment in $order.Adjustments)
+  <tr>
+    <td colspan="3">$adjustment.Description</td>
+    <td class="number">$adjustment.Amount.ToStringWithSymbol()</td>
+  </tr>
+  #end
+
+  <tr class="total">
 		<td>Total</td>
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
