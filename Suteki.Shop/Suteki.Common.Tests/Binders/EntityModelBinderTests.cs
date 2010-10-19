@@ -154,6 +154,32 @@ namespace Suteki.Common.Tests.Binders
         }
 
         [Test]
+        public void Should_get_child_if_child_id_is_missing()
+        {
+            var values = new NameValueCollection
+            {
+                { "Id", "10" }
+            };
+
+            var bindingContext = new ModelBindingContext
+            {
+                ModelMetadata = GetModelMetadata(null),
+                ValueProvider = new NameValueCollectionValueProvider(values, CultureInfo.GetCultureInfo("EN-GB"))
+            };
+
+            entityModelBinder.Accept(new EntityBindAttribute { Fetch = true });
+            var boundParent = entityModelBinder.BindModel(controllerContext, bindingContext) as Parent;
+
+            boundParent.ShouldNotBeNull("Parent is null");
+            boundParent.Id.ShouldEqual(10);
+            boundParent.Name.ShouldEqual("Parent from repository");
+            boundParent.ShouldBeTheSameAs(parent);
+
+            boundParent.Child.Id.ShouldEqual(3);
+            boundParent.Child.ShouldBeTheSameAs(parent.Child);
+        }
+
+        [Test]
         public void Should_not_get_parent_from_repository_if_no_id_is_given()
         {
             var values = new NameValueCollection

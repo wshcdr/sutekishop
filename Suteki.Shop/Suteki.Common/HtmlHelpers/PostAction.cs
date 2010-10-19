@@ -39,9 +39,9 @@ namespace Suteki.Common.HtmlHelpers
 
             using (htmlHelper.BeginForm(expressionDetails.MethodName, controllerName, FormMethod.Post, new { @class = "postAction" }))
             {
-                htmlHelper.ViewContext.Writer.Write(htmlHelper.Hidden("Id", expressionDetails.IdValue));
+                htmlHelper.ViewContext.Writer.Write("<input type=\"hidden\" id=\"Id\" name=\"Id\" value=\"" + expressionDetails.IdValue + "\" />");
+                //htmlHelper.ViewContext.Writer.Write(htmlHelper.Hidden("Id", expressionDetails.IdValue));
                 htmlHelper.ViewContext.Writer.Write("<input type=\"submit\" value=\"" + buttonText + "\" class=\"postAction\" />");
-
             }
         }
 
@@ -69,8 +69,8 @@ namespace Suteki.Common.HtmlHelpers
                 throw new SutekiCommonException("arg0 is not a MemberExpression");
             }
 
-            var func = Expression.Lambda<Func<object>>(Expression.Convert(arg0, typeof(object))).Compile();
-            var entity = func() as IEntity;
+            var func = Expression.Lambda<Func<IEntity>>(Expression.Convert(arg0, typeof(IEntity))).Compile();
+            var entity = func();
 
             return new ExpressionDetails
             {

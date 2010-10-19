@@ -49,6 +49,16 @@
     
     <% } %>
     
+    <% foreach (var adjustment in ViewData.Model.Order.Adjustments)
+       { %>
+    
+    <tr>
+        <td colspan="3"><%= adjustment.Description %></td>
+        <td class="number"><%= adjustment.Amount.ToStringWithSymbol()%></td>
+    </tr>
+    
+    <% } %>
+
     <tr class="total">
         <td>Total</td>
         <td>&nbsp;</td>

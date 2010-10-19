@@ -1,6 +1,7 @@
 using System;
 using System.Web.Mvc;
 using Suteki.Common.Filters;
+using Suteki.Common.Models;
 using Suteki.Common.Repositories;
 
 namespace Suteki.Shop.Controllers
@@ -45,7 +46,10 @@ namespace Suteki.Shop.Controllers
             {
                 order.AddAdjustment(adjustment);
                 orderRepository.SaveOrUpdate(order);
+                Message = "Added Adjustment";
+                return RedirectToAction("Item", "Order", new { order.Id });
             }
+            Message = "Adjustment not created, No description or amount given";
             return RedirectToAction("Item", "Order", new {order.Id});
         }
 

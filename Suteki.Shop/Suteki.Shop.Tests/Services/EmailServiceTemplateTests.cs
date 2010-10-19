@@ -50,6 +50,8 @@ namespace Suteki.Shop.Tests.Services
 
             var renderedContents = emailSender.SentBody;
             var expectedContents = File.ReadAllText(expectedOrderBodyPath);
+
+            //Console.WriteLine(renderedContents);
             renderedContents.ShouldEqual(expectedContents);
         }
 
@@ -108,6 +110,14 @@ namespace Suteki.Shop.Tests.Services
                             ProductName = "blue trousers - small",
                             Quantity = 2,
                             Price = new Money(12.33M)
+                        }
+                    },
+                Adjustments =
+                    {
+                        new OrderAdjustment
+                        {
+                            Description = "Reduction 'cos we're nice",
+                            Amount = new Money(-3.40M)
                         }
                     },
                 Postage = new PostageResult

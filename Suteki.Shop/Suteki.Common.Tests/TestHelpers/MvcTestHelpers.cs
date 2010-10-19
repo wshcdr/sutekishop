@@ -11,7 +11,7 @@ namespace Suteki.Common.Tests.TestHelpers
 {
     public class MvcTestHelpers
     {
-        public static HtmlHelper CreateMockHtmlHelper(TextWriter writer)
+        public static HtmlHelper CreateMockHtmlHelper(TextWriter writer, RouteData routeData)
         {
             var mocks = new MockRepository();
 
@@ -41,9 +41,12 @@ namespace Suteki.Common.Tests.TestHelpers
             httpResponseBase.Expect(response => response.Write(null))
                 .Callback<string>(s => { writer.Write(s); return true; }).Repeat.Any();
 
-            var routeData = new RouteData();
-            routeData.Values.Add("action", "Index");
-            routeData.Values.Add("controller", "Home");
+            if (routeData == null)
+            {
+                routeData = new RouteData();
+                routeData.Values.Add("action", "Index");
+                routeData.Values.Add("controller", "Home");
+            }
 
             var controller = MockRepository.GenerateMock<ControllerBase>();
 
@@ -59,10 +62,15 @@ namespace Suteki.Common.Tests.TestHelpers
             return new HtmlHelper(viewContext, viewDataContainer);
         }
 
+        public static HtmlHelper CreateMockHtmlHelper(TextWriter writer)
+        {
+            return CreateMockHtmlHelper(writer, null);
+        }
+
         public static HtmlHelper CreateMockHtmlHelper()
         {
             var writer = new StringWriter();
-            return CreateMockHtmlHelper(writer);
+            return CreateMockHtmlHelper(writer, null);
         }
 
     }
