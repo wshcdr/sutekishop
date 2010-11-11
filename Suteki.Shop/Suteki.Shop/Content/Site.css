@@ -482,7 +482,7 @@ li.basket
 
 .productDescription
 {
-	overflow: auto;
+	overflow: visible;
 }
 
 .mainImage
