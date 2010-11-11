@@ -88,7 +88,7 @@ namespace Suteki.Shop
             get 
             { 
                 return orderLines.Select(line => line.Total)
-                    .Union(adjustments.Select(a => a.Amount))
+                    .Concat(adjustments.Select(a => a.Amount))
                     .Sum(); 
             }
         }

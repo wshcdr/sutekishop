@@ -229,7 +229,6 @@
     <Compile Include="HtmlHelpers\LowercaseFirstCharacterOfNameBehaviour.cs" />
     <Compile Include="HtmlHelpers\MenuWriter.cs" />
     <Compile Include="HtmlHelpers\StockWriter.cs" />
-    <Compile Include="HtmlHelpers\UrlHelperExtensions.cs" />
     <Compile Include="IoC\ContainerBuilder.cs" />
     <Compile Include="IoC\UrlBasedComponentSelector.cs" />
     <Compile Include="Maps\ActionContentMap.cs" />
