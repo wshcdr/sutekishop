@@ -21,7 +21,7 @@ namespace Suteki.Shop.Controllers
             // form binding target
         }
 
-        [ChildActionOnly, HttpGet]
+        [ChildActionOnly]
         public ViewResult Add(Order order)
         {
             if (order == null)
@@ -34,13 +34,12 @@ namespace Suteki.Shop.Controllers
         }
 
         [HttpPost, UnitOfWork]
-        public ActionResult Add(OrderAdjustment adjustment)
+        public ActionResult AddAdjustment(OrderAdjustment adjustment)
         {
             if (adjustment == null)
             {
                 throw new ArgumentNullException("adjustment");
             }
-
             var order = adjustment.Order;
             if (ModelState.IsValid)
             {

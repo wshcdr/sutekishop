@@ -33,7 +33,7 @@ namespace Suteki.Shop.Tests.Controllers
         }
 
         [Test]
-        public void Add_POST_should_create_adjustment()
+        public void AddAdjustment_POST_should_create_adjustment()
         {
             var order = new Order { Id = 66 };
             var adjustment = new OrderAdjustment
@@ -41,7 +41,7 @@ namespace Suteki.Shop.Tests.Controllers
                 Order = order,
             };
 
-            orderAdjustmentController.Add(adjustment)
+            orderAdjustmentController.AddAdjustment(adjustment)
                 .ReturnsRedirectToRouteResult()
                 .ToAction("Item")
                 .ToController("Order")
