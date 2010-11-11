@@ -1,6 +1,4 @@
-﻿using System;
-using Suteki.Common.Repositories;
-using Suteki.Shop.Repositories;
+﻿using Suteki.Common.Repositories;
 
 namespace Suteki.Shop.Services
 {
@@ -15,5 +13,6 @@ namespace Suteki.Shop.Services
         string Copyright { get; set; }
         string PhoneNumber { get; set; }
         string SiteCss { get; set; }
+        string FacebookUserId { get; set; }
     }
 }

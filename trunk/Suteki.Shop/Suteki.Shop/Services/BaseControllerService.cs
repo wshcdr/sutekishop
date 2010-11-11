@@ -1,7 +1,6 @@
 ﻿using System;
 using Suteki.Common.Extensions;
 using Suteki.Common.Repositories;
-using Suteki.Shop.Repositories;
 using System.Web;
 
 namespace Suteki.Shop.Services
@@ -16,6 +15,7 @@ namespace Suteki.Shop.Services
         private string copyright;
         private string phoneNumber;
         private string siteCss;
+        private string facebookUserId;
 
         public BaseControllerService(IRepository<Category> categoryRepository)
         {
@@ -104,6 +104,16 @@ namespace Suteki.Shop.Services
                 return siteCss;
             }
             set { siteCss = value; }
+        }
+
+        public string FacebookUserId
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(facebookUserId)) return "";
+                return facebookUserId;
+            }
+            set { facebookUserId = value; }
         }
     }
 }

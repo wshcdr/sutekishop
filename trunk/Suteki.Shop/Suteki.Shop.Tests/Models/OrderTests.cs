@@ -36,8 +36,9 @@ namespace Suteki.Shop.Tests.Models
             order.AddLine("line1", 2, price1, "");
             order.AddLine("line2", 1, price2, "");
             order.AddLine("line3", 3, price3, "");
+            order.AddLine("line4", 2, price1, "");
 
-            var expectedTotal = (2*price1) + (1*price2) + (3*price3);
+            var expectedTotal = (2*price1) + (1*price2) + (3*price3) + (2*price1);
 
             order.Total.ShouldEqual(expectedTotal);
         }

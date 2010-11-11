@@ -1,4 +1,6 @@
 // ReSharper disable InconsistentNaming
+using System;
+using System.Linq;
 using NUnit.Framework;
 using Suteki.Common.Models;
 
@@ -19,6 +21,7 @@ namespace Suteki.Shop.Tests.Models
         {
             var order = new Order();
             order.AddLine("widget 1", 1, new Money(12.34M), "abc");
+            order.AddLine("gadget 1", 2, new Money(3.55M), "def");
             order.AddLine("gadget 1", 2, new Money(3.55M), "def");
             order.Postage = PostageResult.WithPrice(new Money(1.33M), "for London");
 

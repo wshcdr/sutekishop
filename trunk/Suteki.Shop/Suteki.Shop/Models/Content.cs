@@ -8,7 +8,7 @@ using Suteki.Common.Models;
 using System.Web.Mvc;
 using Suteki.Shop.Controllers;
 using Suteki.Shop.Models.ModelHelpers;
-using Suteki.Shop.HtmlHelpers;
+using Suteki.Common.HtmlHelpers;
 
 namespace Suteki.Shop
 {
