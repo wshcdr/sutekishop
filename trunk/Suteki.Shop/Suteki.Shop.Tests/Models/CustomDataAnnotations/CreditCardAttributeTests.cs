@@ -57,5 +57,12 @@ namespace Suteki.Shop.Tests.Models.CustomDataAnnotations
             var result = Regex.Replace(value, "[^0-9]", "");
             Assert.That(result, Is.EqualTo(expected));
         }
+
+        [Test]
+        public void SholdNotValidateAnyOldString()
+        {
+            const string invalidNumber = "Lloyds TSB";
+            creditCardAttribute.IsValid(invalidNumber).ShouldBeFalse();
+        }
     }
 }

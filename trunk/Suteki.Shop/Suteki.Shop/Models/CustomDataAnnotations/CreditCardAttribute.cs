@@ -10,7 +10,12 @@ namespace Suteki.Shop.Models.CustomDataAnnotations
     {
         protected override bool IsValid(string value)
         {
+            if (value == null)
+            {
+                throw new ArgumentNullException("value");
+            }
             var trimmedValue = Regex.Replace(value, "[^0-9]", "");
+            if (trimmedValue.Length == 0) return false;
 
             var numbers = trimmedValue.Trim().Reverse().Select(c => int.Parse(c.ToString()));
             var oddSum = numbers.AtOddPositions().Sum();
