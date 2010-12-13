@@ -99,7 +99,7 @@ namespace Suteki.Shop.Controllers
 			return View("Edit", EditViewData.WithProduct(defaultProduct));
 		}
 
-		[AdministratorsOnly, AcceptVerbs(HttpVerbs.Post), ValidateInput(false)]
+		[AdministratorsOnly, UnitOfWork, AcceptVerbs(HttpVerbs.Post), ValidateInput(false)]
 		public ActionResult New([BindUsing(typeof(ProductBinder))] Product product)
 		{
 		    if (ModelState.IsValid)
