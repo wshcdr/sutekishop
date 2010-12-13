@@ -5,7 +5,9 @@
     <meta property="og:title" content="<%= Model.Product.Name %>"/>
     <meta property="og:type" content="product"/>
     <meta property="og:url" content="<%= Url.ActionAbsolute<ProductController>(c => c.Item(Model.Product.UrlName)) %>"/>
+    <% if (Model.Product.HasMainImage) { %>
     <meta property="og:image" content="<%= Url.ContentAbsolute("~/ProductPhotos/" + Model.Product.MainImage.MainFileName) %>"/>
+    <%} %>
     <meta property="og:site_name" content="<%= ((Suteki.Shop.Controllers.ControllerBase)ViewContext.Controller).BaseControllerService.ShopName %>"/>
     <meta property="fb:admins" content="<%= ((Suteki.Shop.Controllers.ControllerBase)ViewContext.Controller).BaseControllerService.FacebookUserId %>"/>
     <meta property="og:description" content="<%= Model.Product.PlainTextDescription %>"/>
