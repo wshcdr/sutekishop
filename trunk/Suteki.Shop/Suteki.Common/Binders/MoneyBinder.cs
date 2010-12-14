@@ -25,7 +25,7 @@ namespace Suteki.Common.Binders
             catch (Exception)
             {
                 bindingContext.ModelState.AddModelError(bindingContext.ModelName, "Not a valid price.");
-                return null;
+                return new Money(0M);
             }
         }
     }
