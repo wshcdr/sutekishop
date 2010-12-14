@@ -165,7 +165,7 @@ namespace Suteki.Shop.Controllers
 		public ActionResult ClearSizes(int id)
 		{
 			var product = productRepository.GetById(id);
-			sizeService.Clear(product);
+            product.ClearAllSizes();
 			Message = "Sizes have been cleared.";
 
 			return this.RedirectToAction(c => c.Edit(id));

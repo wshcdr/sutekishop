@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Suteki.Common;
+using Suteki.Common.Extensions;
 using Suteki.Common.Models;
 using Suteki.Common.Repositories;
 using Suteki.Shop.Repositories;
@@ -112,6 +113,16 @@ namespace Suteki.Shop
             }
         }
 
+        public virtual void AddDefaultSize()
+        {
+            AddSize(new Size { IsActive = false, Name = "-", IsInStock = true });
+        }
+
+        public virtual void ClearAllSizes()
+        {
+            Sizes.ForEach(size => size.IsActive = false);
+        }
+
         public virtual string IsActiveAsString
         {
             get
@@ -137,6 +148,15 @@ namespace Suteki.Shop
             var productCategory = new ProductCategory {Category = category, Product = this};
             ProductCategories.Add(productCategory);
             category.ProductCategories.Add(productCategory);
+        }
+
+        public virtual void RemoveCategory(Category category)
+        {
+            var productCategory = ProductCategories
+                .Where(pc => pc.Category.Id == category.Id)
+                .SingleOrDefault();
+            if (productCategory == null) return;
+            ProductCategories.Remove(productCategory);
         }
 
         public virtual void AddProductImage(Image image, int position)
