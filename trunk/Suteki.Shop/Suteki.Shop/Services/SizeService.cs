@@ -21,21 +21,11 @@ namespace Suteki.Shop.Services
 
             if (product.DefaultSizeMissing)
             {
-                AddDefaultSize(product);
+                product.AddDefaultSize();
             }
 
             var keys = form.AllKeys.Where(key => key.StartsWith("size_") && form[key].Length > 0);
             keys.ForEach(key => product.AddSize(new Size { Name = form[key], IsActive = true, IsInStock = true }));
-        }
-
-        private void AddDefaultSize(Product product)
-        {
-            product.AddSize(new Size { IsActive = false, Name = "-", IsInStock = true });
-        }
-
-        public void Clear(Product product)
-        {
-            product.Sizes.ForEach(size => size.IsActive = false);
         }
     }
 }

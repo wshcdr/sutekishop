@@ -101,16 +101,6 @@ namespace Suteki.Shop.Tests.Services
         }
 
         [Test]
-        public void Clear_ShouldSetAllSizesToInactive()
-        {
-            var product = CreateProductWithSizes();
-
-            sizeService.Clear(product);
-
-            Assert.AreEqual(0, product.Sizes.Where(size => size.IsActive).Count());
-        }
-
-        [Test]
         public void Update_Should_add_a_default_size_to_a_product_with_no_sizes()
         {
             var form = new NameValueCollection();

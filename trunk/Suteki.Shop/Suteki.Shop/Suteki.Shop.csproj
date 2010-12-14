@@ -341,6 +341,15 @@
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\OrderSearchService.cs" />
     <Compile Include="Services\PostageService.cs" />
+    <Compile Include="Services\ProductBuilder.cs" />
+    <Compile Include="Services\ProductBuilderContributors\BasicProperties.cs" />
+    <Compile Include="Services\ProductBuilderContributors\Categories.cs" />
+    <Compile Include="Services\ProductBuilderContributors\CreateProduct.cs" />
+    <Compile Include="Services\ProductBuilderContributors\Images.cs" />
+    <Compile Include="Services\ProductBuilderContributors\Position.cs" />
+    <Compile Include="Services\ProductBuilderContributors\RetrieveProduct.cs" />
+    <Compile Include="Services\ProductBuilderContributors\Sizes.cs" />
+    <Compile Include="Services\ProductBuilderContributors\UniqueNameCheck.cs" />
     <Compile Include="Services\ProductCopyService.cs" />
     <Compile Include="Services\SizeService.cs" />
     <Compile Include="Services\UserService.cs" />
@@ -349,6 +358,7 @@
     <Compile Include="ViewData\CheckoutViewData.cs" />
     <Compile Include="ViewData\CmsViewData.cs" />
     <Compile Include="ViewData\PostageResultViewData.cs" />
+    <Compile Include="ViewData\ProductViewData.cs" />
     <Compile Include="ViewData\RsdViewData.cs" />
     <Compile Include="ViewData\ShopViewData.cs" />
     <Compile Include="Views\Rsd\Index.aspx.cs">

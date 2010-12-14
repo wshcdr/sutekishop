@@ -242,6 +242,16 @@
     <Compile Include="Services\OrderableServiceTests.cs" />
     <Compile Include="Services\OrderSearchServiceTests.cs" />
     <Compile Include="Services\PostageServiceTests.cs" />
+    <Compile Include="Services\ProductBuilderContributors\BasicPropertiesTests.cs" />
+    <Compile Include="Services\ProductBuilderContributors\CategoriesTests.cs" />
+    <Compile Include="Services\ProductBuilderContributors\CreateProductTests.cs" />
+    <Compile Include="Services\ProductBuilderContributors\ImagesTests.cs" />
+    <Compile Include="Services\ProductBuilderContributors\PositionTests.cs" />
+    <Compile Include="Services\ProductBuilderContributors\ProductBuilderContributorTestBase.cs" />
+    <Compile Include="Services\ProductBuilderContributors\RetrieveProductTests.cs" />
+    <Compile Include="Services\ProductBuilderContributors\SizesTests.cs" />
+    <Compile Include="Services\ProductBuilderContributors\UniqueNameCheckTests.cs" />
+    <Compile Include="Services\ProductBuilderTests.cs" />
     <Compile Include="Services\ProductCopyServiceTests.cs" />
     <Compile Include="Services\SizeServiceTests.cs" />
     <Compile Include="Services\UserServiceTests.cs" />
