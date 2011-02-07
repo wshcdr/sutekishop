@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using Castle.Core;
+using Castle.Core.Internal;
 using Castle.Windsor;
 
 namespace Suteki.Common.Windsor

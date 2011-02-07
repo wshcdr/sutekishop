@@ -12,7 +12,7 @@ namespace Suteki.Shop.Maps
             Map(x => x.AskIfMaxWeight);
             Map(x => x.Position);
             Map(x => x.IsActive);
-            Map(x => x.FlatRate);
+            Map(x => x.FlatRate).Money();
             HasMany(x => x.Countries);
         }
     }

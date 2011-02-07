@@ -8,7 +8,7 @@ namespace Suteki.Shop.Maps
         {
             Map(x => x.Description);
             Map(x => x.Phone);
-            Map(x => x.Price);
+            Map(x => x.Price).Money();
         }
     }
 }

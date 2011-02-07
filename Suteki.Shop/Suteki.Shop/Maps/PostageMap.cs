@@ -11,7 +11,7 @@ namespace Suteki.Shop.Maps
             Map(x => x.MaxWeight);
             Map(x => x.Name);
             Map(x => x.Position);
-            Map(x => x.Price);
+            Map(x => x.Price).Money();
         }
     }
 }

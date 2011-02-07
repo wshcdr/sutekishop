@@ -2,10 +2,8 @@ using Castle.Core.Configuration;
 using Castle.Facilities.NHibernateIntegration;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
-using FluentNHibernate.Conventions;
 using FluentNHibernate.Conventions.Helpers;
 using NHibernate.Cfg;
-using Suteki.Common.NHibernate;
 using Suteki.Shop.Maps;
 
 namespace Suteki.Shop.Repositories
@@ -35,10 +33,7 @@ namespace Suteki.Shop.Repositories
                 .Conventions.Add(
                     ForeignKey.EndsWith("Id"),
                     PrimaryKey.Name.Is(x => x.EntityType.Name + "Id"),
-                    DefaultCascade.None(),
-                    new MoneyConvention());
+                    DefaultCascade.None());
         }
     }
-
-    public class MoneyConvention : UserTypeConvention<MoneyUserType>{}
 }
