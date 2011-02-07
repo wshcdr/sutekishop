@@ -11,12 +11,12 @@
 
 <%= Html.Grid(Model.Items)
 	.Columns(column => {
-		column.For(x => Html.ActionLink<PostageController>(c => c.Edit(x.Id), x.Name)).DoNotEncode().HeaderAttributes(@class => "thin");
+		column.For(x => Html.ActionLink<PostageController>(c => c.Edit(x.Id), x.Name)).Encode(false).HeaderAttributes(@class => "thin");
 		column.For(x => x.MaxWeight).Attributes(@class => "number").HeaderAttributes(@class => "thin number");
 		column.For(x => x.Price.ToStringWithSymbol()).Attributes(@class => "number").HeaderAttributes(@class => "thin number").Named("Price");
-		column.For(x => Html.Tick(x.IsActive)).DoNotEncode().HeaderAttributes(@class => "thin").Named("Active");
-		column.For(x =>  Html.UpArrowLink<PostageController>(c => c.MoveUp(x.Position, 1))).Named("&nbsp;").DoNotEncode();
-		column.For(x => Html.DownArrowLink<PostageController>(c => c.MoveDown(x.Position, 1))).Named("&nbsp;").DoNotEncode();
+		column.For(x => Html.Tick(x.IsActive)).Encode(false).HeaderAttributes(@class => "thin").Named("Active");
+		column.For(x =>  Html.UpArrowLink<PostageController>(c => c.MoveUp(x.Position, 1))).Named("&nbsp;").Encode(false);
+		column.For(x => Html.DownArrowLink<PostageController>(c => c.MoveDown(x.Position, 1))).Named("&nbsp;").Encode(false);
      }) %>
      
   <%= Html.Pager((IPagination)Model.Items) %>
