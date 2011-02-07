@@ -17,7 +17,7 @@
 			column.For(x => x.DateSubscribed).Format("{0:d}");
 			column.For(x => x.Email);
 			column.For(x => x.Contact.Postcode);
-			column.For(x => Html.ActionLink<MailingListController>(c => c.Edit(x.Id), "Edit")).DoNotEncode().Named("");	
+			column.For(x => Html.ActionLink<MailingListController>(c => c.Edit(x.Id), "Edit")).Encode(false).Named("");	
 		}) %>
 	
 	<%= Html.Pager(Model.MailingListSubscriptions) %>
