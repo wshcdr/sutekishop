@@ -11,7 +11,7 @@ namespace Suteki.Shop.Maps
             Map(x => x.ProductName).Length(510);
             Map(x => x.ProductUrlName);
             Map(x => x.Quantity);
-            Map(x => x.Price);
+            Map(x => x.Price).Money();
 
             References(x => x.Order);
         }

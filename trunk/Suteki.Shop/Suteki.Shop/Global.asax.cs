@@ -4,9 +4,9 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Castle.Windsor;
 using Microsoft.Practices.ServiceLocation;
-using MvcContrib.Castle;
 using Suteki.Common.Binders;
 using Suteki.Common.Models;
+using Suteki.Common.Windsor;
 using Suteki.Shop.IoC;
 using Suteki.Shop.Routes;
 

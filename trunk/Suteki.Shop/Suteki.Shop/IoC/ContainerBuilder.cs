@@ -1,6 +1,6 @@
 using System.Reflection;
 using System.Web.Mvc;
-using Castle.Facilities.Logging;
+using Castle.Core.Logging;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Configuration.Interpreters;
@@ -27,11 +27,6 @@ namespace Suteki.Shop.IoC
             // add array resolver
             container.Kernel.Resolver.AddSubResolver(new ArrayResolver(container.Kernel));
 
-            // add facilities
-            container.AddFacility(
-                "logging.facility", 
-                new LoggingFacility(LoggerImplementation.Log4net, "log4net.config"));
-
             // register handler selectors
             container.Kernel.AddHandlerSelector(new UrlBasedComponentSelector(
                                                     typeof(IBaseControllerService),
@@ -41,14 +36,15 @@ namespace Suteki.Shop.IoC
 
             // automatically register controllers
             container.Register(AllTypes
-                                   .Of<Controller>()
                                    .FromAssembly(Assembly.GetExecutingAssembly())
+                                   .BasedOn<IController>()
                                    .Configure(c => c.LifeStyle.Transient.Named(c.Implementation.Name.ToLower())));
 
             container.Register(
                 AllTypes.FromAssembly(Assembly.GetExecutingAssembly())
                         .BasedOn(typeof(IHandle<>)).WithService.Base()
                         .Configure(c => c.LifeStyle.Transient),
+                Component.For<ILogger>().ImplementedBy<Logger>().LifeStyle.Transient,
                 Component.For(typeof(IRepository<>)).ImplementedBy(typeof(NHibernateRepository<>)).LifeStyle.Transient,
                 Component.For(typeof(IComboFor<,>)).ImplementedBy(typeof(ComboFor<,>)).LifeStyle.Transient,
                 Component.For<IImageService>().ImplementedBy<ImageService>().Named("image.service").LifeStyle.Transient,
