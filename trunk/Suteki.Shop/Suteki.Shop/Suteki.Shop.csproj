@@ -141,7 +141,6 @@
     <Compile Include="ActionResults\RedirectToReferrerResult.cs" />
     <Compile Include="Binders\CurrentBasketBinder.cs" />
     <Compile Include="Binders\MailingListSubscriptionBinder.cs" />
-    <Compile Include="Binders\ProductBinder.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\CmsController.cs" />
@@ -318,6 +317,7 @@
     <Compile Include="Services\ProductCopyService.cs" />
     <Compile Include="Services\SizeService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="ViewDataMaps\ProductViewDataMap.cs" />
     <Compile Include="ViewData\CategoryViewData.cs" />
     <Compile Include="ViewData\CategoryViewDataExtensions.cs" />
     <Compile Include="ViewData\CheckoutViewData.cs" />

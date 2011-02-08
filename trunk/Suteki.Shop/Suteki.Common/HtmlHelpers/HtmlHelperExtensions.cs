@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq.Expressions;
 using System.Web.Mvc;
@@ -8,6 +9,7 @@ using Suteki.Common.Extensions;
 using Suteki.Common.Models;
 using Suteki.Common.ViewData;
 using Microsoft.Web.Mvc;
+using Suteki.Common.Windsor;
 
 namespace Suteki.Common.HtmlHelpers
 {
@@ -114,34 +116,39 @@ namespace Suteki.Common.HtmlHelpers
 
         public static string With<TService, TModel>(this HtmlHelper<TModel> htmlHelper, Func<TService, string> useServiceAction)
         {
-            var containerAccessor = htmlHelper.ViewContext.HttpContext.ApplicationInstance as IContainerAccessor;
-            if (containerAccessor == null)
-            {
-                throw new SutekiCommonException("The ASP.NET Application instance (Global.asax) must implement IContainerAccessor.");
-            }
-            var container = containerAccessor.Container;
-
-            var service = container.Resolve<TService>();
-            var requireHtmlHelper = service as IRequireHtmlHelper<TModel>;
-            if (requireHtmlHelper != null)
-            {
-                requireHtmlHelper.HtmlHelper = htmlHelper;
-            }
-
+            var service = IocContainer.Resolve<TService>();
             try
             {
+                var requireHtmlHelper = service as IRequireHtmlHelper<TModel>;
+                if (requireHtmlHelper != null)
+                {
+                    requireHtmlHelper.HtmlHelper = htmlHelper;
+                }
+
                 return useServiceAction(service);
             }
             finally
             {
-                container.Release(service);
+                IocContainer.Release(service);
             }
         }
 
         public static string ComboFor<TModel, TLookup>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TLookup>> propertyExpression)
-            where TLookup : INamedEntity
+            where TLookup : class, INamedEntity
         {
             return htmlHelper.With<IComboFor<TLookup, TModel>, TModel>(combo => combo.BoundTo(propertyExpression));
+        }
+
+        public static string ComboFor<TModel, TLookup>(this HtmlHelper<TModel> htmlHelper, string propertyToBind, IEnumerable<int> selectedIds)
+            where TLookup : class, INamedEntity
+        {
+            return htmlHelper.With<IComboFor<TLookup, TModel>, TModel>(combo => combo.BoundTo(propertyToBind, selectedIds));
+        }
+
+        public static string MutipleSelectComboFor<TModel, TLookup>(this HtmlHelper<TModel> htmlHelper, string propertyToBind, IEnumerable<int> selectedIds)
+            where TLookup : class, INamedEntity
+        {
+            return htmlHelper.With<IComboFor<TLookup, TModel>, TModel>(combo => combo.Multiple().BoundTo(propertyToBind, selectedIds));
         }
 
         public static void PostAction<TController>(this HtmlHelper htmlHelper, Expression<Action<TController>> action, string buttonText)

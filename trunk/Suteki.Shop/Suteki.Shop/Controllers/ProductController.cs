@@ -11,6 +11,7 @@ using Suteki.Shop.Filters;
 using Suteki.Shop.Repositories;
 using Suteki.Shop.Services;
 using Suteki.Shop.ViewData;
+using Suteki.Shop.ViewDataMaps;
 
 namespace Suteki.Shop.Controllers
 {
@@ -18,25 +19,25 @@ namespace Suteki.Shop.Controllers
 	{
 		readonly IRepository<Product> productRepository;
 		readonly IRepository<Category> categoryRepository;
-		readonly ISizeService sizeService;
 		readonly IOrderableService<Product> productOrderableService;
 		readonly IUserService userService;
 		readonly IUnitOfWorkManager uow;
+	    readonly IProductBuilder productBuilder;
 
 		public ProductController(
             IRepository<Product> productRepository, 
             IRepository<Category> categoryRepository, 
-            ISizeService sizeService, 
             IOrderableService<Product> productOrderableService, 
             IUserService userService, 
-            IUnitOfWorkManager uow)
+            IUnitOfWorkManager uow,
+            IProductBuilder productBuilder)
 		{
 			this.productRepository = productRepository;
 			this.uow = uow;
 			this.userService = userService;
 			this.categoryRepository = categoryRepository;
-			this.sizeService = sizeService;
 			this.productOrderableService = productOrderableService;
+		    this.productBuilder = productBuilder;
 		}
 
 		public override string GetControllerName()
@@ -96,12 +97,13 @@ namespace Suteki.Shop.Controllers
 		{
 		    var category = categoryRepository.GetById(id);
 			var defaultProduct = Product.DefaultProduct(category, productOrderableService.NextPosition);
-			return View("Edit", EditViewData.WithProduct(defaultProduct));
+			return View("Edit", ProductViewDataMap.FromModel(defaultProduct));
 		}
 
 		[AdministratorsOnly, UnitOfWork, AcceptVerbs(HttpVerbs.Post), ValidateInput(false)]
-		public ActionResult New([BindUsing(typeof(ProductBinder))] Product product)
+		public ActionResult New(ProductViewData productViewData)
 		{
+		    var product = productBuilder.ProductFromProductViewData(productViewData, ModelState, Request);
 		    if (ModelState.IsValid)
 			{
 				productRepository.SaveOrUpdate(product);
@@ -109,7 +111,7 @@ namespace Suteki.Shop.Controllers
 				Message = "Product successfully added.";
 				return this.RedirectToAction(x => x.Edit(product.Id));
 			}
-		    return View("Edit", EditViewData.WithProduct(product));
+            return View("Edit", productViewData);
 		}
 
 	    [AdministratorsOnly]
@@ -119,20 +121,21 @@ namespace Suteki.Shop.Controllers
 		}
 
 		[AcceptVerbs(HttpVerbs.Post), UnitOfWork, AdministratorsOnly, ValidateInput(false)]
-        public ActionResult Edit([BindUsing(typeof(ProductBinder))] Product product)
+        public ActionResult Edit(ProductViewData productViewData)
 		{
+            var product = productBuilder.ProductFromProductViewData(productViewData, ModelState, Request);
 		    if (ModelState.IsValid)
 			{
 				Message = "Product successfully saved.";
 				return this.RedirectToAction(x => x.Edit(product.Id));
 			}
-		    return View("Edit", EditViewData.WithProduct(product));
+            return View("Edit", ProductViewDataMap.FromModel(product));
 		}
 
 	    ActionResult RenderEditView(int id)
 		{
 			var product = productRepository.GetById(id);
-			return View("Edit", EditViewData.WithProduct(product));
+            return View("Edit", ProductViewDataMap.FromModel(product));
 		}
 
         // TODO: Will constrained by work with property value?
@@ -169,11 +172,6 @@ namespace Suteki.Shop.Controllers
 			Message = "Sizes have been cleared.";
 
 			return this.RedirectToAction(c => c.Edit(id));
-		}
-
-		public ShopViewData EditViewData
-		{
-			get { return ShopView.Data.WithCategories(categoryRepository.GetAll().Alphabetical()); }
 		}
 	}
 }

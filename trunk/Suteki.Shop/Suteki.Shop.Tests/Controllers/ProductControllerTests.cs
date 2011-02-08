@@ -20,9 +20,9 @@ namespace Suteki.Shop.Tests.Controllers
         private ProductController productController;
     	private IRepository<Product> productRepository;
         private IRepository<Category> categoryRepository;
-    	private ISizeService sizeService;
         private IOrderableService<Product> productOrderableService;
     	private IUserService userService;
+        private IProductBuilder productBuilder;
         private const string urlName = "Product_4";
 
         [SetUp]
@@ -35,23 +35,19 @@ namespace Suteki.Shop.Tests.Controllers
 
             productRepository = MockRepositoryBuilder.CreateProductRepository();
 
-            MockRepository.GenerateStub<IRepository<ProductImage>>();
-
-            MockRepository.GenerateStub<IHttpFileService>();
-            sizeService = MockRepository.GenerateStub<ISizeService>();
-
             productOrderableService = MockRepository.GenerateStub<IOrderableService<Product>>();
             MockRepository.GenerateStub<IOrderableService<ProductImage>>();
 
         	userService = MockRepository.GenerateStub<IUserService>();
+            productBuilder = MockRepository.GenerateStub<IProductBuilder>();
 
 			productController = new ProductController(
                 productRepository, 
                 categoryRepository, 
-                sizeService, 
                 productOrderableService, 
                 userService, 
-                MockRepository.GenerateStub<IUnitOfWorkManager>());
+                MockRepository.GenerateStub<IUnitOfWorkManager>(),
+                productBuilder);
 
         	userService.Stub(c => c.CurrentUser).Return(new User { Role = Role.Administrator });
         }
@@ -121,6 +117,7 @@ namespace Suteki.Shop.Tests.Controllers
         public void New_ShouldShowDefaultProductInEditView()
         {
             const int categoryId = 4;
+            categoryRepository.Stub(x => x.GetById(categoryId)).Return(new Category());
 
             var result = productController.New(categoryId) as ViewResult;
 
@@ -130,10 +127,8 @@ namespace Suteki.Shop.Tests.Controllers
         private static void AssertEditViewIsCorrectlyCalled(ViewResultBase result)
         {
             Assert.AreEqual("Edit", result.ViewName);
-            var viewData = result.ViewData.Model as ShopViewData;
+            var viewData = result.ViewData.Model as ProductViewData;
             Assert.IsNotNull(viewData, "viewData is not ShopViewData");
-            Assert.IsNotNull(viewData.Product, "viewData.Product should not be null");
-            Assert.IsNotNull(viewData.Categories, "viewData.Categories should not be null");
         }
 
         [Test]
@@ -153,7 +148,12 @@ namespace Suteki.Shop.Tests.Controllers
     	public void EditWithPost_ShouldRedirectOnSucessfulBinding()
     	{
 			var product = new Product { Id = 5};
-			productController.Edit(product)
+            var productViewData = new ProductViewData();
+            productBuilder.Stub(
+    	        x => x.ProductFromProductViewData(productViewData, productController.ModelState, productController.Request))
+                .Return(product);
+
+			productController.Edit(productViewData)
 				.ReturnsRedirectToRouteResult()
 				.ToAction("Edit")
 				.WithRouteValue("id", "5");
@@ -164,19 +164,29 @@ namespace Suteki.Shop.Tests.Controllers
     	{
 			productController.ModelState.AddModelError("foo", "bar");
 			var product = new Product { Id = 5 };
+            var productViewData = new ProductViewData();
+            productBuilder.Stub(
+                x => x.ProductFromProductViewData(productViewData, productController.ModelState, productController.Request))
+                .Return(product);
 
-			productController.Edit(product)
+			productController.Edit(productViewData)
 				.ReturnsViewResult()
 				.ForView("Edit")
-				.WithModel<ShopViewData>()
-				.AssertAreSame(product, x => x.Product);
+                .WithModel<ProductViewData>()
+				.AssertAreEqual(product.Id, x => x.ProductId);
     	}
 
     	[Test]
     	public void NewWithPost_ShouldInsertNewProduct()
     	{
 			var product = new Product { Id = 5};
-			productController.New(product)
+
+            var productViewData = new ProductViewData();
+            productBuilder.Stub(
+                x => x.ProductFromProductViewData(productViewData, productController.ModelState, productController.Request))
+                .Return(product);
+
+			productController.New(productViewData)
 				.ReturnsRedirectToRouteResult()
 				.ToAction("Edit")
 				.WithRouteValue("id", "5");
@@ -190,11 +200,15 @@ namespace Suteki.Shop.Tests.Controllers
     	{
     		productController.ModelState.AddModelError("foo", "bar");
     		var product = new Product();
-			productController.New(product)
+            var productViewData = new ProductViewData();
+            productBuilder.Stub(
+                x => x.ProductFromProductViewData(productViewData, productController.ModelState, productController.Request))
+                .Return(product);
+
+			productController.New(productViewData)
 				.ReturnsViewResult()
 				.ForView("Edit")
-				.WithModel<ShopViewData>()
-				.AssertAreSame(product, x => x.Product);
+                .WithModel<ProductViewData>();
     	}
 
         [Test]

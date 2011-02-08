@@ -13,6 +13,22 @@ namespace Suteki.Common.Tests.TestHelpers
     {
         public static HtmlHelper CreateMockHtmlHelper(TextWriter writer, RouteData routeData)
         {
+            ViewContext viewContext;
+            IViewDataContainer viewDataContainer = GetViewDataContainer(writer, routeData, out viewContext);
+
+            return new HtmlHelper(viewContext, viewDataContainer);
+        }
+
+        public static HtmlHelper<TModel> CreateMockHtmlHelper<TModel>(TextWriter writer, RouteData routeData)
+        {
+            ViewContext viewContext;
+            IViewDataContainer viewDataContainer = GetViewDataContainer(writer, routeData, out viewContext);
+
+            return new HtmlHelper<TModel>(viewContext, viewDataContainer);
+        }
+
+        private static IViewDataContainer GetViewDataContainer(TextWriter writer, RouteData routeData, out ViewContext viewContext)
+        {
             var mocks = new MockRepository();
 
             if (writer == null)
@@ -52,14 +68,13 @@ namespace Suteki.Common.Tests.TestHelpers
 
             var viewDataDictionary = new ViewDataDictionary();
 
-            var viewContext = new ViewContext(new ControllerContext(httpContext, routeData, controller), view, viewDataDictionary, new TempDataDictionary(), writer);
+            viewContext = new ViewContext(new ControllerContext(httpContext, routeData, controller), view, viewDataDictionary, new TempDataDictionary(), writer);
 
             var viewDataContainer = mocks.StrictMock<IViewDataContainer>();
             viewDataContainer.Expect(vdc => vdc.ViewData).Return(viewDataDictionary).Repeat.Any();
 
             mocks.ReplayAll();
-
-            return new HtmlHelper(viewContext, viewDataContainer);
+            return viewDataContainer;
         }
 
         public static HtmlHelper CreateMockHtmlHelper(TextWriter writer)
@@ -67,10 +82,21 @@ namespace Suteki.Common.Tests.TestHelpers
             return CreateMockHtmlHelper(writer, null);
         }
 
+        public static HtmlHelper<TModel> CreateMockHtmlHelper<TModel>(TextWriter writer)
+        {
+            return CreateMockHtmlHelper<TModel>(writer, null);
+        }
+
         public static HtmlHelper CreateMockHtmlHelper()
         {
             var writer = new StringWriter();
             return CreateMockHtmlHelper(writer, null);
+        }
+
+        public static HtmlHelper<TModel> CreateMockHtmlHelper<TModel>()
+        {
+            var writer = new StringWriter();
+            return CreateMockHtmlHelper<TModel>(writer, null);
         }
 
     }

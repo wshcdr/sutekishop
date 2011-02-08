@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Suteki.Common.Extensions;
 
 namespace Suteki.Shop.Services.ProductBuilderContributors
@@ -16,6 +17,7 @@ namespace Suteki.Shop.Services.ProductBuilderContributors
                 context.Product.AddDefaultSize();
             }
             context.ProductViewData.Sizes
+                .Where(size => !string.IsNullOrEmpty(size))
                 .ForEach(size => context.Product.AddSize(new Size
                 {
                     Name = size, 
