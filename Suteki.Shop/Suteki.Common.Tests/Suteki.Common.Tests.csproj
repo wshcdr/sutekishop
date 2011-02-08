@@ -142,6 +142,7 @@
     <Compile Include="Extensions\UrlExtensionsHelperTests.cs" />
     <Compile Include="Filters\FilterUsingAttributeTester.cs" />
     <Compile Include="Filters\UnitOfWorkFilterTester.cs" />
+    <Compile Include="HtmlHelpers\ComboForTests.cs" />
     <Compile Include="HtmlHelpers\PostActionTests.cs" />
     <Compile Include="Models\MoneyTests.cs" />
     <Compile Include="Models\StringValueExtensionsTests.cs" />

@@ -2,20 +2,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
+using System.Web;
 using System.Web.Mvc;
 using Suteki.Common.Extensions;
 using Suteki.Common.Models;
 using Suteki.Common.Repositories;
-using System.Web.Mvc.Html;
 
 namespace Suteki.Common.HtmlHelpers
 {
-    public interface IComboFor<TEntity, TModel> where TEntity : INamedEntity
+    public interface IComboFor<TEntity, TModel> where TEntity : class, INamedEntity
     {
+        ComboFor<TEntity, TModel> Multiple();
         string BoundTo(Expression<Func<TModel, TEntity>> propertyExpression, Expression<Func<TEntity, bool>> whereClause);
         string BoundTo(Expression<Func<TModel, TEntity>> propertyExpression, string propertyNamePrefix);
         string BoundTo(Expression<Func<TModel, TEntity>> propertyExpression);
         string BoundTo(Expression<Func<TModel, TEntity>> propertyExpression, Expression<Func<TEntity, bool>> whereClause, string propertyNamePrefix);
+        string BoundTo(string propertyToBind, IEnumerable<int> selectedIds);
     }
 
     public class ComboFor<TEntity, TModel> : IComboFor<TEntity, TModel>, IRequireHtmlHelper<TModel> where TEntity : class, INamedEntity
@@ -23,11 +26,19 @@ namespace Suteki.Common.HtmlHelpers
         readonly IRepository<TEntity> repository;
         protected Expression<Func<TEntity, bool>> WhereClause { get; set; }
         protected string PropertyNamePrefix { get; set; }
+        protected bool mutiple = false;
 
         public ComboFor(IRepository<TEntity> repository)
         {
             this.repository = repository;
         }
+
+        public ComboFor<TEntity, TModel> Multiple()
+        {
+            mutiple = true;
+            return this;
+        }
+
         public string BoundTo(Expression<Func<TModel, TEntity>> propertyExpression, Expression<Func<TEntity, bool>> whereClause, string propertyNamePrefix)
         {
             WhereClause = whereClause;
@@ -55,30 +66,32 @@ namespace Suteki.Common.HtmlHelpers
 
             var viewDataModelIsNull = (!typeof(TModel).IsValueType) && HtmlHelper.ViewData.Model == null;
             var selectedId = viewDataModelIsNull ? 0 : getPropertyValue(HtmlHelper.ViewData.Model).Id;
-            return BuildCombo(selectedId, propertyName);
+            return BuildCombo(propertyName, selectedId);
         }
 
+        public string BoundTo(string propertyToBind, IEnumerable<int> selectedIds)
+        {
+            return BuildCombo(propertyToBind, selectedIds.ToArray());
+        }
 
         public override string ToString()
         {
-            return BuildCombo(0, typeof(TEntity).Name + "Id");
+            return BuildCombo(typeof(TEntity).Name + "Id");
         }
 
-        protected virtual string BuildCombo(int selectedId, string htmlId)
+        protected virtual string BuildCombo(string htmlId, params int[] selectedIds)
         {
             if (string.IsNullOrEmpty(htmlId))
             {
                 throw new ArgumentException("htmlId can not be null or empty");
             }
 
-            if (HtmlHelper == null)
-            {
-                throw new SutekiCommonException("HtmlHelper is null");
-            }
-            return HtmlHelper.DropDownList(htmlId, GetSelectListItems(selectedId)).ToString();
+            var selectListItems = GetSelectListItems(selectedIds);
+            var result = DropDownListBuilder.DropDownList(htmlId, selectListItems, mutiple);
+            return result;
         }
 
-        protected IEnumerable<SelectListItem> GetSelectListItems(int selectedId)
+        protected IEnumerable<SelectListItem> GetSelectListItems(int[] selectedIds)
         {
             var queryable = repository.GetAll();
             if (WhereClause != null)
@@ -98,11 +111,63 @@ namespace Suteki.Common.HtmlHelpers
             }
             
             var items = enumerable
-                .Select(e => new SelectListItem { Selected = e.Id == selectedId, Text = e.Name, Value = e.Id.ToString() });
+                .Select(e => new SelectListItem
+                {
+                    Selected = selectedIds.Any(id => id == e.Id), Text = e.Name, Value = e.Id.ToString()
+                });
 
             return items;
         }
 
         public HtmlHelper<TModel> HtmlHelper { get; set; }
+    }
+
+    /// <summary>
+    /// Not using HtmlHelper.DropDownList because it tries to replace selected items from binding state.
+    /// </summary>
+    public class DropDownListBuilder
+    {
+        public static string DropDownList(string htmlId, IEnumerable<SelectListItem> selectListItems, bool allowMultiple)
+        {
+            // Convert each ListItem to an <option> tag
+            var listItemBuilder = new StringBuilder();
+
+            foreach (SelectListItem item in selectListItems)
+            {
+                listItemBuilder.AppendLine(ListItemToOption(item));
+            }
+
+
+            var tagBuilder = new TagBuilder("select")
+            {
+                InnerHtml = listItemBuilder.ToString()
+            };
+//            tagBuilder.MergeAttributes(htmlAttributes);
+            tagBuilder.MergeAttribute("name", htmlId, true /* replaceExisting */);
+            tagBuilder.GenerateId(htmlId);
+            if (allowMultiple)
+            {
+                tagBuilder.MergeAttribute("multiple", "multiple");
+            }
+
+            return tagBuilder.ToString();
+        }
+
+        public static string ListItemToOption(SelectListItem item)
+        {
+            var builder = new TagBuilder("option")
+            {
+                InnerHtml = HttpUtility.HtmlEncode(item.Text)
+            };
+            if (item.Value != null)
+            {
+                builder.Attributes["value"] = item.Value;
+            }
+            if (item.Selected)
+            {
+                builder.Attributes["selected"] = "selected";
+            }
+            return builder.ToString(TagRenderMode.Normal);
+        }
     }
 }

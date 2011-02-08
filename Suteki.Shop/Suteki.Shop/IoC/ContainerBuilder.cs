@@ -60,7 +60,6 @@ namespace Suteki.Shop.IoC
                 Component.For<AuthenticateFilter>().LifeStyle.Transient,
                 Component.For<UnitOfWorkFilter>().LifeStyle.Transient,
                 Component.For<CurrentBasketBinder>().LifeStyle.Transient,
-                Component.For<ProductBinder>().LifeStyle.Transient,
                 Component.For<EnsureSsl>().LifeStyle.Transient,
 				Component.For<MailingListSubscriptionBinder>().LifeStyle.Transient,
                 Component.For<IOrderSearchService>().ImplementedBy<OrderSearchService>().LifeStyle.Transient,
@@ -70,6 +69,10 @@ namespace Suteki.Shop.IoC
                 Component.For<IModelBinder, EntityModelBinder>().ImplementedBy<EntityModelBinder>().LifeStyle.Transient,
                 Component.For<IBasketService>().ImplementedBy<BasketService>().LifeStyle.Transient,
                 Component.For<ICheckoutService>().ImplementedBy<CheckoutService>().LifeStyle.Transient,
+                Component.For<IProductBuilder>().ImplementedBy<ProductBuilder>().LifeStyle.Transient,
+                AllTypes.FromAssembly(Assembly.GetExecutingAssembly())
+                    .BasedOn<IProductBuilderContributor>().WithService.Base()
+                    .Configure(c => c.LifeStyle.Transient),
                 Component.For<IProductCopyService>().ImplementedBy<ProductCopyService>().LifeStyle.Transient
                 );
 

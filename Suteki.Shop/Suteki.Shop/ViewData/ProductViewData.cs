@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using Suteki.Common.Models;
+using Suteki.Common.ViewData;
 
 namespace Suteki.Shop.ViewData
 {
-    public class ProductViewData
+    public class ProductViewData : ViewDataBase
     {
         public ProductViewData()
         {
@@ -15,6 +16,7 @@ namespace Suteki.Shop.ViewData
         public int ProductId { get; set; }
         public int Position { get; set; }
         public string Name { get; set; }
+        public string UrlName { get; set; }
         public IList<int> CategoryIds { get; set; }
         public int Weight { get; set; }
         public Money Price { get; set; }

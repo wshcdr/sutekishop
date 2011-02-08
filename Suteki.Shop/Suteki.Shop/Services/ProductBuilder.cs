@@ -70,6 +70,10 @@ namespace Suteki.Shop.Services
             {
                 throw new ArgumentNullException("contributors");
             }
+            if (contributors.Length == 0)
+            {
+                throw new ArgumentException("No IProductBuilderContributor implementations have been registered");
+            }
 
             this.contributors = contributors;
         }
