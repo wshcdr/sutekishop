@@ -1,10 +1,9 @@
 using System;
 using System.Web.Mvc;
-using Microsoft.Practices.ServiceLocation;
 using NUnit.Framework;
-using Rhino.Mocks;
 using Suteki.Common.Filters;
 using Suteki.Common.Tests;
+using Suteki.Common.Windsor;
 
 namespace Suteki.Shop.Tests.Filters
 {
@@ -14,15 +13,13 @@ namespace Suteki.Shop.Tests.Filters
 		[SetUp]
 		public void Setup()
 		{
-			var locator = MockRepository.GenerateStub<IServiceLocator>();
-			locator.Expect(x => x.GetInstance(Arg<Type>.Is.Anything)).Do(new Func<Type, object>(Activator.CreateInstance));
-			ServiceLocator.SetLocatorProvider(() => locator);
+            IocContainer.SetResolveFunction(Activator.CreateInstance);
 		}
 
 		[TearDown]
 		public void Teardown()
 		{
-			ServiceLocator.SetLocatorProvider(null);
+            IocContainer.Reset();
 		}
 
 		[Test]

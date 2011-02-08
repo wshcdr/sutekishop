@@ -1,28 +1,25 @@
 using System;
 using System.Web.Mvc;
-using Microsoft.Practices.ServiceLocation;
 using NUnit.Framework;
-using Rhino.Mocks;
 using Suteki.Common.Binders;
+using Suteki.Common.Windsor;
 
 namespace Suteki.Common.Tests.Binders
 {
 	[TestFixture]
 	public class BindUsingAttributeTester
 	{
-		[SetUp]
-		public void Setup()
-		{
-			var locator = MockRepository.GenerateStub<IServiceLocator>();
-			locator.Expect(x => x.GetInstance(Arg<Type>.Is.Anything)).Do(new Func<Type, object>(Activator.CreateInstance));
-			ServiceLocator.SetLocatorProvider(() => locator);
-		}
+        [SetUp]
+        public void Setup()
+        {
+            IocContainer.SetResolveFunction(Activator.CreateInstance);
+        }
 
-		[TearDown]
-		public void Teardown()
-		{
-			ServiceLocator.SetLocatorProvider(null);
-		}
+        [TearDown]
+        public void Teardown()
+        {
+            IocContainer.Reset();
+        }
 
 		[Test]
 		public void Should_delegate_to_inner_binder()
