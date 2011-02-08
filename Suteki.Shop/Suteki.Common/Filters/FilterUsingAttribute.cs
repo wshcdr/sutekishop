@@ -1,7 +1,7 @@
 using System;
 using System.Web.Mvc;
-using Microsoft.Practices.ServiceLocation;
 using Suteki.Common.Extensions;
+using Suteki.Common.Windsor;
 
 namespace Suteki.Common.Filters
 {
@@ -39,7 +39,7 @@ namespace Suteki.Common.Filters
 		{
 			if(instantiatedFilter == null)
 			{
-				instantiatedFilter = ServiceLocator.Current.GetInstance(filterType); 
+			    instantiatedFilter = IocContainer.Resolve(filterType);
 			}
 
 			return instantiatedFilter as T;

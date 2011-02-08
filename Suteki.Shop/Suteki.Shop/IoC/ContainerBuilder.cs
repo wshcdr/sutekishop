@@ -4,7 +4,6 @@ using Castle.Core.Logging;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Configuration.Interpreters;
-using Microsoft.Practices.ServiceLocation;
 using Suteki.Common.Binders;
 using Suteki.Common.Events;
 using Suteki.Common.Filters;
@@ -58,7 +57,6 @@ namespace Suteki.Shop.IoC
                 Component.For<IHttpContextService>().ImplementedBy<HttpContextService>().LifeStyle.Transient,
                 Component.For<IUnitOfWorkManager>().ImplementedBy<UnitOfWorkManager>().LifeStyle.Transient,
                 Component.For<IFormsAuthentication>().ImplementedBy<FormsAuthenticationWrapper>(),
-                Component.For<IServiceLocator>().Instance(new WindsorServiceLocator(container)),
                 Component.For<AuthenticateFilter>().LifeStyle.Transient,
                 Component.For<UnitOfWorkFilter>().LifeStyle.Transient,
                 Component.For<CurrentBasketBinder>().LifeStyle.Transient,

@@ -3,7 +3,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Castle.Windsor;
-using Microsoft.Practices.ServiceLocation;
 using Suteki.Common.Binders;
 using Suteki.Common.Models;
 using Suteki.Common.Windsor;
@@ -31,7 +30,7 @@ namespace Suteki.Shop
 
         private static void InitializeBinders()
         {
-            ModelBinders.Binders.DefaultBinder = ServiceLocator.Current.GetInstance<IModelBinder>();
+            ModelBinders.Binders.DefaultBinder = container.Resolve<IModelBinder>();
             ModelBinders.Binders.Add(typeof(Money), new MoneyBinder());
         }
 
@@ -51,7 +50,10 @@ namespace Suteki.Shop
                 // create a new Windsor Container
 				container = ContainerBuilder.Build("Configuration\\Windsor.config"); 
 
-				ServiceLocator.SetLocatorProvider(() => container.Resolve<IServiceLocator>());
+                // set up the static IoC locator (this is an anti-pattern, only use in dire need!)
+                IocContainer.SetResolveFunction(container.Resolve);
+                IocContainer.SetReleaseAction(container.Release);
+
                 // set the controller factory to the Windsor controller factory (in MVC Contrib)
                 ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
             }

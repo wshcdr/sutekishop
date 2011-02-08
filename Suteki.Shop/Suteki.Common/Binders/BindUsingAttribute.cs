@@ -1,7 +1,7 @@
 using System;
 using System.Web.Mvc;
-using Microsoft.Practices.ServiceLocation;
 using Suteki.Common.Extensions;
+using Suteki.Common.Windsor;
 
 namespace Suteki.Common.Binders
 {
@@ -21,7 +21,7 @@ namespace Suteki.Common.Binders
 
 		public override IModelBinder GetBinder()
 		{
-			var binder = (IModelBinder) ServiceLocator.Current.GetInstance(binderType);
+		    var binder = (IModelBinder) IocContainer.Resolve(binderType);
 
 			if(binder is IAcceptsAttribute)
 			{
