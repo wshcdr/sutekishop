@@ -12,7 +12,7 @@ using Suteki.Common.HtmlHelpers;
 
 namespace Suteki.Shop
 {
-    public class Content : IOrderable, IActivatable, IUrlNamed, IEntity
+    public class Content : IOrderable, IActivatable, IUrlNamed, INamedEntity
     {
         public virtual int Id { get; set; }
 
@@ -35,7 +35,7 @@ namespace Suteki.Shop
         public virtual string UrlName { get; set; }
         public virtual int Position { get; set; }
         public virtual bool IsActive { get; set; }
-        public virtual Content ParentContent { get; set; } 
+        public virtual Menu ParentContent { get; set; } 
 
         IList<Content> contents = new List<Content>();
         public virtual IList<Content> Contents

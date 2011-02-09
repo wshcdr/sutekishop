@@ -191,7 +191,6 @@ namespace Suteki.Shop.Tests.Controllers
 				.ToAction("Edit")
 				.WithRouteValue("id", "5");
 
-			productController.Message.ShouldNotBeNull();
 			productRepository.AssertWasCalled(x => x.SaveOrUpdate(product));
     	}
 

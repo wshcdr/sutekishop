@@ -21,7 +21,7 @@ namespace Suteki.Shop
             }
         }
 
-		public static Menu CreateDefaultMenu(int position, Content parent)
+		public static Menu CreateDefaultMenu(int position, Menu parent)
 		{
 			return new Menu 
 			{

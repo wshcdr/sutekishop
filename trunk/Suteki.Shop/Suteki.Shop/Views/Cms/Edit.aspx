@@ -13,7 +13,8 @@
 	<%= this.Hidden(x => x.Content.Position) %>
 	<%= this.TextBox(x => x.Content.Name).Label("Name") %>
 	<%= this.TextArea(x => ((ITextContent) x.Content).Text).Label("Text") %>
-	<%= this.Select(x => x.Content.ParentContent.Id).Options(Model.Menus, x => x.Id, x => x.Name).Label("Parent Menu") %>
+    <label>Parent Menu</label>
+    <%= Html.ComboFor(x => x.Content.ParentContent) %>
 	<%= this.CheckBox(x => x.Content.IsActive).Label("Active") %>
 	
 	<input type="submit" value="Save Changes" />

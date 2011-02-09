@@ -13,7 +13,7 @@ namespace Suteki.Shop
 			return htmlHelper.ActionLink<CmsController>(c => c.EditText(Id), "Edit");
 		}
 
-		public static TextContent DefaultTextContent(Content parentContent, int nextPosition)
+		public static TextContent DefaultTextContent(Menu parentContent, int nextPosition)
 		{
 			return new TextContent
 			{

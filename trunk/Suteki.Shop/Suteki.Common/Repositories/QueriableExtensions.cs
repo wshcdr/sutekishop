@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using Suteki.Common.Extensions;
+using Suteki.Common.Models;
 
 namespace Suteki.Common.Repositories
 {
@@ -34,22 +35,23 @@ namespace Suteki.Common.Repositories
         }
 
         public static IQueryable<T> NotIncluding<T>(this IQueryable<T> items, int primaryKey)
-            where T : class
+            where T : IEntity
         {
-            var itemParameter = Expression.Parameter(typeof(T), "item");
-
-            var whereExpression = Expression.Lambda<Func<T, bool>>
-                (
-                Expression.NotEqual(
-                    Expression.Property(
-                        itemParameter,
-                        typeof(T).GetPrimaryKey().Name
-                        ),
-                    Expression.Constant(primaryKey)
-                    ),
-                new[] { itemParameter }
-                );
-            return items.Where(whereExpression);
+            return items.Where(x => x.Id != primaryKey);
+            //            var itemParameter = Expression.Parameter(typeof(T), "item");
+            //
+            //            var whereExpression = Expression.Lambda<Func<T, bool>>
+            //                (
+            //                Expression.NotEqual(
+            //                    Expression.Property(
+            //                        itemParameter,
+            //                        typeof(T).GetPrimaryKey().Name
+            //                        ),
+            //                    Expression.Constant(primaryKey)
+            //                    ),
+            //                new[] { itemParameter }
+            //                );
+            //            return items.Where(whereExpression);
         }
     }
 }

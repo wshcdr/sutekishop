@@ -19,6 +19,7 @@ namespace Suteki.Shop.Tests.Controllers
         private CmsController cmsController;
 
         private IRepository<Content> contentRepository;
+        private IRepository<Menu> menuRepository;
         private IOrderableService<Content> contentOrderableService;
 
         [SetUp]
@@ -28,10 +29,12 @@ namespace Suteki.Shop.Tests.Controllers
             Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("admin"), new[] { "Administrator" });
 
             contentRepository = MockRepository.GenerateStub<IRepository<Content>>();
+            menuRepository = MockRepository.GenerateStub<IRepository<Menu>>();
             contentOrderableService = MockRepository.GenerateStub<IOrderableService<Content>>();
 
             cmsController = new CmsController(
                 contentRepository, 
+                menuRepository,
                 contentOrderableService);
         }
 
@@ -84,7 +87,7 @@ namespace Suteki.Shop.Tests.Controllers
             const int menuId = 1;
 
             var menu = new Menu {Id = menuId};
-            contentRepository.Expect(cr => cr.GetById(menuId)).Return(menu);
+            menuRepository.Expect(cr => cr.GetById(menuId)).Return(menu);
 
             var menus = new List<Content>().AsQueryable();
             contentRepository.Expect(cr => cr.GetAll()).Return(menus);
@@ -102,7 +105,7 @@ namespace Suteki.Shop.Tests.Controllers
 		{
 			var content = new TextContent
 			{
-                ParentContent = new Content { Id = 4 }
+                ParentContent = new Menu { Id = 4 }
 			};
 
 			cmsController.Add(content)
@@ -137,15 +140,11 @@ namespace Suteki.Shop.Tests.Controllers
             var content = new TextContent { Id = contentId };
             contentRepository.Stub(cr => cr.GetById(contentId)).Return(content);
 
-            var menus = new List<Content>().AsQueryable();
-            contentRepository.Stub(cr => cr.GetAll()).Return(menus);
-
-            cmsController.EditText(contentId)
-                .ReturnsViewResult()
-                .ForView("Edit")
-                .WithModel<CmsViewData>()
-                .AssertAreEqual(contentId, vd => vd.Content.Id)
-                .AssertNotNull(vd => vd.Menus);
+    	    cmsController.EditText(contentId)
+    	        .ReturnsViewResult()
+    	        .ForView("Edit")
+    	        .WithModel<CmsViewData>()
+    	        .AssertAreEqual(contentId, vd => vd.Content.Id);
         }
 
     	[Test]
@@ -166,7 +165,7 @@ namespace Suteki.Shop.Tests.Controllers
     	{
     		var content = new TextContent
     		{
-                ParentContent = new Content { Id = 4 }
+                ParentContent = new Menu { Id = 4 }
     		};
 
 			cmsController.Add(content)
@@ -181,7 +180,7 @@ namespace Suteki.Shop.Tests.Controllers
     	{
 			cmsController.EditTop(new TopContent
 			{
-                ParentContent = new Content { Id = 4 }
+                ParentContent = new Menu { Id = 4 }
 			});
     	}
 

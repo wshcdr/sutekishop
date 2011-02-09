@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Web.Mvc;
 using MvcContrib;
 using Suteki.Common.Binders;
@@ -9,7 +8,6 @@ using Suteki.Common.Repositories;
 using Suteki.Common.Services;
 using Suteki.Shop.Filters;
 using Suteki.Shop.ViewData;
-using NHibernate.Linq;
 
 namespace Suteki.Shop.Controllers
 {
@@ -42,7 +40,7 @@ namespace Suteki.Shop.Controllers
         [HttpGet, UnitOfWork]
         public ViewResult Edit(int id)
 		{
-			return View(GetEditViewData(id).WithContent(menuRepository.GetById(id)));
+            return View(CmsView.Data.WithContent(menuRepository.GetById(id)));
 		}
 
 		[AdministratorsOnly, AcceptVerbs(HttpVerbs.Post), UnitOfWork]
@@ -54,7 +52,7 @@ namespace Suteki.Shop.Controllers
 				return this.RedirectToAction(c => c.List(content.ParentContent.Id));
 			}
 
-            return View("Edit", GetEditViewData(content.ParentContent.Id).WithContent(content));
+            return View("Edit", CmsView.Data.WithContent(content));
 		}
 
 		[AdministratorsOnly]
@@ -69,7 +67,7 @@ namespace Suteki.Shop.Controllers
 			}
 
 			var menu = Menu.CreateDefaultMenu(contentOrderableService.NextPosition, parentMenu);
-			return View("Edit", GetEditViewData(0).WithContent(menu));
+            return View("Edit", CmsView.Data.WithContent(menu));
 		}
 
 		[AcceptVerbs(HttpVerbs.Post), AdministratorsOnly, UnitOfWork]
@@ -82,13 +80,7 @@ namespace Suteki.Shop.Controllers
                 return this.RedirectToAction(c => c.List(content.ParentContent.Id));
 			}
 
-            return View("Edit", GetEditViewData(content.ParentContent.Id).WithContent(content));
-		}
-
-		private CmsViewData GetEditViewData(int contentId)
-		{
-			var menus = menuRepository.GetAll().NotIncluding(contentId);
-			return CmsView.Data.WithMenus(menus);
+            return View("Edit", CmsView.Data.WithContent(content));
 		}
 	}
 }
