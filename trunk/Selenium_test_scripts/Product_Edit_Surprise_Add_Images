@@ -62,11 +62,6 @@
 	<td></td>
 </tr>
 <tr>
-	<td>verifyTextPresent</td>
-	<td>Product successfully saved</td>
-	<td></td>
-</tr>
-<tr>
 	<td>clickAndWait</td>
 	<td>link=Preview</td>
 	<td></td>
@@ -86,7 +81,6 @@
 	<td>//div[@id='mainContent']/div/div[2]/div[2]/div[2]/img[3]</td>
 	<td></td>
 </tr>
-
 </tbody></table>
 </body>
 </html>

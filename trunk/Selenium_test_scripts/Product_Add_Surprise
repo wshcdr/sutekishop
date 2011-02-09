@@ -37,18 +37,8 @@
 	<td></td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>Product_Name</td>
-	<td>Surprise</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>Product_Weight</td>
-	<td>250</td>
-</tr>
-<tr>
 	<td>selectFrame</td>
-	<td>Product_Description_ifr</td>
+	<td>Description_ifr</td>
 	<td></td>
 </tr>
 <tr>
@@ -68,27 +58,37 @@
 </tr>
 <tr>
 	<td>type</td>
-	<td>Product_Price</td>
+	<td>Name</td>
+	<td>Surprise</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Weight</td>
+	<td>250</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Price</td>
 	<td>150.00</td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>Product_IsActive</td>
+	<td>IsActive</td>
 	<td></td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>size_0</td>
+	<td>Sizes_0_</td>
 	<td>10cm</td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>size_1</td>
+	<td>Sizes_1_</td>
 	<td>20cm</td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>size_2</td>
+	<td>Sizes_2_</td>
 	<td>30cm</td>
 </tr>
 <tr>
@@ -97,9 +97,9 @@
 	<td></td>
 </tr>
 <tr>
-	<td>verifyTextPresent</td>
-	<td>Product successfully added</td>
-	<td></td>
+	<td>verifyValue</td>
+	<td>Name</td>
+	<td>Surprise</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -111,7 +111,11 @@
 	<td>//div[@id='mainContent']/div/div[2]/h1</td>
 	<td>Surprise&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;£150.00</td>
 </tr>
-
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Home</td>
+	<td></td>
+</tr>
 </tbody></table>
 </body>
 </html>

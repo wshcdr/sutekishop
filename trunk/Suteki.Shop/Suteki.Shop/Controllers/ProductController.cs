@@ -108,7 +108,6 @@ namespace Suteki.Shop.Controllers
 			{
 				productRepository.SaveOrUpdate(product);
 				uow.Commit(); //Need explicit commit in order to get the product id.
-				Message = "Product successfully added.";
 				return this.RedirectToAction(x => x.Edit(product.Id));
 			}
             return View("Edit", productViewData);
@@ -126,7 +125,6 @@ namespace Suteki.Shop.Controllers
             var product = productBuilder.ProductFromProductViewData(productViewData, ModelState, Request);
 		    if (ModelState.IsValid)
 			{
-				Message = "Product successfully saved.";
 				return this.RedirectToAction(x => x.Edit(product.Id));
 			}
             return View("Edit", ProductViewDataMap.FromModel(product));
