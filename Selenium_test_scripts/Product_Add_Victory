@@ -38,27 +38,27 @@
 </tr>
 <tr>
 	<td>type</td>
-	<td>Product_Name</td>
+	<td>Name</td>
 	<td>Victory</td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>Product_Weight</td>
+	<td>Weight</td>
 	<td>450</td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>Product_Price</td>
+	<td>Price</td>
 	<td>300.00</td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>Product_IsActive</td>
+	<td>IsActive</td>
 	<td></td>
 </tr>
 <tr>
 	<td>selectFrame</td>
-	<td>Product_Description_ifr</td>
+	<td>Description_ifr</td>
 	<td></td>
 </tr>
 <tr>
@@ -78,17 +78,17 @@
 </tr>
 <tr>
 	<td>type</td>
-	<td>size_0</td>
+	<td>Sizes_0_</td>
 	<td>10cm</td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>size_1</td>
+	<td>Sizes_1_</td>
 	<td>20cm</td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>size_2</td>
+	<td>Sizes_2_</td>
 	<td>30cm</td>
 </tr>
 <tr>
@@ -97,9 +97,9 @@
 	<td></td>
 </tr>
 <tr>
-	<td>verifyTextPresent</td>
-	<td>Product successfully added</td>
-	<td></td>
+	<td>verifyValue</td>
+	<td>Name</td>
+	<td>Victory</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -121,7 +121,6 @@
 	<td>basketItem_Quantity</td>
 	<td>1 2 3 4 5 6 7 8 9 10</td>
 </tr>
-
 </tbody></table>
 </body>
 </html>

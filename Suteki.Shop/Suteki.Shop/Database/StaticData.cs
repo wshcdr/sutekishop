@@ -67,7 +67,11 @@ namespace Suteki.Shop.Database
             var home = new TopContent
             {
                 Name = "Home",
-                Text = @"<br/><h1>Welcome to Suteki Shop</h1><p>Please visit the <a href=""http://code.google.com/p/sutekishop/"">project web site</a> for more information.</p>",
+                Text = 
+@"<br/>
+<h1>Welcome to Suteki Shop</h1>
+<p>A .NET eCommerce application.</p>
+<p>Please visit the <a href=""http://code.google.com/p/sutekishop/"">project web site</a> for more information.</p>",
                 ParentContent = mainMenu,
                 Position = 2,
                 IsActive = true
