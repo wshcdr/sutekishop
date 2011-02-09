@@ -29,7 +29,7 @@ namespace Suteki.Shop.Controllers
         [UnitOfWork]
         public ActionResult Orders()
         {
-            string ordersCsv = orderRepository.GetAll().Select(o => new 
+            string ordersCsv = orderRepository.GetAll().ToList().Select(o => new 
             {
                 OrderId = o.Id, 
                 o.Email,
