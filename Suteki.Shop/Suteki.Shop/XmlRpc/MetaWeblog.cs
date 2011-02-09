@@ -21,6 +21,7 @@ namespace Suteki.Shop.XmlRpc
     public class MetaWeblog : XmlRpcService, IMetaWeblog
     {
         private IRepository<Content> contentRepository;
+        private IRepository<Menu> menuRepository;
         private IRepository<User> userRepository;
         private IOrderableService<Content> contentOrderableService;
         private IBaseControllerService baseControllerService;
@@ -29,12 +30,14 @@ namespace Suteki.Shop.XmlRpc
 
         public MetaWeblog(
             IRepository<Content> contentRepository,
+            IRepository<Menu> menuRepository,
             IRepository<User> userRepository,
             IOrderableService<Content> contentOrderableService,
             IBaseControllerService baseControllerService,
             IImageFileService imageFileService)
         {
             this.contentRepository = contentRepository;
+            this.menuRepository = menuRepository;
             this.userRepository = userRepository;
             this.contentOrderableService = contentOrderableService;
             this.baseControllerService = baseControllerService;
@@ -43,6 +46,7 @@ namespace Suteki.Shop.XmlRpc
 
         public MetaWeblog(IWindsorContainer iocContainer) : this(
             iocContainer.Resolve<IRepository<Content>>(),
+            iocContainer.Resolve<IRepository<Menu>>(),
             iocContainer.Resolve<IRepository<User>>(),
             iocContainer.Resolve<IOrderableService<Content>>(),
             iocContainer.Resolve<IBaseControllerService>(),
@@ -258,7 +262,7 @@ namespace Suteki.Shop.XmlRpc
 
             ValidateUser(username, password);
 
-            var parent = contentRepository.GetById(1); // hack assumes that root content has id = 1
+            var parent = menuRepository.GetById(1); // hack assumes that root content has id = 1
             var content = new TextContent
             {
                 ParentContent = parent,

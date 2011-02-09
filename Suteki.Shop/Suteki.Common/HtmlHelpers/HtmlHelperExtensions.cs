@@ -139,6 +139,15 @@ namespace Suteki.Common.HtmlHelpers
             return htmlHelper.With<IComboFor<TLookup, TModel>, TModel>(combo => combo.BoundTo(propertyExpression));
         }
 
+        public static string ComboFor<TModel, TLookup>(
+            this HtmlHelper<TModel> htmlHelper, 
+            Expression<Func<TModel, TLookup>> propertyExpression, 
+            Expression<Func<TLookup, bool>> whereClause)
+            where TLookup : class, INamedEntity
+        {
+            return htmlHelper.With<IComboFor<TLookup, TModel>, TModel>(combo => combo.BoundTo(propertyExpression, whereClause));
+        }
+
         public static string ComboFor<TModel, TLookup>(this HtmlHelper<TModel> htmlHelper, string propertyToBind, IEnumerable<int> selectedIds)
             where TLookup : class, INamedEntity
         {

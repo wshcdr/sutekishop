@@ -6,7 +6,6 @@ using Suteki.Common.Repositories;
 using Suteki.Common.Services;
 using Suteki.Common.TestHelpers;
 using Suteki.Shop.Controllers;
-using Suteki.Shop.Tests.Repositories;
 using Suteki.Shop.ViewData;
 
 namespace Suteki.Shop.Tests.Controllers
@@ -46,9 +45,6 @@ namespace Suteki.Shop.Tests.Controllers
 			var mainMenu = new Menu { Id = parentContentId };
 			menuRepository.Expect(mr => mr.GetById(parentContentId)).Return(mainMenu);
 
-			var menus = new List<Menu>().AsQueryable();
-			menuRepository.Expect(cr => cr.GetAll()).Return(menus);
-
 			controller.New(parentContentId)
 				.ForView("Edit")
 				.WithModel<CmsViewData>()
@@ -60,7 +56,7 @@ namespace Suteki.Shop.Tests.Controllers
 		[Test]
 		public void NewWithPost_should_save()
 		{
-		    var menu = new Menu {ParentContent = new Content {Id = 5}};
+		    var menu = new Menu {ParentContent = new Menu {Id = 5}};
 
 			controller.New(menu)
 				.ReturnsRedirectToRouteResult()
@@ -76,8 +72,7 @@ namespace Suteki.Shop.Tests.Controllers
 		public void NewWithPost_should_render_edit_view_on_error()
 		{
 			controller.ModelState.AddModelError("foo", "bar");
-			menuRepository.Expect(x => x.GetAll()).Return(new List<Menu>().AsQueryable());
-            var menu = new Menu { ParentContent = new Content { Id = 5 } };
+            var menu = new Menu { ParentContent = new Menu { Id = 5 } };
 			controller.New(menu)
 				.ReturnsViewResult()
 				.ForView("Edit")

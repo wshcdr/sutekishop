@@ -16,12 +16,16 @@ namespace Suteki.Shop.Controllers
 	public class CmsController : ControllerBase
 	{
 		private readonly IRepository<Content> contentRepository;
+		private readonly IRepository<Menu> menuRepository;
         private readonly IOrderableService<Content> contentOrderableService;
 
 	    public CmsController(
-            IRepository<Content> contentRepository, IOrderableService<Content> contentOrderableService)
+            IRepository<Content> contentRepository,
+            IRepository<Menu> menuRepository,
+            IOrderableService<Content> contentOrderableService)
 		{
 			this.contentRepository = contentRepository;
+	        this.menuRepository = menuRepository;
 			this.contentOrderableService = contentOrderableService;
 		}
 
@@ -81,10 +85,9 @@ namespace Suteki.Shop.Controllers
         [HttpGet, UnitOfWork]
         public ActionResult Add(int id)
 		{
-		    var viewData = GetEditViewData(0);
-			var parentContent = contentRepository.GetById(id);
-			var textContent = TextContent.DefaultTextContent(parentContent, contentOrderableService.NextPosition);
-			return View("Edit", viewData.WithContent(textContent));
+			var menu = menuRepository.GetById(id);
+			var textContent = TextContent.DefaultTextContent(menu, contentOrderableService.NextPosition);
+            return View("Edit", CmsView.Data.WithContent(textContent));
 		}
 
 		[AdministratorsOnly, HttpPost, UnitOfWork]
@@ -97,7 +100,7 @@ namespace Suteki.Shop.Controllers
 				return this.RedirectToAction<MenuController>(c => c.List(content.ParentContent.Id));
 			}
 
-			return View("Edit", GetEditViewData(content.Id).WithContent(content));
+            return View("Edit", CmsView.Data.WithContent(content));
 		}
 
 		[AdministratorsOnly]
@@ -109,15 +112,14 @@ namespace Suteki.Shop.Controllers
 
 	    ActionResult EditContent(int id)
 	    {
-	        var viewData = GetEditViewData(id);
 	        var content = contentRepository.GetById(id);
-	        return View("Edit", viewData.WithContent(content));
+            return View("Edit", CmsView.Data.WithContent(content));
 	    }
 
 	    [AdministratorsOnly, UnitOfWork, AcceptVerbs(HttpVerbs.Post)]
 		public ActionResult EditText(TextContent content)
 		{
-		    return EditContent(content, "EditText");
+		    return EditContent(content, "Edit");
 		}
 
         ActionResult EditContent(Content content, string errorView)
@@ -129,14 +131,8 @@ namespace Suteki.Shop.Controllers
 	        }
 
 	        //Error
-            return View(errorView, GetEditViewData(content.Id).WithContent(content));
+            return View(errorView, CmsView.Data.WithContent(content));
 	    }
-
-	    CmsViewData GetEditViewData(int contentId)
-		{
-			var menus = contentRepository.GetAll().NotIncluding(contentId).Menus().ToList();
-			return CmsView.Data.WithMenus(menus);
-		}
 
 		[AdministratorsOnly, UnitOfWork]
 		public ActionResult MoveUp(int id)
@@ -174,7 +170,7 @@ namespace Suteki.Shop.Controllers
         [AdministratorsOnly, UnitOfWork, AcceptVerbs(HttpVerbs.Post)]
         public ActionResult EditTop(TopContent content)
 	    {
-            return EditContent(content, "EditTop");
+            return EditContent(content, "Edit");
         }
 	}
 }
