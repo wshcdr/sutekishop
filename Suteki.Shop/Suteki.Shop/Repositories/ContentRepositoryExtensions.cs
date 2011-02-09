@@ -24,7 +24,6 @@ namespace Suteki.Shop.Repositories
         {
             return contents.TextContent().InOrder().FirstOrDefault() ?? new TextContent
             {
-                ContentType = ContentType.TextContent,
                 Name = "Default",
                 Text = "No content has been created yet",
                 IsActive = true,

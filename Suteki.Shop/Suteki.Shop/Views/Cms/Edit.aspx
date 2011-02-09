@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/CmsSubMenu.master" AutoEventWireup="true" ValidateRequest="false" CodeBehind="Edit.aspx.cs" Inherits="Suteki.Shop.ViewPage<CmsViewData>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/CmsSubMenu.master" AutoEventWireup="true" ValidateRequest="false" Inherits="Suteki.Shop.ViewPage<CmsViewData>" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
 
 <h1>Content</h1>
@@ -9,7 +9,6 @@
 <%= Html.ValidationSummary() %>
 
 <% using (Html.BeginForm()) { %>
-	<%= this.Hidden(x => x.Content.ContentType.Id) %>
 	<%= this.Hidden(x => x.Content.Id) %>
 	<%= this.Hidden(x => x.Content.Position) %>
 	<%= this.TextBox(x => x.Content.Name).Label("Name") %>

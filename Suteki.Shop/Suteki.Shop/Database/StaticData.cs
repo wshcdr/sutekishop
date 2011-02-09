@@ -54,16 +54,6 @@ namespace Suteki.Shop.Database
             insertOrderStatus(OrderStatus.RejectedId, "Rejected");
         }
 
-        public static void InsertContentType(ISession session)
-        {
-            var insertContentType = CreateInsert<ContentType>(session);
-
-            insertContentType(ContentType.MenuId, "Menu");
-            insertContentType(ContentType.TextContentId, "Text");
-            insertContentType(ContentType.ActionContentId, "Action");
-            insertContentType(ContentType.TopContentId, "Top");
-        }
-
         public static void InsertContent(ISession session)
         {
             var mainMenu = new Menu

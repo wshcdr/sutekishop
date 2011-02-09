@@ -14,29 +14,14 @@ namespace Suteki.Shop.Tests.Repositories
         [SetUp]
         public void SetUp()
         {
-            var menuType = new ContentType { Id = 1, Name = "Menu"};
-            var textType = new ContentType { Id = 2, Name = "TextContent"};
-            var actionType = new ContentType { Id = 3, Name = "Action"};
-            var topType = new ContentType { Id = 4, Name = "TopContent"};
-
-            InSession(session =>
-            {
-                session.Save(menuType);
-                session.Save(textType);
-                session.Save(actionType);
-                session.Save(topType);
-            });
-
             menu = new Menu
             {
-                ContentType = menuType, 
                 Name = "Main", 
                 IsActive = true, 
                 Position = 1
             };
             var textContent = new TextContent
             {
-                ContentType = textType, 
                 Name = "Text", 
                 Text = "Some text", 
                 IsActive = true, 
@@ -45,7 +30,6 @@ namespace Suteki.Shop.Tests.Repositories
             };
             var actionContent = new ActionContent
             {
-                ContentType = actionType,
                 Name = "Action",
                 Controller = "HomeController",
                 Action = "Index",
@@ -55,7 +39,6 @@ namespace Suteki.Shop.Tests.Repositories
             };
             var topContent = new TopContent
             {
-                ContentType = topType,
                 Name = "Top content",
                 Text = "Some more text",
                 IsActive = true,

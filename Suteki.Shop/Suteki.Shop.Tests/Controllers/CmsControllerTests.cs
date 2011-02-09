@@ -200,14 +200,12 @@ namespace Suteki.Shop.Tests.Controllers
     {
         public static FormCollection ForTextContent(this FormCollection form)
         {
-            form.Add("contenttypeid", ContentType.TextContentId.ToString());
             form.Add("text", "some content text");
             return form;
         }
 
         public static FormCollection ForMenuContent(this FormCollection form)
         {
-            form.Add("contenttypeid", ContentType.MenuId.ToString());
             return form;
         }
     }

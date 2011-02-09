@@ -19,7 +19,6 @@ namespace Suteki.Shop
 			{
 				ParentContent = parentContent,
 				IsActive = true,
-				ContentType = ContentType.TextContent,
 				Position = nextPosition
 			};
 		}

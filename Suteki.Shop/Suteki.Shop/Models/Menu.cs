@@ -25,7 +25,6 @@ namespace Suteki.Shop
 		{
 			return new Menu 
 			{
-				ContentType = ContentType.Menu,
 				ParentContent = parent,
 				IsActive = true,
 				Position = position

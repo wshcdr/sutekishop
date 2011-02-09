@@ -11,7 +11,6 @@
 
 <% using(Html.BeginForm()) { %>
 	<%= this.Hidden(x => x.Content.Id) %>
-	<%= this.Hidden(x => x.Content.ContentType.Id) %>
 	<%= this.Hidden(x => x.Content.Position) %>
 	<%= this.TextBox(x => x.Content.Name).Label("Name") %>
 	<%= this.Select(x => x.Content.ParentContent.Id).Options(ViewData.Model.Menus, x => x.Id, x => x.Name).Label("Parent Menu") %>

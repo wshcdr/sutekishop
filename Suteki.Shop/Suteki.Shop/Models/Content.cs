@@ -36,7 +36,6 @@ namespace Suteki.Shop
         public virtual int Position { get; set; }
         public virtual bool IsActive { get; set; }
         public virtual Content ParentContent { get; set; } 
-        public virtual ContentType ContentType { get; set; }
 
         IList<Content> contents = new List<Content>();
         public virtual IList<Content> Contents

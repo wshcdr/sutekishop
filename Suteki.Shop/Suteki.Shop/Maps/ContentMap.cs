@@ -14,7 +14,7 @@ namespace Suteki.Shop.Maps
             Map(x => x.UrlName);
 
             References(x => x.ParentContent);
-            References(x => x.ContentType);
+            // References(x => x.ContentType);
 
             HasMany(x => x.Contents).KeyColumn("ParentContentId").Cascade.AllDeleteOrphan().Inverse();
 
