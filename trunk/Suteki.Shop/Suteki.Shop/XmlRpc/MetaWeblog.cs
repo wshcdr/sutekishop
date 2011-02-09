@@ -263,7 +263,6 @@ namespace Suteki.Shop.XmlRpc
             {
                 ParentContent = parent,
                 Position = contentOrderableService.NextPosition,
-                ContentType = ContentType.TextContent,
                 IsActive = publish,
                 Name = post.title,
                 Text = post.description

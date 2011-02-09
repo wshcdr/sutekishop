@@ -24,7 +24,6 @@ namespace Suteki.Shop.Database
                     StaticData.InsertRootCategory,
                     StaticData.InsertCardTypes,
                     StaticData.InsertOrderStatus,
-                    StaticData.InsertContentType,
                     StaticData.InsertContent,
                     StaticData.InsertPostZoneAndCountry
                     );

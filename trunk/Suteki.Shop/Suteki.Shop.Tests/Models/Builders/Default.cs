@@ -208,14 +208,6 @@ namespace Suteki.Shop.Tests.Models.Builders
             };
         }
 
-        public static ContentType ContentType()
-        {
-            return new ContentType
-            {
-                Name = "Text"
-            };
-        }
-
         public static Menu Menu()
         {
             return new Menu

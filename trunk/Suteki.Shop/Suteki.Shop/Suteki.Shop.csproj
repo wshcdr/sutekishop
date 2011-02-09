@@ -235,7 +235,6 @@
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\Content.cs" />
-    <Compile Include="Models\ContentType.cs" />
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\CustomDataAnnotations\CreditCardAttribute.cs" />
     <Compile Include="Models\CustomDataAnnotations\EmailAttribute.cs" />

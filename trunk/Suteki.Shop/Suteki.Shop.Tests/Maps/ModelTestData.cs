@@ -29,7 +29,6 @@ namespace Suteki.Shop.Tests.Maps
                 typeof (Image),
                 typeof (ProductCategory),
                 typeof (Category),
-                typeof (ContentType),
                 typeof (Menu),
                 typeof (TextContent),
                 typeof (ActionContent),
