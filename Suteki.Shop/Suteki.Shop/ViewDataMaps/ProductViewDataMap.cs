@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Suteki.Shop.Repositories;
 using Suteki.Shop.ViewData;
 
 namespace Suteki.Shop.ViewDataMaps
@@ -36,7 +37,7 @@ namespace Suteki.Shop.ViewDataMaps
                 IsActive = product.IsActive,
                 Description = product.Description,
                 CategoryIds = product.ProductCategories.Select(x => x.Category.Id).ToList(),
-                Sizes = product.Sizes.Select(x => x.Name).ToList(),
+                Sizes = product.Sizes.Active().Select(x => x.Name).ToList(),
                 ProductImages = product.ProductImages
             };
         }
