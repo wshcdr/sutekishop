@@ -163,7 +163,7 @@ namespace Suteki.Shop.Tests.Controllers
     	public void EditWithPost_ShouldRenderViewWhenBindingFails()
     	{
 			productController.ModelState.AddModelError("foo", "bar");
-			var product = new Product { Id = 5 };
+			var product = new Product();
             var productViewData = new ProductViewData();
             productBuilder.Stub(
                 x => x.ProductFromProductViewData(productViewData, productController.ModelState, productController.Request))
@@ -173,7 +173,7 @@ namespace Suteki.Shop.Tests.Controllers
 				.ReturnsViewResult()
 				.ForView("Edit")
                 .WithModel<ProductViewData>()
-				.AssertAreEqual(product.Id, x => x.ProductId);
+				.AssertAreSame(productViewData, x => x);
     	}
 
     	[Test]

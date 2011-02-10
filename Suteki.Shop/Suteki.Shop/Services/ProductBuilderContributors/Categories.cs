@@ -19,6 +19,12 @@ namespace Suteki.Shop.Services.ProductBuilderContributors
             {
                 throw new ArgumentNullException("context");
             }
+            if (context.ProductViewData.CategoryIds.Count == 0)
+            {
+                context.ModelStateDictionary.AddModelError("CategoryIds", "You must select at least one category");
+                return;
+            }
+
             var newIds = context.ProductViewData.CategoryIds;
             var existingIds = context.Product.ProductCategories.Select(x => x.Category.Id);
 

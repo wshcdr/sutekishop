@@ -74,6 +74,12 @@ namespace Suteki.Common.HtmlHelpers
             return BuildCombo(propertyToBind, selectedIds.ToArray());
         }
 
+        public string BoundTo(string propertyToBind, IEnumerable<int> selectedIds, Expression<Func<TEntity, bool>> whereClause)
+        {
+            WhereClause = whereClause;
+            return BuildCombo(propertyToBind, selectedIds.ToArray());
+        }
+
         public override string ToString()
         {
             return BuildCombo(typeof(TEntity).Name + "Id");

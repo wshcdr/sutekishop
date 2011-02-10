@@ -110,7 +110,7 @@ namespace Suteki.Shop.Controllers
 				uow.Commit(); //Need explicit commit in order to get the product id.
 				return this.RedirectToAction(x => x.Edit(product.Id));
 			}
-            return View("Edit", productViewData);
+            return View("Edit", productViewData.WithErrorMessage("There were errors, please correct them and resubmit."));
 		}
 
 	    [AdministratorsOnly]
@@ -127,7 +127,7 @@ namespace Suteki.Shop.Controllers
 			{
 				return this.RedirectToAction(x => x.Edit(product.Id));
 			}
-            return View("Edit", ProductViewDataMap.FromModel(product));
+            return View("Edit", productViewData.WithErrorMessage("There were errors, please correct them and resubmit."));
 		}
 
 	    ActionResult RenderEditView(int id)

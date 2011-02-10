@@ -160,6 +160,16 @@ namespace Suteki.Common.HtmlHelpers
             return htmlHelper.With<IComboFor<TLookup, TModel>, TModel>(combo => combo.Multiple().BoundTo(propertyToBind, selectedIds));
         }
 
+        public static string MutipleSelectComboFor<TModel, TLookup>(
+            this HtmlHelper<TModel> htmlHelper, 
+            string propertyToBind, 
+            IEnumerable<int> selectedIds,
+            Expression<Func<TLookup, bool>> whereClause)
+            where TLookup : class, INamedEntity
+        {
+            return htmlHelper.With<IComboFor<TLookup, TModel>, TModel>(combo => combo.Multiple().BoundTo(propertyToBind, selectedIds, whereClause));
+        }
+
         public static void PostAction<TController>(this HtmlHelper htmlHelper, Expression<Action<TController>> action, string buttonText)
         {
             var postAction = new PostAction<TController>(htmlHelper, action, buttonText);
