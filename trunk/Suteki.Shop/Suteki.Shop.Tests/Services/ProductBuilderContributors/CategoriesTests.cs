@@ -1,5 +1,4 @@
 // ReSharper disable InconsistentNaming
-using System;
 using NUnit.Framework;
 using Rhino.Mocks;
 using Suteki.Common.Repositories;
@@ -42,6 +41,9 @@ namespace Suteki.Shop.Tests.Services.ProductBuilderContributors
         [Test]
         public void Should_delete_categories_that_are_no_longer_required()
         {
+            var category11 = new Category { Id = 11 };
+            categoryRepository.Stub(r => r.GetById(11)).Return(category11);
+            
             var category14 = new Category { Id = 14 };
             var category15 = new Category { Id = 15 };
 
@@ -49,10 +51,12 @@ namespace Suteki.Shop.Tests.Services.ProductBuilderContributors
             product.AddCategory(category14);
             product.AddCategory(category15);
             context.SetProduct(product);
+            context.ProductViewData.CategoryIds.Add(11);
 
             contributor.ContributeTo(context);
 
-            product.ProductCategories.Count.ShouldEqual(0);
+            product.ProductCategories.Count.ShouldEqual(1);
+            product.ProductCategories[0].Category.Id.ShouldEqual(11);
         }
 
         [Test]
@@ -77,7 +81,13 @@ namespace Suteki.Shop.Tests.Services.ProductBuilderContributors
             product.ProductCategories.Count.ShouldEqual(2);
             product.ProductCategories[0].Category.ShouldBeTheSameAs(category15);
             product.ProductCategories[1].Category.ShouldBeTheSameAs(category16);
-            
+        }
+
+        [Test]
+        public void Should_add_model_error_if_no_categories_have_been_selected()
+        {
+            contributor.ContributeTo(context);
+            context.ModelStateDictionary.IsValid.ShouldBeFalse();
         }
     }
 }

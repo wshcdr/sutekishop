@@ -3,8 +3,9 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
     <h1>Product</h1>
     
-	<%= Html.ValidationSummary() %>
+    <%= Html.ErrorBox(ViewData.Model) %>
     <%= Html.MessageBox(ViewData.Model) %>
+	<%= Html.ValidationSummary() %>
     
     <% if(ViewData.Model.ProductId > 0) { %>
         <%= Html.ActionLink<ProductController>(c => c.Item(ViewData.Model.UrlName), "Preview") %>
@@ -16,7 +17,7 @@
 
 		<%= this.TextBox(x => x.Name).Label("Name") %>
         <label for="CategoryIds">Categories (ctrl+click to select more than one)</label>
-        <%= Html.MutipleSelectComboFor<ProductViewData, Category>("CategoryIds", Model.CategoryIds)%>
+        <%= Html.MutipleSelectComboFor<ProductViewData, Category>("CategoryIds", Model.CategoryIds, category => category.Id != 1)%>
         <%= this.TextBox(x => x.Weight).Label("Weight") %>
         <%= this.TextBox(x => x.Price).Label("Price " + Money.Symbol) %>
         <%= this.CheckBox(x => x.IsActive).Label("Active") %>
