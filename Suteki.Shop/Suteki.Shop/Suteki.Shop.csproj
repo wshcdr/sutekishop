@@ -167,6 +167,7 @@
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\CountryController.cs" />
+    <Compile Include="Controllers\HeaderController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InvoiceController.cs" />
     <Compile Include="Controllers\IProvidesBaseService.cs" />
@@ -341,6 +342,7 @@
     <Compile Include="ViewData\CategoryViewDataExtensions.cs" />
     <Compile Include="ViewData\CheckoutViewData.cs" />
     <Compile Include="ViewData\CmsViewData.cs" />
+    <Compile Include="ViewData\HeaderViewData.cs" />
     <Compile Include="ViewData\PostageResultViewData.cs" />
     <Compile Include="ViewData\ProductViewData.cs" />
     <Compile Include="ViewData\RsdViewData.cs" />
@@ -359,13 +361,6 @@
     <Compile Include="Views\Shared\Rescues\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Views\Shared\Site.Master.cs">
-      <DependentUpon>Site.Master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Views\Shared\Site.Master.designer.cs">
-      <DependentUpon>Site.Master</DependentUpon>
-    </Compile>
     <Compile Include="Views\ViewPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -379,6 +374,10 @@
     <Content Include="Views\Category\LeftMenu.ascx" />
     <Content Include="Views\Comment\Confirm.aspx" />
     <Content Include="Views\Comment\New.aspx" />
+    <Content Include="Views\Header\Footer.ascx" />
+    <Content Include="Views\Header\Head.ascx" />
+    <Content Include="Views\Header\Header.ascx" />
+    <Content Include="Views\Header\PageEnd.ascx" />
     <Content Include="Views\OrderAdjustment\Add.ascx" />
     <Content Include="Views\PostageDetail\Index.ascx" />
     <Content Include="Views\PostageDetail\ReadOnly.ascx" />

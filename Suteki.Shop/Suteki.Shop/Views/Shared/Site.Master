@@ -1,17 +1,12 @@
-<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="Suteki.Shop.Views.Shared.Site" %>
+<%@ Master Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewMasterPage" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml">
 <head runat="server">
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-    <meta http-equiv="Page-Exit" content="blendTrans(Duration=0.01)" />
+
     <title><%= Html.Encode(ViewData["Title"]) %></title>
-    <link href=<%= SiteCss %> rel="stylesheet" type="text/css" />
-    <link rel="EditURI" type="application/rsd+xml" title="RSD" href=<%= RsdUrl %> />
-    <link rel="wlwmanifest" type="application/wlwmanifest+xml" href=<%= WlwManifestUrl %> />
     <meta name="description" content="<%= ViewData["MetaDescription"] %>" />
-    <meta name="verify-v1" content="yT3b2nHIk4a8/T+tW3p8zQ30vgio2ELuZc/9qk//JBw=" />
-    <link rel="shortcut icon" href="<%= Url.Content("~/favicon.ico") %>" type="image/x-icon">
-    <script type="text/javascript" src=<%= JQueryUrl %>></script>
+
+    <% Html.RenderAction("Head", "Header"); %>
 
     <asp:ContentPlaceHolder ID="HeaderContentPlaceHolder" runat="server">
     </asp:ContentPlaceHolder>
@@ -21,58 +16,16 @@
 <body>
     <div class="page">
 
-        <div class="header">
-        
-            <div class="logo">
-
-                <div class="rightText">
-                    <p>
-                        <%= Html.Mailto(Email, Email) %><br /><%= PhoneNumber %>
-                    </p>                
-                </div>
-                
-                <h1>
-                    <%= Title %>
-                </h1>
-                
-            </div>
-            
-            <div>
-				<% Html.RenderAction<MenuController>(c => c.MainMenu()); %>
-            </div>
-            
-        </div>
-
+        <% Html.RenderAction("Header", "Header"); %>
+    
         <asp:ContentPlaceHolder ID="MainContentPlaceHolder" runat="server">
         </asp:ContentPlaceHolder>
 
-        <div class="footer">
-            <div class="rightText login">
-                <p>
-                    <%= Html.LoginLink() %> |
-                    <%= Html.LoginStatus() %>
-                </p>                
-            </div>
-                
-            <p>
-                <%= Copyright %> |
-                <%= Html.ActionLink<SiteMapController>(c => c.Index(), "Site Map") %>
-            </p>
-        </div><!--/footer-->
+        <% Html.RenderAction("Footer", "Header"); %>
 
     </div><!--/page-->
 
-    <!-- Google analytics tracking -->    
-    <script type="text/javascript">
-        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-    </script>
-
-    <script type="text/javascript">
-        var pageTracker = _gat._getTracker(<%= GoogleTrackingCode %>);
-        pageTracker._initData();
-        pageTracker._trackPageview();
-    </script>
+    <% Html.RenderAction("PageEnd", "Header"); %>
 
 </body>
 </html>
