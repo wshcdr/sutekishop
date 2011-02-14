@@ -1,5 +1,6 @@
 ﻿using System;
 using FluentNHibernate.Cfg.Db;
+using Suteki.Common.Repositories;
 using Suteki.Shop.Database;
 using Suteki.Shop.Repositories;
 
@@ -14,7 +15,12 @@ namespace Suteki.Shop.CreateDb
     {
         static void Main()
         {
-            var configurationBuilder = new FluentNHibernateConfigurationBuilder();
+            var mappingContributors = new IMappingConfigurationContributor[]
+            {
+                new SutekiShopMappingConfiguration()    
+            };
+
+            var configurationBuilder = new FluentNHibernateConfigurationBuilder(mappingContributors);
             var configuration = configurationBuilder.BuildConfiguration(
                 MsSqlConfiguration.MsSql2005.ConnectionString(
                     c => c.FromConnectionStringWithKey("SutekiShopConnectionString")));

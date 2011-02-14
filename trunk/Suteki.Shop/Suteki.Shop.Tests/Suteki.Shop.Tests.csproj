@@ -192,7 +192,6 @@
     <Compile Include="Maps\BasketMapTests.cs" />
     <Compile Include="Maps\ContentMapTests.cs" />
     <Compile Include="Maps\MapsTestsSetupAndTeardown.cs" />
-    <Compile Include="Maps\MapTestBase.cs" />
     <Compile Include="Maps\ProductMapTests.cs" />
     <Compile Include="Maps\ReviewMapTests.cs" />
     <Compile Include="Maps\SimpleMapTests.cs" />
@@ -280,6 +279,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Suteki.Shop\Configuration\NHFacility.config">
+      <Link>NHFacility.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="..\Suteki.Shop\Configuration\Windsor.config">
       <Link>Windsor.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

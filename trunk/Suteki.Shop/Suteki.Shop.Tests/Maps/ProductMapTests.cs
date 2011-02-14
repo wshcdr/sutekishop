@@ -1,6 +1,7 @@
 using System;
 using NUnit.Framework;
 using Suteki.Common.Models;
+using Suteki.Common.TestHelpers;
 
 namespace Suteki.Shop.Tests.Maps
 {

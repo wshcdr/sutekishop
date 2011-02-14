@@ -1,21 +1,20 @@
 using System;
 using System.Data;
-using System.Reflection;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
-using Suteki.Shop.Maps;
-using Suteki.Shop.Repositories;
+using Suteki.Common.Repositories;
 
-namespace Suteki.Shop.Tests.Maps
+namespace Suteki.Common.TestHelpers
 {
     public static class InMemoryDatabaseManager
     {
         private static Configuration configuration;
         private static IDbConnection connection;
         private static ISessionFactory sessionFactory;
+        private static IMappingConfigurationContributor configurationContributor;
         static readonly object sessionFactoryLock = new object();
 
         /// <summary>
@@ -32,7 +31,7 @@ namespace Suteki.Shop.Tests.Maps
                     {
                         if (sessionFactory == null)
                         {
-                            Start(typeof(ProductMap).Assembly);
+                            Start();
                         }
                     }
                 }
@@ -40,7 +39,7 @@ namespace Suteki.Shop.Tests.Maps
             }
         }
 
-        public static void Start(Assembly mapAssembly)
+        public static void Start()
         {
             HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
             sessionFactory = GetSessionFactory();
@@ -63,7 +62,7 @@ namespace Suteki.Shop.Tests.Maps
         {
             return Fluently.Configure()
                 .Database(SQLiteConfiguration.Standard.InMemory().ShowSql())
-                .Mappings(FluentNHibernateConfigurationBuilder.ConfigureMappings)
+                .Mappings(mappingConfiguration => FluentNHibernateConfigurationBuilder.ConfigureMappings(mappingConfiguration, configurationContributor))
                 .ExposeConfiguration(c => configuration = c)
                 .BuildSessionFactory();
         }
@@ -80,10 +79,20 @@ namespace Suteki.Shop.Tests.Maps
             sqLiteConnection.Open();
             return sqLiteConnection;
         }
+
+        public static void SetMappingConfiguration(IMappingConfigurationContributor contributor)
+        {
+            configurationContributor = contributor;
+        }
     }
 
     public abstract class MapTestBase
     {
+        protected void SetMappingConfiguration(IMappingConfigurationContributor configurationContributor)
+        {
+            InMemoryDatabaseManager.SetMappingConfiguration(configurationContributor);
+        }
+
         protected ISession OpenSession()
         {
             return InMemoryDatabaseManager.OpenSession();

@@ -1,6 +1,7 @@
 using NHibernate.Linq;
 using NUnit.Framework;
 using Rhino.Mocks;
+using Suteki.Common.TestHelpers;
 using Suteki.Shop.Tests.Maps;
 using Suteki.Shop.Repositories;
 

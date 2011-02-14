@@ -4,6 +4,7 @@ using Castle.Core.Logging;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Configuration.Interpreters;
+using Castle.Windsor.Installer;
 using Suteki.Common.Binders;
 using Suteki.Common.Events;
 using Suteki.Common.Filters;
@@ -13,13 +14,14 @@ using Suteki.Common.Services;
 using Suteki.Common.Windsor;
 using Suteki.Shop.Binders;
 using Suteki.Shop.Filters;
+using Suteki.Shop.Repositories;
 using Suteki.Shop.Services;
 
 namespace Suteki.Shop.IoC
 {
     public static class ContainerBuilder
     {
-        public static IWindsorContainer Build(string configPath)
+        public static IWindsorContainer Build(string configPath, string nhFacilityConfigPath)
         {
             var container = new WindsorContainer(new XmlInterpreter(configPath));
 
@@ -45,6 +47,7 @@ namespace Suteki.Shop.IoC
                         .Configure(c => c.LifeStyle.Transient),
                 Component.For<ILogger>().ImplementedBy<Logger>().LifeStyle.Transient,
                 Component.For(typeof(IRepository<>)).ImplementedBy(typeof(NHibernateRepository<>)).LifeStyle.Transient,
+                Component.For<IMappingConfigurationContributor>().ImplementedBy<SutekiShopMappingConfiguration>().LifeStyle.Transient,
                 Component.For(typeof(IComboFor<,>)).ImplementedBy(typeof(ComboFor<,>)).LifeStyle.Transient,
                 Component.For<IImageService>().ImplementedBy<ImageService>().Named("image.service").LifeStyle.Transient,
                 Component.For<IEncryptionService>().ImplementedBy<EncryptionService>().Named("encryption.service").LifeStyle.Transient,
@@ -75,6 +78,9 @@ namespace Suteki.Shop.IoC
                     .Configure(c => c.LifeStyle.Transient),
                 Component.For<IProductCopyService>().ImplementedBy<ProductCopyService>().LifeStyle.Transient
                 );
+
+            // register nh facility
+            container.Install(Configuration.FromXmlFile(nhFacilityConfigPath));
 
             return container;
         }
