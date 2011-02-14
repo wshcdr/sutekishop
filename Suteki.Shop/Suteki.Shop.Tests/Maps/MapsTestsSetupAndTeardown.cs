@@ -1,6 +1,7 @@
 using System;
 using NUnit.Framework;
-using Suteki.Shop.Maps;
+using Suteki.Common.TestHelpers;
+using Suteki.Shop.Repositories;
 
 namespace Suteki.Shop.Tests.Maps
 {
@@ -10,7 +11,8 @@ namespace Suteki.Shop.Tests.Maps
         [SetUp]
         public void RunBeforeAnyMapTests()
         {
-            InMemoryDatabaseManager.Start(typeof(PostZoneMap).Assembly);
+            InMemoryDatabaseManager.SetMappingConfiguration(new SutekiShopMappingConfiguration());
+            InMemoryDatabaseManager.Start();
             Console.WriteLine("Opening in memory database connection");
         }
 

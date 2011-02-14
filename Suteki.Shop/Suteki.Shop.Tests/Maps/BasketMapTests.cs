@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using Rhino.Mocks;
+using Suteki.Common.TestHelpers;
 
 namespace Suteki.Shop.Tests.Maps
 {

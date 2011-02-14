@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using NUnit.Framework;
 using Suteki.Common.Models;
+using Suteki.Common.TestHelpers;
 using Suteki.Shop.Tests.Models.Builders;
 
 namespace Suteki.Shop.Tests.Maps

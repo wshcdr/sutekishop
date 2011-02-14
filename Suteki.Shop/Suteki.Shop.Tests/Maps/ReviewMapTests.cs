@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using NUnit.Framework;
 using NHibernate.Linq;
+using Suteki.Common.TestHelpers;
 
 namespace Suteki.Shop.Tests.Maps
 {

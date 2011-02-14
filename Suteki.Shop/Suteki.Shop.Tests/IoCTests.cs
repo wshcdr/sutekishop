@@ -30,7 +30,7 @@ namespace Suteki.Shop.Tests
 		    var module = new PerWebRequestLifestyleModule();
 			module.Init(HttpContext.Current.ApplicationInstance);
 
-			container = ContainerBuilder.Build("Windsor.config");
+			container = ContainerBuilder.Build("Windsor.config", "NHFacility.config");
 		}
 
 		[TestFixtureTearDown]

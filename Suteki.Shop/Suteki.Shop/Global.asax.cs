@@ -48,7 +48,7 @@ namespace Suteki.Shop
             if (container == null)
             {
                 // create a new Windsor Container
-				container = ContainerBuilder.Build("Configuration\\Windsor.config"); 
+                container = ContainerBuilder.Build("Configuration\\Windsor.config", "Configuration\\NHFacility.config"); 
 
                 // set up the static IoC locator (this is an anti-pattern, only use in dire need!)
                 IocContainer.SetResolveFunction(container.Resolve);

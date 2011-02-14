@@ -72,6 +72,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\FluentNHibernate.1.1.1.694\lib\FluentNHibernate.dll</HintPath>
     </Reference>
+    <Reference Include="HibernatingRhinos.Profiler.Appender">
+      <HintPath>..\Dependencies.mvc3\HibernatingRhinos.Profiler.Appender.dll</HintPath>
+    </Reference>
     <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\Iesi.Collections.1.0.1\lib\Iesi.Collections.dll</HintPath>
     </Reference>
@@ -106,6 +109,9 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\Dependencies.mvc3\System.Data.SQLite.DLL</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -160,6 +166,7 @@
     <Compile Include="Models\Money.cs" />
     <Compile Include="NHibernate\BaseImmutableUserType.cs" />
     <Compile Include="NHibernate\MoneyUserType.cs" />
+    <Compile Include="Repositories\FluentNHibernateConfigurationBuilder.cs" />
     <Compile Include="SutekiCommonException.cs" />
     <Compile Include="Models\IEntity.cs" />
     <Compile Include="Models\StringValueExtensions.cs" />
@@ -170,6 +177,7 @@
     <Compile Include="Services\EmailBuilder.cs" />
     <Compile Include="Services\IAppSettings.cs" />
     <Compile Include="Services\IEmailBuilder.cs" />
+    <Compile Include="TestHelpers\MapTestBase.cs" />
     <Compile Include="Utils\ExperssionHelper.cs" />
     <Compile Include="Validation\DataAnnotationsValidator.cs" />
     <Compile Include="Windsor\ArrayResolver.cs" />
