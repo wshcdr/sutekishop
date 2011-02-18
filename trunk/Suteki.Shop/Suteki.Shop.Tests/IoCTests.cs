@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Castle.MicroKernel.Lifestyle;
 using Castle.Windsor;
+using Castle.Windsor.Installer;
 using NUnit.Framework;
 using Suteki.Shop.Controllers;
 using Suteki.Shop.IoC;
@@ -30,7 +31,8 @@ namespace Suteki.Shop.Tests
 		    var module = new PerWebRequestLifestyleModule();
 			module.Init(HttpContext.Current.ApplicationInstance);
 
-			container = ContainerBuilder.Build("Windsor.config", "NHFacility.config");
+			container = ContainerBuilder.Build("Windsor.config");
+            container.Install(Configuration.FromXmlFile("NHFacility.config"));
 		}
 
 		[TestFixtureTearDown]

@@ -1,12 +1,9 @@
-﻿using System.Linq;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Rhino.Mocks;
 using Suteki.Common.Repositories;
 using Suteki.Common.TestHelpers;
 using Suteki.Shop.Controllers;
 using Suteki.Shop.Services;
-using Suteki.Shop.ViewData;
-using System.Collections.Generic;
 
 namespace Suteki.Shop.Tests.Controllers
 {
@@ -48,7 +45,7 @@ namespace Suteki.Shop.Tests.Controllers
 
         private static BasketItem CreateBasketItem()
         {
-            var product = new Product { Name = "Denim Jacket", UrlName = "denim_jacket", Weight = 10 };
+            var product = new Product { Name = "Denim Jacket", Weight = 10 };
             var size = new Size
             {
                 Id = 5,

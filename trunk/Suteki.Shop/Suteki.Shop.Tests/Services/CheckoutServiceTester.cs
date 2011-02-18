@@ -72,6 +72,8 @@ namespace Suteki.Shop.Tests.Services
                 orderLine.Quantity.ShouldEqual(basketItem.Quantity);
                 orderLine.Total.ShouldEqual(basketItem.Total);
                 orderLine.ProductUrlName.ShouldEqual(basketItem.Size.Product.UrlName);
+                orderLine.ProductId.ShouldEqual(basketItem.Size.Product.Id);
+                orderLine.SizeName.ShouldEqual(basketItem.Size.Name);
             }
         }
 
@@ -204,6 +206,7 @@ namespace Suteki.Shop.Tests.Services
                 Name = "Large",
                 Product = new Product
                 {
+                    Id = 101,
                     Name = "Widget",
                     Price = new Money(12.34M)
                 }
@@ -217,6 +220,7 @@ namespace Suteki.Shop.Tests.Services
                 Name = "Medium",
                 Product = new Product
                 {
+                    Id = 222,
                     Name = "Gadget",
                     Price = new Money(4.59M)
                 }

@@ -3,6 +3,7 @@ using FluentNHibernate.Cfg.Db;
 using Suteki.Common.Repositories;
 using Suteki.Shop.Database;
 using Suteki.Shop.Repositories;
+using Suteki.Shop.StockControl.AddIn.Repositories;
 
 namespace Suteki.Shop.CreateDb
 {
@@ -17,7 +18,8 @@ namespace Suteki.Shop.CreateDb
         {
             var mappingContributors = new IMappingConfigurationContributor[]
             {
-                new SutekiShopMappingConfiguration()    
+                new SutekiShopMappingConfiguration(),
+                new StockControlMappingConfiguration()
             };
 
             var configurationBuilder = new FluentNHibernateConfigurationBuilder(mappingContributors);

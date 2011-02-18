@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using Rhino.Mocks;
+using Suteki.Common.Events;
 using Suteki.Common.TestHelpers;
 
 namespace Suteki.Shop.Tests.Maps
@@ -27,7 +28,10 @@ namespace Suteki.Shop.Tests.Maps
                 
             };
 
-            product.AddSize(size);
+            using (DomainEvent.TurnOff())
+            {
+                product.AddSize(size);
+            }
 
             InSession(session => session.Save(product));
 

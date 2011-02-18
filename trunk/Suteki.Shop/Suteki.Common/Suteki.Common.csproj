@@ -134,6 +134,8 @@
     <Compile Include="..\Version.cs">
       <Link>Version.cs</Link>
     </Compile>
+    <Compile Include="AddIns\AddinControllerBase.cs" />
+    <Compile Include="AddIns\AssemblyResourceVirtualPathProvider.cs" />
     <Compile Include="Binders\BindUsingAttribute.cs" />
     <Compile Include="Binders\EntityModelBinder.cs" />
     <Compile Include="Binders\IAcceptsAttribute.cs" />
@@ -142,6 +144,7 @@
     <Compile Include="Controllers\OrderableScaffoldController.cs" />
     <Compile Include="Controllers\ScaffoldController.cs" />
     <Compile Include="Events\DomainEvent.cs" />
+    <Compile Include="Events\DomainEventService.cs" />
     <Compile Include="Events\IDomainEvent.cs" />
     <Compile Include="Events\IHandle.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />

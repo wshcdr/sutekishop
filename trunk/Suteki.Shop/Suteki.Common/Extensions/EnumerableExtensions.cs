@@ -88,6 +88,11 @@ namespace Suteki.Common.Extensions
             }
         }
 
+        public static IEnumerable<T> ToEnumerable<T>(this T item)
+        {
+            yield return item;
+        }
+
         public static Money Sum(this IEnumerable<Money> amounts)
         {
             return new Money(amounts.Sum(amount => amount.Amount));

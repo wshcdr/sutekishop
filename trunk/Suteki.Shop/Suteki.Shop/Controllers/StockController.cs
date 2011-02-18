@@ -59,9 +59,10 @@ namespace Suteki.Shop.Controllers
             }
         }
 
-        [ChildActionOnly]
-	    public ActionResult ProductStock(Product product)
+        [ChildActionOnly, UnitOfWork]
+	    public ActionResult ProductStock(string id)
         {
+            var product = productRepository.GetAll().WithUrlName(id);
             return View("ProductStock", product);
         }
 

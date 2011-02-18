@@ -7,8 +7,10 @@ using Microsoft.Web.Mvc;
 using MvcContrib;
 using MvcContrib.FluentHtml.Elements;
 using Suteki.Common.Extensions;
+using Suteki.Common.HtmlHelpers;
 using Suteki.Shop.Controllers;
 using System.Web.Mvc.Html;
+using Suteki.Shop.Exports.HtmlHelpers;
 using Suteki.Shop.ViewData;
 
 namespace Suteki.Shop.HtmlHelpers
@@ -105,5 +107,10 @@ namespace Suteki.Shop.HtmlHelpers
 
 			return sb.ToString();
 		}
+
+        public static void StockControlUi<TModel>(this HtmlHelper<TModel> htmlHelper, string productUrlName)
+        {
+            htmlHelper.With<IStockControlUi, TModel>(service => service.RenderForProductId(htmlHelper, productUrlName));
+        }
     }
 }

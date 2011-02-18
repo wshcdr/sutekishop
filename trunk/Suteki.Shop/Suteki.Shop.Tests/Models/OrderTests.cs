@@ -33,10 +33,10 @@ namespace Suteki.Shop.Tests.Models
             var price3 = new Money(10.44M);
 
             var order = new Order();
-            order.AddLine("line1", 2, price1, "");
-            order.AddLine("line2", 1, price2, "");
-            order.AddLine("line3", 3, price3, "");
-            order.AddLine("line4", 2, price1, "");
+            order.AddLine("line1", 2, price1, "", 1, "");
+            order.AddLine("line2", 1, price2, "", 1, "");
+            order.AddLine("line3", 3, price3, "", 1, "");
+            order.AddLine("line4", 2, price1, "", 1, "");
 
             var expectedTotal = (2*price1) + (1*price2) + (3*price3) + (2*price1);
 
@@ -53,7 +53,7 @@ namespace Suteki.Shop.Tests.Models
             {
                 Postage = PostageResult.WithPrice(postageCost, "postage desc")
             };
-            order.AddLine("line1", 1, itemPrice, "");
+            order.AddLine("line1", 1, itemPrice, "", 1, "");
 
             var expectedTotalWithPostage = postageCost + itemPrice;
 

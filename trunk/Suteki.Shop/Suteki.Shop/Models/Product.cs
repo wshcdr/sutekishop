@@ -4,9 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Suteki.Common;
+using Suteki.Common.Events;
 using Suteki.Common.Extensions;
 using Suteki.Common.Models;
 using Suteki.Common.Repositories;
+using Suteki.Shop.Exports.Events;
 using Suteki.Shop.Repositories;
 using Suteki.Shop.Models.ModelHelpers;
 
@@ -23,8 +25,14 @@ namespace Suteki.Shop
             get { return name; }
             set
             {
+                if (name == value) return;
+                var oldUrlName = UrlName;
                 name = value;
                 UrlName = Name.ToUrlFriendly();
+
+                // don't raise event on initial name set.
+                if (string.IsNullOrEmpty(oldUrlName)) return;
+                DomainEvent.Raise(new ProductNameChangedEvent(oldUrlName, UrlName));
             }
         }
 
@@ -35,7 +43,7 @@ namespace Suteki.Shop
         public virtual int Position { get; set; }
         public virtual int Weight { get; set; }
         public virtual bool IsActive { get; set; }
-        public virtual string UrlName { get; set; }
+        public virtual string UrlName { get; protected set; }
 
         IList<ProductImage> productImages = new List<ProductImage>();
         public virtual IList<ProductImage> ProductImages
@@ -69,6 +77,7 @@ namespace Suteki.Shop
         {
             Sizes.Add(size);
             size.Product = this;
+            DomainEvent.Raise(new SizeCreatedEvent(UrlName, size.Name));
         }
 
         public virtual bool HasMainImage
@@ -121,6 +130,7 @@ namespace Suteki.Shop
         public virtual void ClearAllSizes()
         {
             Sizes.ForEach(size => size.IsActive = false);
+            DomainEvent.Raise(new SizesDeactivatedEvent(UrlName));
         }
 
         public virtual string IsActiveAsString

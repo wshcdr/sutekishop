@@ -48,7 +48,7 @@ function onThumbnailClick(img)
 
 <% Html.RenderAction<ReviewsController>(c => c.Show(Model.Product.Id)); %>
 
-<% if(User.IsAdministrator()) Html.RenderAction<StockController>(c => c.ProductStock(Model.Product)); %>
+<% if(User.IsAdministrator()) Html.StockControlUi(Model.Product.UrlName); %>
 
 <div id="fb-root"></div>
 <script type="text/javascript">

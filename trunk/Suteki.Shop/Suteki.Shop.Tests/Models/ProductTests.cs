@@ -1,4 +1,6 @@
 using NUnit.Framework;
+using Suteki.Common.Events;
+using Suteki.Shop.Exports.Events;
 
 namespace Suteki.Shop.Tests.Models
 {
@@ -18,6 +20,82 @@ namespace Suteki.Shop.Tests.Models
                 Description = description
             };
             product.PlainTextDescription.ShouldEqual(expectedPlainTextDescription);
+        }
+
+        [Test]
+        public void AddSize_should_raise_domain_event()
+        {
+            const int productId = 97;
+            const string productName = "Widget";
+            const int sizeId = 34;
+            const string sizeName = "Small";
+
+            var product = new Product
+            {
+                Name = productName,
+                Id = productId
+            };
+
+            var size = new Size
+            {
+                Id = sizeId,
+                Name = "Small"
+            };
+
+            IDomainEvent @event = null;
+            using(DomainEvent.TestWith(e => { @event = e; }))
+            {
+                product.AddSize(size);
+            }
+
+            var sizeCreatedEvent = @event as SizeCreatedEvent;
+            sizeCreatedEvent.ShouldNotBeNull();
+            sizeCreatedEvent.ProductName.ShouldEqual(productName);
+            sizeCreatedEvent.SizeName.ShouldEqual(sizeName);
+        }
+
+        [Test]
+        public void RemoveAllSizes_should_raise_domain_event()
+        {
+            const string productName = "Widget";
+
+            var product = new Product
+            {
+                Name = productName
+            };
+
+            IDomainEvent @event = null;
+            using (DomainEvent.TestWith(e => { @event = e; }))
+            {
+                product.ClearAllSizes();
+            }
+
+            var sizesDeactivatedEvent = @event as SizesDeactivatedEvent;
+            sizesDeactivatedEvent.ShouldNotBeNull();
+            sizesDeactivatedEvent.ProductName.ShouldEqual(productName);
+        }
+
+        [Test]
+        public void Changing_product_name_should_raise_domain_event()
+        {
+            const string oldName = "Widget";
+            const string newName = "Gadget";
+
+            var product = new Product();
+
+            IDomainEvent @event = null;
+            using (DomainEvent.TestWith(e => { @event = e; }))
+            {
+                product.Name = oldName;
+                @event.ShouldBeNull(); // event should not be raised on initial set.
+
+                product.Name = newName;
+            }
+
+            var productNameChangedEvent = @event as ProductNameChangedEvent;
+            productNameChangedEvent.ShouldNotBeNull();
+            productNameChangedEvent.OldProductName.ShouldEqual(oldName);
+            productNameChangedEvent.NewProductName.ShouldEqual(newName);
         }
 
         const string description = 

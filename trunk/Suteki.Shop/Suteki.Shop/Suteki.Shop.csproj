@@ -209,11 +209,14 @@
     <Compile Include="Handlers\CreateNewBasketOnOrderConfirm.cs" />
     <Compile Include="Handlers\EmailOrderConfirmationOnOrderConfirmed.cs" />
     <Compile Include="Handlers\EmailOrderDispatchOnOrderDispatch.cs" />
+    <Compile Include="Handlers\PublicDispactchMessageOnOrderDispatch.cs" />
     <Compile Include="HtmlHelpers\CategoryWriter.cs" />
     <Compile Include="HtmlHelpers\HtmlHelperExtensions.cs" />
     <Compile Include="HtmlHelpers\LowercaseFirstCharacterOfNameBehaviour.cs" />
     <Compile Include="HtmlHelpers\MenuWriter.cs" />
+    <Compile Include="HtmlHelpers\StockControlUi.cs" />
     <Compile Include="HtmlHelpers\StockWriter.cs" />
+    <Compile Include="Installers\UiInstaller.cs" />
     <Compile Include="IoC\ContainerBuilder.cs" />
     <Compile Include="IoC\UrlBasedComponentSelector.cs" />
     <Compile Include="Maps\ActionContentMap.cs" />
@@ -777,6 +780,10 @@
     <ProjectReference Include="..\Suteki.Common\Suteki.Common.csproj">
       <Project>{5A734DD0-928C-4A1E-8D12-7DDD607D89C6}</Project>
       <Name>Suteki.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Suteki.Shop.Exports\Suteki.Shop.Exports.csproj">
+      <Project>{DD09CBA4-52C5-442F-A641-800B287CED6C}</Project>
+      <Name>Suteki.Shop.Exports</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

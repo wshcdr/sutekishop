@@ -22,14 +22,18 @@ namespace Suteki.Shop.Tests.Models
             const int quantity = 4;
             var price = new Money(23.45M);
             const string urlName = "Large_Black_Mac";
+            const int productId = 999;
+            const string sizeName = "Large";
 
-            order.AddLine(itemName, quantity, price, urlName);
+            order.AddLine(itemName, quantity, price, urlName, productId, sizeName);
 
             order.OrderLines[0].ProductName.ShouldEqual("Large Black Mac");
             order.OrderLines[0].Quantity.ShouldEqual(4);
             order.OrderLines[0].Price.Amount.ShouldEqual(23.45M);
             order.OrderLines[0].Order.ShouldBeTheSameAs(order);
             order.OrderLines[0].ProductUrlName.ShouldEqual(urlName);
+            order.OrderLines[0].ProductId.ShouldEqual(productId);
+            order.OrderLines[0].SizeName.ShouldEqual(sizeName);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NUnit.Framework;
+using Suteki.Common.Events;
 using Suteki.Common.Repositories;
 using Suteki.Shop.Services;
 using System.Collections.Specialized;
@@ -16,8 +17,16 @@ namespace Suteki.Shop.Tests.Services
         [SetUp]
         public void SetUp()
         {
+            DomainEvent.TurnOff();
+
             MockRepository.GenerateStub<IRepository<Size>>();
             sizeService = new SizeService();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            DomainEvent.Reset();
         }
 
         [Test]

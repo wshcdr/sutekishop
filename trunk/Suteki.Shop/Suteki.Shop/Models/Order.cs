@@ -124,7 +124,7 @@ namespace Suteki.Shop
             }
         }
 
-        public virtual void AddLine(string productName, int quantity, Money price, string productUrlName)
+        public virtual void AddLine(string productName, int quantity, Money price, string productUrlName, int productId, string sizeName)
         {
             if (productName == null)
             {
@@ -138,6 +138,10 @@ namespace Suteki.Shop
             {
                 throw new ArgumentNullException("productUrlName");
             }
+            if (sizeName == null)
+            {
+                throw new ArgumentNullException("sizeName");
+            }
 
             var orderLine = new OrderLine
             {
@@ -145,7 +149,9 @@ namespace Suteki.Shop
                 Quantity = quantity,
                 Price = price,
                 Order = this,
-                ProductUrlName = productUrlName
+                ProductUrlName = productUrlName,
+                ProductId = productId,
+                SizeName = sizeName
             };
 
             OrderLines.Add(orderLine);
