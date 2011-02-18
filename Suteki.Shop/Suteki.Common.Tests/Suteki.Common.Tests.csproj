@@ -148,6 +148,7 @@
     <Compile Include="Models\StringValueExtensionsTests.cs" />
     <Compile Include="Services\EmailBuilderTester.cs" />
     <Compile Include="Services\EmailSenderTests.cs" />
+    <Compile Include="Spikes\WindsorBugs.cs" />
     <Compile Include="TestExtensions.cs" />
     <Compile Include="TestHelpers\TestController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

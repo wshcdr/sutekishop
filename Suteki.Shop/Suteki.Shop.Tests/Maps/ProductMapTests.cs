@@ -1,5 +1,6 @@
 using System;
 using NUnit.Framework;
+using Suteki.Common.Events;
 using Suteki.Common.Models;
 using Suteki.Common.TestHelpers;
 
@@ -50,7 +51,10 @@ namespace Suteki.Shop.Tests.Maps
             InSession(session =>
             {
                 var category = session.Get<Category>(categoryId);
-                product.AddSize(size);
+                using (DomainEvent.TurnOff())
+                {
+                    product.AddSize(size);
+                }
                 product.AddCategory(category);
                 product.AddProductImage(image, 1);
                 session.SaveOrUpdate(product);

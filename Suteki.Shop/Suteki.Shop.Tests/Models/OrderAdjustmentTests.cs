@@ -20,9 +20,9 @@ namespace Suteki.Shop.Tests.Models
         public void Should_be_able_to_add_an_adjustment_to_an_order()
         {
             var order = new Order();
-            order.AddLine("widget 1", 1, new Money(12.34M), "abc");
-            order.AddLine("gadget 1", 2, new Money(3.55M), "def");
-            order.AddLine("gadget 1", 2, new Money(3.55M), "def");
+            order.AddLine("widget 1", 1, new Money(12.34M), "abc", 102, "-");
+            order.AddLine("gadget 1", 2, new Money(3.55M), "def", 101, "-");
+            order.AddLine("gadget 1", 2, new Money(3.55M), "def", 101, "-");
             order.Postage = PostageResult.WithPrice(new Money(1.33M), "for London");
 
             var expectedAdjustedTotal = order.Total + new Money(-4.50M);

@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Castle.MicroKernel.Registration;
 using Castle.Windsor;
+using Castle.Windsor.Installer;
+using Suteki.Common.AddIns;
 using Suteki.Common.Binders;
 using Suteki.Common.Models;
 using Suteki.Common.Windsor;
@@ -23,6 +27,7 @@ namespace Suteki.Shop
         protected void Application_Start(object sender, EventArgs e)
         {
             HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
+            HostingEnvironment.RegisterVirtualPathProvider(new AssemblyResourceVirtualPathProvider());
             RouteManager.RegisterRoutes(RouteTable.Routes);
             InitializeWindsor();
             InitializeBinders();
@@ -48,7 +53,15 @@ namespace Suteki.Shop
             if (container == null)
             {
                 // create a new Windsor Container
-                container = ContainerBuilder.Build("Configuration\\Windsor.config", "Configuration\\NHFacility.config"); 
+				container = ContainerBuilder.Build("Configuration\\Windsor.config");
+
+                // register AddIns 
+                container.Install(
+                    FromAssembly.InDirectory(new AssemblyFilter(HttpRuntime.BinDirectory, "*AddIn.dll")),
+                    FromAssembly.This());
+
+                // register NHFacility
+                container.Install(Configuration.FromXmlFile("Configuration\\NHFacility.config"));
 
                 // set up the static IoC locator (this is an anti-pattern, only use in dire need!)
                 IocContainer.SetResolveFunction(container.Resolve);

@@ -10,6 +10,8 @@ namespace Suteki.Shop
         public virtual int Quantity { get; set; }
         public virtual Money Price { get; set; }
         public virtual Order Order { get; set; }
+        public virtual int ProductId { get; set; }
+        public virtual string SizeName { get; set; }
 
         public virtual Money Total
         {

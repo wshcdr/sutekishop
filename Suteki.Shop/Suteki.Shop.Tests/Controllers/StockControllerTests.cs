@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using NUnit.Framework;
+using Suteki.Common.Events;
 using Suteki.Common.Repositories;
 using Suteki.Common.TestHelpers;
 using Suteki.Shop.Controllers;
 using Suteki.Shop.ViewData;
 using Rhino.Mocks;
+using Suteki.Common.Extensions;
 
 namespace Suteki.Shop.Tests.Controllers
 {
@@ -91,9 +93,11 @@ namespace Suteki.Shop.Tests.Controllers
         [Test]
         public void ProductStock_should_return_product()
         {
-            var product = new Product();
+            const string productName = "Widget";
+            var product = new Product { Name = productName };
+            productRepository.Stub(x => x.GetAll()).Return(product.ToEnumerable().AsQueryable());
 
-            stockController.ProductStock(product)
+            stockController.ProductStock(productName)
                 .ReturnsViewResult()
                 .ForView("ProductStock")
                 .WithModel<Product>()
@@ -103,30 +107,33 @@ namespace Suteki.Shop.Tests.Controllers
         [Test]
         public void ProductStockUpdate_should_update_product()
         {
-            var product = new Product { Name = "Widget"};
-            product.AddSize(new Size { IsInStock = true });
-            product.AddSize(new Size { IsInStock = true });
-            product.AddSize(new Size { IsInStock = true });
-
-            var form = new FormCollection
+            using(DomainEvent.TurnOff())
             {
-                {"Id", "4"},
-                {"Sizes[0].IsInStock", "false,true"},
-                {"Sizes[1].IsInStock", "false"},
-                {"Sizes[2].IsInStock", "false,true"}
-            };
+                var product = new Product {Name = "Widget"};
+                product.AddSize(new Size {IsInStock = true});
+                product.AddSize(new Size {IsInStock = true});
+                product.AddSize(new Size {IsInStock = true});
 
-            productRepository.Stub(r => r.GetById(4)).Return(product);
+                var form = new FormCollection
+                {
+                    {"Id", "4"},
+                    {"Sizes[0].IsInStock", "false,true"},
+                    {"Sizes[1].IsInStock", "false"},
+                    {"Sizes[2].IsInStock", "false,true"}
+                };
 
-            stockController.ProductStockUpdate(form)
-                .ReturnsRedirectToRouteResult()
-                .ToController("Product")
-                .ToAction("Item")
-                .WithRouteValue("urlName", "Widget");
+                productRepository.Stub(r => r.GetById(4)).Return(product);
 
-            product.Sizes[0].IsInStock.ShouldBeTrue();
-            product.Sizes[1].IsInStock.ShouldBeFalse();
-            product.Sizes[2].IsInStock.ShouldBeTrue();
+                stockController.ProductStockUpdate(form)
+                    .ReturnsRedirectToRouteResult()
+                    .ToController("Product")
+                    .ToAction("Item")
+                    .WithRouteValue("urlName", "Widget");
+
+                product.Sizes[0].IsInStock.ShouldBeTrue();
+                product.Sizes[1].IsInStock.ShouldBeFalse();
+                product.Sizes[2].IsInStock.ShouldBeTrue();
+            }
         }
 
         [Test]

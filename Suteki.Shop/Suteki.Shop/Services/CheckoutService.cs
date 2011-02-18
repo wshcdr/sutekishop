@@ -72,7 +72,9 @@ namespace Suteki.Shop.Services
                     productName,
                     basketItem.Quantity,
                     basketItem.Size.Product.Price,
-                    basketItem.Size.Product.UrlName);
+                    basketItem.Size.Product.UrlName,
+                    basketItem.Size.Product.Id,
+                    basketItem.Size.Name);
             }
         }
 

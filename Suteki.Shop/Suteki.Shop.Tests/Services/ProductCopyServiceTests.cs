@@ -1,7 +1,9 @@
 // ReSharper disable InconsistentNaming
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Rhino.Mocks;
+using Suteki.Common.Events;
 using Suteki.Common.Models;
 using Suteki.Common.Repositories;
 using Suteki.Common.Services;
@@ -21,12 +23,20 @@ namespace Suteki.Shop.Tests.Services
         [SetUp]
         public void SetUp()
         {
+            DomainEvent.TurnOff();
+
             productOrder = MockRepository.GenerateStub<IOrderableService<Product>>();
             productRepository = new FakeRepository<Product>();
             productCopyService = new ProductCopyService(productOrder, productRepository);
 
             originalCategory = new Category();
             originalProduct = CreateProduct(originalCategory);
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            DomainEvent.Reset();
         }
 
         [Test]

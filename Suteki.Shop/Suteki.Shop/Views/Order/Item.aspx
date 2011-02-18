@@ -1,6 +1,10 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Shop.Master"  Inherits="System.Web.Mvc.ViewPage<ShopViewData>" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
+<% if(User.IsAdministrator()) { %>
+<h1>Order</h1>
+<% } else { %>
 <h1>Order Confirmation</h1>
+<% } %>
 
 <%= Html.ValidationSummary() %>
 <%= Html.MessageBox(Model) %>

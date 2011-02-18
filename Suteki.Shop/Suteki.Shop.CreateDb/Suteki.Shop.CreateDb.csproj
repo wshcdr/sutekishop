@@ -103,6 +103,10 @@
       <Project>{5A734DD0-928C-4A1E-8D12-7DDD607D89C6}</Project>
       <Name>Suteki.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Suteki.Shop.StockControl.AddIn\Suteki.Shop.StockControl.AddIn.csproj">
+      <Project>{6B14E997-8933-4AAD-A0D1-ACDBBBE43066}</Project>
+      <Name>Suteki.Shop.StockControl.AddIn</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Suteki.Shop\Suteki.Shop.csproj">
       <Project>{F63A91D4-3A6C-4729-BE83-D6CB45A53EF3}</Project>
       <Name>Suteki.Shop</Name>

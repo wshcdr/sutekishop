@@ -589,6 +589,13 @@ input.inline
 	width: 50px;	
 }
 
+input.table
+{
+	display:inline;
+	width: 50px;	
+	margin: 0 0 0 0;
+}
+
 input.wide
 {
     width: 300px;

@@ -133,6 +133,25 @@ namespace Suteki.Common.HtmlHelpers
             }
         }
 
+        public static void With<TService, TModel>(this HtmlHelper<TModel> htmlHelper, Action<TService> useServiceAction)
+        {
+            var service = IocContainer.Resolve<TService>();
+            try
+            {
+                var requireHtmlHelper = service as IRequireHtmlHelper<TModel>;
+                if (requireHtmlHelper != null)
+                {
+                    requireHtmlHelper.HtmlHelper = htmlHelper;
+                }
+
+                useServiceAction(service);
+            }
+            finally
+            {
+                IocContainer.Release(service);
+            }
+        }
+
         public static string ComboFor<TModel, TLookup>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TLookup>> propertyExpression)
             where TLookup : class, INamedEntity
         {

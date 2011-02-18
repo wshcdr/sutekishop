@@ -22,6 +22,8 @@ namespace Suteki.Common.Events
                 return;
             }
 
+            if (ContainerUnavailable()) return;
+
             var container = GetContainer();
             var handlers = container.ResolveAll<IHandle<TEvent>>();
 
@@ -30,6 +32,11 @@ namespace Suteki.Common.Events
                 handler.Handle(@event);
                 container.Release(handler);
             }
+        }
+
+        private static bool ContainerUnavailable()
+        {
+            return (ReturnContainer == null) && (HttpContext.Current == null);
         }
 
         private static IWindsorContainer GetContainer()

@@ -187,6 +187,7 @@
     <Compile Include="Handlers\CreateNewBasketOnOrderConfirmTests.cs" />
     <Compile Include="Handlers\EmailOrderConfirmationOnOrderConfirmedTests.cs" />
     <Compile Include="Handlers\EmailOrderDispatchOnOrderDispatchTests.cs" />
+    <Compile Include="Handlers\PublicDispactchMessageOnOrderDispatchTests.cs" />
     <Compile Include="IoCTests.cs" />
     <Compile Include="IoC\UrlBasedComponentSelectorTests.cs" />
     <Compile Include="Maps\BasketMapTests.cs" />
@@ -261,6 +262,10 @@
     <ProjectReference Include="..\Suteki.Common\Suteki.Common.csproj">
       <Project>{5A734DD0-928C-4A1E-8D12-7DDD607D89C6}</Project>
       <Name>Suteki.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Suteki.Shop.Exports\Suteki.Shop.Exports.csproj">
+      <Project>{DD09CBA4-52C5-442F-A641-800B287CED6C}</Project>
+      <Name>Suteki.Shop.Exports</Name>
     </ProjectReference>
     <ProjectReference Include="..\Suteki.Shop\Suteki.Shop.csproj">
       <Project>{F63A91D4-3A6C-4729-BE83-D6CB45A53EF3}</Project>
