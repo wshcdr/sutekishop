@@ -2,6 +2,7 @@ using System;
 using FluentNHibernate.Cfg.Db;
 using NHibernate.Cfg;
 using NUnit.Framework;
+using Suteki.Common.Extensions;
 using Suteki.Common.Repositories;
 using Suteki.Shop.Database;
 using Suteki.Shop.Repositories;
@@ -49,6 +50,24 @@ namespace Suteki.Shop.Tests.Database
 
             DatabaseManager.DatabaseNameFromConnectionString(connectionString).ShouldEqual("SomeDbName");
             DatabaseManager.ServerNameFromConnectionString(connectionString).ShouldEqual("SomeServerName");
+        }
+
+        [Test]
+        public void ParseConnectionString_should_handle_server_names_with_non_numeric_characters()
+        {
+            const string connectionStringTemplate = "Data Source={0};Initial Catalog=SomeDbName;Integrated Security=True";
+
+            Action<string> canGetServerName = serverName =>
+            {
+                var connectionString = connectionStringTemplate.With(serverName);
+                DatabaseManager.ServerNameFromConnectionString(connectionString).ShouldEqual(serverName);
+            };
+
+            canGetServerName(@"MyServer\MyInstance");
+            canGetServerName(@"My-New-Server");
+            canGetServerName(@"My_New_Server");
+            canGetServerName(@".");
+            canGetServerName(@".\instance");
         }
 
         [Test]
