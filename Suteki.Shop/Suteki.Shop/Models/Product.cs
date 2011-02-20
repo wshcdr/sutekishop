@@ -77,7 +77,7 @@ namespace Suteki.Shop
         {
             Sizes.Add(size);
             size.Product = this;
-            DomainEvent.Raise(new SizeCreatedEvent(UrlName, size.Name));
+            DomainEvent.Raise(new SizeCreatedEvent(UrlName, size.Name, size.IsActive));
         }
 
         public virtual bool HasMainImage

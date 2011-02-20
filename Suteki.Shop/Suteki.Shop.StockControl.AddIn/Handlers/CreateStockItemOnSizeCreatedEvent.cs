@@ -24,6 +24,11 @@ namespace Suteki.Shop.StockControl.AddIn.Handlers
             var sizeName = sizeCreatedEvent.SizeName;
             var stockItem = StockItem.Create(productName, sizeName, now(), currentUser());
 
+            if (!sizeCreatedEvent.IsActive)
+            {
+                stockItem.Deactivate(now(), currentUser());
+            }
+
             stockItemRepository.SaveOrUpdate(stockItem);
         }
     }

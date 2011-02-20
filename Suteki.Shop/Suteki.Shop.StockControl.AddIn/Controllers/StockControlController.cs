@@ -1,23 +1,21 @@
 using System;
-using System.Linq;
 using System.Web.Mvc;
 using Suteki.Common.AddIns;
 using Suteki.Common.Filters;
-using Suteki.Common.Repositories;
-using Suteki.Shop.StockControl.AddIn.Models;
+using Suteki.Shop.StockControl.AddIn.Services;
 using Suteki.Shop.StockControl.AddIn.ViewData;
 
 namespace Suteki.Shop.StockControl.AddIn.Controllers
 {
     public class StockControlController : AddinControllerBase
     {
-        private readonly IRepository<StockItem> stockItemRepository;
+        private readonly IStockItemService stockItemService;
         private readonly Now now;
         private readonly CurrentUser currentUser;
 
-        public StockControlController(IRepository<StockItem> stockItemRepository, Now now, CurrentUser currentUser)
+        public StockControlController(IStockItemService stockItemService, Now now, CurrentUser currentUser)
         {
-            this.stockItemRepository = stockItemRepository;
+            this.stockItemService = stockItemService;
             this.now = now;
             this.currentUser = currentUser;
         }
@@ -25,14 +23,14 @@ namespace Suteki.Shop.StockControl.AddIn.Controllers
         [UnitOfWork]
         public ActionResult List(string id) // id is productName
         {
-            var viewData = stockItemRepository.GetAll().Where(x => x.ProductName == id).ToList();
+            var viewData = stockItemService.GetAllForProduct(id);
             return View("List", viewData);
         }
 
         [UnitOfWork]
         public ActionResult History(int id)
         {
-            var stockItem = stockItemRepository.GetById(id);
+            var stockItem = stockItemService.GetById(id);
             return View("History", stockItem);
         }
 
@@ -48,13 +46,13 @@ namespace Suteki.Shop.StockControl.AddIn.Controllers
             {
                 if (updateItem.HasReceivedValue())
                 {
-                    var stockItem = stockItemRepository.GetById(updateItem.StockItemId);
+                    var stockItem = stockItemService.GetById(updateItem.StockItemId);
                     stockItem.ReceiveStock(updateItem.GetReceivedValue(), now(), currentUser())
                         .SetComment(stockUpdateViewData.Comment);
                 }
                 if (updateItem.HasAdjustedValue())
                 {
-                    var stockItem = stockItemRepository.GetById(updateItem.StockItemId);
+                    var stockItem = stockItemService.GetById(updateItem.StockItemId);
                     stockItem.AdjustStockLevel(updateItem.GetAdjustmentValue(), now(), currentUser())
                         .SetComment(stockUpdateViewData.Comment);
                 }
