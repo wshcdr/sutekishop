@@ -61,4 +61,7 @@ namespace Suteki.Shop.StockControl.AddIn.Maps
             Map(x => x.NewProductName);
         }
     }
+
+    public class StockItemSetOutOfStockMap : SubclassMap<StockItemSetOutOfStock>{}
+    public class StockItemSetInStockMap : SubclassMap<StockItemSetInStock>{}
 }

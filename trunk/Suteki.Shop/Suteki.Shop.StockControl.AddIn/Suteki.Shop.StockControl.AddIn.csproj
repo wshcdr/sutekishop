@@ -90,6 +90,7 @@
     <Compile Include="Handlers\CreateStockItemOnSizeCreatedEvent.cs" />
     <Compile Include="Handlers\DeactiveStockItemsOnSizesDeactivatedEvent.cs" />
     <Compile Include="Handlers\DecrementStockLevelOnOrderDispatchedEvent.cs" />
+    <Compile Include="Handlers\PublishStockItemInStockChanged.cs" />
     <Compile Include="HtmlHelpers\StockControlUi.cs" />
     <Compile Include="Installers\ControllersInstaller.cs" />
     <Compile Include="Installers\HandlersInstaller.cs" />
@@ -107,6 +108,8 @@
     <Compile Include="Models\StockItemDeactivated.cs" />
     <Compile Include="Models\StockItemHistoryBase.cs" />
     <Compile Include="Models\StockItemProductNameChanged.cs" />
+    <Compile Include="Models\StockItemSetInStock.cs" />
+    <Compile Include="Models\StockItemSetOutOfStock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\StockControlMappingConfiguration.cs" />
     <Compile Include="Services\StockItemService.cs" />

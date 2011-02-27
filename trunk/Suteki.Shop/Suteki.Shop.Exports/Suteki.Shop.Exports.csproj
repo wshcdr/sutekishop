@@ -47,6 +47,7 @@
     <Compile Include="Events\ProductNameChangedEvent.cs" />
     <Compile Include="Events\SizeCreatedEvent.cs" />
     <Compile Include="Events\SizesDeactivatedEvent.cs" />
+    <Compile Include="Events\StockItemInStockChanged.cs" />
     <Compile Include="HtmlHelpers\IStockControlUi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

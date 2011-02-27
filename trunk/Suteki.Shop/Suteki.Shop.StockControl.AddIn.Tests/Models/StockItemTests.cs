@@ -1,6 +1,7 @@
 // ReSharper disable InconsistentNaming
 using System;
 using NUnit.Framework;
+using Suteki.Common.Events;
 using Suteki.Shop.StockControl.AddIn.Models;
 
 namespace Suteki.Shop.StockControl.AddIn.Tests.Models
@@ -27,6 +28,7 @@ namespace Suteki.Shop.StockControl.AddIn.Tests.Models
             stockItem.Level.ShouldEqual(0);
             stockItem.ProductName.ShouldEqual(productName);
             stockItem.SizeName.ShouldEqual(sizeName);
+            stockItem.IsInStock.ShouldBeTrue();
 
             stockItem.History.Count.ShouldEqual(1);
             var itemCreated = stockItem.History[0] as StockItemCreated;
@@ -38,9 +40,20 @@ namespace Suteki.Shop.StockControl.AddIn.Tests.Models
         }
 
         [Test]
-        public void When_Level_is_zero_IsInStock_should_be_false()
+        public void AnyModification_should_raise_domain_event()
         {
-            stockItem.IsInStock.ShouldBeFalse();
+            IDomainEvent capturedDomainEvent = null;
+            using (DomainEvent.TestWith(domainEvent => { capturedDomainEvent = domainEvent; }))
+            {
+                stockItem = StockItem.Create(productName, sizeName, dateCreated, user);
+                capturedDomainEvent.ShouldBe<StockItemCreated>();
+
+                stockItem.ReceiveStock(10, dateCreated, user);
+                capturedDomainEvent.ShouldBe<ReceivedStock>();
+
+                stockItem.Dispatch(5, 1, dateCreated, user);
+                capturedDomainEvent.ShouldBe<DispatchedStock>();
+            }
         }
 
         [Test]
@@ -59,13 +72,6 @@ namespace Suteki.Shop.StockControl.AddIn.Tests.Models
             itemsRecieved.Description.ShouldEqual("7 Received");
             itemsRecieved.User.ShouldEqual(user);
             itemsRecieved.Level.ShouldEqual(7);
-        }
-
-        [Test]
-        public void When_Level_is_greater_than_zero_IsInStock_should_be_true()
-        {
-            stockItem.ReceiveStock(1, DateTime.Now, user);
-            stockItem.IsInStock.ShouldBeTrue();
         }
 
         [Test]
@@ -122,6 +128,39 @@ namespace Suteki.Shop.StockControl.AddIn.Tests.Models
             deactivated.DateTime.ShouldEqual(dateDeactivated);
             deactivated.User.ShouldEqual(user);
             deactivated.Level.ShouldEqual(0);
+        }
+
+        [Test]
+        public void StockItem_should_be_able_to_be_set_as_out_of_stock()
+        {
+            var dateOutOfStock = new DateTime(2011, 2, 27);
+
+            stockItem.SetOutOfStock(dateOutOfStock, user);
+            stockItem.IsInStock.ShouldBeFalse();
+
+            stockItem.History.Count.ShouldEqual(2);
+            var setOutOfStock = stockItem.History[1] as StockItemSetOutOfStock;
+            setOutOfStock.Description.ShouldEqual("Set out of stock");
+            setOutOfStock.DateTime.ShouldEqual(dateOutOfStock);
+            setOutOfStock.User.ShouldEqual(user);
+            setOutOfStock.Level.ShouldEqual(0);
+        }
+
+        [Test]
+        public void StockItem_should_be_able_to_be_set_in_stock()
+        {
+            var dateInStock = new DateTime(2011, 2, 27);
+            stockItem.SetOutOfStock(dateInStock, user);
+            stockItem.SetInStock(dateInStock, user);
+
+            stockItem.IsInStock.ShouldBeTrue();
+
+            stockItem.History.Count.ShouldEqual(3);
+            var setInStock = stockItem.History[2] as StockItemSetInStock;
+            setInStock.Description.ShouldEqual("Set in stock");
+            setInStock.DateTime.ShouldEqual(dateInStock);
+            setInStock.User.ShouldEqual(user);
+            setInStock.Level.ShouldEqual(0);
         }
     }
 }

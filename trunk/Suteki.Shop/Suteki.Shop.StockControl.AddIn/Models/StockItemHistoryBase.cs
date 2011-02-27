@@ -1,8 +1,9 @@
 using System;
+using Suteki.Common.Events;
 
 namespace Suteki.Shop.StockControl.AddIn.Models
 {
-    public abstract class StockItemHistoryBase
+    public abstract class StockItemHistoryBase : IDomainEvent
     {
         public virtual int Id { get; set; }
         public virtual DateTime DateTime { get; protected set; }

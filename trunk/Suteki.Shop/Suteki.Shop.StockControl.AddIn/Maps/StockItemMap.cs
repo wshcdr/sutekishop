@@ -13,6 +13,7 @@ namespace Suteki.Shop.StockControl.AddIn.Maps
             Map(x => x.IsActive);
             Map(x => x.ProductName);
             Map(x => x.SizeName);
+            Map(x => x.IsInStock);
 
             HasMany(x => x.History).Cascade.AllDeleteOrphan().Inverse();
         }

@@ -184,6 +184,7 @@
     <Compile Include="Filters\CopyMessageFromTempDataToViewDataTester.cs" />
     <Compile Include="Filters\EnsureSslFilterTester.cs" />
     <Compile Include="Handlers\AddToMailingListOnOrderConfirmedTests.cs" />
+    <Compile Include="Handlers\ChangeInStockStatusOnStockItemInStockChangedTests.cs" />
     <Compile Include="Handlers\CreateNewBasketOnOrderConfirmTests.cs" />
     <Compile Include="Handlers\EmailOrderConfirmationOnOrderConfirmedTests.cs" />
     <Compile Include="Handlers\EmailOrderDispatchOnOrderDispatchTests.cs" />
@@ -251,6 +252,7 @@
     <Compile Include="Spikes\UserTypeSpike.cs" />
     <Compile Include="TestExtensions.cs" />
     <Compile Include="TestHelpers\ControllerTestContext.cs" />
+    <Compile Include="TestHelpers\DummyRepository.cs" />
     <Compile Include="TestHelpers\FakeValueProvider.cs" />
     <Compile Include="TestHelpers\HttpContextTestContext.cs" />
     <Compile Include="TestHelpers\MockViewEngine.cs" />

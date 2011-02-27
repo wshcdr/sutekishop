@@ -103,11 +103,13 @@
     <Compile Include="..\Version.cs">
       <Link>Version.cs</Link>
     </Compile>
+    <Compile Include="DummyDomainEventService.cs" />
     <Compile Include="DummyRepository.cs" />
     <Compile Include="Handlers\ChangeStockItemsOnProductNameChangedEventTests.cs" />
     <Compile Include="Handlers\CreateStockItemOnSizeCreatedEventTests.cs" />
     <Compile Include="Handlers\DeactiveStockItemsOnSizesDeactivatedEventTests.cs" />
     <Compile Include="Handlers\DecrementStockLevelOnOrderDispatchedEventTests.cs" />
+    <Compile Include="Handlers\PublishStockItemInStockChangedTests.cs" />
     <Compile Include="Installers\HandlersInstallerTests.cs" />
     <Compile Include="Installers\ServiceInstallerTests.cs" />
     <Compile Include="Maps\MapsTestsSetupAndTeardown.cs" />

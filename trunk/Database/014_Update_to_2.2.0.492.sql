@@ -848,3 +848,23 @@ select
 from StockItem	
 
 GO
+
+-- add IsInStock column
+alter table StockItem
+add IsInStock bit default 1
+
+GO
+
+-- update is in stock
+update StockItem set IsInStock = s.IsInStock
+from StockItem
+join (select 
+			Size.Name as SizeName,
+			Product.UrlName as ProductName,
+			Size.IsInStock as IsInStock
+		from Size 
+		join Product on Size.ProductId = Product.ProductId
+		where ((Size.IsActive = 1 and Product.IsActive = 1) or Size.Name = '-')) s
+	on s.SizeName = StockItem.SizeName and s.ProductName = StockItem.ProductName
+
+GO
