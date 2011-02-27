@@ -21,7 +21,7 @@
       <tr>
         <td class="thin"><%= Html.ActionLink<StockControlController>(x => x.History(stockItem.Id), stockItem.SizeName) %></td>
         <td class="thin"><%= stockItem.Level %></td>
-        <td class="thin"><%= stockItem.IsInStock %></td>
+        <td class="thin"><%= Html.CheckBox("UpdateItems[" + i + "].IsInStock", stockItem.IsInStock)%></td>
         <td class="thin"><%= Html.TextBox("UpdateItems[" + i + "].Received", "", new { @class = "table" })%></td>
         <td class="thin"><%= Html.TextBox("UpdateItems[" + i + "].Adjustment", "", new { @class = "table" })%></td>
         <%= Html.Hidden("UpdateItems[" + i + "].StockItemId", stockItem.Id)%>

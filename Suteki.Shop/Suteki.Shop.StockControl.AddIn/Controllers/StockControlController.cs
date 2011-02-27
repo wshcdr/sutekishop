@@ -44,17 +44,27 @@ namespace Suteki.Shop.StockControl.AddIn.Controllers
 
             foreach (var updateItem in stockUpdateViewData.UpdateItems)
             {
+                var stockItem = stockItemService.GetById(updateItem.StockItemId);
                 if (updateItem.HasReceivedValue())
                 {
-                    var stockItem = stockItemService.GetById(updateItem.StockItemId);
                     stockItem.ReceiveStock(updateItem.GetReceivedValue(), now(), currentUser())
                         .SetComment(stockUpdateViewData.Comment);
                 }
                 if (updateItem.HasAdjustedValue())
                 {
-                    var stockItem = stockItemService.GetById(updateItem.StockItemId);
                     stockItem.AdjustStockLevel(updateItem.GetAdjustmentValue(), now(), currentUser())
                         .SetComment(stockUpdateViewData.Comment);
+                }
+                if (updateItem.IsInStock != stockItem.IsInStock)
+                {
+                    if (updateItem.IsInStock)
+                    {
+                        stockItem.SetInStock(now(), currentUser()).SetComment(stockUpdateViewData.Comment);
+                    }
+                    else
+                    {
+                        stockItem.SetOutOfStock(now(), currentUser()).SetComment(stockUpdateViewData.Comment);
+                    }
                 }
             }
 

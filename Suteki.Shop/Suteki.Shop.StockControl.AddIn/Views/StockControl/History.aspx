@@ -10,15 +10,15 @@
         <tr>
             <th class="thin">When</th>
             <th class="thin">What</th>
-            <th class="thin">Stock Level</th>
             <th class="thin">Who</th>
+            <th class="thin">Stock Level</th>
         </tr>
     <% foreach (var stockItemHistory in stockItem.History) {%>
         <tr>
            <td class="thin"><%= stockItemHistory.DateTime %></td> 
            <td class="thin"><%= stockItemHistory.Description %></td> 
-           <td class="thin"><%= stockItemHistory.Level %></td> 
            <td class="thin"><%= stockItemHistory.User %></td> 
+           <td class="thin"><%= stockItemHistory.Level %></td> 
         </tr>
         <% if (!string.IsNullOrEmpty(stockItemHistory.Comment))
            { %>

@@ -82,19 +82,22 @@ namespace Suteki.Shop.StockControl.AddIn.Tests.Controllers
                         {
                             StockItemId    = 4,
                             Received = "10",
-                            Adjustment = ""
+                            Adjustment = "",
+                            IsInStock = true
                         },
                         new UpdateItem
                         {
                             StockItemId    = 5,
                             Received = "",
-                            Adjustment = "22"
+                            Adjustment = "22",
+                            IsInStock = false
                         },
                         new UpdateItem
                         {
                             StockItemId    = 6,
                             Received = "",
-                            Adjustment = ""
+                            Adjustment = "",
+                            IsInStock = true
                         }
                     }
             };
@@ -127,6 +130,12 @@ namespace Suteki.Shop.StockControl.AddIn.Tests.Controllers
             stockItems[1].History[2].Comment.ShouldEqual(comment);
             stockItems[2].Level.ShouldEqual(10);
             stockItems[3].Level.ShouldEqual(10);
+
+            // assert that stock item IsInStock is as expected
+            stockItems[0].IsInStock.ShouldBeTrue();
+            stockItems[1].IsInStock.ShouldBeFalse();
+            stockItems[2].IsInStock.ShouldBeTrue();
+            stockItems[3].IsInStock.ShouldBeTrue();
         }
     }
 }

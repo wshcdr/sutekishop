@@ -21,7 +21,7 @@ namespace Suteki.Shop.StockControl.AddIn.ViewData
         public int StockItemId { get; set; }
         public string Received { get; set; }
         public string Adjustment { get; set; }
-
+        public bool IsInStock { get; set; }
         
         public bool HasReceivedValue()
         {

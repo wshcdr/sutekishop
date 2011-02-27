@@ -206,6 +206,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Handlers\AddToMailingListOnOrderConfirmed.cs" />
+    <Compile Include="Handlers\ChangeInStockStatusOnStockItemInStockChanged.cs" />
     <Compile Include="Handlers\CreateNewBasketOnOrderConfirm.cs" />
     <Compile Include="Handlers\EmailOrderConfirmationOnOrderConfirmed.cs" />
     <Compile Include="Handlers\EmailOrderDispatchOnOrderDispatch.cs" />
