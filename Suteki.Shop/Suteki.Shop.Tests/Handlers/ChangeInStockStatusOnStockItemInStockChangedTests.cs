@@ -46,6 +46,24 @@ namespace Suteki.Shop.Tests.Handlers
             sizes[1].IsInStock.ShouldBeFalse();
             sizes[3].IsInStock.ShouldBeFalse();
         }
+
+        [Test]
+        public void Handle_should_update_default_size()
+        {
+            var widget = new Product {Name = "widget"};
+            var sizes = new[]
+            {
+                new Size {Product = widget, Name = "-", IsActive = false, IsInStock = false},
+            };
+
+            sizeRepository.GetAllDelegate = () => sizes.AsQueryable();
+
+            var @event = new StockItemInStockChanged("-", "widget", true);
+
+            handler.Handle(@event);
+
+            sizes[0].IsInStock.ShouldBeTrue();
+        }
     }
 }
 
