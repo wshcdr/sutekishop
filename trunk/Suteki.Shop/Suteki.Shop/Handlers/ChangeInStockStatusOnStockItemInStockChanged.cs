@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Suteki.Common.Events;
 using Suteki.Common.Repositories;
@@ -20,10 +21,24 @@ namespace Suteki.Shop.Handlers
             var productName = @event.ProductName;
 
             var size = sizeRepository.GetAll().Where(x =>
-                x.Name == sizeName &&
-                x.Product.UrlName == productName &&
-                x.IsActive)
-                .SingleOrDefault();
+                    x.Name == sizeName &&
+                    x.Product.UrlName == productName &&
+                    x.IsActive)
+                    .SingleOrDefault() 
+                ?? 
+                sizeRepository.GetAll().Where(x =>
+                    x.Name == sizeName &&
+                    x.Product.UrlName == productName &&
+                    !x.IsActive)
+                    .SingleOrDefault();
+
+            if (size == null)
+            {
+                throw new ApplicationException(
+                    string.Format("Could not find stock item with ProductName '{0}' and SizeName '{1}'", 
+                    sizeName,
+                    productName));
+            }
 
             size.IsInStock = @event.IsInStock;
         }
