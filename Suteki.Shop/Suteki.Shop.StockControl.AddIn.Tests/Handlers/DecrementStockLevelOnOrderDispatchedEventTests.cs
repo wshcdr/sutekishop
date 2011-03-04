@@ -56,7 +56,33 @@ namespace Suteki.Shop.StockControl.AddIn.Tests.Handlers
             stockItems[2].Level.ShouldEqual(9); // 10-1 = 9
         }
 
-        
+        [Test]
+        public void OrderDispatchedEvent_should_work_with_default_sizes()
+        {
+            // create the event
+            var order = new Order(345);
+            order.Lines.Add(new OrderLine("Widget", "-", 2));
+            var @event = new OrderDispatchedEvent(order);
+
+            // create existing stock items
+            var dateCreated = new DateTime(2011, 2, 15);
+            var stockItems = new System.Collections.Generic.List<StockItem>()
+            {
+                StockItem.Create("Widget", "-", dateCreated, "mike@mike.com"),
+            };
+
+            // create some initial stock
+            stockItems[0].ReceiveStock(10, dateCreated, user);
+            stockItems[0].Deactivate(dateCreated, user);
+
+            stockItemRepository.GetAllDelegate = () => stockItems.AsQueryable();
+
+            // execute
+            decrementStockLevelOnOrderDispatchedEvent.Handle(@event);
+
+            // assert
+            stockItems[0].Level.ShouldEqual(8); // 10-2 = 8
+        }
     }
 }
 
