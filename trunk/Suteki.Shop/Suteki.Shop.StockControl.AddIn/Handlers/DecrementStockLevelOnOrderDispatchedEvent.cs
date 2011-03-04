@@ -26,11 +26,16 @@ namespace Suteki.Shop.StockControl.AddIn.Handlers
             {
                 var productName = orderLine.ProductName;
                 var sizeName = orderLine.SizeName;
+
                 var stockItem =
                     stockItemRepository
                         .GetAll()
                         .Where(x => x.ProductName == productName && x.SizeName == sizeName && x.IsActive)
-                        .ToList()
+                        .SingleOrDefault() 
+                    ??
+                    stockItemRepository
+                        .GetAll()
+                        .Where(x => x.ProductName == productName && x.SizeName == sizeName && !x.IsActive)
                         .SingleOrDefault();
 
                 if (stockItem == null)
