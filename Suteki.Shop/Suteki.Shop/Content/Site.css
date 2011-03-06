@@ -309,7 +309,6 @@ dd
 	margin: 0;
 	padding: 0;
 	width: 100%;
-	border-bottom: 1px solid #C0C0C0;
 }
 
 .mainMenu li
@@ -318,6 +317,7 @@ dd
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
+	border-bottom: 1px solid #C0C0C0;
 }
 
 li.editMenuLink a
@@ -397,7 +397,11 @@ li.editMenuLink a
 
 div.category ul ul,
 div.category ul li:hover ul ul
-{display: none;}
+{
+    display: none;
+	z-index: 1001;
+	border-left: 1px solid #C0C0C0;
+}
 
 div.category ul li:hover ul
 {display: block;}
@@ -405,7 +409,11 @@ div.category ul li:hover ul
 /* second level */
 
 div.category ul ul ul
-{display: none;}
+{
+    display: none;
+	z-index: 1001;
+	border-left: 1px solid #C0C0C0;
+}
 
 div.category ul ul li:hover ul
 {display: block;}
@@ -822,3 +830,4 @@ ul.validation-summary-errors li
 .pointer:hover {
 	cursor: pointer;
 }
+
