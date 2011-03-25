@@ -1,3 +1,4 @@
+using System.Linq;
 using NUnit.Framework;
 using Suteki.Common.Events;
 using Suteki.Shop.Exports.Events;
@@ -96,6 +97,20 @@ namespace Suteki.Shop.Tests.Models
             productNameChangedEvent.ShouldNotBeNull();
             productNameChangedEvent.OldProductName.ShouldEqual(oldName);
             productNameChangedEvent.NewProductName.ShouldEqual(newName);
+        }
+
+        [Test]
+        public void ActiveReviews_should_only_return_active_reviews()
+        {
+            var product = new Product();
+
+            product.Reviews.Add(new Review { Id = 1, Approved = false });
+            product.Reviews.Add(new Review { Id = 2, Approved = true });
+            product.Reviews.Add(new Review { Id = 3, Approved = false });
+
+            product.ActiveReviews.Count().ShouldEqual(1);
+            product.ActiveReviews.First().Id.ShouldEqual(2);
+
         }
 
         const string description = 

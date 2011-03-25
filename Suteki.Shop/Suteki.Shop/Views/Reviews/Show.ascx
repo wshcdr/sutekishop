@@ -4,11 +4,11 @@
 
 <% if (Model.Reviews.Count() > 0) { %>
 
-<a id="show-reviews" href="javascript:void(0)">Show Reviews (<%= Model.Reviews.Count() %>)</a>
+<a id="show-reviews" href="javascript:void(0)">Show Reviews (<%= Model.ActiveReviews.Count()%>)</a>
 
 <div id="reviews" style="display: none;">
 	<p>&nbsp;</p>
-	<% foreach (var review in Model.Reviews) { %>
+	<% foreach (var review in Model.ActiveReviews) { %>
 		<div>
 			<!--<%= Html.Stars(review.Rating) %> -->
 			<strong><%= Html.Encode(review.Reviewer) %></strong>

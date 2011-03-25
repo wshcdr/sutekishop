@@ -73,6 +73,11 @@ namespace Suteki.Shop
             protected set { reviews = value; }
         }
 
+        public virtual IEnumerable<Review> ActiveReviews
+        {
+            get { return reviews.Where(x => x.Approved); }
+        }
+
         public virtual void AddSize(Size size)
         {
             Sizes.Add(size);
