@@ -868,3 +868,43 @@ join (select
 	on s.SizeName = StockItem.SizeName and s.ProductName = StockItem.ProductName
 
 GO
+
+-- update old order lines
+update OrderLine set ProductId = OrderLineNew.ProductId, SizeName = OrderLineNew.NewSizeName
+from OrderLine
+join (
+	select
+		OrderLineId,
+		Product.ProductId,
+		Product.UrlName,
+		NewSizeName = CASE SUBSTRING(ProductName, len(Product.Name)+4, LEN(ProductName))
+			WHEN '' THEN '-'
+			ELSE SUBSTRING(ProductName, len(Product.Name)+4, LEN(ProductName))
+		END
+	from OrderLine 
+	join Product on OrderLine.ProductUrlName = Product.UrlName
+	where OrderLine.SizeName is null
+	) AS OrderLineNew on OrderLineNew.OrderLineId = OrderLine.OrderLineId
+left join Size on OrderLineNew.ProductId = Size.ProductId AND ltrim(rtrim(Size.Name)) = ltrim(rtrim(NewSizeName)) AND Size.IsActive = 1
+where Size.Name is not null
+GO
+
+-- update orders for default sizes AND any old orders with inactive sizes.
+update OrderLine set ProductId = OrderLineNew.ProductId, SizeName = OrderLineNew.NewSizeName
+from OrderLine
+join (
+	select
+		OrderLineId,
+		Product.ProductId,
+		Product.UrlName,
+		NewSizeName = CASE SUBSTRING(ProductName, len(Product.Name)+4, LEN(ProductName))
+			WHEN '' THEN '-'
+			ELSE SUBSTRING(ProductName, len(Product.Name)+4, LEN(ProductName))
+		END
+	from OrderLine 
+	join Product on OrderLine.ProductUrlName = Product.UrlName
+	where OrderLine.SizeName is null
+	) AS OrderLineNew on OrderLineNew.OrderLineId = OrderLine.OrderLineId
+left join Size on OrderLineNew.ProductId = Size.ProductId AND ltrim(rtrim(Size.Name)) = ltrim(rtrim(NewSizeName))
+where Size.Name is not null
+GO
