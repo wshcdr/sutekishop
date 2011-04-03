@@ -62,6 +62,7 @@ namespace Suteki.Shop.IoC
                 Component.For<IFormsAuthentication>().ImplementedBy<FormsAuthenticationWrapper>(),
                 Component.For<AuthenticateFilter>().LifeStyle.Transient,
                 Component.For<UnitOfWorkFilter>().LifeStyle.Transient,
+                Component.For<IPerActionTransactionStore>().ImplementedBy<PerActionTransactionStore>().LifeStyle.Transient,
                 Component.For<CurrentBasketBinder>().LifeStyle.Transient,
                 Component.For<EnsureSsl>().LifeStyle.Transient,
 				Component.For<MailingListSubscriptionBinder>().LifeStyle.Transient,

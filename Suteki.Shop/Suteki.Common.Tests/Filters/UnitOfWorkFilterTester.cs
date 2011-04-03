@@ -1,3 +1,4 @@
+using System;
 using System.Web.Mvc;
 using Castle.Facilities.NHibernateIntegration;
 using NHibernate;
@@ -23,16 +24,18 @@ namespace Suteki.Common.Tests.Filters
 		    session = MockRepository.GenerateStub<ISession>();
 		    transaction = MockRepository.GenerateStub<ITransaction>();
 
-		    sessionManager.Stub(s => s.OpenSession()).Return(session);
-		    session.Stub(s => s.BeginTransaction()).Return(transaction);
+		    sessionManager.Stub(s => s.OpenSession()).Return(session).Repeat.Any();
+            session.Stub(s => s.BeginTransaction()).Return(transaction).Repeat.Any();
 
-			filter = new UnitOfWorkFilter(sessionManager);
+		    var perActionTransactionStore = new MockPerActionTransactionStore();
+
+			filter = new UnitOfWorkFilter(sessionManager, perActionTransactionStore);
 		}
 
 	    [Test]
 	    public void Transaction_should_be_started_when_action_is_run()
 	    {
-	        filter.OnActionExecuting(new ActionExecutingContext { Controller = new TestController() });
+            filter.OnActionExecuting(new ActionExecutingContext { Controller = new TestController() });
             session.AssertWasCalled(s => s.BeginTransaction());
 	    }
 
@@ -55,4 +58,19 @@ namespace Suteki.Common.Tests.Filters
 			transaction.AssertWasCalled(t => t.Rollback());
 		}
 	}
+
+    public class MockPerActionTransactionStore : IPerActionTransactionStore
+    {
+        private ITransaction transaction;
+
+        public void StoreTransaction(ActionExecutingContext filterContext, ITransaction transaction)
+        {
+            this.transaction = transaction;
+        }
+
+        public ITransaction RetrieveTransaction(ActionExecutedContext filterContext)
+        {
+            return transaction;
+        }
+    }
 }
