@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Web.Mvc;
 using Castle.Core.Logging;
+using Castle.Facilities.TypedFactory;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Configuration.Interpreters;
@@ -23,6 +24,9 @@ namespace Suteki.Shop.IoC
         public static IWindsorContainer Build(string configPath)
         {
             var container = new WindsorContainer(new XmlInterpreter(configPath));
+
+            // typed factory facility
+            container.AddFacility<TypedFactoryFacility>();
 
             // add array resolver
             container.Kernel.Resolver.AddSubResolver(new ArrayResolver(container.Kernel));
@@ -57,6 +61,7 @@ namespace Suteki.Shop.IoC
                 Component.For(typeof(IOrderableService<>)).ImplementedBy(typeof(OrderableService<>)).LifeStyle.Transient,
                 Component.For<IPostageService>().ImplementedBy<PostageService>().LifeStyle.Transient,
                 Component.For<IRepositoryResolver>().ImplementedBy<RepositoryResolver>().LifeStyle.Transient,
+                Component.For(typeof(IRepositoryFactory<>)).AsFactory(),
                 Component.For<IHttpContextService>().ImplementedBy<HttpContextService>().LifeStyle.Transient,
                 Component.For<IUnitOfWorkManager>().ImplementedBy<UnitOfWorkManager>().LifeStyle.Transient,
                 Component.For<IFormsAuthentication>().ImplementedBy<FormsAuthenticationWrapper>(),

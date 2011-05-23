@@ -20,6 +20,7 @@ namespace Suteki.Shop.Tests.Filters
 		private AuthorizationContext context;
 		private IPrincipal originalPrincipal;
 		private IRepository<User> userRepository;
+	    private IRepositoryFactory<User> userRepositoryFactory;
 		private IFormsAuthentication formsAuth;
 
 		[SetUp]
@@ -30,9 +31,12 @@ namespace Suteki.Shop.Tests.Filters
 				HttpContext = new TestControllerBuilder().HttpContext
           	};
 
+            userRepositoryFactory = MockRepository.GenerateStub<IRepositoryFactory<User>>();
 			userRepository = MockRepositoryBuilder.CreateUserRepository();
+		    userRepositoryFactory.Stub(x => x.Resolve()).Return(userRepository).Repeat.Any();
+
 			formsAuth = MockRepository.GenerateStub<IFormsAuthentication>();
-			filter = new AuthenticateFilter(userRepository, formsAuth);
+            filter = new AuthenticateFilter(formsAuth, userRepositoryFactory);
 			
 			originalPrincipal = Thread.CurrentPrincipal;
 		}

@@ -32,7 +32,7 @@ namespace Suteki.Shop.Tests
 			module.Init(HttpContext.Current.ApplicationInstance);
 
 			container = ContainerBuilder.Build("Windsor.config");
-            container.Install(Configuration.FromXmlFile("NHFacility.config"));
+		    container.Install(FromAssembly.Containing<HomeController>());
 		}
 
 		[TestFixtureTearDown]

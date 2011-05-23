@@ -1,6 +1,6 @@
 using System.Web.Mvc;
-using Castle.Facilities.NHibernateIntegration;
 using NHibernate;
+using Suteki.Common.Repositories;
 
 namespace Suteki.Common.Filters
 {
@@ -13,19 +13,30 @@ namespace Suteki.Common.Filters
 
 	public class UnitOfWorkFilter : IActionFilter
 	{
-	    readonly ISessionManager sessionManager;
+        // from MVC 3, ActionFilters are cached, so we can no longer rely on having a new instance 
+        // of UnitOfWorkFilter per request. SessionManager has a PerWebRequest lifestyle, but in order
+        // to allow for this lifestyle in a component with a longer than request lifestyle, we use a factory.
+	    private readonly ISessionManagerFactory sessionManagerFactory;
 	    private readonly IPerActionTransactionStore perActionTransactionStore;
 
-	    public UnitOfWorkFilter(ISessionManager sessionManager, IPerActionTransactionStore perActionTransactionStore)
+	    public UnitOfWorkFilter(IPerActionTransactionStore perActionTransactionStore, ISessionManagerFactory sessionManagerFactory)
 	    {
-	        this.sessionManager = sessionManager;
+	        this.sessionManagerFactory = sessionManagerFactory;
 	        this.perActionTransactionStore = perActionTransactionStore;
 	    }
 
 	    public void OnActionExecuting(ActionExecutingContext filterContext)
 	    {
-            var sesion = sessionManager.OpenSession();
-            perActionTransactionStore.StoreTransaction(filterContext, sesion.BeginTransaction());
+	        var sessionManager = sessionManagerFactory.Resolve();
+	        try
+	        {
+                var sesion = sessionManager.OpenSession();
+                perActionTransactionStore.StoreTransaction(filterContext, sesion.BeginTransaction());
+            }
+	        finally
+	        {
+	            sessionManagerFactory.Release(sessionManager);    
+	        }
 	    }
 
 		public void OnActionExecuted(ActionExecutedContext filterContext)
