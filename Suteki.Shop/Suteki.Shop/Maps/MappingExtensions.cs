@@ -1,20 +1,20 @@
-using FluentNHibernate.Mapping.Builders;
+using FluentNHibernate.Mapping;
 using Suteki.Common.NHibernate;
 
 namespace Suteki.Shop.Maps
 {
     public static class MappingExtensions
     {
-        public static PropertyBuilder Text(this PropertyBuilder propertyBuilder)
+        public static PropertyPart Text(this PropertyPart propertyPart)
         {
-            propertyBuilder.Length(10000);
-            return propertyBuilder;
+            propertyPart.Length(10000);
+            return propertyPart;
         }
 
-        public static PropertyBuilder Money(this PropertyBuilder propertyBuilder)
+        public static PropertyPart Money(this PropertyPart propertyPart)
         {
-            propertyBuilder.CustomType<MoneyUserType>();
-            return propertyBuilder;
+            propertyPart.CustomType<MoneyUserType>();
+            return propertyPart;
         }
     }
 }
