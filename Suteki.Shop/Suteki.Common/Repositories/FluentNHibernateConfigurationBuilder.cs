@@ -1,5 +1,3 @@
-using Castle.Core.Configuration;
-using Castle.Facilities.NHibernateIntegration;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using FluentNHibernate.Conventions.Helpers;
@@ -22,7 +20,7 @@ namespace Suteki.Common.Repositories
             this.configurationContributors = configurationContributors;
         }
 
-        public Configuration GetConfiguration(IConfiguration facilityConfiguration)
+        public Configuration GetConfiguration()
         {
             return BuildConfiguration(MsSqlConfiguration.MsSql2005.ConnectionString(c => 
                 c.FromConnectionStringWithKey(conectionStringKey)));

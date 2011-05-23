@@ -1,6 +1,5 @@
 using System.Linq;
 using NHibernate.Linq;
-using Castle.Facilities.NHibernateIntegration;
 
 namespace Suteki.Common.Repositories
 {

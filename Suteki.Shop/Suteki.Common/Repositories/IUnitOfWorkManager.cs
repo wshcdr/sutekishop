@@ -1,5 +1,3 @@
-using Castle.Facilities.NHibernateIntegration;
-
 namespace Suteki.Common.Repositories
 {
 	public interface IUnitOfWorkManager

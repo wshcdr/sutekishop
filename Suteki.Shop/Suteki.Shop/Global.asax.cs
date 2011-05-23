@@ -60,9 +60,6 @@ namespace Suteki.Shop
                     FromAssembly.InDirectory(new AssemblyFilter(HttpRuntime.BinDirectory, "*AddIn.dll")),
                     FromAssembly.This());
 
-                // register NHFacility
-                container.Install(Configuration.FromXmlFile("Configuration\\NHFacility.config"));
-
                 // set up the static IoC locator (this is an anti-pattern, only use in dire need!)
                 IocContainer.SetResolveFunction(container.Resolve);
                 IocContainer.SetReleaseAction(container.Release);

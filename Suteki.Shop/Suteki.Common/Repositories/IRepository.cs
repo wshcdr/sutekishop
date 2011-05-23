@@ -17,4 +17,11 @@ namespace Suteki.Common.Repositories
         void SaveOrUpdate(object entity);
         void DeleteOnSubmit(object entity);
     }
+
+    public interface IRepositoryFactory<T>
+        where T : class
+    {
+        IRepository<T> Resolve();
+        void Release(IRepository<T> repository);
+    }
 }

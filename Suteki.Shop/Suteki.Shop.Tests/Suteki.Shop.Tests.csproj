@@ -46,9 +46,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Castle.Core.2.5.1\lib\NET35\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Facilities.NHibernateIntegration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Castle.Facilities.NHibernateIntegration.1.1.0\lib\NET40\Castle.Facilities.NHibernateIntegration.dll</HintPath>
-    </Reference>
     <Reference Include="Castle.Facilities.Synchronize">
       <HintPath>..\packages\Castle.Windsor.2.5.1\lib\NET40\Castle.Facilities.Synchronize.dll</HintPath>
     </Reference>
@@ -286,10 +283,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Suteki.Shop\Configuration\NHFacility.config">
-      <Link>NHFacility.config</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="..\Suteki.Shop\Configuration\Windsor.config">
       <Link>Windsor.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

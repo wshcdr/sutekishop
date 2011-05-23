@@ -1,10 +1,9 @@
-using System;
 using System.Web.Mvc;
-using Castle.Facilities.NHibernateIntegration;
 using NHibernate;
 using NUnit.Framework;
 using Rhino.Mocks;
 using Suteki.Common.Filters;
+using Suteki.Common.Repositories;
 using Suteki.Common.Tests.TestHelpers;
 
 namespace Suteki.Common.Tests.Filters
@@ -12,6 +11,7 @@ namespace Suteki.Common.Tests.Filters
 	[TestFixture]
 	public class UnitOfWorkFilterTester
 	{
+	    ISessionManagerFactory sessionManagerFactory;
 	    ISessionManager sessionManager;
 	    ISession session;
 	    ITransaction transaction;
@@ -20,16 +20,18 @@ namespace Suteki.Common.Tests.Filters
 		[SetUp]
 		public void Setup()
 		{
+		    sessionManagerFactory = MockRepository.GenerateStub<ISessionManagerFactory>();
 		    sessionManager = MockRepository.GenerateStub<ISessionManager>();
 		    session = MockRepository.GenerateStub<ISession>();
 		    transaction = MockRepository.GenerateStub<ITransaction>();
 
+		    sessionManagerFactory.Stub(x => x.Resolve()).Return(sessionManager).Repeat.Any();
 		    sessionManager.Stub(s => s.OpenSession()).Return(session).Repeat.Any();
             session.Stub(s => s.BeginTransaction()).Return(transaction).Repeat.Any();
 
 		    var perActionTransactionStore = new MockPerActionTransactionStore();
 
-			filter = new UnitOfWorkFilter(sessionManager, perActionTransactionStore);
+			filter = new UnitOfWorkFilter(perActionTransactionStore, sessionManagerFactory);
 		}
 
 	    [Test]

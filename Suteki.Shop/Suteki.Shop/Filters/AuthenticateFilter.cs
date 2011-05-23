@@ -19,36 +19,45 @@ namespace Suteki.Shop.Filters
 
 	public class AuthenticateFilter : IAuthorizationFilter
 	{
-		private IRepository<User> userRepository;
-		private IFormsAuthentication formsAuth;
+	    private readonly IRepositoryFactory<User> userRepositoryFactory;
+		private readonly IFormsAuthentication formsAuth;
 
-		public AuthenticateFilter(IRepository<User> userRepository, IFormsAuthentication formsAuth)
+		public AuthenticateFilter(IFormsAuthentication formsAuth, IRepositoryFactory<User> userRepositoryFactory)
 		{
-			this.userRepository = userRepository;
-			this.formsAuth = formsAuth;
+		    this.userRepositoryFactory = userRepositoryFactory;
+		    this.formsAuth = formsAuth;
 		}
 
 		public void OnAuthorization(AuthorizationContext filterContext)
 		{
-			var context = filterContext.HttpContext;
+		    var userRepository = userRepositoryFactory.Resolve();
+		    try
+		    {
+                var context = filterContext.HttpContext;
 
-			if(context.User != null && context.User.Identity.IsAuthenticated)
-			{
-				var email = context.User.Identity.Name;
-				var user = userRepository.GetAll().WhereEmailIs(email);
+                if (context.User != null && context.User.Identity.IsAuthenticated)
+                {
+                    var email = context.User.Identity.Name;
+                    var user = userRepository.GetAll().WhereEmailIs(email);
 
-				if (user == null) 
-				{
-					formsAuth.SignOut();
-				}
-				else 
-				{
-					AuthenticateAs(context, user);
-					return;
-				}
-			}
+                    if (user == null)
+                    {
+                        formsAuth.SignOut();
+                    }
+                    else
+                    {
+                        AuthenticateAs(context, user);
+                        return;
+                    }
+                }
 
-			AuthenticateAs(context, User.Guest);
+                AuthenticateAs(context, User.Guest);
+            }
+		    finally
+		    {
+		        userRepositoryFactory.Release(userRepository);
+		    }
+
 		}
 
 		private void AuthenticateAs(HttpContextBase context, User user)
