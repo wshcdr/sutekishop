@@ -180,6 +180,7 @@
     <Compile Include="Services\IEmailBuilder.cs" />
     <Compile Include="TestHelpers\MapTestBase.cs" />
     <Compile Include="Utils\ExperssionHelper.cs" />
+    <Compile Include="Utils\UriBuilder.cs" />
     <Compile Include="Validation\DataAnnotationsValidator.cs" />
     <Compile Include="Windsor\ArrayResolver.cs" />
     <Compile Include="Models\IOrderable.cs" />

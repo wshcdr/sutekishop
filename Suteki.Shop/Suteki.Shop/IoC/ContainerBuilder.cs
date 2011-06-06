@@ -1,5 +1,8 @@
+using System;
 using System.Reflection;
 using System.Web.Mvc;
+using System.Web;
+using System.Web.Routing;
 using Castle.Core.Logging;
 using Castle.Facilities.TypedFactory;
 using Castle.MicroKernel.Registration;
@@ -11,11 +14,13 @@ using Suteki.Common.Filters;
 using Suteki.Common.HtmlHelpers;
 using Suteki.Common.Repositories;
 using Suteki.Common.Services;
+using Suteki.Common.Utils;
 using Suteki.Common.Windsor;
 using Suteki.Shop.Binders;
 using Suteki.Shop.Filters;
 using Suteki.Shop.Repositories;
 using Suteki.Shop.Services;
+using UriBuilder = Suteki.Common.Utils.UriBuilder;
 
 namespace Suteki.Shop.IoC
 {
@@ -82,7 +87,14 @@ namespace Suteki.Shop.IoC
                 AllTypes.FromAssembly(Assembly.GetExecutingAssembly())
                     .BasedOn<IProductBuilderContributor>().WithService.Base()
                     .Configure(c => c.LifeStyle.Transient),
-                Component.For<IProductCopyService>().ImplementedBy<ProductCopyService>().LifeStyle.Transient
+                Component.For<IProductCopyService>().ImplementedBy<ProductCopyService>().LifeStyle.Transient,
+                Component.For<IUriBuilder>().ImplementedBy<UriBuilder>().LifeStyle.Transient
+                );
+
+            // register some useful delegates
+            container.Register(
+                Component.For<Func<HttpContextBase>>().Instance(() => new HttpContextWrapper(HttpContext.Current)),
+                Component.For<Func<RouteCollection>>().Instance(() => RouteTable.Routes)
                 );
 
             return container;
