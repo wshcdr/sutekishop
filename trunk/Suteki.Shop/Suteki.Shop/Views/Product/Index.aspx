@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Shop.Master"  Inherits="Suteki.Shop.ViewPage<ShopViewData>" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
-
+<div id="product-list">
 <h1><%= Model.Category.Name %></h1>
 
 <% if(User.IsAdministrator()) { %>
@@ -21,4 +21,5 @@
 	<% Html.RenderPartial("Product", ShopView.Data.WithProduct(product).WithCategory(Model.Category)); %>
 <% } %>
 
+</div>
 </asp:Content>

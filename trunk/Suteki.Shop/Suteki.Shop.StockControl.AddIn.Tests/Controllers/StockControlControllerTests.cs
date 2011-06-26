@@ -48,9 +48,10 @@ namespace Suteki.Shop.StockControl.AddIn.Tests.Controllers
         public void History_should_show_stockItem_history()
         {
             const int stockItemId = 89;
-
-            var now = new DateTime(2011, 2, 15);
             var stockItem = StockItem.Create("Widget", "Small", now, "mike@mike.com").SetId(stockItemId);
+            stockItem.ReceiveStock(10, now, user);
+            stockItem.Dispatch(2, 5, now, user);
+            stockItem.Dispatch(2, 5, now, user);
 
             stockItemService.GetByIdDelegate = id =>
             {
@@ -60,9 +61,55 @@ namespace Suteki.Shop.StockControl.AddIn.Tests.Controllers
 
             var viewData = controller.History(stockItemId)
                 .ReturnsViewResult()
-                .WithModel<StockItem>();
+                .WithModel<StockItemHistoryViewData>();
 
-            viewData.ShouldBeTheSameAs(stockItem);
+            viewData.StockItem.ShouldBeTheSameAs(stockItem);
+            viewData.History.Count.ShouldEqual(stockItem.History.Count);
+            viewData.Start.ShouldEqual(now);
+            viewData.End.ShouldEqual(now);
+        }
+
+        [Test]
+        public void History_should_show_stockItems_between_given_dates()
+        {
+            const int stockItemId = 89;
+            var stockItem = StockItem.Create("Widget", "Small", now, "mike@mike.com").SetId(stockItemId);
+            stockItem.ReceiveStock(10, now, user);
+            stockItem.Dispatch(2, 5, now, user);
+            stockItem.Dispatch(2, 5, now, user);
+
+            var start = new DateTime(2011, 1, 1);
+            var end = new DateTime(2011, 2, 1);
+
+            stockItemService.GetHistoryDelegate = (stockItemArg, startArg, endArg) =>
+            {
+                stockItemArg.ShouldBeTheSameAs(stockItem);
+                startArg.ShouldEqual(start);
+                endArg.ShouldEqual(end);
+
+                return stockItem.History;
+            };
+            stockItemService.GetByIdDelegate = id =>
+            {
+                id.ShouldEqual(stockItemId);
+                return stockItem;
+            };
+
+            var query = new StockItemHistoryQuery
+            {
+                StockItemId = stockItemId,
+                Start = start,
+                End = end
+            };
+
+            var viewData = controller.HistoryQuery(query)
+                .ReturnsViewResult()
+                .WithModel<StockItemHistoryViewData>();
+
+            viewData.StockItem.ShouldBeTheSameAs(stockItem);
+            viewData.History.Count.ShouldEqual(stockItem.History.Count);
+            viewData.Start.ShouldEqual(start);
+            viewData.End.ShouldEqual(end);
         }
 
         [Test]

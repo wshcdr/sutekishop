@@ -536,6 +536,11 @@ li.basket
 	display: inline;
 	margin: 0px 5px;
 }
+.productOptions input[type=text]
+{
+	display: inline;
+	margin: 0px 5px;
+}
 
 div.sizeInput
 {
@@ -595,6 +600,12 @@ input.inline
 {
 	display:inline;
 	width: 50px;	
+}
+
+input.inline-date
+{
+    display:inline;
+    width: 75px;
 }
 
 input.table
@@ -726,6 +737,11 @@ table
 tr.total
 {
 	font-weight: bold;
+}
+
+tr.line-above
+{
+    border-top: 1px solid #C0C0C0;
 }
 
 th

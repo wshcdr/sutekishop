@@ -117,6 +117,8 @@
     <Compile Include="Services\StockItemService.cs" />
     <Compile Include="SimpleServices.cs" />
     <Compile Include="StockControlException.cs" />
+    <Compile Include="ViewData\StockItemHistoryQuery.cs" />
+    <Compile Include="ViewData\StockItemHistoryViewData.cs" />
     <Compile Include="ViewData\StockUpdateViewData.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -13,6 +13,7 @@ namespace Suteki.Shop.StockControl.AddIn.Tests.Services
     {
         private IStockItemService stockItemService;
         private DummyRepository<StockItem> stockItemRepository;
+        private DummyRepository<StockItemHistoryBase> historyRepository;
         private readonly DateTime now = new DateTime(2011, 2, 20);
         private const string user = "mike@mike.com";
 
@@ -20,7 +21,8 @@ namespace Suteki.Shop.StockControl.AddIn.Tests.Services
         public void SetUp()
         {
             stockItemRepository = new DummyRepository<StockItem>();
-            stockItemService = new StockItemService(stockItemRepository);
+            historyRepository = new DummyRepository<StockItemHistoryBase>();
+            stockItemService = new StockItemService(stockItemRepository, historyRepository);
         }
 
         [Test]
@@ -97,12 +99,35 @@ namespace Suteki.Shop.StockControl.AddIn.Tests.Services
             returnedItems.Count().ShouldEqual(1);
             returnedItems.First().ShouldBeTheSameAs(stockItems[0]);
         }
+
+        [Test]
+        public void GetHistory_should_get_a_stockItems_history_between_the_given_dates()
+        {
+            var stockItem = StockItem.Create("widget", "small", new DateTime(2011, 1, 1), user);
+            var history1 = stockItem.ReceiveStock(10, new DateTime(2011, 2, 1), user);
+            var history2 = stockItem.Dispatch(2, 1, new DateTime(2011, 3, 1), user);
+            var history3 = stockItem.Dispatch(2, 2, new DateTime(2011, 4, 1), user);
+            stockItem.Dispatch(2, 3, new DateTime(2011, 5, 1), user);
+
+            var start = new DateTime(2011, 2, 1);
+            var end = new DateTime(2011, 4, 1);
+
+            historyRepository.GetAllDelegate = () => stockItem.History.AsQueryable();
+
+            var history = stockItemService.GetHistory(stockItem, start, end);
+
+            history.Count().ShouldEqual(3);
+            history.ElementAt(0).ShouldBeTheSameAs(history1);
+            history.ElementAt(1).ShouldBeTheSameAs(history2);
+            history.ElementAt(2).ShouldBeTheSameAs(history3);
+        }
     }
 
     public class DummyStockItemService : IStockItemService
     {
         public Func<int, StockItem> GetByIdDelegate { get; set; }
         public Func<string, IEnumerable<StockItem>> GetAllForProductDelegate { get; set; }
+        public Func<StockItem, DateTime, DateTime, IEnumerable<StockItemHistoryBase>> GetHistoryDelegate { get; set; }
 
         public StockItem GetById(int stockItemId)
         {
@@ -112,6 +137,11 @@ namespace Suteki.Shop.StockControl.AddIn.Tests.Services
         public IEnumerable<StockItem> GetAllForProduct(string productName)
         {
             return GetAllForProductDelegate(productName);
+        }
+
+        public IEnumerable<StockItemHistoryBase> GetHistory(StockItem stockItem, DateTime start, DateTime end)
+        {
+            return GetHistoryDelegate(stockItem, start, end);
         }
     }
 }
