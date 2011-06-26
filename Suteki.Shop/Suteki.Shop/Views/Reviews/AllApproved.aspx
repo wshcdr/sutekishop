@@ -16,6 +16,11 @@
 		<p>
 			<%= Html.Encode(comment.Text) %>
 		</p>
+        <% if (comment.HasAnswer) { %>
+        <p>
+            <strong>Our Reply: </strong><%= Html.Encode(comment.Answer) %>
+        </p>
+        <% } %>
 	</div>
     <% } %>
     

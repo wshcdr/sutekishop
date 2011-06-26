@@ -16,6 +16,13 @@ namespace Suteki.Shop
         [Required(ErrorMessage = "Reviewer Name is required")]
         public virtual string Reviewer { get; set; }
 
+        public virtual string Answer { get; set; }
+
+        public virtual bool HasAnswer
+        {
+            get { return !string.IsNullOrEmpty(Answer); }
+        }
+
         public virtual Product Product { get; set; }
 	}
 }

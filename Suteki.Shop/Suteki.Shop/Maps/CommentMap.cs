@@ -11,6 +11,7 @@ namespace Suteki.Shop.Maps
             Map(x => x.Approved);
             Map(x => x.Text).Text();
             Map(x => x.Reviewer);
+            Map(x => x.Answer);
         }
     }
 

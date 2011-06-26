@@ -149,6 +149,7 @@
     <Compile Include="Controllers\CategoryControllerTests.cs" />
     <Compile Include="Controllers\CheckoutControllerTester.cs" />
     <Compile Include="Controllers\CmsControllerTests.cs" />
+    <Compile Include="Controllers\CommentAnswerControllerTests.cs" />
     <Compile Include="Controllers\CommentControllerTests.cs" />
     <Compile Include="Controllers\CountryControllerTests.cs" />
     <Compile Include="Controllers\HeaderControllerTests.cs" />
