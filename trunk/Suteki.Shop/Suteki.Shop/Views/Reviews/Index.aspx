@@ -15,6 +15,15 @@
 		<p>
 			<%= Html.Encode(comment.Text)%>
 		</p>
+        <% if (comment.HasAnswer) { %>
+        <p>
+            <strong>Our Reply: </strong><%= Html.Encode(comment.Answer) %>
+        </p>
+        <% } %>
+		
+		<% using (Html.BeginForm<CommentAnswerController>(c => c.Edit(comment.Id), FormMethod.Get)) { %>
+			<input type="submit" value="Reply" />
+		<% } %>
 		
 		<% using (Html.BeginForm<ReviewsController>(c => c.Approve(comment.Id))) { %>
 			<input type="submit" value="Approve" />

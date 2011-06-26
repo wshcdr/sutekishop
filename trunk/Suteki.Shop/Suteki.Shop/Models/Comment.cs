@@ -4,6 +4,11 @@ namespace Suteki.Shop
 {
     public class Comment : IComment
     {
+        public Comment()
+        {
+            Answer = "";
+        }
+
         public virtual int Id { get; set; }
         public virtual bool Approved { get; set; }
 
@@ -13,5 +18,12 @@ namespace Suteki.Shop
         [Required(ErrorMessage = "Your Name is required")]
         [StringLength(255, ErrorMessage = "Maximum length for your name is 255 characters.")]
         public virtual string Reviewer { get; set; }
+
+        public virtual string Answer { get; set; }
+
+        public virtual bool HasAnswer
+        {
+            get { return !string.IsNullOrEmpty(Answer); }
+        }
     }
 }

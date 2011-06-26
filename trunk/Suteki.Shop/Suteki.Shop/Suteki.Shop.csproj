@@ -170,6 +170,7 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\CmsController.cs" />
+    <Compile Include="Controllers\CommentAnswerController.cs" />
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\CountryController.cs" />
@@ -353,6 +354,7 @@
     <Compile Include="ViewData\CategoryViewDataExtensions.cs" />
     <Compile Include="ViewData\CheckoutViewData.cs" />
     <Compile Include="ViewData\CmsViewData.cs" />
+    <Compile Include="ViewData\CommentAnswerViewData.cs" />
     <Compile Include="ViewData\HeaderViewData.cs" />
     <Compile Include="ViewData\PostageResultViewData.cs" />
     <Compile Include="ViewData\ProductViewData.cs" />
@@ -383,6 +385,7 @@
     <Content Include="Global.asax" />
     <Content Include="Views\Basket\Readonly.ascx" />
     <Content Include="Views\Category\LeftMenu.ascx" />
+    <Content Include="Views\CommentAnswer\Edit.aspx" />
     <Content Include="Views\Comment\Confirm.aspx" />
     <Content Include="Views\Comment\New.aspx" />
     <Content Include="Views\Header\Footer.ascx" />
