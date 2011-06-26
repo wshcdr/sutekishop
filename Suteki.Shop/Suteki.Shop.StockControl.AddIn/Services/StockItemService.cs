@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using Suteki.Common.Extensions;
@@ -10,15 +11,20 @@ namespace Suteki.Shop.StockControl.AddIn.Services
     {
         StockItem GetById(int stockItemId);
         IEnumerable<StockItem> GetAllForProduct(string productName);
+        IEnumerable<StockItemHistoryBase> GetHistory(StockItem stockItem, DateTime start, DateTime end);
     }
 
     public class StockItemService : IStockItemService
     {
         private readonly IRepository<StockItem> stockItemRepository;
+        private readonly IRepository<StockItemHistoryBase> historyRepository;
 
-        public StockItemService(IRepository<StockItem> stockItemRepository)
+        public StockItemService(
+            IRepository<StockItem> stockItemRepository, 
+            IRepository<StockItemHistoryBase> historyRepository)
         {
             this.stockItemRepository = stockItemRepository;
+            this.historyRepository = historyRepository;
         }
 
         public StockItem GetById(int stockItemId)
@@ -46,6 +52,11 @@ namespace Suteki.Shop.StockControl.AddIn.Services
             }
 
             return defaultItem.ToEnumerable();
+        }
+
+        public IEnumerable<StockItemHistoryBase> GetHistory(StockItem stockItem, DateTime start, DateTime end)
+        {
+            return stockItem.History.Where(h => h.DateTime >= start && h.DateTime <= end);
         }
     }
 }

@@ -15,7 +15,7 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
-
+<div id="product">
 <script type="text/javascript">
 
 function onThumbnailClick(img)
@@ -63,4 +63,5 @@ function onThumbnailClick(img)
         document.getElementById('fb-root').appendChild(e);
     } ());
 </script>
+</div> 
 </asp:Content>

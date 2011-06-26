@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Web.Mvc;
 using Suteki.Common.AddIns;
 using Suteki.Common.Filters;
@@ -31,7 +32,14 @@ namespace Suteki.Shop.StockControl.AddIn.Controllers
         public ActionResult History(int id)
         {
             var stockItem = stockItemService.GetById(id);
-            return View("History", stockItem);
+            var viewData = new StockItemHistoryViewData
+            {
+                StockItem = stockItem,
+                History = stockItem.History,
+                Start = stockItem.History.Min(x => x.DateTime),
+                End = stockItem.History.Max(x => x.DateTime)
+            };
+            return View("History", viewData);
         }
 
         [HttpPost, UnitOfWork]
@@ -69,6 +77,21 @@ namespace Suteki.Shop.StockControl.AddIn.Controllers
             }
 
             return Redirect(stockUpdateViewData.ReturnUrl);
+        }
+
+        [HttpPost, UnitOfWork]
+        public ActionResult HistoryQuery(StockItemHistoryQuery query)
+        {
+            var stockItem = stockItemService.GetById(query.StockItemId);
+            var history = stockItemService.GetHistory(stockItem, query.Start, query.End).ToList();
+            var viewData = new StockItemHistoryViewData
+            {
+                StockItem = stockItem,
+                History = history,
+                Start = query.Start,
+                End = query.End
+            };
+            return View("History", viewData);
         }
     }
 }

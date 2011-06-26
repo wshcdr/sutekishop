@@ -63,6 +63,7 @@ namespace Suteki.Shop.XmlRpc
             var iocContainer = GetIocContainer();
 
             contentRepository = iocContainer.Resolve<IRepository<Content>>();
+            menuRepository = iocContainer.Resolve<IRepository<Menu>>();
             userRepository = iocContainer.Resolve<IRepository<User>>();
             contentOrderableService = iocContainer.Resolve<IOrderableService<Content>>();
             baseControllerService = iocContainer.Resolve<IBaseControllerService>();
