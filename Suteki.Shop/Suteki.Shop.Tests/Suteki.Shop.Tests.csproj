@@ -185,6 +185,7 @@
     <Compile Include="Handlers\EmailOrderConfirmationOnOrderConfirmedTests.cs" />
     <Compile Include="Handlers\EmailOrderDispatchOnOrderDispatchTests.cs" />
     <Compile Include="Handlers\PublicDispactchMessageOnOrderDispatchTests.cs" />
+    <Compile Include="Handlers\UpdateOrdersOnProductNameChangedTests.cs" />
     <Compile Include="IoCTests.cs" />
     <Compile Include="IoC\UrlBasedComponentSelectorTests.cs" />
     <Compile Include="Maps\BasketMapTests.cs" />

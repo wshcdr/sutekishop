@@ -218,6 +218,7 @@
     <Compile Include="Handlers\EmailOrderConfirmationOnOrderConfirmed.cs" />
     <Compile Include="Handlers\EmailOrderDispatchOnOrderDispatch.cs" />
     <Compile Include="Handlers\PublicDispactchMessageOnOrderDispatch.cs" />
+    <Compile Include="Handlers\UpdateOrdersOnProductNameChanged.cs" />
     <Compile Include="HtmlHelpers\CategoryWriter.cs" />
     <Compile Include="HtmlHelpers\HtmlHelperExtensions.cs" />
     <Compile Include="HtmlHelpers\LowercaseFirstCharacterOfNameBehaviour.cs" />
