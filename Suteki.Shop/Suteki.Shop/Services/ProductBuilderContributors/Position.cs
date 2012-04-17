@@ -18,7 +18,7 @@ namespace Suteki.Shop.Services.ProductBuilderContributors
             {
                 throw new ArgumentNullException("context");
             }
-            if (context.ProductViewData.ProductId == 0) return;
+            if (context.ProductViewData.ProductId != 0) return;
             context.Product.Position = productOrderableService.NextPosition;
         }
 

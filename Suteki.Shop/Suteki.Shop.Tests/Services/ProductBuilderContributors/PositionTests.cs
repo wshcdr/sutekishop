@@ -23,7 +23,8 @@ namespace Suteki.Shop.Tests.Services.ProductBuilderContributors
         {
             var product = new Product {Position = 10};
             context.SetProduct(product);
-        
+            context.ProductViewData.ProductId = 54;
+
             contributor.ContributeTo(context);
             product.Position.ShouldEqual(10);
         }
@@ -35,7 +36,7 @@ namespace Suteki.Shop.Tests.Services.ProductBuilderContributors
 
             var product = new Product();
             context.SetProduct(product);
-            context.ProductViewData.ProductId = 1;
+            context.ProductViewData.ProductId = 0;
 
             contributor.ContributeTo(context);
             product.Position.ShouldEqual(23);
