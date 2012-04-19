@@ -15,6 +15,7 @@ namespace Suteki.Shop.Tests.Controllers
 	{
 		private MenuController controller;
 		private IRepository<Menu> menuRepository;
+	    private IRepository<Content> contentRepository; 
 		private IOrderableService<Content> orderableService;
 
 		[SetUp]
@@ -22,7 +23,8 @@ namespace Suteki.Shop.Tests.Controllers
 		{
 			menuRepository = MockRepository.GenerateStub<IRepository<Menu>>();
 			orderableService = MockRepository.GenerateStub<IOrderableService<Content>>();
-			controller = new MenuController(menuRepository, orderableService);
+		    contentRepository = MockRepository.GenerateStub<IRepository<Content>>();
+			controller = new MenuController(menuRepository, orderableService, contentRepository);
 		}
 
 		[Test]
@@ -56,6 +58,8 @@ namespace Suteki.Shop.Tests.Controllers
 		[Test]
 		public void NewWithPost_should_save()
 		{
+            contentRepository.Stub(x => x.GetAll()).Return(new List<Content>().AsQueryable());
+
 		    var menu = new Menu {ParentContent = new Menu {Id = 5}};
 
 			controller.New(menu)
@@ -71,6 +75,8 @@ namespace Suteki.Shop.Tests.Controllers
 		[Test]
 		public void NewWithPost_should_render_edit_view_on_error()
 		{
+            contentRepository.Stub(x => x.GetAll()).Return(new List<Content>().AsQueryable());
+
 			controller.ModelState.AddModelError("foo", "bar");
             var menu = new Menu { ParentContent = new Menu { Id = 5 } };
 			controller.New(menu)
@@ -79,6 +85,26 @@ namespace Suteki.Shop.Tests.Controllers
 				.WithModel<CmsViewData>()
 				.AssertAreSame(menu, x => x.Content);
 		}
+
+	    [Test]
+	    public void NewWithPost_should_not_allow_duplicate_names()
+	    {
+	        var contents = new List<Content>
+	        {
+	            new TextContent { Id = 3, Name = "Widget" },
+                new TopContent { Id = 7, Name = "Gadget" }
+	        };
+
+	        contentRepository.Stub(x => x.GetAll()).Return(contents.AsQueryable());
+
+            var menu = new Menu { ParentContent = new Menu { Id = 5 }, Name = "Gadget" };
+
+            controller.New(menu)
+                .ReturnsViewResult()
+                .ForView("Edit")
+                .WithModel<CmsViewData>()
+                .AssertAreSame(menu, x => x.Content);
+        }
 
 		[Test]
 		public void List_ShouldShowListOfExistingContent() 

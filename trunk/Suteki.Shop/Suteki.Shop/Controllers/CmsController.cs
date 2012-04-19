@@ -93,6 +93,7 @@ namespace Suteki.Shop.Controllers
 		[AdministratorsOnly, HttpPost, UnitOfWork]
 		public ActionResult Add([EntityBind(Fetch = false)] TextContent content)
 		{
+		    CheckForDuplicateName(content);
 			if(ModelState.IsValid)
 			{
 				contentRepository.SaveOrUpdate(content);
@@ -103,7 +104,19 @@ namespace Suteki.Shop.Controllers
             return View("Edit", CmsView.Data.WithContent(content));
 		}
 
-		[AdministratorsOnly]
+	    private void CheckForDuplicateName(Content content)
+	    {
+            var contentWithNameAlreadyExists =
+                contentRepository.GetAll().Any(x => x.Id != content.Id && x.UrlName == content.UrlName);
+
+	        if (contentWithNameAlreadyExists)
+	        {
+                ModelState.AddModelError("Name", 
+                    string.Format("A menu or page with the name '{0}' already exists", content.Name));
+	        }
+	    }
+
+	    [AdministratorsOnly]
         [HttpGet, UnitOfWork]
         public ActionResult EditText(int id)
 		{
@@ -124,6 +137,7 @@ namespace Suteki.Shop.Controllers
 
         ActionResult EditContent(Content content, string errorView)
 	    {
+            CheckForDuplicateName(content);
 	        if (ModelState.IsValid)
 	        {
 	            Message = "Changes have been saved.";
