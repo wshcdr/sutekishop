@@ -103,6 +103,7 @@ namespace Suteki.Shop.Tests.Controllers
 		[Test]
 		public void AddWithPost_ShouldAddNewContent()
 		{
+            contentRepository.Stub(cr => cr.GetAll()).Return(new List<Content>().AsQueryable());
 			var content = new TextContent
 			{
                 ParentContent = new Menu { Id = 4 }
@@ -117,6 +118,31 @@ namespace Suteki.Shop.Tests.Controllers
 			contentRepository.AssertWasCalled(x => x.SaveOrUpdate(content));
 		}
 
+        [Test]
+        public void AddWithPost_should_RejectContentWithDuplicateName()
+        {
+            var existingContent = new List<Content>
+            {
+                new Menu { Id = 3, Name = "Gadget"},
+                new Menu { Id = 10, Name = "Widget"},
+            };
+
+            contentRepository.Stub(cr => cr.GetAll()).Return(existingContent.AsQueryable());
+
+            var content = new TextContent
+            {
+                ParentContent = new Menu { Id = 4 },
+                Name = "Widget"
+            };
+
+            cmsController.Add(content)
+                .ReturnsViewResult()
+                .ForView("Edit")
+                .WithModel<CmsViewData>()
+                .AssertAreSame(content, x => x.Content);
+
+            contentRepository.AssertWasNotCalled(x => x.SaveOrUpdate(content));
+        }
 
     	[Test]
     	public void AddWithPost_ShouldRenderViewWithError()
@@ -163,6 +189,7 @@ namespace Suteki.Shop.Tests.Controllers
     	[Test]
     	public void EditWithPost_ShouldRedirectOnSuccessfulBinding()
     	{
+            contentRepository.Stub(cr => cr.GetAll()).Return(new List<Content>().AsQueryable());
     		var content = new TextContent
     		{
                 ParentContent = new Menu { Id = 4 }
@@ -178,11 +205,37 @@ namespace Suteki.Shop.Tests.Controllers
     	[Test]
     	public void EditWithPost_should_work_for_TopContent()
     	{
+            contentRepository.Stub(cr => cr.GetAll()).Return(new List<Content>().AsQueryable());
 			cmsController.EditTop(new TopContent
 			{
                 ParentContent = new Menu { Id = 4 }
 			});
     	}
+
+        [Test]
+        public void EditWithPost_should_Fail_on_duplicate_name()
+        {
+            var existingContent = new List<Content>
+            {
+                new Menu { Id = 3, Name = "Gadget"},
+                new Menu { Id = 7, Name = "OldWidget"},
+                new Menu { Id = 10, Name = "Widget"},
+            };
+
+            contentRepository.Stub(cr => cr.GetAll()).Return(existingContent.AsQueryable());
+
+            var content = new TextContent
+            {
+                ParentContent = new Menu { Id = 4 },
+                Id = 7,
+                Name = "Widget"
+            };
+
+            cmsController.EditText(content)
+                .ReturnsViewResult()
+                .WithModel<CmsViewData>()
+                .AssertAreSame(content, x => x.Content);
+        }
 
         [Test]
         public void Should_show_NotFound_view_when_content_name_is_not_found()
